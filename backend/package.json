@@ -1,0 +1,60 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "node/express backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles",
+    "test:cards": "cross-env NODE_ENV=test jest tests/cards --detectOpenHandles",
+    "test:users": "cross-env NODE_ENV=test jest tests/users --detectOpenHandles",
+    "test:my-cards": "cross-env NODE_ENV=test jest tests/cards/getMyCards.test.js --detectOpenHandles",
+    "test:create-card": "cross-env NODE_ENV=test jest tests/cards/createCard.test.js --detectOpenHandles",
+    "test:watch": "cross-env NODE_ENV=test jest --watch --detectOpenHandles",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "format": "prettier --write \"**/*.js\"",
+    "format:check": "prettier --check \"**/*.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "chalk": "^4.1.2",
+    "config": "^4.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "joi": "^18.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "mongoose": "^8.16.2",
+    "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@types/mongoose": "^5.11.96",
+    "cross-env": "^10.0.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-unused-imports": "^4.2.0",
+    "globals": "^16.3.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "supertest": "^7.1.4"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setup.js"
+    ],
+    "testTimeout": 10000
+  }
+}

@@ -1,0 +1,11 @@
+.textColor {
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+}
+
+/* .textColor{
+    color: black;
+}
+
+[data-mantine-color-scheme="dark"] .textColor {
+    color: white;
+} */
