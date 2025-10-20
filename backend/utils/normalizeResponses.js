@@ -27,34 +27,31 @@ const normalizeUserResponse = (user) => {
   return normalizedUserData;
 };
 
-const normalizeCardResponse = (card) => {
-  const normalizedCardData = {
-    _id: card._id,
-    title: card.title,
-    subtitle: card.subtitle,
-    description: card.description,
-    phone: card.phone,
-    email: card.email,
-    web: card.web,
-    image: {
-      url: card.image.url,
-      alt: card.image.alt,
+const normalizeListingResponse = (listing) => {
+  const normalizedListingData = {
+    _id: listing._id,
+    businessId: listing.businessId,
+    jobTitle: listing.jobTitle,
+    jobDescription: listing.jobDescription,
+    requirements: listing.requirements,
+    advantages: listing.advantages,
+    apply: {
+      method: listing.apply.method,
+      contact: listing.apply.contact,
     },
-    address: {
-      state: card.address.state,
-      country: card.address.country,
-      city: card.address.city,
-      street: card.address.street,
-      houseNumber: card.address.houseNumber,
-      zip: card.address.zip,
+    location: {
+      region: listing.location.region,
+      city: listing.location.city,
     },
-    bizNumber: card.bizNumber,
-    likes: card.likes,
-    user_id: card.user_id,
-    createdAt: card.createdAt,
+    workArrangement: listing.workArrangement,
+    industry: listing.industry,
+    likes: listing.likes,
+    isActive: listing.isActive,
+    createdAt: listing.createdAt,
+    expiresAt: listing.expiresAt,
   };
 
-  return normalizedCardData;
+  return normalizedListingData;
 };
 
-module.exports = { normalizeUserResponse, normalizeCardResponse };
+module.exports = { normalizeUserResponse, normalizeListingResponse };

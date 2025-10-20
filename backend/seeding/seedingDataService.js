@@ -1,9 +1,9 @@
 const { encryptPassword } = require("../utils/bcrypt");
-const normalizeCard = require("../utils/normalizeCard");
-const Cards = require("../validation/mongoSchemas/cardsSchema");
+const normalizeListing = require("../utils/normalizeListing");
+const Listing = require("../validation/mongoSchemas/listingSchema");
 const Users = require("../validation/mongoSchemas/usersSchema");
 
-const seedDevData = async (users, cards) => {
+const seedDevData = async (users, listings) => {
   for (const user of users) {
     try {
       const existingUser = await Users.findOne({ email: user.email });
@@ -19,26 +19,31 @@ const seedDevData = async (users, cards) => {
     }
   }
 
-  const admin = await Users.findOne({ isAdmin: true });
-  for (const card of cards) {
+  const businessUser = await Users.findOne({ isBusiness: true });
+  for (const listing of listings) {
     try {
-      const storedCard = await Cards.findOne({ title: card.title });
-      if (storedCard) {
+      const storedListing = await Listing.findOne({
+        jobTitle: listing.jobTitle,
+      });
+      if (storedListing) {
         continue;
       }
-      const normalizedCard = await normalizeCard(card, admin._id);
-      const newCard = new Cards(normalizedCard);
-      await newCard.save();
+      const normalizedListing = await normalizeListing(
+        listing,
+        businessUser._id,
+      );
+      const newListing = new Listing(normalizedListing);
+      await newListing.save();
     } catch (error) {
-      console.error("Error seeding card:", error);
+      console.error("Error seeding listing:", error);
     }
   }
 };
 
-const seedTestData = async (users, cards) => {
+const seedTestData = async (users, listings) => {
   try {
     await Users.deleteMany({});
-    await Cards.deleteMany({});
+    await Listing.deleteMany({});
   } catch (error) {
     console.error("Error deleting data:", error);
   }
@@ -54,14 +59,17 @@ const seedTestData = async (users, cards) => {
     }
   }
 
-  const admin = await Users.findOne({ isAdmin: "true" });
-  for (const card of cards) {
+  const businessUser = await Users.findOne({ isBusiness: true });
+  for (const listing of listings) {
     try {
-      const normalizedCard = await normalizeCard(card, admin._id);
-      const newCard = new Cards(normalizedCard);
-      await newCard.save();
+      const normalizedListing = await normalizeListing(
+        listing,
+        businessUser._id,
+      );
+      const newListing = new Listing(normalizedListing);
+      await newListing.save();
     } catch (error) {
-      console.error("Error seeding card:", error);
+      console.error("Error seeding listing:", error);
     }
   }
 };

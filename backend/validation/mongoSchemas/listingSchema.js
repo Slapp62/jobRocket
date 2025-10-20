@@ -6,16 +6,16 @@ const { CITIES, REGIONS } = require("../../data/israelCities.js");
 const jobListingSchema = new Schema({
   businessId: {
     type: Schema.Types.ObjectId,
-    ref: "Business",
+    ref: "Users",
     required: true,
   },
-  jobTitle: { 
-    type: String, 
+  jobTitle: {
+    type: String,
     required: true,
     minLength: 5,
     maxLength: 100,
     match: [
-      /^[a-zA-Z\s.,;:!?'"()\-&/]+$/, 
+      /^[a-zA-Z\s.,;:!?'"()\-&/]+$/,
       "Job title can only contain letters, spaces, and basic punctuation",
     ],
   },
@@ -27,15 +27,15 @@ const jobListingSchema = new Schema({
     contact: { type: String, required: true }, // email address or URL
   },
   location: {
-    region: { 
-      type: String, 
+    region: {
+      type: String,
       enum: REGIONS,
-      required: true, 
+      required: true,
     },
-    city: { 
-      type: String, 
+    city: {
+      type: String,
       enum: CITIES,
-      required: true, 
+      required: true,
     },
   },
   workArrangement: {
@@ -48,11 +48,12 @@ const jobListingSchema = new Schema({
     enum: INDUSTRIES,
     required: true,
   },
+  likes: [{ type: Schema.Types.ObjectId, ref: "Users" }],
   isActive: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
   expiresAt: Date,
 });
 
-const JobListing = model("JobListings", jobListingSchema);
+const Listing = model("JobListings", jobListingSchema);
 
-module.exports = JobListing;
+module.exports = Listing;

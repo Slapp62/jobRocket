@@ -1,7 +1,7 @@
 const config = require("config");
 const { throwError, nextError } = require("../utils/functionHandlers");
 const { verifyAuthToken } = require("../auth/providers/jwt");
-const Cards = require("../validation/mongoSchemas/cardsSchema");
+const Listing = require("../validation/mongoSchemas/listingSchema");
 const Users = require("../validation/mongoSchemas/usersSchema");
 const { verifyPassword } = require("../utils/bcrypt");
 
@@ -121,16 +121,16 @@ const userAdminAuth = async (req, _res, next) => {
   }
 };
 
-const cardCreatorAuth = async (req, _res, next) => {
+const listingCreatorAuth = async (req, _res, next) => {
   try {
-    const cardId = req.params.id;
-    const card = await Cards.findById(cardId, "user_id");
+    const listingId = req.params.id;
+    const listing = await Listing.findById(listingId, "businessId");
 
-    if (!card) {
-      throwError(404, "Card not found");
+    if (!listing) {
+      throwError(404, "Listing not found");
     }
 
-    if (card.user_id.toString() !== req.user._id) {
+    if (listing.businessId.toString() !== req.user._id) {
       throwError(403, "Access denied. Unauthorized user.");
     }
 
@@ -140,16 +140,16 @@ const cardCreatorAuth = async (req, _res, next) => {
   }
 };
 
-const cardCreatorAdminAuth = async (req, _res, next) => {
+const listingCreatorAdminAuth = async (req, _res, next) => {
   try {
-    const cardId = req.params.id;
-    const card = await Cards.findById(cardId);
-    if (!card) {
-      throwError(404, "Card not found");
+    const listingId = req.params.id;
+    const listing = await Listing.findById(listingId);
+    if (!listing) {
+      throwError(404, "Listing not found");
     }
 
-    const cardUserId = card.user_id.toString();
-    if (cardUserId !== req.user._id && !req.user.isAdmin) {
+    const listingBusinessId = listing.businessId.toString();
+    if (listingBusinessId !== req.user._id && !req.user.isAdmin) {
       throwError(403, "Access denied. Unauthorized user.");
     }
 
@@ -165,7 +165,7 @@ module.exports = {
   adminAuth,
   businessAuth,
   userAdminAuth,
-  cardCreatorAuth,
-  cardCreatorAdminAuth,
+  listingCreatorAuth,
+  listingCreatorAdminAuth,
   lockoutCheck,
 };
