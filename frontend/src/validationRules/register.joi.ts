@@ -65,7 +65,7 @@ const registrationSchema = Joi.object({
                 'string.max': 'Description cannot exceed 2000 characters',
             }),
         }).required(),
-        otherwise: Joi.forbidden()
+        otherwise: Joi.optional()
     }),
 
     businessProfile: Joi.when('profileType', {
@@ -131,7 +131,7 @@ const registrationSchema = Joi.object({
                 'string.max': 'Description cannot exceed 2000 characters',
             }),
         }).required(),
-        otherwise: Joi.forbidden()
+        otherwise: Joi.optional()
     }),
 })
 

@@ -1,43 +1,69 @@
 import { TUsers } from "@/Types";
 import { registrationSchema } from "@/validationRules/register.joi";
 import { joiResolver } from "@hookform/resolvers/joi";
-import { Anchor, Box, Button, Checkbox, Fieldset, Flex, Image, PasswordInput,TextInput, Text } from "@mantine/core";
+import { Anchor, Box, Button, FloatingIndicator, Tabs, Fieldset, Flex, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { IconPhone } from "@tabler/icons-react";
 import axios from "axios";
 import { useRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import classes from './formTabs.module.css';
+import { SharedCredentials } from "@/components/registrationForms/shareCredentials";
+import { JobseekerFields } from "@/components/registrationForms/jobseekerFields";
+import { BusinessFields } from "@/components/registrationForms/businessFields";
 
 export function RegisterForm()  {
+  const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
+  const [tabValue, setTabValue] = useState<string | null>('jobseeker');
+  const [controlsRefs, setControlsRefs] = useState<Record<string, HTMLButtonElement | null>>({});
+  const setControlRef = (val: string) => (node: HTMLButtonElement) => {
+    controlsRefs[val] = node;
+    setControlsRefs(controlsRefs);
+  };
     const jumpTo = useNavigate();
     const registerRef = useRef<HTMLDivElement>(null);
     const isMobile = useMediaQuery('(max-width: 700px)');
-    const defaultAvatar = 'https://images.unsplash.com/vector-1748280445815-10a4bb2ba7e3?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
-    const [imageURL, setURL] = useState(defaultAvatar);
-    
-    const { reset, register, handleSubmit, formState: {errors, isValid, isDirty} } = useForm<TUsers>({
+
+    const { reset, register, handleSubmit, control, setValue, formState: {errors, isValid, isDirty} } = useForm<TUsers>({
         mode: 'all',
         resolver: joiResolver(registrationSchema),
+        shouldUnregister: false, // Keep data when switching tabs
+        defaultValues: {
+            profileType: 'jobseeker', // Default to jobseeker
+        },
+        criteriaMode: 'all', // Show all errors
     });
 
     const onSubmit = async (data:FieldValues) => {
-        data.address.houseNumber = Number(data.address.houseNumber);
-        data.address.zip = Number(data.address.zip);
-        if (!data.image?.url?.trim()) {data.image.url = defaultAvatar};
-        if (!data.image?.alt?.trim()) {data.image.alt = 'default fox avatar'};
+        // Build the request payload - profileType is already set by tab change
+        const payload: any = {
+            email: data.email,
+            password: data.password,
+            phone: data.phone,
+            profileType: data.profileType,
+        };
+
+        // Add ONLY the appropriate profile based on type
+        // This ensures we don't send the forbidden profile to backend
+        if (data.profileType === 'jobseeker') {
+            payload.jobseekerProfile = data.jobseekerProfile;
+            // Don't include businessProfile
+        } else {
+            payload.businessProfile = data.businessProfile;
+            // Don't include jobseekerProfile
+        }
 
         try {
             const API_BASE_URL = import.meta.env.VITE_API_URL;
-            const response = await axios.post(`${API_BASE_URL}/api/users/`, data);
-            
+            const response = await axios.post(`${API_BASE_URL}/api/users/`, payload);
+
             if (response.status === 201) {
                 jumpTo('/login');
-                toast.success('Registered!') 
+                toast.success('Registration successful!')
             }
         } catch (error: any) {
-            toast.error(error.response.data.message || error.message);
+            toast.error(error.response?.data?.message || error.message);
         }
     }
         
@@ -47,133 +73,40 @@ export function RegisterForm()  {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Flex mx='auto' direction='column' w={isMobile ? '95%' : "60%"} justify='space-between' gap={5}>
-                    <Fieldset legend="Full Name">
-                        <TextInput 
-                            label="First"
-                            {...register('name.first')}
-                            required
-                            error= {errors.name?.first?.message}
-                            />
+                    <SharedCredentials register={register} errors={errors} control={control} />
+                
 
-                        <TextInput 
-                            label="Middle"
-                            {...register('name.middle')}
-                            error={errors.name?.middle?.message}
-                            />
-                        <TextInput 
-                            label="Last"
-                            {...register('name.last')}
-                            required
-                            error={errors.name?.last?.message}
-                            />
-                    </Fieldset>
+                
+                    <Fieldset legend="Choose An Account Type">
 
-                    <Fieldset legend="Contact">
-                        <TextInput  
-                            rightSection={<IconPhone/>} 
-                            label="Phone"
-                            required
-                            {...register('phone', {
-                                onChange: (e) => {
-                                    e.target.value = e.target.value.replace(/[^\d-]/g, '');
-                                },
-                            })}
-                            error={errors.phone?.message}
-                            />
-                    </Fieldset>
-                        
-                    <Fieldset legend="Credentials">
-                        <TextInput 
-                            label="Email"
-                            {...register('email')}
-                            required
-                            error={errors.email?.message}
-                            />
-                        <PasswordInput 
-                            label="Password"
-                            {...register('password')}
-                            required
-                            error={errors.password?.message}
-                            />
-                    </Fieldset>
+                      <Tabs variant="none" value={tabValue} onChange={(newValue) => {
+                        setTabValue(newValue);
+                        // Update profileType in form when tab changes
+                        setValue('profileType', newValue as 'jobseeker' | 'business');
+                      }}>
+                        <Tabs.List ref={setRootRef} className={classes.list}>
+                          <Tabs.Tab value="jobseeker" ref={setControlRef('jobseeker')} className={classes.tab}>
+                            Job Seeker
+                          </Tabs.Tab>
+                          <Tabs.Tab value="business" ref={setControlRef('business')} className={classes.tab}>
+                            Business
+                          </Tabs.Tab>
 
-                    <Fieldset legend="Avatar">
-                        <Image
-                            fallbackSrc="https://images.unsplash.com/vector-1738926319239-4121e97afc01?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            src={imageURL} 
-                            h={150}
-                            w={150}
-                            mx='auto'
-                        />
-                        <TextInput
-                            label="URL"
-                            defaultValue={imageURL}
-                            {...register('image.url', {
-                                onChange: (e) => {
-                                    setURL(e.target.value);
-                                },
-                            }
-                            )}
-                            error={errors.image?.url?.message}
-                            />
-                        <TextInput
-                            label="Image Alt"
-                            defaultValue='default fox avatar'
-                            {...register('image.alt')}
-                            error={errors.image?.alt?.message}
-                            />
-                    </Fieldset>
-                </Flex>
+                          <FloatingIndicator
+                            target={tabValue ? controlsRefs[tabValue] : null}
+                            parent={rootRef}
+                            className={classes.indicator}
+                          />
+                        </Tabs.List>
 
-                <Flex direction='column' style={{width: isMobile ? '95%' : "60%"}} mx="auto" justify='space-between'>
-                    <Fieldset legend="Address">
-                        <TextInput 
-                            label="State"
-                            {...register('address.state')}
-                            error={errors.address?.state?.message}
-                            />
-                        <TextInput 
-                            label="Country"
-                            {...register('address.country')}
-                            required
-                            error={errors.address?.country?.message}
-                            />
-                        <TextInput 
-                            label="City"
-                            {...register('address.city')}
-                            required
-                            error={errors.address?.city?.message}
-                            />
-                        <TextInput 
-                            label="Street"
-                            {...register('address.street')}
-                            required
-                            error={errors.address?.street?.message}
-                            />
-                        <TextInput
-                            label="House Number"
-                            {...register('address.houseNumber', {
-                                onChange: (e) => {
-                                e.target.value = e.target.value.replace(/\D/g, '');
-                                },
-                            })}
-                            required
-                            error={errors.address?.houseNumber?.message}
-                        />
-                        <TextInput
-                            label="Zipcode"
-                            {...register('address.zip', {
-                                onChange: (e) => {
-                                e.target.value = e.target.value.replace(/\D/g, '');
-                                },
-                            })}
-                            required
-                            error={errors.address?.zip?.message}
-                        />
-                    </Fieldset>
+                        <Tabs.Panel value="jobseeker">
+                          <JobseekerFields register={register} errors={errors} control={control} />
+                        </Tabs.Panel>
+                        <Tabs.Panel value="business">
+                          <BusinessFields register={register} errors={errors} control={control} />
+                        </Tabs.Panel>
+                      </Tabs>
 
-                    <Fieldset legend="Account Type">
-                        <Checkbox mx='auto' mt={20} label='Create a Business Account' {...register('isBusiness')}/>
                     </Fieldset>
                 </Flex>
                 
