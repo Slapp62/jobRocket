@@ -1,4 +1,4 @@
-export const INDUSTRIES = [
+const INDUSTRIES = [
   // Tech & Digital
   "Software Development",
   "Cybersecurity",
@@ -176,3 +176,5 @@ export const INDUSTRIES = [
   // Other
   "Other",
 ];
+
+module.exports = { INDUSTRIES };

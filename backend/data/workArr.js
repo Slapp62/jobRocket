@@ -1,4 +1,4 @@
-export const WORK_ARRANGEMENTS = [
+const WORK_ARRANGEMENTS = [
   "Remote",
   "Hybrid",
   "On-site",
@@ -20,3 +20,5 @@ export const WORK_ARRANGEMENTS = [
   "Field Work",
   "Mobile/On-the-go",
 ];
+
+module.exports = { WORK_ARRANGEMENTS };

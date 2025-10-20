@@ -21,8 +21,8 @@ const useStayLoggedIn = () => {
 
         const dispatchUser = async () => {
             const response = await axios.get(`${API_BASE_URL}/api/users/${_id}`)
-            const userData = await response.data;
-            dispatch(setUser(userData.data)); 
+            const userData = response.data;
+            dispatch(setUser(userData));
         }
         dispatchUser();
     }, [])

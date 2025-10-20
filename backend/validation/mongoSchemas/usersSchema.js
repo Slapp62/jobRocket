@@ -1,37 +1,8 @@
 const { Schema, model } = require("mongoose");
+const { WORK_ARRANGEMENTS } = require("../../data/workArr");
+const { INDUSTRIES } = require("../../data/industries");
 
 const userSchema = new Schema({
-  name: {
-    first: {
-      type: String,
-      required: true,
-      minLength: 2,
-      maxLength: 256,
-    },
-    middle: {
-      type: String,
-      maxLength: 256,
-      default: "",
-    },
-    last: {
-      type: String,
-      required: true,
-      minLength: 2,
-      maxLength: 256,
-    },
-    _id: {
-      type: Schema.Types.ObjectId,
-      auto: true,
-    },
-  },
-  phone: {
-    type: String,
-    required: true,
-    match: [
-      /^(\+972[-\s]?|972[-\s]?|0)((2|3|4|8|9)[-\s]?\d{7}|5[0-9][-\s]?\d{7})$/,
-      "Phone must be a valid Israeli phone number",
-    ],
-  },
   email: {
     type: String,
     required: true,
@@ -53,52 +24,176 @@ const userSchema = new Schema({
     required: true,
     default: 0,
   },
-  image: {
-    url: {
+  phone: {
+    type: String,
+    required: true,
+    match: [
+      /^(\+972[-\s]?|972[-\s]?|0)((2|3|4|8|9)[-\s]?\d{7}|5[0-9][-\s]?\d{7})$/,
+      "Phone must be a valid Israeli phone number",
+    ],
+  },
+  profileType: {
+    type: String,
+    required: true,
+    enum: ["jobseeker", "business"],
+  },
+  jobseekerProfile: {
+    firstName: {
       type: String,
-      default: "https://images.unsplash.com/vector-1748280445815-10a4bb2ba7e3?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    alt: {
-      type: String,
-      default: "fox avatar",
+      required() {
+        return this.profileType === "jobseeker";
+      },
+      minLength: 2,
       maxLength: 256,
+    },
+    lastName: {
+      type: String,
+      required() {
+        return this.profileType === "jobseeker";
+      },
+      minLength: 2,
+      maxLength: 256,
+    },
+    highestEducation: {
+      type: String,
+      required() {
+        return this.profileType === "jobseeker";
+      },
+      enum: [
+        "High School",
+        "Associate Degree",
+        "Bachelor's Degree",
+        "Master's Degree",
+        "Doctorate",
+        "Other",
+      ],
+    },
+    preferredWorkArrangement: {
+      type: String,
+      required() {
+        return this.profileType === "jobseeker";
+      },
+      enum: WORK_ARRANGEMENTS,
+    },
+    linkedinPage: {
+      type: String,
+      maxLength: 512,
+      default: "",
+    },
+    resume: {
+      type: String,
+      maxLength: 1024,
+      default: "",
+    },
+    skills: {
+      type: [String],
+      default: [],
+    },
+    description: {
+      type: String,
+      maxLength: 2000,
+      default: "",
     },
     _id: {
       type: Schema.Types.ObjectId,
       auto: true,
     },
   },
-  address: {
-    state: {
+  businessProfile: {
+    name: {
       type: String,
+      required() {
+        return this.profileType === "business";
+      },
+      minLength: 2,
+      maxLength: 256,
+    },
+    location: {
+      country: {
+        type: String,
+        required() {
+          return this.profileType === "business";
+        },
+        minLength: 2,
+        maxLength: 256,
+      },
+      city: {
+        type: String,
+        required() {
+          return this.profileType === "business";
+        },
+        minLength: 2,
+        maxLength: 256,
+      },
+      _id: {
+        type: Schema.Types.ObjectId,
+        auto: true,
+      },
+    },
+    logo: {
+      url: {
+        type: String,
+        default: "",
+      },
+      alt: {
+        type: String,
+        default: "company logo",
+        maxLength: 256,
+      },
+      _id: {
+        type: Schema.Types.ObjectId,
+        auto: true,
+      },
+    },
+    industry: {
+      type: String,
+      required() {
+        return this.profileType === "business";
+      },
+      enum: INDUSTRIES,
+    },
+    numberOfEmployees: {
+      type: String,
+      required() {
+        return this.profileType === "business";
+      },
+      enum: ["1-10", "11-50", "51-200", "201-500", "501-1000", "1000+"],
+    },
+    website: {
+      type: String,
+      maxLength: 512,
       default: "",
-      maxLength: 256,
     },
-    country: {
+    contactEmail: {
       type: String,
-      required: true,
-      minLength: 2,
-      maxLength: 256,
+      match: [/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/, "Please enter a valid email"],
+      default: "",
     },
-    city: {
+    socialMedia: {
+      linkedin: {
+        type: String,
+        maxLength: 512,
+        default: "",
+      },
+      twitter: {
+        type: String,
+        maxLength: 512,
+        default: "",
+      },
+      facebook: {
+        type: String,
+        maxLength: 512,
+        default: "",
+      },
+      _id: {
+        type: Schema.Types.ObjectId,
+        auto: true,
+      },
+    },
+    description: {
       type: String,
-      required: true,
-      minLength: 2,
-      maxLength: 256,
-    },
-    street: {
-      type: String,
-      required: true,
-      minLength: 2,
-      maxLength: 256,
-    },
-    houseNumber: {
-      type: Number,
-      required: true,
-    },
-    zip: {
-      type: Number,
-      required: true,
+      maxLength: 2000,
+      default: "",
     },
     _id: {
       type: Schema.Types.ObjectId,
@@ -106,10 +201,6 @@ const userSchema = new Schema({
     },
   },
   isAdmin: {
-    type: Boolean,
-    default: false,
-  },
-  isBusiness: {
     type: Boolean,
     default: false,
   },

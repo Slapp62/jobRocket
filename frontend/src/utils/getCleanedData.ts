@@ -1,24 +1,43 @@
 import { TCards, TUsers } from "@/Types";
 
 export const cleanedUserData = (user: TUsers) => ({
-        name: {
-            first: user.name.first,
-            middle: user.name?.middle || '',
-            last: user.name.last,
-        },
         phone: user.phone,
-        image: {
-            url: user.image?.url || '',
-            alt: user.image?.alt || '',
-        },
-        address: {
-            country: user.address?.country,
-            state: user.address?.state === "not defined" || !user.address?.state ? '' : user.address?.state,
-            city: user.address?.city,
-            street: user.address?.street,
-            houseNumber: String(user.address?.houseNumber),
-            zip: String(user.address?.zip),
-        }
+        profileType: user.profileType,
+        ...(user.profileType === 'jobseeker' && user.jobseekerProfile && {
+            jobseekerProfile: {
+                firstName: user.jobseekerProfile.firstName,
+                lastName: user.jobseekerProfile.lastName,
+                highestEducation: user.jobseekerProfile.highestEducation,
+                preferredWorkArrangement: user.jobseekerProfile.preferredWorkArrangement,
+                linkedinPage: user.jobseekerProfile.linkedinPage || '',
+                resume: user.jobseekerProfile.resume || '',
+                skills: user.jobseekerProfile.skills || [],
+                description: user.jobseekerProfile.description || '',
+            }
+        }),
+        ...(user.profileType === 'business' && user.businessProfile && {
+            businessProfile: {
+                name: user.businessProfile.name,
+                location: {
+                    country: user.businessProfile.location.country,
+                    city: user.businessProfile.location.city,
+                },
+                logo: {
+                    url: user.businessProfile.logo?.url || '',
+                    alt: user.businessProfile.logo?.alt || '',
+                },
+                industry: user.businessProfile.industry,
+                numberOfEmployees: user.businessProfile.numberOfEmployees,
+                website: user.businessProfile.website || '',
+                contactEmail: user.businessProfile.contactEmail || '',
+                socialMedia: {
+                    linkedin: user.businessProfile.socialMedia?.linkedin || '',
+                    twitter: user.businessProfile.socialMedia?.twitter || '',
+                    facebook: user.businessProfile.socialMedia?.facebook || '',
+                },
+                description: user.businessProfile.description || '',
+            }
+        })
 });
 
 export const cleanedCardData = (card: TCards) => ({

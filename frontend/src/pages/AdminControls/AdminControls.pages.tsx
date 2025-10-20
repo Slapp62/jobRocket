@@ -78,13 +78,15 @@ const AdminControls = () => {
 
                 <Table.Td>
                 <Text fz="sm" fw={500}>
-                    {user.name.first}
+                    {user.profileType === 'jobseeker'
+                        ? `${user.jobseekerProfile?.firstName} ${user.jobseekerProfile?.lastName}`
+                        : user.businessProfile?.name}
                 </Text>
                 </Table.Td>
-        
+
                 <Table.Td>
                 <Text fz="sm" fw={500}>
-                    {user.name.last}
+                    {user.profileType === 'jobseeker' ? 'Jobseeker' : 'Business'}
                 </Text>
                 </Table.Td>
 
@@ -95,7 +97,7 @@ const AdminControls = () => {
                 </Table.Td>
 
                 <Table.Td>
-                <Text fz="sm">{user.isAdmin ? 'Admin' : user.isBusiness ? 'Business' : 'Regular'}</Text>
+                <Text fz="sm">{user.isAdmin ? 'Admin' : user.profileType === 'business' ? 'Business' : 'Jobseeker'}</Text>
                 </Table.Td>
 
                 <Table.Td>

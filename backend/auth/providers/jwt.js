@@ -3,12 +3,12 @@ const { throwError } = require("../../utils/functionHandlers");
 
 const generateAuthToken = (user) => {
   try {
-    const { _id, isAdmin, isBusiness } = user;
+    const { _id, isAdmin, profileType } = user;
     const token = jwt.sign(
       {
         _id,
         isAdmin,
-        isBusiness,
+        profileType,
       },
       process.env.JWT_SECRET,
       { expiresIn: "1h" },

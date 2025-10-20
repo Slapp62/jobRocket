@@ -1,4 +1,4 @@
-export const ISRAELI_CITIES_BY_REGION = {
+const ISRAELI_CITIES_BY_REGION = {
   // Northern Israel - Galilee Region
   North: [
     "Haifa",
@@ -173,20 +173,29 @@ export const ISRAELI_CITIES_BY_REGION = {
 };
 
 // Helper function to get all cities as a flat array
-export const getAllCities = () => {
+const getAllCities = () => {
   return Object.values(ISRAELI_CITIES_BY_REGION).flat();
 };
 
-export const CITIES = getAllCities();
+const CITIES = getAllCities();
 
 // Helper function to get cities by specific region
-export const getCitiesByRegion = (region) => {
+const getCitiesByRegion = (region) => {
   return ISRAELI_CITIES_BY_REGION[region] || [];
 };
 
 // Helper function to get all region names
-export const getRegions = () => {
+const getRegions = () => {
   return Object.keys(ISRAELI_CITIES_BY_REGION);
 };
 
-export const REGIONS = getRegions();
+const REGIONS = getRegions();
+
+module.exports = {
+  ISRAELI_CITIES_BY_REGION,
+  getAllCities,
+  CITIES,
+  getCitiesByRegion,
+  getRegions,
+  REGIONS,
+};

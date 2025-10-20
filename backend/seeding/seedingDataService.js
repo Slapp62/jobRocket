@@ -19,7 +19,7 @@ const seedDevData = async (users, listings) => {
     }
   }
 
-  const businessUser = await Users.findOne({ isBusiness: true });
+  const businessUser = await Users.findOne({ profileType: "business" });
   for (const listing of listings) {
     try {
       const storedListing = await Listing.findOne({
@@ -59,7 +59,7 @@ const seedTestData = async (users, listings) => {
     }
   }
 
-  const businessUser = await Users.findOne({ isBusiness: true });
+  const businessUser = await Users.findOne({ profileType: "business" });
   for (const listing of listings) {
     try {
       const normalizedListing = await normalizeListing(

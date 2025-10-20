@@ -18,7 +18,7 @@ import { AvatarIcon } from './Avatar';
   export function Navbar() {
     const user = useSelector((state: RootState) => state.userSlice.user);
     const loggedIn = useSelector((state: RootState) => state.userSlice.isLoggedIn)
-    const isBusinessUser = user?.isBusiness;
+    const isBusinessUser = user?.profileType === "business";
     const dispatch = useDispatch<AppDispatch>();
     
     const jumpTo = useNavigate();
@@ -106,10 +106,15 @@ import { AvatarIcon } from './Avatar';
         <ScrollArea h="calc(100vh - 80px" mx="-sm" >
             <Divider/>
                 <Flex direction="column" my={20}>
-                    {loggedIn && 
+                    {loggedIn &&
                     <Group my="md" pl='md' align='self-end'>
                         <AvatarIcon closeDrawer={closeDrawer}/>
-                        <Text fz={15}>{user?.name.first} {user?.name.last}</Text>
+                        <Text fz={15}>
+                            {user?.profileType === 'jobseeker'
+                                ? `${user?.jobseekerProfile?.firstName} ${user?.jobseekerProfile?.lastName}`
+                                : user?.businessProfile?.name
+                            }
+                        </Text>
                     </Group>}
 
                     <Link to="/" className={classes.link} onClick={closeDrawer}>
@@ -124,7 +129,7 @@ import { AvatarIcon } from './Avatar';
                         <Text fz={15}  c='indigo'  fw={700}>FAVORITES</Text>
                     </Link>}
 
-                    {user?.isBusiness && <Link to="/my-listings" className={classes.link} onClick={closeDrawer} >
+                    {user?.profileType === "business" && <Link to="/my-listings" className={classes.link} onClick={closeDrawer} >
                         <Text fz={15}  c='indigo'  fw={700}>MY LISTINGS</Text>
                     </Link>}
                     

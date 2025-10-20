@@ -19,7 +19,7 @@ export function Layout() {
     const location = useLocation();
     const fetchedRef = useRef(false);
     const isMobile = useMediaQuery('(max-width: 700px)');
-    const isBusiness = useSelector((state:RootState) => state.userSlice.user?.isBusiness);
+    const isBusiness = useSelector((state:RootState) => state.userSlice.user?.profileType === "business");
     
     useEffect(() => {
         if (location.pathname === '/' 

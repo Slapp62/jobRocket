@@ -37,15 +37,19 @@ export const useAdminControls = () => {
 
     // get account type for filter
     const getAccountType = (user : TUsers) => {
-        return user.isAdmin ? 'Admin' : user.isBusiness ? 'Business' : 'Regular';
+        return user.isAdmin ? 'Admin' : user.profileType === 'business' ? 'Business' : 'Jobseeker';
     }
 
     // filter users
     const sortedUsers = allUsers ? [...allUsers].sort((a,b) => {
         if (sortOption === 'last-name-asc'){
-            return a.name.last.localeCompare(b.name.last);
+            const aName = a.profileType === 'jobseeker' ? a.jobseekerProfile?.lastName : a.businessProfile?.name;
+            const bName = b.profileType === 'jobseeker' ? b.jobseekerProfile?.lastName : b.businessProfile?.name;
+            return (aName || '').localeCompare(bName || '');
         } else if (sortOption === 'last-name-desc') {
-            return b.name.last.localeCompare(a.name.last);
+            const aName = a.profileType === 'jobseeker' ? a.jobseekerProfile?.lastName : a.businessProfile?.name;
+            const bName = b.profileType === 'jobseeker' ? b.jobseekerProfile?.lastName : b.businessProfile?.name;
+            return (bName || '').localeCompare(aName || '');
         } else if (sortOption === "account-type"){
             return getAccountType(a).localeCompare(getAccountType(b));
         } else if (sortOption === 'date-created-old'){
@@ -59,7 +63,10 @@ export const useAdminControls = () => {
     // search on filtered users
     const filteredUsers = sortedUsers ? sortedUsers.filter((user) => {
         const accountType = getAccountType(user);
-        const userSearchFields = `${user.name.first} ${user.name.last} ${user.email} ${accountType}`;
+        const userName = user.profileType === 'jobseeker'
+            ? `${user.jobseekerProfile?.firstName} ${user.jobseekerProfile?.lastName}`
+            : user.businessProfile?.name;
+        const userSearchFields = `${userName} ${user.email} ${accountType}`;
         return userSearchFields.toLowerCase().includes(searchTerm.toLowerCase());
     }) : [];
 

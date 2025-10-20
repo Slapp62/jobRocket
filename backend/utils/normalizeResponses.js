@@ -1,29 +1,50 @@
 const normalizeUserResponse = (user) => {
   const normalizedUserData = {
     _id: user._id,
-    name: {
-      first: user.name.first,
-      middle: user.name.middle,
-      last: user.name.last,
-    },
-    phone: user.phone,
     email: user.email,
-    image: {
-      url: user.image.url,
-      alt: user.image.alt,
-    },
-    address: {
-      state: user.address.state,
-      country: user.address.country,
-      city: user.address.city,
-      street: user.address.street,
-      houseNumber: user.address.houseNumber,
-      zip: user.address.zip,
-    },
+    phone: user.phone,
+    profileType: user.profileType,
     isAdmin: user.isAdmin,
-    isBusiness: user.isBusiness,
     createdAt: user.createdAt,
   };
+
+  if (user.profileType === "jobseeker" && user.jobseekerProfile) {
+    normalizedUserData.jobseekerProfile = {
+      firstName: user.jobseekerProfile.firstName,
+      lastName: user.jobseekerProfile.lastName,
+      highestEducation: user.jobseekerProfile.highestEducation,
+      preferredWorkArrangement: user.jobseekerProfile.preferredWorkArrangement,
+      linkedinPage: user.jobseekerProfile.linkedinPage,
+      resume: user.jobseekerProfile.resume,
+      skills: user.jobseekerProfile.skills,
+      description: user.jobseekerProfile.description,
+    };
+  }
+
+  if (user.profileType === "business" && user.businessProfile) {
+    normalizedUserData.businessProfile = {
+      name: user.businessProfile.name,
+      location: {
+        country: user.businessProfile.location.country,
+        city: user.businessProfile.location.city,
+      },
+      logo: {
+        url: user.businessProfile.logo.url,
+        alt: user.businessProfile.logo.alt,
+      },
+      industry: user.businessProfile.industry,
+      numberOfEmployees: user.businessProfile.numberOfEmployees,
+      website: user.businessProfile.website,
+      contactEmail: user.businessProfile.contactEmail,
+      socialMedia: {
+        linkedin: user.businessProfile.socialMedia.linkedin,
+        twitter: user.businessProfile.socialMedia.twitter,
+        facebook: user.businessProfile.socialMedia.facebook,
+      },
+      description: user.businessProfile.description,
+    };
+  }
+
   return normalizedUserData;
 };
 

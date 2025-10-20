@@ -12,7 +12,7 @@ export function Hero() {
     const isMobile = useMediaQuery('(max-width: 700px)');
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.userSlice.user);
-    const isBusiness = user?.isBusiness;
+    const isBusiness = user?.profileType === "business";
     const isAdmin = user?.isAdmin;
     const sortOption = useSelector((state: RootState) => state.cardSlice.sortOption);
 
@@ -36,7 +36,11 @@ export function Hero() {
             >
               {/* Conditional Welcome Message */}
               {!user && <Title order={2} ta='center' c='white'>List your business. Get seen by millions.</Title>}
-              {user && <Text ta='center' c='blue'fw='bold' fz={30}>Welcome Back, {user.name.first}</Text>}
+              {user && <Text ta='center' c='blue' fw='bold' fz={30}>
+                Welcome Back, {user.profileType === 'jobseeker'
+                  ? user.jobseekerProfile?.firstName
+                  : user.businessProfile?.name}
+              </Text>}
 
               {/* Search & Sort */}
               <Flex gap={10} align='center' w={isMobile ? '100%' : '100%'} direction= {isMobile ? 'column' : 'row'}>

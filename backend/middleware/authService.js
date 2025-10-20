@@ -105,11 +105,10 @@ const adminAuth = (req, _res, next) => {
 };
 
 const businessAuth = (req, _res, next) => {
-  if (!req.user.isBusiness) {
-    nextError(next, 403, "Access denied. Business access only.");
-  } else {
-    next();
+  if (req.user.profileType !== "business") {
+    return nextError(next, 403, "Access denied. Business access only.");
   }
+  next();
 };
 
 const userAdminAuth = async (req, _res, next) => {

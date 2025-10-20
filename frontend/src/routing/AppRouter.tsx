@@ -30,7 +30,7 @@ const router = createBrowserRouter([
       {path: 'create-card', element: <RouteGuard><CreateCard/></RouteGuard>},
       {path: 'edit-profile/:id', element: <RouteGuard><EditProfile/></RouteGuard>},
       {path: 'admin', element: <RouteGuard isAdmin><AdminControls/></RouteGuard> },
-      {path: 'my-listings', element: <RouteGuard isBusiness><MyCards/></RouteGuard>},
+      {path: 'my-listings', element: <RouteGuard profileType="business"><MyCards/></RouteGuard>},
       {path: '*', element: <Error404/>},
     ]
   },

@@ -54,10 +54,10 @@ const toggleRole = async (userId) => {
   if (!user) {
     throwError(404, "User not found");
   }
-  const isBusiness = !user.isBusiness;
+  const newProfileType = user.profileType === "jobseeker" ? "business" : "jobseeker";
   const updatedUser = await Users.findByIdAndUpdate(
     userId,
-    { isBusiness },
+    { profileType: newProfileType },
     { new: true },
   );
   const normalizedUser = normalizeUserResponse(updatedUser);

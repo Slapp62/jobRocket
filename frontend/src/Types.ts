@@ -36,39 +36,60 @@ export type TPaginationProps = {
   totalPages: number;
 };
 
-export type TUsers = {
-  _id: string;
-  name: {
-    first: string;
-    middle?: string;
-    last: string;
-    _id: string;
+export type TJobseekerProfile = {
+  firstName: string;
+  lastName: string;
+  highestEducation: "High School" | "Associate Degree" | "Bachelor's Degree" | "Master's Degree" | "Doctorate" | "Other";
+  preferredWorkArrangement: string;
+  linkedinPage?: string;
+  resume?: string;
+  skills?: string[];
+  description?: string;
+  _id?: string;
+};
+
+export type TBusinessProfile = {
+  name: string;
+  location: {
+    country: string;
+    city: string;
+    _id?: string;
   };
-  phone: string;
-  email: string;
-  password: string;
-  image?: {
+  logo?: {
     url?: string;
     alt?: string;
     _id?: string;
   };
-  address: {
-    state?: string;
-    country: string;
-    city: string;
-    street: string;
-    houseNumber: string | number;
-    zip: string | number;
-    _id: string;
+  industry: string;
+  numberOfEmployees: "1-10" | "11-50" | "51-200" | "201-500" | "501-1000" | "1000+";
+  website?: string;
+  contactEmail?: string;
+  socialMedia?: {
+    linkedin?: string;
+    twitter?: string;
+    facebook?: string;
+    _id?: string;
   };
+  description?: string;
+  _id?: string;
+};
+
+export type TUsers = {
+  _id: string;
+  email: string;
+  password?: string;
+  phone: string;
+  profileType: "jobseeker" | "business";
+  jobseekerProfile?: TJobseekerProfile;
+  businessProfile?: TBusinessProfile;
   isAdmin: boolean;
-  isBusiness: boolean;
   createdAt: string;
 };
 
 export interface TdecodedToken{
   iat: number;
+  exp: number;
   isAdmin: boolean;
-  isBusiness: boolean;
+  profileType: "jobseeker" | "business";
   _id: string;
 }

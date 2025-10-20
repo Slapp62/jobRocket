@@ -17,7 +17,6 @@ const {
   authenticateUser,
   businessAuth,
   listingCreatorAuth,
-  adminAuth,
   listingCreatorAdminAuth,
 } = require("../middleware/authService.js");
 const listingValidation = require("../middleware/listingValidation.js");

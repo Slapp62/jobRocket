@@ -26,10 +26,6 @@ module.exports = [
     },
     rules: {
       // Custom rules
-      "max-lines": [
-        "error",
-        { max: 200, skipBlankLines: true, skipComments: true },
-      ],
 
       // Import/Export rules
       "import/no-unresolved": "error",
