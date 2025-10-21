@@ -1,10 +1,19 @@
-import { TCards } from "@/Types";
-import { cardSchema } from "@/validationRules/card.joi";
-import { Paper, Title, Flex, Fieldset, TextInput, Textarea, Button } from "@mantine/core";
+import { listingSchema } from "@/validationRules/listing.joi";
+import {
+  Paper,
+  Title,
+  Flex,
+  Fieldset,
+  TextInput,
+  Textarea,
+  Button,
+  Select,
+  Switch,
+} from "@mantine/core";
 import { joiResolver } from "@hookform/resolvers/joi";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { FieldValues, useForm } from 'react-hook-form';
+import { useEffect, useMemo, useState } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useMediaQuery } from "@mantine/hooks";
@@ -12,174 +21,345 @@ import { useDispatch, useSelector } from "react-redux";
 import { editCard } from "@/store/cardSlice";
 import { cleanedCardData } from "@/utils/getCleanedData";
 import { RootState } from "@/store/store";
+import { TCards } from "@/Types";
+// @ts-ignore
+import WORK_ARRANGEMENTS from "@/data/workArr";
+// @ts-ignore
+import INDUSTRIES from "@/data/industries";
+// @ts-ignore
+import { REGIONS, getCitiesByRegion } from "@/data/israelCities";
+
+type ListingFormValues = {
+  jobTitle: string;
+  jobDescription: string;
+  requirements: string[];
+  advantages: string[];
+  apply: {
+    method: "email" | "link";
+    contact: string;
+  };
+  location: {
+    region: string;
+    city: string;
+  };
+  workArrangement: string;
+  industry: string;
+  isActive: boolean;
+  expiresAt?: string | null;
+};
 
 export function EditCard() {
-    const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8181";
-    const {id} = useParams();
-    const isMobile = useMediaQuery('(max-width: 700px)');
-    const [isDisabled, setDisabled] = useState(true);
-    const dispatch = useDispatch();
-    
-    const allCards = useSelector((state: RootState) => state.cardSlice.cards)
-    const cardData = allCards?.find((card) => card._id === id)
-    const { register, handleSubmit, reset, trigger, formState: {errors, isValid, isDirty} } = useForm<TCards> ({
-            mode: 'all',
-            resolver: joiResolver(cardSchema),
-            defaultValues: cardData ? cleanedCardData(cardData) : {}
-    })
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8181";
+  const { id } = useParams();
+  const isMobile = useMediaQuery("(max-width: 700px)");
+  const [isDisabled, setDisabled] = useState(true);
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        const defaultUserValues = cardData ? cleanedCardData(cardData) : {};
-        reset(defaultUserValues);
-    }, [reset, cardData])
-    
-    const onSubmit = async (data:FieldValues) => {
-        data.address.houseNumber = Number(data.address.houseNumber);
-        data.address.zip = Number(data.address.zip);
-        try {
-            const response = await axios.put(`${API_BASE_URL}/api/cards/${id}`, data);
-            if (response.status === 200) {
-                dispatch(editCard({card : response.data as TCards}));
-                toast.success('Card Updated Successfully!', {position: `bottom-right`}); 
-                setDisabled(true)         
-            }
-        } catch (error : any) {
-                toast.error(`Update Failed! ${error.response.data.message}`, {position: `bottom-right`});
-                
-        } 
+  const allCards = useSelector((state: RootState) => state.cardSlice.cards);
+  const cardData = allCards?.find((card) => card._id === id);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid, isDirty },
+    control,
+    trigger,
+  } = useForm<ListingFormValues>({
+    mode: "all",
+    resolver: joiResolver(listingSchema),
+    defaultValues: cardData
+      ? (cleanedCardData(cardData) as ListingFormValues)
+      : {
+          jobTitle: "",
+          jobDescription: "",
+          requirements: [],
+          advantages: [],
+          apply: { method: "email", contact: "" },
+          location: { region: "", city: "" },
+          workArrangement: "",
+          industry: "",
+          isActive: true,
+          expiresAt: "",
+        },
+  });
+
+  useEffect(() => {
+    if (cardData) {
+      const defaults = cleanedCardData(cardData) as ListingFormValues;
+      reset(defaults);
     }
+  }, [reset, cardData]);
 
-    return (
-        <Paper>
-            <Title ta="center" my={10}>Edit Listing</Title>
+  const selectedRegion = useWatch({
+    control,
+    name: "location.region",
+  });
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Flex direction='column' gap={10} py={10} mx="auto" style={{width: isMobile ? '90%' : '40%'}}>
-                    <Fieldset legend='Job Info'>
-                        <TextInput 
-                            label='Title'
-                            required
-                            disabled={isDisabled}
-                            {...register('title')}
-                            error= {errors.title?.message}
-                        />
-                        <TextInput 
-                            label='Subtitle'
-                            required
-                            disabled={isDisabled}
-                            {...register('subtitle')}
-                            error= {errors.subtitle?.message}
-                        />
-                        <Textarea 
-                            label='Description'
-                            required
-                            disabled={isDisabled}
-                            {...register('description')}
-                            error= {errors.description?.message}
-                        />
-                        <TextInput 
-                            label='Phone'
-                            required
-                            disabled={isDisabled} 
-                            {...register('phone', {
-                                onChange: (e) => {
-                                    e.target.value = e.target.value.replace(/[^\d-]/g, '');
-                                },
-                            })}
-                            error= {errors.phone?.message}
-                        />
-                        <TextInput 
-                            label='Email'
-                            required
-                            disabled={isDisabled}
-                            {...register('email')}
-                            error= {errors.email?.message}
-                        />
-                        <TextInput 
-                            label='Website' 
-                            disabled={isDisabled}
-                            {...register('web')}
-                            error= {errors.web?.message}
-                        />
-                        <TextInput 
-                            label='URL' 
-                            disabled={isDisabled}
-                            {...register('image.url')}
-                            error= {errors.image?.url?.message}
-                        />
-                        <TextInput 
-                            label='Alt Text'
-                            disabled={isDisabled} 
-                            {...register('image.alt')}
-                            error= {errors.image?.alt?.message}
-                        />
-                    </Fieldset>
-                    
-                    <Fieldset legend='Address'>
-                        <TextInput 
-                            label='State' 
-                            disabled={isDisabled}
-                            {...register('address.state')}
-                            error= {errors.address?.state?.message}
-                        />
-                        <TextInput 
-                            label='Country' 
-                            required
-                            disabled={isDisabled}
-                            {...register('address.country')}
-                            error= {errors.address?.country?.message}
-                        />
-                        <TextInput 
-                            label='City' 
-                            required
-                            disabled={isDisabled}
-                            {...register('address.city')}
-                            error= {errors.address?.city?.message}
-                        />
-                        <TextInput 
-                            label='Street' 
-                            required
-                            disabled={isDisabled}
-                            {...register('address.street')}
-                            error= {errors.address?.street?.message}
-                        />
-                        <TextInput 
-                            label='House Number' 
-                            required
-                            disabled={isDisabled}
-                            {...register('address.houseNumber', {
-                                onChange: (e) => {
-                                e.target.value = e.target.value.replace(/\D/g, '')},
-                            })}
-                            error= {errors.address?.houseNumber?.message}
-                        />
-                        <TextInput 
-                            label='Zipcode' 
-                            required
-                            disabled={isDisabled}
-                            {...register('address.zip', {
-                                onChange: (e) => {
-                                e.target.value = e.target.value.replace(/\D/g, '')},
-                            })}
-                            error= {errors.address?.zip?.message}
-                        />
-                    </Fieldset>      
-                </Flex>
-                
-                <Flex justify='center' my={10} gap={10}>
-                    <Button size='md' onClick={() => {
-                        setDisabled(false)
-                        trigger();
-                    }}>Edit</Button>  
+  const availableCities = useMemo(() => {
+    if (!selectedRegion) {
+      return [];
+    }
+    return getCitiesByRegion(selectedRegion).map((city: string) => ({
+      value: city,
+      label: city,
+    }));
+  }, [selectedRegion]);
 
-                    <Button size='md' type='reset' onClick={() => {
-                        reset();
-                        setDisabled(false)
-                    }}>Reset</Button>
-                    
-                    <Button type='submit' size='md' disabled={!isValid || !isDirty}>Update</Button>  
-                </Flex>
-            </form>
-        </Paper>
-    );
+  const onSubmit = async (data: ListingFormValues) => {
+    try {
+      const response = await axios.put(`${API_BASE_URL}/api/listings/${id}`, {
+        ...data,
+        expiresAt: data.expiresAt ? new Date(data.expiresAt).toISOString() : null,
+      });
+      if (response.status === 200) {
+        dispatch(editCard({ card: response.data as TCards }));
+        toast.success("Listing updated successfully!", {
+          position: "bottom-right",
+        });
+        setDisabled(true);
+      }
+    } catch (error: any) {
+      toast.error(
+        `Update failed! ${error?.response?.data?.message || error.message}`,
+        { position: "bottom-right" },
+      );
+    }
+  };
+
+  return (
+    <Paper>
+      <Title ta="center" my={10}>
+        Edit Listing
+      </Title>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Flex
+          direction="column"
+          gap={10}
+          py={10}
+          mx="auto"
+          style={{ width: isMobile ? "90%" : "40%" }}
+        >
+          <Fieldset legend="Job Info">
+            <TextInput
+              label="Job Title"
+              required
+              disabled={isDisabled}
+              {...register("jobTitle")}
+              error={errors.jobTitle?.message}
+            />
+
+            <Textarea
+              label="Job Description"
+              required
+              disabled={isDisabled}
+              minRows={4}
+              {...register("jobDescription")}
+              error={errors.jobDescription?.message}
+            />
+
+            <Controller
+              name="requirements"
+              control={control}
+              render={({ field }) => (
+                <Textarea
+                  label="Requirements"
+                  placeholder="Add one requirement per line"
+                  minRows={3}
+                  value={(field.value || []).join("\n")}
+                  onChange={(event) => {
+                    const next = event.currentTarget.value
+                      .split("\n")
+                      .map((line) => line.trim())
+                      .filter(Boolean);
+                    field.onChange(next);
+                  }}
+                  error={errors.requirements?.message as string}
+                  disabled={isDisabled}
+                />
+              )}
+            />
+
+            <Controller
+              name="advantages"
+              control={control}
+              render={({ field }) => (
+                <Textarea
+                  label="Nice to Have"
+                  placeholder="Add one advantage per line"
+                  minRows={3}
+                  value={(field.value || []).join("\n")}
+                  onChange={(event) => {
+                    const next = event.currentTarget.value
+                      .split("\n")
+                      .map((line) => line.trim())
+                      .filter(Boolean);
+                    field.onChange(next);
+                  }}
+                  error={errors.advantages?.message as string}
+                  disabled={isDisabled}
+                />
+              )}
+            />
+          </Fieldset>
+
+          <Fieldset legend="Application">
+            <Controller
+              name="apply.method"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  label="Application Method"
+                  required
+                  data={[
+                    { value: "email", label: "Email" },
+                    { value: "link", label: "External Link" },
+                  ]}
+                  {...field}
+                  error={errors.apply?.method?.message}
+                  disabled={isDisabled}
+                />
+              )}
+            />
+
+            <TextInput
+              label="Application Contact / URL"
+              required
+              disabled={isDisabled}
+              {...register("apply.contact")}
+              error={errors.apply?.contact?.message}
+            />
+          </Fieldset>
+
+          <Fieldset legend="Location">
+            <Controller
+              name="location.region"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  label="Region"
+                  required
+                  searchable
+                  data={REGIONS.map((region: string) => ({
+                    value: region,
+                    label: region,
+                  }))}
+                  {...field}
+                  error={errors.location?.region?.message}
+                  disabled={isDisabled}
+                />
+              )}
+            />
+
+            <Controller
+              name="location.city"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  label="City"
+                  required
+                  searchable
+                  disabled={!selectedRegion || isDisabled}
+                  data={availableCities}
+                  {...field}
+                  error={errors.location?.city?.message}
+                />
+              )}
+            />
+          </Fieldset>
+
+          <Fieldset legend="Job Details">
+            <Controller
+              name="workArrangement"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  label="Work Arrangement"
+                  required
+                  searchable
+                  data={WORK_ARRANGEMENTS.map((option: string) => ({
+                    value: option,
+                    label: option,
+                  }))}
+                  {...field}
+                  error={errors.workArrangement?.message}
+                  disabled={isDisabled}
+                />
+              )}
+            />
+
+            <Controller
+              name="industry"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  label="Industry"
+                  required
+                  searchable
+                  data={INDUSTRIES.map((industry: string) => ({
+                    value: industry,
+                    label: industry,
+                  }))}
+                  {...field}
+                  error={errors.industry?.message}
+                  disabled={isDisabled}
+                />
+              )}
+            />
+
+            <Controller
+              name="isActive"
+              control={control}
+              render={({ field }) => (
+                <Switch
+                  label="Listing is active"
+                  checked={field.value}
+                  onChange={(event) =>
+                    field.onChange(event.currentTarget.checked)
+                  }
+                  disabled={isDisabled}
+                />
+              )}
+            />
+
+            <TextInput
+              label="Expiration Date"
+              type="date"
+              disabled={isDisabled}
+              {...register("expiresAt")}
+              error={errors.expiresAt?.message as string}
+            />
+          </Fieldset>
+        </Flex>
+
+        <Flex justify="center" my={10} gap={10}>
+          <Button
+            size="md"
+            onClick={() => {
+              setDisabled(false);
+              trigger();
+            }}
+          >
+            Edit
+          </Button>
+
+          <Button
+            size="md"
+            type="reset"
+            onClick={() => {
+              reset();
+              setDisabled(false);
+            }}
+          >
+            Reset
+          </Button>
+
+          <Button type="submit" size="md" disabled={!isValid || !isDirty}>
+            Update
+          </Button>
+        </Flex>
+      </form>
+    </Paper>
+  );
 }

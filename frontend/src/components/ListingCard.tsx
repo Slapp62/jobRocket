@@ -1,4 +1,4 @@
-import { Card, Image, Text, Button, Flex, ListItem, List, Box, Group, Modal, Skeleton} from '@mantine/core';
+import { Card, Text, Button, Flex, Box, Group, Modal, Skeleton, Badge } from '@mantine/core';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
 import SocialIcons from './SocialMedia';
 
 function ListingCard({ cardID} : { cardID: string}) {
-    const card = useSelector((state:RootState) => state.cardSlice.cards?.find((card) => card._id === cardID));
+    const card = useSelector((state:RootState) => state.cardSlice.cards?.find((listing) => listing._id === cardID));
     const isLoading = useSelector((state:RootState) => state.cardSlice.loading);
     if (!card) {return null};
     
@@ -22,7 +22,6 @@ function ListingCard({ cardID} : { cardID: string}) {
     const myListingsPage = location.pathname === '/my-listings';
     const loggedIn = useSelector((state: RootState) => state.userSlice.isLoggedIn);
     const isMobile = useMediaQuery('(max-width: 500px)');
-    const defaultImage = "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YnVzaW5lc3N8ZW58MHx8MHx8fDA%3D";
    
   return (
     <motion.div
@@ -35,33 +34,30 @@ function ListingCard({ cardID} : { cardID: string}) {
         >
             
         <Card shadow="sm" radius="md" withBorder>
-        <Card.Section>
-            <Skeleton visible={isLoading}>
-                <Image
-                src={card.image.url}
-                height={160}
-                alt="picture"
-                fit='cover'
-                loading='lazy'
-                fallbackSrc={defaultImage}
-                />
-            </Skeleton>
-        
-        </Card.Section> 
-
-        <Card.Section px={15}>
+        <Skeleton visible={isLoading}>
             <Box p={5}>
-                <Text truncate my="xs" fw={500}>{card.title} </Text>
-                <Text truncate >{card.subtitle}</Text>
-                <hr/>
-                <Text truncate >{card.description} </Text>
-            
-                <List>
-                    <ListItem>{card.phone}</ListItem>
-                    <ListItem>{card.email}</ListItem>
-                    
-                </List>
-                {card.createdAt && <Text fw={500} size='sm' mt={10}>Posted On: {new Date(card.createdAt).toLocaleDateString()}</Text>}
+                <Text fw={600} size="lg" lineClamp={2}>{card.jobTitle}</Text>
+                <Badge mt={6} variant="light" color="teal">
+                    {card.workArrangement}
+                </Badge>
+                <Badge ml={6} mt={6} variant="light" color="blue">
+                    {card.industry}
+                </Badge>
+
+                <Text mt="sm" size="sm" c="dimmed" lineClamp={3}>
+                    {card.jobDescription}
+                </Text>
+
+                <Flex mt="sm" direction="column" gap={4}>
+                    <Text size="sm"><strong>Location:</strong> {card.location.region}, {card.location.city}</Text>
+                    <Text size="sm"><strong>Apply via:</strong> {card.apply.method === 'email' ? 'Email' : 'External Link'}</Text>
+                </Flex>
+
+                {card.createdAt && (
+                    <Text fw={500} size="xs" mt={10}>
+                        Posted on: {new Date(card.createdAt).toLocaleDateString()}
+                    </Text>
+                )}
             </Box>
 
             <Flex mx="auto"  my={10} gap={5} direction='column'>
@@ -92,11 +88,11 @@ function ListingCard({ cardID} : { cardID: string}) {
                     </Group>
                 </Group>
             </Flex>
-        </Card.Section>
+        </Skeleton>
         </Card>
 
         <Modal centered opened={opened} onClose={close} title="Confirmation">
-            <Text>Are you sure you want to delete this card?</Text>
+            <Text>Are you sure you want to delete this listing?</Text>
             <Group mt={20} justify="center">
                 <Button color="red" onClick={() => {
                     deleteCard(card);

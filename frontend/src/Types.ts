@@ -1,31 +1,25 @@
 
 export type TCards = {
   _id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  phone: string;
-  email: string;
-  web: string;
-  image: {
-    url: string;
-    alt: string;
-    _id: string;
+  businessId: string;
+  jobTitle: string;
+  jobDescription: string;
+  requirements: string[];
+  advantages: string[];
+  apply: {
+    method: "email" | "link";
+    contact: string;
   };
-  address: {
-    state: string;
-    country: string;
+  location: {
+    region: string;
     city: string;
-    street: string;
-    houseNumber: number | string;
-    zip: number | string;
-    _id: string;
   };
-  bizNumber?: number;
+  workArrangement: string;
+  industry: string;
   likes?: string[];
-  user_id?: string;
-  createdAt?: string; 
-  __v?: number;
+  isActive?: boolean;
+  createdAt?: string;
+  expiresAt?: string | null;
 };
 
 export type TCardsArray = TCards[];
@@ -80,9 +74,25 @@ export type TUsers = {
   password?: string;
   phone: string;
   profileType: "jobseeker" | "business";
+  name?: {
+    first: string;
+    middle?: string;
+    last: string;
+    _id?: string;
+  };
+  address?: {
+    country: string;
+    state?: string;
+    city: string;
+    street: string;
+    houseNumber: number | string;
+    zip: number | string;
+    _id?: string;
+  };
   jobseekerProfile?: TJobseekerProfile;
   businessProfile?: TBusinessProfile;
   isAdmin: boolean;
+  isBusiness?: boolean;
   createdAt: string;
 };
 

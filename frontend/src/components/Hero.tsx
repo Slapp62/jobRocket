@@ -61,10 +61,10 @@ export function Hero() {
                   placeholder='Sort By'
                   rightSection={<IconFilter/>}
                   data={[
-                    {value: "title-asc", label: "Title (A-Z)"},
-                    {value: "title-desc", label: "Title (Z-A)"},
-                    {value: "date-created-old", label: "Date Created (Oldest First)"},
-                    {value: "date-created-new", label: "Date Created (Latest First)"}
+                    {value: "title-asc", label: "Job Title (A-Z)"},
+                    {value: "title-desc", label: "Job Title (Z-A)"},
+                    {value: "date-created-old", label: "Posted Date (Oldest First)"},
+                    {value: "date-created-new", label: "Posted Date (Newest First)"}
                   ]}
                   value={sortOption}
                   onChange={(value) => {

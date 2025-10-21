@@ -7,7 +7,7 @@ export const loadUserCards = async () => {
   try {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const response = await axios.get(
-        `${API_BASE_URL}/api/cards/my-cards`,
+        `${API_BASE_URL}/api/listings/my-listings`,
         {headers: {'x-auth-token': token}}
     );
     return response.data;

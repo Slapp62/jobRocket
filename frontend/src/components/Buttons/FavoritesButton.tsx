@@ -13,8 +13,8 @@ export function FavoritesButton({ card} : { card: TCards}) {
     const heartFilled = <IconHeartFilled/>;
     const userID = useSelector((state: RootState) => state.userSlice.user?._id);
     if (!userID) {return null};
-    const isLiked = card.likes?.includes(userID);
-    if (isLiked === undefined) {return null};
+    const likes = card.likes ?? [];
+    const isLiked = likes.includes(userID);
 
     return (
         <ActionIcon style={{flex: 1}} color="purple" c='purple' variant='outline' size={40} onClick={() => toggleLike(card, userID, isLiked)}>

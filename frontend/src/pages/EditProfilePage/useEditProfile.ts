@@ -29,7 +29,7 @@ export const useEditProfile = () => {
     const userData = isAdminView ? paramsUser : currentUser;
      const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-    const {register, handleSubmit, reset, formState: {errors, isValid, isDirty}, trigger} = useForm<TUsers>({
+    const {register, handleSubmit, reset, control, formState: {errors, isValid, isDirty}, trigger} = useForm<TUsers>({
         mode: 'all',
         resolver: joiResolver(editProfileSchema),
         defaultValues: userData ? cleanedUserData(userData) : {},
@@ -45,15 +45,22 @@ export const useEditProfile = () => {
     }, [reset, userData])
    
     const onSubmit = async (data:FieldValues) => {
+        const payload: Partial<TUsers> = {
+            phone: data.phone,
+            profileType: data.profileType,
+        };
 
-        if (!data.password) {
-            delete data.password
+        if (data.profileType === "jobseeker") {
+            payload.jobseekerProfile = data.jobseekerProfile;
         }
-        data.address.houseNumber = Number(data.address.houseNumber);
-        data.address.zip = Number(data.address.zip);
+
+        if (data.profileType === "business") {
+            payload.businessProfile = data.businessProfile;
+        }
+
         try {
             const response = await axios.put(
-                `${API_BASE_URL}/api/users/${userData?._id}`, data);
+                `${API_BASE_URL}/api/users/${userData?._id}`, payload);
 
             if (response.status === 200) {
                 const updatedUser = response.data;
@@ -72,7 +79,7 @@ export const useEditProfile = () => {
                 toast.success('Profile Updated Successfully!', {position: `bottom-right`});
             }
         } catch (error: any) {    
-            toast.error(`Update Failed! ${error.response.data}`, {position: `bottom-right`});
+            toast.error(`Update Failed! ${error?.response?.data || error.message}`, {position: `bottom-right`});
         }
     }
     
@@ -94,6 +101,7 @@ export const useEditProfile = () => {
                     if (isAdminView){
                         dispatch(updateUser(updatedUser))
                     }
+                    reset(cleanedUserData(updatedUser));
                     toast.success('Account Status Updated');
                     setSubmitting(false);
                 }, 1000);
@@ -117,5 +125,5 @@ export const useEditProfile = () => {
         }
     }
     
-    return {isSubmitting, isAdminView,userData, register, handleSubmit, onSubmit, trigger, errors, isDirty, isValid, isDisabled, setDisabled, updateBusinessStatus, isMobile, opened, open, close, deleteUser}
+    return {isSubmitting, isAdminView,userData, register, handleSubmit, onSubmit, trigger, errors, isDirty, isValid, isDisabled, setDisabled, updateBusinessStatus, isMobile, opened, open, close, deleteUser, control}
 }

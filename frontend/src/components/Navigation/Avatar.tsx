@@ -8,6 +8,12 @@ export function AvatarIcon(props: {closeDrawer?: () => void}) {
     const dispatch = useDispatch();
     const jumpTo = useNavigate();
     const user = useSelector((state:RootState) => state.userSlice.user);
+    const avatarSrc = user?.profileType === 'business'
+        ? user.businessProfile?.logo?.url || undefined
+        : undefined;
+    const fallbackInitial = user?.profileType === 'jobseeker'
+        ? user.jobseekerProfile?.firstName?.charAt(0)
+        : user?.businessProfile?.name?.charAt(0) || user?.email?.charAt(0) || '?';
     
   return (
       <ActionIcon variant='outline' color='green' radius={100} size={40} onClick={() => {
@@ -15,7 +21,9 @@ export function AvatarIcon(props: {closeDrawer?: () => void}) {
         jumpTo(`/edit-profile/${user?._id}`);
         if (props.closeDrawer) {props.closeDrawer()};
       }}>
-        <Avatar src={user?.image?.url} style={{ cursor: 'pointer' }} size={30}/>
+        <Avatar src={avatarSrc} style={{ cursor: 'pointer' }} size={30} radius="xl">
+          {fallbackInitial?.toUpperCase()}
+        </Avatar>
       </ActionIcon>
   )
 }

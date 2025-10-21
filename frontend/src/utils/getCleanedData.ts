@@ -41,22 +41,20 @@ export const cleanedUserData = (user: TUsers) => ({
 });
 
 export const cleanedCardData = (card: TCards) => ({
-        title: card.title,
-        subtitle: card.subtitle,
-        description: card.description,
-        phone: card.phone,
-        email: card.email,
-        web: card.web,
-        image: {
-            url: card.image?.url || '',
-            alt: card.image?.alt || '',
-        },
-        address: {
-            country: card.address?.country,
-            state: card.address?.state || '',
-            city: card.address?.city,
-            street: card.address?.street,
-            houseNumber: String(card.address?.houseNumber),
-            zip: String(card.address?.zip),
-        }
-    })
+    jobTitle: card.jobTitle,
+    jobDescription: card.jobDescription,
+    requirements: card.requirements || [],
+    advantages: card.advantages || [],
+    apply: {
+        method: card.apply?.method || "email",
+        contact: card.apply?.contact || "",
+    },
+    location: {
+        region: card.location?.region || "",
+        city: card.location?.city || "",
+    },
+    workArrangement: card.workArrangement || "",
+    industry: card.industry || "",
+    isActive: card.isActive ?? true,
+    expiresAt: card.expiresAt ? card.expiresAt.split("T")[0] : "",
+})

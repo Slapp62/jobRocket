@@ -3,7 +3,7 @@ import { IconBrandLinkedin, IconBrandWhatsapp, IconBrandTwitter } from "@tabler/
 
 const SocialIcons = (props : {cardID : string}) => {
     const cardUrl = `${window.location.origin}/card-details/${props.cardID}`;
-    const shareText = `Check out this listing: ${cardUrl}`;
+    const shareText = `Check out this job listing: ${cardUrl}`;
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
     const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?`+`url=${encodeURIComponent(shareText)}`;
     const xUrl =`https://twitter.com/intent/tweet?` +`text=${encodeURIComponent(shareText)}` +`&url=${encodeURIComponent(cardUrl)}`;

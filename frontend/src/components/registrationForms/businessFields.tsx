@@ -11,6 +11,7 @@ type BusinessFieldsProps = {
   register: UseFormRegister<TUsers>;
   errors: FieldErrors<TUsers>;
   control: Control<TUsers>;
+  disabled?: boolean;
 }
 
 const EMPLOYEE_COUNTS = [
@@ -22,7 +23,7 @@ const EMPLOYEE_COUNTS = [
   "1000+"
 ];
 
-export function BusinessFields({ register, errors, control }: BusinessFieldsProps) {
+export function BusinessFields({ register, errors, control, disabled = false }: BusinessFieldsProps) {
   // Watch the selected region to filter cities
   const selectedRegion = useWatch({
     control,
@@ -32,7 +33,10 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
   // Get cities for the selected region
   const availableCities = useMemo(() => {
     if (!selectedRegion) {return [];}
-    return getCitiesByRegion(selectedRegion);
+    return getCitiesByRegion(selectedRegion).map((city: string) => ({
+      value: city,
+      label: city,
+    }));
   }, [selectedRegion]);
 
   return (
@@ -42,6 +46,7 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
         label="Company Name"
         placeholder="Enter your company name"
         withAsterisk
+        disabled={disabled}
         {...register('businessProfile.name')}
         error={errors.businessProfile?.name?.message}
       />
@@ -55,8 +60,12 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
             label="Region"
             placeholder="Select region"
             withAsterisk
-            data={REGIONS}
+            data={REGIONS.map((region: string) => ({
+              value: region,
+              label: region,
+            }))}
             searchable
+            disabled={disabled}
             {...field}
             error={errors.businessProfile?.location?.country?.message}
           />
@@ -74,7 +83,7 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
             withAsterisk
             data={availableCities}
             searchable
-            disabled={!selectedRegion}
+            disabled={!selectedRegion || disabled}
             {...field}
             error={errors.businessProfile?.location?.city?.message}
           />
@@ -90,8 +99,12 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
             label="Industry"
             placeholder="Select your industry"
             withAsterisk
-            data={INDUSTRIES}
+            data={INDUSTRIES.map((industry: string) => ({
+              value: industry,
+              label: industry,
+            }))}
             searchable
+            disabled={disabled}
             {...field}
             error={errors.businessProfile?.industry?.message}
           />
@@ -108,6 +121,7 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
             placeholder="Select company size"
             withAsterisk
             data={EMPLOYEE_COUNTS}
+            disabled={disabled}
             {...field}
             error={errors.businessProfile?.numberOfEmployees?.message}
           />
@@ -118,6 +132,7 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
       <TextInput
         label="Logo URL"
         placeholder="https://example.com/logo.png"
+        disabled={disabled}
         {...register('businessProfile.logo.url')}
         error={errors.businessProfile?.logo?.url?.message}
       />
@@ -126,6 +141,7 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
       <TextInput
         label="Logo Alt Text"
         placeholder="Company logo description"
+        disabled={disabled}
         {...register('businessProfile.logo.alt')}
         error={errors.businessProfile?.logo?.alt?.message}
       />
@@ -134,6 +150,7 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
       <TextInput
         label="Website"
         placeholder="https://www.yourcompany.com"
+        disabled={disabled}
         {...register('businessProfile.website')}
         error={errors.businessProfile?.website?.message}
       />
@@ -143,6 +160,7 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
         label="Contact Email"
         placeholder="contact@yourcompany.com"
         type="email"
+        disabled={disabled}
         {...register('businessProfile.contactEmail')}
         error={errors.businessProfile?.contactEmail?.message}
       />
@@ -151,6 +169,7 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
       <TextInput
         label="LinkedIn"
         placeholder="https://www.linkedin.com/company/yourcompany"
+        disabled={disabled}
         {...register('businessProfile.socialMedia.linkedin')}
         error={errors.businessProfile?.socialMedia?.linkedin?.message}
       />
@@ -159,6 +178,7 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
       <TextInput
         label="Twitter"
         placeholder="https://twitter.com/yourcompany"
+        disabled={disabled}
         {...register('businessProfile.socialMedia.twitter')}
         error={errors.businessProfile?.socialMedia?.twitter?.message}
       />
@@ -167,6 +187,7 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
       <TextInput
         label="Facebook"
         placeholder="https://www.facebook.com/yourcompany"
+        disabled={disabled}
         {...register('businessProfile.socialMedia.facebook')}
         error={errors.businessProfile?.socialMedia?.facebook?.message}
       />
@@ -177,6 +198,7 @@ export function BusinessFields({ register, errors, control }: BusinessFieldsProp
         placeholder="Tell us about your company (max 2000 characters)"
         minRows={4}
         maxRows={8}
+        disabled={disabled}
         {...register('businessProfile.description')}
         error={errors.businessProfile?.description?.message}
       />

@@ -27,14 +27,13 @@ export function HomePage() {
             (a.createdAt && b.createdAt) ? b.createdAt?.localeCompare(a.createdAt) :  0);
     }, [allCards]);
 
-    const searchWord = useSelector((state: RootState)=> state.searchSlice.searchWord)
     const sortOption = useSelector((state: RootState) => state.cardSlice.sortOption);
     const isMobile = useMediaQuery('(max-width: 500px)');
 
     const sortedCards = useMemo(() => {
         return [...cards].sort((a, b) => {
-        if (sortOption === 'title-asc') {return a.title.localeCompare(b.title)}; 
-        if (sortOption === 'title-desc') {return b.title.localeCompare(a.title)}; 
+        if (sortOption === 'title-asc') {return a.jobTitle.localeCompare(b.jobTitle)}; 
+        if (sortOption === 'title-desc') {return b.jobTitle.localeCompare(a.jobTitle)}; 
         if (sortOption === 'date-created-old'){
             if (a.createdAt && b.createdAt){
                 return a.createdAt?.localeCompare(b.createdAt)
@@ -48,34 +47,23 @@ export function HomePage() {
         return 0
     });
     }, [cards, sortOption]);
-    
-    const searchCards = useMemo(() => {
-        return sortedCards.filter((card:TCards) => {
-            const keyWord = searchWord.toLowerCase();
-            return (
-                card.title.toLowerCase().includes(keyWord) ||
-                card.subtitle.toLowerCase().includes(keyWord) ||
-                card.description.toLowerCase().includes(keyWord)
-            )
-        });
-    }, [sortedCards, searchWord]);
   
     const [currentPage, setCurrentPage] = useState(1);
     const cardsPerPage = 12;
     
     const paginatedCards = useMemo(() => {
-        return searchCards.slice(
+        return sortedCards.slice(
         (currentPage - 1) * cardsPerPage, currentPage * cardsPerPage);
-    }, [searchCards, currentPage, cardsPerPage]).map((card:TCards) => card._id);
+    }, [sortedCards, currentPage, cardsPerPage]).map((card:TCards) => card._id);
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [searchCards]);
+    }, [sortedCards]);
 
     const startCurrentCards = (currentPage - 1) * cardsPerPage + 1;
-    const endCurrentCards = Math.min(currentPage * cardsPerPage, searchCards.length);
-    const totalCurrentCards = searchCards.length;
-    const noCards = searchCards.length === 0;
+    const endCurrentCards = Math.min(currentPage * cardsPerPage, sortedCards.length);
+    const totalCurrentCards = sortedCards.length;
+    const noCards = sortedCards.length === 0;
 
   return (
     <>
@@ -103,7 +91,7 @@ export function HomePage() {
               </Text>
               <Pagination
                 mt="md"
-                total={Math.ceil(searchCards.length / cardsPerPage)}
+                total={Math.ceil(sortedCards.length / cardsPerPage)}
                 value={currentPage}
                 onChange={page => {
                   setCurrentPage(page);
@@ -117,7 +105,7 @@ export function HomePage() {
             <Box ta="center">
               <IconMoodSad2 color="red" size={80} />
               <Title order={2} fw={700} c="red">
-                No Cards Found
+                No Listings Found
               </Title>
             </Box>
           )}

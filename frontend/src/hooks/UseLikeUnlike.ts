@@ -20,18 +20,18 @@ export function useLikeUnlike() {
 
                 axios.defaults.headers.common["x-auth-token"] = token;
                 const response = await axios.patch(
-                    `${API_BASE_URL}/api/cards/${card._id}`,
+                    `${API_BASE_URL}/api/listings/${card._id}`,
                 );
 
                 if (isLiked){ 
                     dispatch(removeLike({card : response.data, userID}))
-                    toast.warning('Card Unliked!');                
+                    toast.warning('Listing unliked!');                
                 } else {
                     dispatch(addLike({card : response.data, userID}));
-                    toast.success('Card Liked!');
+                    toast.success('Listing liked!');
                 }
             } catch (error) {
-                toast.error(`Error liking/unliking card:${  error}`);
+                toast.error(`Error liking/unliking listing:${  error}`);
             }
             
             return !isLiked;

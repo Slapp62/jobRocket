@@ -15,7 +15,7 @@ export function useDeleteCard() {
         try {
             const token = localStorage.getItem('token') || sessionStorage.getItem('token');
             const response = await axios.delete(
-                `${API_BASE_URL}/api/cards/${card._id}`, 
+                `${API_BASE_URL}/api/listings/${card._id}`, 
                 {
                     headers: {
                         'x-auth-token': token
@@ -28,11 +28,11 @@ export function useDeleteCard() {
                 const thisUserCard = userCards?.find((userCard) => userCard._id === card._id )
                 dispatch(removeCard(thisGlobalCard!))
                 dispatch(removeUserCard(thisUserCard!))
-                toast.success(`Card deleted successfully`, {position: 'bottom-right'});
+                toast.success(`Listing deleted successfully`, {position: 'bottom-right'});
             }
 
         } catch (error:any){ 
-            toast.error(`Error deleting card: ${error}`, {position: 'bottom-right'});
+            toast.error(`Error deleting listing: ${error}`, {position: 'bottom-right'});
         }
     }
 
