@@ -3,21 +3,21 @@ import { IconEdit, IconTrash } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { Link, useLocation } from 'react-router-dom';
-import { useDeleteCard } from '@/hooks/UseDeleteCard';
+import { useDeleteListing } from '@/hooks/UseDeleteListing';
 import { FavoritesButton } from './Buttons/FavoritesButton';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import React from 'react';
 import { motion } from 'framer-motion';
 import SocialIcons from './SocialMedia';
 
-function ListingCard({ cardID} : { cardID: string}) {
-    const card = useSelector((state:RootState) => state.cardSlice.cards?.find((listing) => listing._id === cardID));
-    const isLoading = useSelector((state:RootState) => state.cardSlice.loading);
-    if (!card) {return null};
-    
+function ListingCard({ listingID} : { listingID: string}) {
+    const listing = useSelector((state:RootState) => state.listingSlice.listings?.find((item) => item._id === listingID));
+    const isLoading = useSelector((state:RootState) => state.listingSlice.loading);
+    if (!listing) {return null};
+
     const [opened, { open, close }] = useDisclosure(false);
 
-    const deleteCard = useDeleteCard();
+    const deleteListing = useDeleteListing();
     const location = useLocation();
     const myListingsPage = location.pathname === '/my-listings';
     const loggedIn = useSelector((state: RootState) => state.userSlice.isLoggedIn);
@@ -25,7 +25,7 @@ function ListingCard({ cardID} : { cardID: string}) {
    
   return (
     <motion.div
-        key={card._id}
+        key={listing._id}
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -36,41 +36,41 @@ function ListingCard({ cardID} : { cardID: string}) {
         <Card shadow="sm" radius="md" withBorder>
         <Skeleton visible={isLoading}>
             <Box p={5}>
-                <Text fw={600} size="lg" lineClamp={2}>{card.jobTitle}</Text>
+                <Text fw={600} size="lg" lineClamp={2}>{listing.jobTitle}</Text>
                 <Badge mt={6} variant="light" color="teal">
-                    {card.workArrangement}
+                    {listing.workArrangement}
                 </Badge>
                 <Badge ml={6} mt={6} variant="light" color="blue">
-                    {card.industry}
+                    {listing.industry}
                 </Badge>
 
                 <Text mt="sm" size="sm" c="dimmed" lineClamp={3}>
-                    {card.jobDescription}
+                    {listing.jobDescription}
                 </Text>
 
                 <Flex mt="sm" direction="column" gap={4}>
-                    <Text size="sm"><strong>Location:</strong> {card.location.region}, {card.location.city}</Text>
-                    <Text size="sm"><strong>Apply via:</strong> {card.apply.method === 'email' ? 'Email' : 'External Link'}</Text>
+                    <Text size="sm"><strong>Location:</strong> {listing.location.region}, {listing.location.city}</Text>
+                    <Text size="sm"><strong>Apply via:</strong> {listing.apply.method === 'email' ? 'Email' : 'External Link'}</Text>
                 </Flex>
 
-                {card.createdAt && (
+                {listing.createdAt && (
                     <Text fw={500} size="xs" mt={10}>
-                        Posted on: {new Date(card.createdAt).toLocaleDateString()}
+                        Posted on: {new Date(listing.createdAt).toLocaleDateString()}
                     </Text>
                 )}
             </Box>
 
             <Flex mx="auto"  my={10} gap={5} direction='column'>
                 <Group justify='center'>
-                    <Button  h={40} style={{flex: 1}} variant='filled' fz={12} component={Link} to={`/card-details/${card._id}`}>
+                    <Button  h={40} style={{flex: 1}} variant='filled' fz={12} component={Link} to={`/listing-details/${listing._id}`}>
                         <Text fw='bold'>More Info</Text>
                     </Button>
                 </Group>
                 
 
                 <Group justify='center'>
-                    {loggedIn && myListingsPage && 
-                    <Button variant='outline' color='green' style={{flex: 1}} component={Link} to={`/edit-card/${card._id}`}>
+                    {loggedIn && myListingsPage &&
+                    <Button variant='outline' color='green' style={{flex: 1}} component={Link} to={`/edit-listing/${listing._id}`}>
                         <IconEdit/>
                     </Button>}
 
@@ -81,10 +81,10 @@ function ListingCard({ cardID} : { cardID: string}) {
                  </Group>
                 
                 <Group>
-                    {loggedIn && <FavoritesButton card={card}/>}
+                    {loggedIn && <FavoritesButton listing={listing}/>}
 
                     <Group mx='auto'>
-                        <SocialIcons cardID={card._id}/>
+                        <SocialIcons listingID={listing._id}/>
                     </Group>
                 </Group>
             </Flex>
@@ -95,7 +95,7 @@ function ListingCard({ cardID} : { cardID: string}) {
             <Text>Are you sure you want to delete this listing?</Text>
             <Group mt={20} justify="center">
                 <Button color="red" onClick={() => {
-                    deleteCard(card);
+                    deleteListing(listing);
                     close();
                 }}>
                 Yes, Delete It</Button>
@@ -106,4 +106,4 @@ function ListingCard({ cardID} : { cardID: string}) {
   );
 }
 
-export default React.memo(ListingCard, (prev, next) => prev.cardID === next.cardID);
+export default React.memo(ListingCard, (prev, next) => prev.listingID === next.listingID);

@@ -43,8 +43,8 @@ export const MobileBottomNav = () => {
             </ActionIcon>
 
             <ActionIcon
-                component={Link} 
-                to="/create-card"  
+                component={Link}
+                to="/create-listing"
                 variant='subtle' 
                 color='black' 
                 radius={100} 

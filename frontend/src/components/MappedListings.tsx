@@ -1,25 +1,26 @@
-import { TCards } from "@/Types";
+import { TListing } from "@/Types";
 import { Flex } from "@mantine/core"
 import ListingCard from "./ListingCard";
 import { useMediaQuery } from "@mantine/hooks";
 
-function MappedCards(props: {cardsArr : TCards[]})  {
+function MappedListings(props: {listings : TListing[]})  {
     const isMobile = useMediaQuery('(max-width: 500px)');
-    
+
     return (
-        <Flex 
-            wrap="wrap" 
+        <Flex
+            wrap="wrap"
             gap="lg" 
             align='stretch' 
             justify="center" 
             w={isMobile ? "100%" : "80%"} 
             >
 
-            {props.cardsArr.map((card:TCards) => (
-                <ListingCard key={card._id} cardID={card._id} />
+            {props.listings.map((listing:TListing) => (
+                <ListingCard key={listing._id} listingID={listing._id} />
             ))}
         </Flex>
     )
 }
 
-export default MappedCards
+export default MappedListings
+

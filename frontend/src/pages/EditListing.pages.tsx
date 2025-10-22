@@ -18,10 +18,10 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useMediaQuery } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { editCard } from "@/store/cardSlice";
-import { cleanedCardData } from "@/utils/getCleanedData";
+import { editListing } from "@/store/listingSlice";
+import { cleanedListingData } from "@/utils/getCleanedListingData";
 import { RootState } from "@/store/store";
-import { TCards } from "@/Types";
+import { TListing } from "@/Types";
 // @ts-ignore
 import WORK_ARRANGEMENTS from "@/data/workArr";
 // @ts-ignore
@@ -48,15 +48,15 @@ type ListingFormValues = {
   expiresAt?: string | null;
 };
 
-export function EditCard() {
+export function EditListing() {
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8181";
   const { id } = useParams();
   const isMobile = useMediaQuery("(max-width: 700px)");
   const [isDisabled, setDisabled] = useState(true);
   const dispatch = useDispatch();
 
-  const allCards = useSelector((state: RootState) => state.cardSlice.cards);
-  const cardData = allCards?.find((card) => card._id === id);
+  const allListings = useSelector((state: RootState) => state.listingSlice.listings);
+  const listingData = allListings?.find((listing) => listing._id === id);
 
   const {
     register,
@@ -68,8 +68,8 @@ export function EditCard() {
   } = useForm<ListingFormValues>({
     mode: "all",
     resolver: joiResolver(listingSchema),
-    defaultValues: cardData
-      ? (cleanedCardData(cardData) as ListingFormValues)
+    defaultValues: listingData
+      ? (cleanedListingData(listingData) as ListingFormValues)
       : {
           jobTitle: "",
           jobDescription: "",
@@ -85,11 +85,11 @@ export function EditCard() {
   });
 
   useEffect(() => {
-    if (cardData) {
-      const defaults = cleanedCardData(cardData) as ListingFormValues;
+    if (listingData) {
+      const defaults = cleanedListingData(listingData) as ListingFormValues;
       reset(defaults);
     }
-  }, [reset, cardData]);
+  }, [reset, listingData]);
 
   const selectedRegion = useWatch({
     control,
@@ -113,7 +113,7 @@ export function EditCard() {
         expiresAt: data.expiresAt ? new Date(data.expiresAt).toISOString() : null,
       });
       if (response.status === 200) {
-        dispatch(editCard({ card: response.data as TCards }));
+        dispatch(editListing({ listing: response.data as TListing }));
         toast.success("Listing updated successfully!", {
           position: "bottom-right",
         });

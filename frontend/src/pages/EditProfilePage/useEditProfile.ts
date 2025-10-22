@@ -1,4 +1,4 @@
-import { cleanedUserData } from "@/utils/getCleanedData";
+import { cleanedUserData } from "@/utils/getCleanedListingData";
 import { RootState } from "@/store/store";
 import { setUser, updateUser, clearUser } from "@/store/userSlice";
 import { TUsers } from "@/Types";

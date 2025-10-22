@@ -1,5 +1,5 @@
 
-export type TCards = {
+export type TListing = {
   _id: string;
   businessId: string;
   jobTitle: string;
@@ -22,7 +22,7 @@ export type TCards = {
   expiresAt?: string | null;
 };
 
-export type TCardsArray = TCards[];
+export type TListingsArray = TListing[];
 
 export type TPaginationProps = {
   currentPage: number;

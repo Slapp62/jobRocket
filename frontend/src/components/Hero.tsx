@@ -4,7 +4,7 @@ import { RootState } from '@/store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import heroImage from '/office-hero.jpg'
 import { Link } from 'react-router-dom';
-import { setSortOption } from '@/store/cardSlice';
+import { setSortOption } from '@/store/listingSlice';
 import { IconCards, IconFilter, IconSearch } from '@tabler/icons-react';
 import { setSearchWord } from '@/store/searchSlice';
 
@@ -14,7 +14,7 @@ export function Hero() {
     const user = useSelector((state: RootState) => state.userSlice.user);
     const isBusiness = user?.profileType === "business";
     const isAdmin = user?.isAdmin;
-    const sortOption = useSelector((state: RootState) => state.cardSlice.sortOption);
+    const sortOption = useSelector((state: RootState) => state.listingSlice.sortOption);
 
     return (
     <Box mb={20} >
@@ -83,7 +83,7 @@ export function Hero() {
             {(isBusiness || isAdmin) && 
               <Button 
                 component={Link}
-                to='create-card' 
+                to='create-listing'
                 fullWidth 
                 mx='auto' variant='filled' 
                 color='blue' 
