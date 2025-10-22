@@ -1,4 +1,4 @@
-import { addCard } from "@/store/cardSlice";
+import { addListing } from "@/store/listingSlice";
 import { listingSchema } from "@/validationRules/listing.joi";
 import { joiResolver } from "@hookform/resolvers/joi";
 import {
@@ -46,7 +46,7 @@ type ListingFormValues = {
   expiresAt?: string | null;
 };
 
-export function CreateCard() {
+export function CreateListing() {
   const jumpTo = useNavigate();
   const isMobile = useMediaQuery("(max-width: 700px)");
   const dispatch = useDispatch();
@@ -101,7 +101,7 @@ export function CreateCard() {
       const response = await axios.post(url, payload);
 
       if (response.status === 201) {
-        dispatch(addCard(response.data));
+        dispatch(addListing(response.data));
         toast.success("Listing created!", { position: "bottom-right" });
         jumpTo("/my-listings");
       }

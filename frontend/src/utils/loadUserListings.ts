@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8181";
 
-export const loadUserCards = async () => {
+export const loadUserListings = async () => {
   try {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const response = await axios.get(

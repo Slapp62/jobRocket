@@ -1,5 +1,5 @@
-import { addLike, removeLike } from "@/store/cardSlice";
-import { TCards } from "@/Types";
+import { addLike, removeLike } from "@/store/listingSlice";
+import { TListing } from "@/Types";
 import axios from "axios";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
@@ -9,7 +9,7 @@ export function useLikeUnlike() {
     const dispatch = useDispatch();
     const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8181";
     
-    const toggleLike = useCallback(async (card:TCards, userID:string, isLiked:boolean) => {
+    const toggleLike = useCallback(async (listing:TListing, userID:string, isLiked:boolean) => {
         
         // update Redux slice
             
@@ -20,14 +20,14 @@ export function useLikeUnlike() {
 
                 axios.defaults.headers.common["x-auth-token"] = token;
                 const response = await axios.patch(
-                    `${API_BASE_URL}/api/listings/${card._id}`,
+                    `${API_BASE_URL}/api/listings/${listing._id}`,
                 );
 
                 if (isLiked){ 
-                    dispatch(removeLike({card : response.data, userID}))
+                    dispatch(removeLike({listing : response.data, userID}))
                     toast.warning('Listing unliked!');                
                 } else {
-                    dispatch(addLike({card : response.data, userID}));
+                    dispatch(addLike({listing : response.data, userID}));
                     toast.success('Listing liked!');
                 }
             } catch (error) {

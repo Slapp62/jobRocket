@@ -4,7 +4,7 @@ import { Flex } from "@mantine/core";
 import { ToastContainer } from "react-toastify";
 import {Footer} from '../components/Navigation/Footer.tsx';
 import { useAuthInit } from "@/hooks/UseAuthInit.ts";
-import { fetchCardsThunk } from "@/store/cardSlice.tsx";
+import { fetchListingsThunk } from "@/store/listingSlice.tsx";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useScrollToTop } from "@/hooks/useScrollToTop.ts";
@@ -14,7 +14,7 @@ import { RootState } from "@/store/store.ts";
 
 
 export function Layout() {
-    // refresh all cards in redux when visitin hompage
+    // refresh all listings in redux when visiting homepage
     const dispatch = useDispatch();
     const location = useLocation();
     const fetchedRef = useRef(false);
@@ -23,12 +23,12 @@ export function Layout() {
     
     useEffect(() => {
         if (location.pathname === '/' 
-            || location.pathname.startsWith('/card-details') 
+            || location.pathname.startsWith('/listing-details')
             || location.pathname.startsWith('/my-listings')
           ) 
         {
             if (!fetchedRef.current) {
-                dispatch(fetchCardsThunk() as any);
+                dispatch(fetchListingsThunk() as any);
                 fetchedRef.current = true;
             }
         } else {

@@ -1,4 +1,4 @@
-import { TCards, TUsers } from "@/Types";
+import { TListing, TUsers } from "@/Types";
 
 export const cleanedUserData = (user: TUsers) => ({
         phone: user.phone,
@@ -40,21 +40,21 @@ export const cleanedUserData = (user: TUsers) => ({
         })
 });
 
-export const cleanedCardData = (card: TCards) => ({
-    jobTitle: card.jobTitle,
-    jobDescription: card.jobDescription,
-    requirements: card.requirements || [],
-    advantages: card.advantages || [],
+export const cleanedListingData = (listing: TListing) => ({
+    jobTitle: listing.jobTitle,
+    jobDescription: listing.jobDescription,
+    requirements: listing.requirements || [],
+    advantages: listing.advantages || [],
     apply: {
-        method: card.apply?.method || "email",
-        contact: card.apply?.contact || "",
+        method: listing.apply?.method || "email",
+        contact: listing.apply?.contact || "",
     },
     location: {
-        region: card.location?.region || "",
-        city: card.location?.city || "",
+        region: listing.location?.region || "",
+        city: listing.location?.city || "",
     },
-    workArrangement: card.workArrangement || "",
-    industry: card.industry || "",
-    isActive: card.isActive ?? true,
-    expiresAt: card.expiresAt ? card.expiresAt.split("T")[0] : "",
+    workArrangement: listing.workArrangement || "",
+    industry: listing.industry || "",
+    isActive: listing.isActive ?? true,
+    expiresAt: listing.expiresAt ? listing.expiresAt.split("T")[0] : "",
 })
