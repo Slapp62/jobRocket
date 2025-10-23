@@ -1,126 +1,208 @@
-import { Hero } from '@/components/Hero';
-import { RootState } from '@/store/store';
-import { TListing } from '@/Types';
-import { Box, Button, Center, Flex, Loader, Pagination, Text, Title } from '@mantine/core';
-import { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { IconArrowUp, IconMoodSad2 } from '@tabler/icons-react';
+import { IconCards, IconFilter2, IconSearch } from '@tabler/icons-react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  Flex,
+  Stack,
+  Select,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { fetchListingsThunk } from '@/store/listingSlice';
-import ListingCard from '@/components/ListingCard';
+import INDUSTRIES from '../data/industries.ts';
+import {getAllCities}  from '../data/israelCities.ts';
+import WORK_ARRANGEMENTS  from '../data/workArr.ts';
+import { RootState } from '@/store/store';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { useState } from 'react';
 
 export function HomePage() {
-    const dispatch = useDispatch();
+  const isMobile = useMediaQuery('(max-width: 700px)');
+  const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state.userSlice.user);
 
-    useEffect(() => {
-        dispatch(fetchListingsThunk() as any);
-    }, [dispatch]);
-    
-    const allListings = useSelector((state:RootState) => state.listingSlice.listings);
+  const isBusiness = user?.profileType === 'business';
+  //const isAdmin = user?.isAdmin;
+  const allCitiesArr = getAllCities();
+  const [searchObj, setSearchObj] = useState({
+    searchWord: '',
+    sortOption: '',
+    region: '',
+    city: '',
+    industry: '',
+    workArrangement: '',
+  });
 
-    const isLoading = useSelector((state:RootState) => state.listingSlice.loading);
+  const searchListing = async () => {
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_URL;
+      const response = await axios.get(`${API_BASE_URL}/api/listings/search/`, {params: searchObj});
 
-    const listings = useMemo(() => {
-        if (!allListings) {return []};
-
-        return [...allListings].sort((a : TListing, b : TListing) =>
-            (a.createdAt && b.createdAt) ? b.createdAt?.localeCompare(a.createdAt) :  0);
-    }, [allListings]);
-
-    const sortOption = useSelector((state: RootState) => state.listingSlice.sortOption);
-    const isMobile = useMediaQuery('(max-width: 500px)');
-
-    const sortedListings = useMemo(() => {
-        return [...listings].sort((a, b) => {
-        if (sortOption === 'title-asc') {return a.jobTitle.localeCompare(b.jobTitle)};
-        if (sortOption === 'title-desc') {return b.jobTitle.localeCompare(a.jobTitle)};
-        if (sortOption === 'date-created-old'){
-            if (a.createdAt && b.createdAt){
-                return a.createdAt?.localeCompare(b.createdAt)
-            }
-        } 
-        if (sortOption === 'date-created-new'){
-            if (a.createdAt && b.createdAt){
-                return b.createdAt?.localeCompare(a.createdAt)
-            }
-        }
-        return 0
-    });
-    }, [listings, sortOption]);
-  
-    const [currentPage, setCurrentPage] = useState(1);
-    const listingsPerPage = 12;
-
-    const paginatedListings = useMemo(() => {
-        return sortedListings.slice(
-        (currentPage - 1) * listingsPerPage, currentPage * listingsPerPage);
-    }, [sortedListings, currentPage, listingsPerPage]).map((listing:TListing) => listing._id);
-
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [sortedListings]);
-
-    const startCurrentListings = (currentPage - 1) * listingsPerPage + 1;
-    const endCurrentListings = Math.min(currentPage * listingsPerPage, sortedListings.length);
-    const totalCurrentListings = sortedListings.length;
-    const noListings = sortedListings.length === 0;
+      if (response.status === 200) {
+          navigate('/search');
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || error.message);
+    }    
+  };
 
   return (
-    <>
-      <Hero />
-      {isLoading || !allListings ?
-        (
-            <Center>
-                <Loader color="cyan" size="xl" mt={30} />
-            </Center>
-        ) 
-        : 
-        (
-        <Flex direction="column" align="center" gap={20}>
-          
-          <Flex wrap="wrap" gap='lg' justify="center" w={isMobile ? "100%" : "80%"}>
-            {paginatedListings.map((id: string) => (
-              <ListingCard listingID={id} key={id} />
-            ))}
-          </Flex>
+    <Box mb={-50} h='80vh' py={100} style={{ background: 'linear-gradient(to bottom,rgb(240, 114, 12),rgb(199, 10, 10))'}}>
+      <Stack w="70%" gap={20} px={50} py={30} mx="auto" style={{ borderRadius: '10px', background: 'rgba(192, 192, 192, 0.92)', boxShadow: '0px 5px 100px rgba(0, 0, 0, 0.61)'}}>
+        {/* Conditional Welcome Message */}
+        {!user && (
+          <Title ta="center" c="black">
+            Find your next career!
+          </Title>
+        )}
+        {user && (
+          <Text ta="center" c="blue" fw="bold" fz={30}>
+            Welcome Back
+          </Text>
+        )}
 
-          {!noListings && (
-            <>
-              <Text fw={500}>
-                Showing {startCurrentListings} to {endCurrentListings} of {totalCurrentListings} results
-              </Text>
-              <Pagination
-                mt="md"
-                total={Math.ceil(sortedListings.length / listingsPerPage)}
-                value={currentPage}
-                onChange={page => {
-                  setCurrentPage(page);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-              />
-            </>
-          )}
+        {/* Search & Sort */}
+        <Flex gap={10} align="center" direction={isMobile ? 'column' : 'row'}>
+          {/* Search */}
+          <TextInput
+            w={isMobile ? '100%' : '50%'}
+            variant="default"
+            rightSection={<IconSearch />}
+            placeholder="Search for a listing..."
+            onChange={(e) => {
+              setSearchObj((prev) => ({ ...prev, searchWord: e.target.value }));
+            }}
+          />
 
-          {noListings && (
-            <Box ta="center">
-              <IconMoodSad2 color="red" size={80} />
-              <Title order={2} fw={700} c="red">
-                No Listings Found
-              </Title>
-            </Box>
-          )}
-
-          <Button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            mt={20}
-            c="green"
-            variant="light"
-            rightSection={<IconArrowUp />}
-          >
-            Back to Top
-          </Button>
+          <Select
+            w={isMobile ? '100%' : '50%'}
+            placeholder="Filter"
+            rightSection={<IconFilter2 />}
+            data={[
+              { value: 'title-asc', label: 'Title (A-Z)' },
+              { value: 'title-desc', label: 'Title (Z-A)' },
+              {
+                value: 'date-created-old',
+                label: 'Date Created (Oldest First)',
+              },
+              {
+                value: 'date-created-new',
+                label: 'Date Created (Latest First)',
+              },
+            ]}
+            value={searchObj.sortOption}
+            onChange={(value) => {
+              setSearchObj((prev) => ({ ...prev, sortOption: value || '' }));
+            }}
+          />
         </Flex>
-      )}
-    </>
+        <Flex gap={10} align="center" direction={isMobile ? 'column' : 'row'}>
+          {/* Sort */}
+          <Select
+            w={isMobile ? '100%' : '50%'}
+            placeholder="Region"
+            rightSection={<IconFilter2 />}
+            data={[
+              { value: 'galilee', label: 'Galilee' },
+              { value: 'golan', label: 'Golan' },
+              { value: 'center', label: 'Center' },
+              { value: 'jerusalem-district', label: 'Jerusalem District' },
+              { value: 'south', label: 'South' },
+            ]}
+            value={searchObj.region}
+            onChange={(value) => {
+              setSearchObj((prev) => ({ ...prev, region: value || '' }));
+            }}
+          />
+
+          {/* Sort */}
+          <Select
+            w={isMobile ? '100%' : '50%'}
+            placeholder="City"
+            rightSection={<IconFilter2 />}
+            data={allCitiesArr.map((city) => ({ value: city, label: city }))}
+            value={searchObj.city}
+            onChange={(value) => {
+              setSearchObj((prev) => ({ ...prev, city: value || '' }));
+            }}
+          />
+
+          <Select
+            w={isMobile ? '100%' : '50%'}
+            placeholder="Industry"
+            rightSection={<IconFilter2 />}
+            data={INDUSTRIES.map((industry) => ({
+              value: industry,
+              label: industry,
+            }))}
+            value={searchObj.industry}
+            onChange={(value) => {
+              setSearchObj((prev) => ({ ...prev, industry: value || '' }));
+            }}
+          />
+
+          <Select
+            w={isMobile ? '100%' : '50%'}
+            placeholder="Work Type"
+            rightSection={<IconFilter2 />}
+            data={WORK_ARRANGEMENTS.map((type) => ({
+              value: type,
+              label: type,
+            }))}
+            value={searchObj.workArrangement}
+            onChange={(value) => {
+              setSearchObj((prev) => ({ ...prev, workArrangement: value || '' }));
+            }}
+          />
+        </Flex>
+
+        <Button
+          component={Link}
+          to="/search"
+          mx="auto"
+          variant="filled"
+          color="purple"
+          size="md"
+          w="40%"
+          fz={20}
+          rightSection={<IconSearch />}
+          onClick={() => searchListing()}
+        >
+          Search
+        </Button>
+
+        {/* Conditinally Register */}
+        {!user && (
+          <Title order={2} ta="center" style={{ color: 'black' }}>
+            <Link to="register" style={{ textDecoration: '', color: 'black' }}>
+              Register
+            </Link>{' '}
+            now and start your journey
+          </Title>
+        )}
+
+        {/* Conditinally Create Listing */}
+        {isBusiness && (
+          <Button
+            component={Link}
+            to="create-card"
+            fullWidth
+            mx="auto"
+            variant="filled"
+            color="blue"
+            size="md"
+            fz={20}
+            rightSection={<IconCards />}
+          >
+            Create A Listing
+          </Button>
+        )}
+      </Stack>
+    </Box>
   );
 }

@@ -13,7 +13,9 @@ const startServer = async () => {
     const server = app.listen(PORT, async () => {
       console.log(chalk.green.bold(`server running on port ${PORT}`));
       await connectToDB();
-      await seedDevData(dummyUsers, dummyListings);
+      if (process.env.NODE_ENV === "development") {
+        await seedDevData(dummyUsers, dummyListings);
+      }
     });
     return server; // Return server instance for potential cleanup
   } catch (error) {

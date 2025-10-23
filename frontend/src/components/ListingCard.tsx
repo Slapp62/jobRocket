@@ -37,16 +37,17 @@ function ListingCard({ listingID} : { listingID: string}) {
         <Skeleton visible={isLoading}>
             <Box p={5}>
                 <Text fw={600} size="lg" lineClamp={2}>{listing.jobTitle}</Text>
-                <Badge mt={6} variant="light" color="teal">
+                <Group>
+                  <Badge variant="filled" color="teal">
                     {listing.workArrangement}
-                </Badge>
-                <Badge ml={6} mt={6} variant="light" color="blue">
+                  </Badge>
+                  <Badge variant="filled" color="blue">
                     {listing.industry}
-                </Badge>
+                  </Badge>
+                </Group>
+                
 
-                <Text mt="sm" size="sm" c="dimmed" lineClamp={3}>
-                    {listing.jobDescription}
-                </Text>
+                
 
                 <Flex mt="sm" direction="column" gap={4}>
                     <Text size="sm"><strong>Location:</strong> {listing.location.region}, {listing.location.city}</Text>

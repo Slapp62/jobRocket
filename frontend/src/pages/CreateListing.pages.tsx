@@ -20,12 +20,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useMemo } from "react";
 import { useWatch } from "react-hook-form";
-// @ts-ignore
-import WORK_ARRANGEMENTS from "@/data/workArr";
-// @ts-ignore
-import INDUSTRIES from "@/data/industries";
-// @ts-ignore
-import { REGIONS, getCitiesByRegion } from "@/data/israelCities";
+import WORK_ARRANGEMENTS from "../data/workArr.ts";
+import INDUSTRIES from "../data/industries.ts";
+import { REGIONS, getCitiesByRegion } from "../data/israelCities.ts";
 
 type ListingFormValues = {
   jobTitle: string;

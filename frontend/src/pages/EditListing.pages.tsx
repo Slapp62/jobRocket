@@ -22,12 +22,9 @@ import { editListing } from "@/store/listingSlice";
 import { cleanedListingData } from "@/utils/getCleanedListingData";
 import { RootState } from "@/store/store";
 import { TListing } from "@/Types";
-// @ts-ignore
-import WORK_ARRANGEMENTS from "@/data/workArr";
-// @ts-ignore
-import INDUSTRIES from "@/data/industries";
-// @ts-ignore
-import { REGIONS, getCitiesByRegion } from "@/data/israelCities";
+import WORK_ARRANGEMENTS from "../data/workArr.ts";
+import INDUSTRIES from "../data/industries.ts";
+import { REGIONS, getCitiesByRegion } from "../data/israelCities.ts";
 
 type ListingFormValues = {
   jobTitle: string;

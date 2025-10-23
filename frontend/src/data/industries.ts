@@ -1,4 +1,4 @@
-const INDUSTRIES = [
+const INDUSTRIES: string[] = [
   // Tech & Digital
   "Software Development",
   "Cybersecurity",

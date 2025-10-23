@@ -1,10 +1,7 @@
 import Joi from "joi";
-// @ts-ignore
-import WORK_ARRANGEMENTS from "@/data/workArr";
-// @ts-ignore
-import INDUSTRIES from "@/data/industries";
-// @ts-ignore
-import { REGIONS, CITIES } from "@/data/israelCities";
+import WORK_ARRANGEMENTS from "../data/workArr.ts";
+import INDUSTRIES from "../data/industries.ts";
+import { REGIONS, CITIES } from "../data/israelCities.ts";
 
 export const listingSchema = Joi.object({
   jobTitle: Joi.string()

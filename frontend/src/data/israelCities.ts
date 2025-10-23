@@ -1,4 +1,4 @@
-const ISRAELI_CITIES_BY_REGION = {
+const ISRAELI_CITIES_BY_REGION: Record<string, string[]> = {
   // Northern Israel - Galilee Region
   North: [
     "Haifa",
@@ -59,7 +59,6 @@ const ISRAELI_CITIES_BY_REGION = {
     "Givatayim",
     "Rehovot",
     "Ashdod",
-    "Ashkelon",
     "Rosh HaAyin",
     "Or Yehuda",
     "Yehud-Monosson",
@@ -150,7 +149,6 @@ const ISRAELI_CITIES_BY_REGION = {
   South: [
     "Beer Sheva",
     "Eilat",
-    "Ashdod",
     "Ashkelon",
     "Sderot",
     "Netivot",
@@ -180,7 +178,7 @@ const getAllCities = () => {
 const CITIES = getAllCities();
 
 // Helper function to get cities by specific region
-const getCitiesByRegion = (region) => {
+const getCitiesByRegion = (region:string) => {
   return ISRAELI_CITIES_BY_REGION[region] || [];
 };
 

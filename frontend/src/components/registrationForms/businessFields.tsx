@@ -1,10 +1,8 @@
 import { TextInput, Select, Textarea } from "@mantine/core";
 import { UseFormRegister, FieldErrors, Control, Controller, useWatch } from 'react-hook-form';
 import { TUsers } from '@/Types';
-// @ts-ignore
-import INDUSTRIES from '@/data/industries';
-// @ts-ignore
-import { REGIONS, getCitiesByRegion } from '@/data/israelCities';
+import INDUSTRIES from '../../data/industries.ts';
+import { REGIONS, getCitiesByRegion } from '../../data/israelCities.ts';
 import { useMemo } from 'react';
 
 type BusinessFieldsProps = {

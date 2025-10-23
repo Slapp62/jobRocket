@@ -1,8 +1,7 @@
 import { TextInput, Select, Textarea } from "@mantine/core";
 import { UseFormRegister, FieldErrors, Control, Controller } from 'react-hook-form';
 import { TUsers } from '@/Types';
-// @ts-ignore
-import WORK_ARRANGEMENTS from '@/data/workArr';
+import WORK_ARRANGEMENTS from '../../data/workArr.ts';
 
 type JobseekerFieldsProps = {
   register: UseFormRegister<TUsers>;

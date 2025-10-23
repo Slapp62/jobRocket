@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   getAllListings,
+  getSearchedListings,
   getListingById,
   getUserListings,
   getLikedListings,
@@ -28,6 +29,16 @@ const listingRouter = express.Router();
 listingRouter.get("/", async (_req, res) => {
   try {
     const listings = await getAllListings();
+    handleSuccess(res, 200, listings, "Listings fetched successfully");
+  } catch (error) {
+    handleError(res, error.status, error.message);
+  }
+});
+
+listingRouter.get("/search?searchObj", async (req, res) => {
+  try {
+    const searchObj = req.query;
+    const listings = await getSearchedListings(searchObj);
     handleSuccess(res, 200, listings, "Listings fetched successfully");
   } catch (error) {
     handleError(res, error.status, error.message);

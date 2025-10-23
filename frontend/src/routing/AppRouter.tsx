@@ -13,6 +13,7 @@ import RouteGuard from './RouteGuard';
 import { EditProfile } from '../pages/EditProfilePage/EditProfile.pages';
 import { CreateListing } from '../pages/CreateListing.pages';
 import { EditListing } from '../pages/EditListing.pages';
+import { SearchPage } from '@/pages/Search.page';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {index: true, element: <HomePage />},
+      {path: 'search', element: <SearchPage />},
       {path: 'login', element: <LoginPage/>},
       {path: 'about', element: <About/>},
       {path: 'register', element: <RegisterForm/>},

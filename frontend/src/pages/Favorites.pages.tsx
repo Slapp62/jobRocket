@@ -1,4 +1,3 @@
-import { Hero } from "@/components/Hero";
 import MappedListings from "@/components/MappedListings";
 import { RootState } from "@/store/store"
 import { Box, Button, Center, Flex, Loader, Title } from "@mantine/core"
@@ -17,10 +16,6 @@ export function FavoriteListings()  {
 
     if (isLoading) {
         return <>
-          <Box pos='relative'>
-            <Hero/>
-          </Box>
-    
           <Center>
             <Loader color="cyan" size="xl" mt={30}/>
           </Center>

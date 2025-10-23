@@ -13,6 +13,19 @@ const getAllListings = async () => {
   return normalizedListings;
 };
 
+const getSearchedListings = async (searchObj) => {
+  const listings = await Listing.find({
+    title: { $regex: searchObj.searchWord, $options: "i" },
+  });
+  if (listings.length === 0) {
+    throwError(404, "No listings found");
+  }
+  const normalizedListings = listings.map((listing) =>
+    normalizeListingResponse(listing),
+  );
+  return normalizedListings;
+};
+
 const createListing = async (listingData) => {
   const newListing = new Listing(listingData);
   const savedListing = await newListing.save();
@@ -97,6 +110,7 @@ const toggleLike = async (listingId, userId) => {
 
 module.exports = {
   getAllListings,
+  getSearchedListings,
   createListing,
   getListingById,
   getUserListings,

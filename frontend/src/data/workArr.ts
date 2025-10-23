@@ -1,4 +1,4 @@
-const WORK_ARRANGEMENTS = [
+const WORK_ARRANGEMENTS: string[] = [
   "Remote",
   "Hybrid",
   "On-site",
