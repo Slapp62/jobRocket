@@ -2,7 +2,7 @@ const INDUSTRIES = [
   // Tech & Digital
   "Software Development",
   "Cybersecurity",
-  "Artificial Intelligence & Machine Learning",
+  "AI & Machine Learning",
   "Data Science & Analytics",
   "Cloud Computing",
   "Mobile App Development",

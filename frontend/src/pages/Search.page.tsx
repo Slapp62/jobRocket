@@ -3,13 +3,19 @@ import { IconArrowUp, IconMoodSad2 } from '@tabler/icons-react';
 import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Button, Center, Flex, Loader, Pagination, Text } from '@mantine/core';
+import { Button, Center, Flex, Group, Loader, Pagination, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import ListingCard from '@/components/ListingCard';
 import { TListing } from '@/Types';
+import { SearchText } from '@/components/Filters/SearchText';
+import { SearchSort } from '@/components/Filters/SearchSort';
+import { SearchCity } from '@/components/Filters/SearchCity';
+import { SearchIndustry } from '@/components/Filters/SearchIndustry';
+import { SearchRegion } from '@/components/Filters/SearchRegion';
+import { SearchWorkArrangement } from '@/components/Filters/SearchWorkArrangement';
+import ListingSnip from '@/components/ListingSnip';
 
 export function SearchPage() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const isMobile = useMediaQuery('(max-width: 500px)');
 
   // Local state for search results
@@ -82,6 +88,40 @@ export function SearchPage() {
 
   return (
     <>
+    <Group gap={10} w={isMobile ? '100%' : '80%'} mx="auto" p={10}>
+      <SearchText
+        value={searchParams.get('searchWord') || ''}
+        onChange={(val) => setSearchParams({ searchWord: val })}
+        width={isMobile ? '100%' : '15%'}
+      />
+      
+      <SearchRegion
+        value={searchParams.get('region') || ''}
+        onChange={(val) => setSearchParams({ region: val })}
+        width={isMobile ? '100%' : '15%'}
+      />
+      <SearchCity
+        value={searchParams.get('city') || ''}
+        onChange={(val) => setSearchParams({ city: val })}
+        width={isMobile ? '100%' : '15%'}
+      />
+      <SearchIndustry
+        value={searchParams.get('industry') || ''}
+        onChange={(val) => setSearchParams({ industry: val })}
+        width={isMobile ? '100%' : '15%'}
+      />
+      <SearchWorkArrangement
+        value={searchParams.get('workArrangement') || ''}
+        onChange={(val) => setSearchParams({ workArrangement: val })}
+        width={isMobile ? '100%' : '15%'}
+      />  
+      <SearchSort
+        value={searchParams.get('sortOption') || ''}
+        onChange={(val) => setSearchParams({ sortOption: val })}
+        width={isMobile ? '100%' : '15%'}
+      />
+    </Group>
+
       {isLoading ? (
         <Center>
           <Loader color="cyan" size="xl" mt={30} />
@@ -90,7 +130,7 @@ export function SearchPage() {
         <Flex direction="column" align="center" gap={20}>
           <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w={isMobile ? '95%' : '90%'}>
             {paginatedListings.map((listing) => (
-              <ListingCard key={listing._id} listingID={listing._id} />
+              <ListingSnip key={listing._id} listingID={listing._id} />
             ))}
           </Flex>
 

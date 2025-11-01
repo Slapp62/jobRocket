@@ -1,13 +1,16 @@
 import { useState } from 'react';
-import { IconCards, IconFilter2, IconSearch } from '@tabler/icons-react';
+import { IconCards, IconSearch } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Button, Flex, Select, Stack, Text, TextInput, Title } from '@mantine/core';
+import { Box, Button, Flex, Stack, Text, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { RootState } from '@/store/store';
-import INDUSTRIES from '../data/industries.ts';
-import { getAllCities } from '../data/israelCities.ts';
-import WORK_ARRANGEMENTS from '../data/workArr.ts';
+import { SearchText } from '@/components/Filters/SearchText.tsx';
+import { SearchSort } from '@/components/Filters/SearchSort';
+import { SearchRegion } from '@/components/Filters/SearchRegion';
+import { SearchCity } from '@/components/Filters/SearchCity';
+import { SearchIndustry } from '@/components/Filters/SearchIndustry';
+import { SearchWorkArrangement } from '@/components/Filters/SearchWorkArrangement';
 
 export function HomePage() {
   const isMobile = useMediaQuery('(max-width: 700px)');
@@ -16,7 +19,6 @@ export function HomePage() {
 
   const isBusiness = user?.profileType === 'business';
   //const isAdmin = user?.isAdmin;
-  const allCitiesArr = getAllCities();
   const [searchObj, setSearchObj] = useState({
     searchWord: '',
     sortOption: '',
@@ -88,94 +90,52 @@ export function HomePage() {
         {/* Search & Sort */}
         <Flex gap={10} align="center" direction={isMobile ? 'column' : 'row'}>
           {/* Search */}
-          <TextInput
-            w={isMobile ? '100%' : '50%'}
-            variant="default"
-            rightSection={<IconSearch />}
-            placeholder="Search for a listing..."
-            onChange={(e) => {
-              setSearchObj((prev) => ({ ...prev, searchWord: e.target.value }));
-            }}
+          <SearchText
+            value={searchObj.searchWord}
+            onChange={(val) => setSearchObj(prev => ({...prev, searchWord: val}))}
+            width={isMobile ? '100%' : '50%'}
           />
 
-          <Select
-            w={isMobile ? '100%' : '50%'}
-            placeholder="Filter"
-            rightSection={<IconFilter2 />}
-            data={[
-              { value: 'title-asc', label: 'Title (A-Z)' },
-              { value: 'title-desc', label: 'Title (Z-A)' },
-              {
-                value: 'date-created-old',
-                label: 'Date Created (Oldest First)',
-              },
-              {
-                value: 'date-created-new',
-                label: 'Date Created (Latest First)',
-              },
-            ]}
+          <SearchSort
+            width={isMobile ? '100%' : '50%'}
             value={searchObj.sortOption}
             onChange={(value) => {
-              setSearchObj((prev) => ({ ...prev, sortOption: value || '' }));
+              setSearchObj((prev) => ({ ...prev, sortOption: value }));
             }}
           />
         </Flex>
         <Flex gap={10} align="center" direction={isMobile ? 'column' : 'row'}>
           {/* Sort */}
-          <Select
-            w={isMobile ? '100%' : '50%'}
-            placeholder="Region"
-            rightSection={<IconFilter2 />}
-            data={[
-              { value: 'galilee', label: 'Galilee' },
-              { value: 'golan', label: 'Golan' },
-              { value: 'center', label: 'Center' },
-              { value: 'jerusalem-district', label: 'Jerusalem District' },
-              { value: 'south', label: 'South' },
-            ]}
+          <SearchRegion
+            width={isMobile ? '100%' : '50%'}
             value={searchObj.region}
             onChange={(value) => {
-              setSearchObj((prev) => ({ ...prev, region: value || '' }));
+              setSearchObj((prev) => ({ ...prev, region: value }));
             }}
           />
 
           {/* Sort */}
-          <Select
-            w={isMobile ? '100%' : '50%'}
-            placeholder="City"
-            rightSection={<IconFilter2 />}
-            data={allCitiesArr.map((city) => ({ value: city, label: city }))}
+          <SearchCity
+            width={isMobile ? '100%' : '50%'}
             value={searchObj.city}
             onChange={(value) => {
-              setSearchObj((prev) => ({ ...prev, city: value || '' }));
+              setSearchObj((prev) => ({ ...prev, city: value }));
             }}
           />
 
-          <Select
-            w={isMobile ? '100%' : '50%'}
-            placeholder="Industry"
-            rightSection={<IconFilter2 />}
-            data={INDUSTRIES.map((industry) => ({
-              value: industry,
-              label: industry,
-            }))}
+          <SearchIndustry
+            width={isMobile ? '100%' : '50%'}
             value={searchObj.industry}
             onChange={(value) => {
-              setSearchObj((prev) => ({ ...prev, industry: value || '' }));
+              setSearchObj((prev) => ({ ...prev, industry: value }));
             }}
           />
 
-          <Select
-            w={isMobile ? '100%' : '50%'}
-            placeholder="Work Type"
-            rightSection={<IconFilter2 />}
-            data={WORK_ARRANGEMENTS.map((type) => ({
-              value: type,
-              label: type,
-            }))}
+          <SearchWorkArrangement
+            width={isMobile ? '100%' : '50%'}
             value={searchObj.workArrangement}
             onChange={(value) => {
-              setSearchObj((prev) => ({ ...prev, workArrangement: value || '' }));
+              setSearchObj((prev) => ({ ...prev, workArrangement: value }));
             }}
           />
         </Flex>
