@@ -1,10 +1,22 @@
 import { FC } from 'react';
-import {Container,Title,Text,Grid,Image,Paper,Group,ThemeIcon,Button,SimpleGrid,Textarea,TextInput,}from '@mantine/core';
-import {IconBriefcase,IconUsers,IconWorld,} from '@tabler/icons-react';
-import { useForm } from '@mantine/form';
 import emailjs from '@emailjs/browser';
+import { IconBriefcase, IconUsers, IconWorld } from '@tabler/icons-react';
 import { toast } from 'react-toastify';
-
+import {
+  Button,
+  Container,
+  Grid,
+  Group,
+  Image,
+  Paper,
+  SimpleGrid,
+  Text,
+  Textarea,
+  TextInput,
+  ThemeIcon,
+  Title,
+} from '@mantine/core';
+import { useForm } from '@mantine/form';
 
 const AboutPage: FC = () => {
   const form = useForm({
@@ -21,33 +33,33 @@ const AboutPage: FC = () => {
     },
   });
 
-    const handleSubmit = (values: typeof form.values) => {
+  const handleSubmit = (values: typeof form.values) => {
     // Replace with your EmailJS service ID, template ID, and public key
     const serviceID = 'service_5zblm38';
     const templateID = 'template_itsqp9u';
     const publicKey = 'a6IxywqmqlHjFDfxD';
 
-    emailjs.send(serviceID, templateID, values, publicKey)
-        .then(() => {
+    emailjs
+      .send(serviceID, templateID, values, publicKey)
+      .then(() => {
         toast.success('Message sent successfully!');
         form.reset();
-        })
-        .catch((error:any) => {
+      })
+      .catch((error: any) => {
         toast.error(`Failed to send the message, please try again. ${error.message}`);
-        });
-    };
+      });
+  };
 
   return (
     <Container size="md" py="xl">
-      <Title order={1} mb="md" ta='center'>
+      <Title order={1} mb="md" ta="center">
         About Us
       </Title>
-
       <Text size="lg" mb="xl">
-        At <strong>IsraJobs</strong>, we connect motivated professionals in Israel with companies seeking great talent.
-        Whether you're hiring or job-hunting, our goal is to make the process faster, fairer, and more effective.
+        At <strong>IsraJobs</strong>, we connect motivated professionals in Israel with companies
+        seeking great talent. Whether you're hiring or job-hunting, our goal is to make the process
+        faster, fairer, and more effective.
       </Text>
-
       <Grid gutter="xl" mb="xl">
         <Grid.Col span={{ base: 12, md: 6 }}>
           <Image
@@ -60,22 +72,21 @@ const AboutPage: FC = () => {
           <Paper shadow="md" p="md" radius="md">
             <Title order={4}>Our Mission</Title>
             <Text mt="sm">
-              We’re building the go-to platform for job seekers and employers to connect with purpose.
-              From transparent listings to smart matching tools, we’re reshaping the future of work.
+              We’re building the go-to platform for job seekers and employers to connect with
+              purpose. From transparent listings to smart matching tools, we’re reshaping the future
+              of work.
             </Text>
           </Paper>
         </Grid.Col>
       </Grid>
-
       <Group grow>
         <Stat icon={<IconBriefcase size={24} />} label="Jobs Posted" value="12.5m+" />
         <Stat icon={<IconUsers size={24} />} label="Employers" value="3.2b+" />
         <Stat icon={<IconWorld size={24} />} label="Countries Served" value="All" />
       </Group>
-
-
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        `<Title
+        `
+        <Title
           order={2}
           size="h1"
           style={{ fontFamily: 'Outfit, var(--mantine-font-family)' }}
@@ -84,7 +95,6 @@ const AboutPage: FC = () => {
         >
           Get in touch
         </Title>
-
         <SimpleGrid cols={{ base: 1, sm: 2 }} mt="xl">
           <TextInput
             label="Name"
@@ -101,7 +111,6 @@ const AboutPage: FC = () => {
             {...form.getInputProps('email')}
           />
         </SimpleGrid>
-
         <TextInput
           label="Subject"
           placeholder="Subject"
@@ -121,16 +130,14 @@ const AboutPage: FC = () => {
           variant="filled"
           {...form.getInputProps('message')}
         />
-
         <Group justify="center" mt="xl">
           <Button type="submit" size="md">
             Send message
           </Button>
         </Group>
-      </form>`
+      </form>
+      `
     </Container>
-
-    
   );
 };
 

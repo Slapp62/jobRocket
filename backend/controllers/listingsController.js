@@ -35,7 +35,7 @@ listingRouter.get("/", async (_req, res) => {
   }
 });
 
-listingRouter.get("/search?searchObj", async (req, res) => {
+listingRouter.get("/search", async (req, res) => {
   try {
     const searchObj = req.query;
     const listings = await getSearchedListings(searchObj);

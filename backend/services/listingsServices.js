@@ -14,12 +14,41 @@ const getAllListings = async () => {
 };
 
 const getSearchedListings = async (searchObj) => {
-  const listings = await Listing.find({
-    title: { $regex: searchObj.searchWord, $options: "i" },
-  });
+  // Build filter object dynamically
+  const query = {};
+
+  // Text search (searches in jobTitle AND jobDescription)
+  if (searchObj.searchWord && searchObj.searchWord.trim() !== '') {
+    query.$or = [
+      { jobTitle: { $regex: searchObj.searchWord, $options: 'i' } },
+      { jobDescription: { $regex: searchObj.searchWord, $options: 'i' } }
+    ];
+  }
+
+  // Exact matches for dropdowns
+  if (searchObj.region && searchObj.region.trim() !== '') {
+    query['location.region'] = searchObj.region;
+  }
+
+  if (searchObj.city && searchObj.city.trim() !== '') {
+    query['location.city'] = searchObj.city;
+  }
+
+  if (searchObj.industry && searchObj.industry.trim() !== '') {
+    query.industry = searchObj.industry;
+  }
+
+  if (searchObj.workArrangement && searchObj.workArrangement.trim() !== '') {
+    query.workArrangement = searchObj.workArrangement;
+  }
+
+  // Execute search
+  const listings = await Listing.find(query);
+  
   if (listings.length === 0) {
     throwError(404, "No listings found");
   }
+  
   const normalizedListings = listings.map((listing) =>
     normalizeListingResponse(listing),
   );

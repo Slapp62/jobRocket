@@ -1,8 +1,7 @@
 import { IconMailFilled, IconMapPinFilled, IconPhoneFilled } from '@tabler/icons-react';
 import { Container, Flex, Group, Text, Title } from '@mantine/core';
-
-import classes from '../ComponentStyles/FooterStyles.module.css'
 import { Logo } from './Logo';
+import classes from '../ComponentStyles/FooterStyles.module.css';
 
 const data = [
   {
@@ -21,7 +20,7 @@ const data = [
       { label: 'MantineUI', link: 'https://mantine.dev' },
       { label: 'React', link: 'https://react.dev' },
       { label: 'Vite', link: 'https://vitejs.dev' },
-      { label: 'Redux', link: 'https://redux.js.org'},
+      { label: 'Redux', link: 'https://redux.js.org' },
     ],
   },
   {
@@ -36,12 +35,7 @@ const data = [
 export function Footer() {
   const groups = data.map((group) => {
     const links = group.links.map((link, index) => (
-      <Text<'a'>
-        key={index}
-        className={classes.link}
-        component="a"
-        href={link.link}
-      >
+      <Text<'a'> key={index} className={classes.link} component="a" href={link.link}>
         {link.label}
       </Text>
     ));
@@ -66,19 +60,26 @@ export function Footer() {
         <div className={classes.groups}>{groups}</div>
 
         <Flex direction="column" c="dimmed" gap={5}>
-            <Title className={classes.title}>Contact Me</Title>
-            <Group><IconMailFilled /> <Text>slapp62@gmail.com</Text></Group>
-            <Group><IconPhoneFilled /> <Text>+972-58-434-5797</Text></Group>
-            <Group><IconMapPinFilled /> <Text>Beit Shemesh, IL</Text></Group>
+          <Title className={classes.title}>Contact Me</Title>
+          <Group>
+            <IconMailFilled /> <Text>slapp62@gmail.com</Text>
+          </Group>
+          <Group>
+            <IconPhoneFilled /> <Text>+972-58-434-5797</Text>
+          </Group>
+          <Group>
+            <IconMapPinFilled /> <Text>Beit Shemesh, IL</Text>
+          </Group>
         </Flex>
-        
       </Container>
       <Container className={classes.afterFooter}>
         <Text c="dimmed" size="sm">
-          © {new Date().getFullYear()} - Developed by Simcha Lapp. 
+          © {new Date().getFullYear()} - Developed by Simcha Lapp.
         </Text>
 
-        <Text c="dimmed" size="sm">All rights reserved</Text>
+        <Text c="dimmed" size="sm">
+          All rights reserved
+        </Text>
       </Container>
     </footer>
   );

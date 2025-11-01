@@ -1,122 +1,132 @@
-import { RootState } from '@/store/store';
-import { TListing } from '@/Types';
-import { Box, Button, Center, Flex, Loader, Pagination, Text, Title } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { IconArrowUp, IconMoodSad2 } from '@tabler/icons-react';
+import axios from 'axios';
+import { useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { Button, Center, Flex, Loader, Pagination, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { fetchListingsThunk } from '@/store/listingSlice';
 import ListingCard from '@/components/ListingCard';
+import { TListing } from '@/Types';
 
 export function SearchPage() {
-    const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const isMobile = useMediaQuery('(max-width: 500px)');
 
-    useEffect(() => {
-        dispatch(fetchListingsThunk() as any);
-    }, [dispatch]);
-    
-    const allListings = useSelector((state:RootState) => state.listingSlice.listings);
+  // Local state for search results
+  const [listings, setListings] = useState<TListing[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
-    const isLoading = useSelector((state:RootState) => state.listingSlice.loading);
+  // Get sortOption from URL (for client-side sorting)
+  const sortOption = searchParams.get('sortOption') || '';
 
-    const listings = useMemo(() => {
-        if (!allListings) {return []};
+  const listingsPerPage = 12;
 
-        return [...allListings].sort((a : TListing, b : TListing) =>
-            (a.createdAt && b.createdAt) ? b.createdAt?.localeCompare(a.createdAt) :  0);
-    }, [allListings]);
+  // Fetch search results when URL params change
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      setIsLoading(true);
+      try {
+        const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-    const sortOption = useSelector((state: RootState) => state.listingSlice.sortOption);
-    const isMobile = useMediaQuery('(max-width: 500px)');
+        // Convert searchParams to object for axios
+        const params = Object.fromEntries(searchParams);
 
-    const sortedListings = useMemo(() => {
-        return [...listings].sort((a, b) => {
-        if (sortOption === 'title-asc') {return a.jobTitle.localeCompare(b.jobTitle)};
-        if (sortOption === 'title-desc') {return b.jobTitle.localeCompare(a.jobTitle)};
-        if (sortOption === 'date-created-old'){
-            if (a.createdAt && b.createdAt){
-                return a.createdAt?.localeCompare(b.createdAt)
-            }
-        } 
-        if (sortOption === 'date-created-new'){
-            if (a.createdAt && b.createdAt){
-                return b.createdAt?.localeCompare(a.createdAt)
-            }
+        const response = await axios.get(`${API_BASE_URL}/api/listings/search`, { params });
+
+        setListings(response.data);
+      } catch (error: any) {
+        toast.error(error.response?.data?.message || error.message);
+        setListings([]); // Show empty state on error
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSearchResults();
+  }, [searchParams]); // Re-fetch when URL changes
+
+  // Sort listings client-side
+  const sortedListings = useMemo(() => {
+    return [...listings].sort((a, b) => {
+      if (sortOption === 'title-asc') return a.jobTitle.localeCompare(b.jobTitle);
+      if (sortOption === 'title-desc') return b.jobTitle.localeCompare(a.jobTitle);
+      if (sortOption === 'date-created-old') {
+        if (a.createdAt && b.createdAt) {
+          return a.createdAt.localeCompare(b.createdAt);
         }
-        return 0
+      }
+      if (sortOption === 'date-created-new') {
+        if (a.createdAt && b.createdAt) {
+          return b.createdAt.localeCompare(a.createdAt);
+        }
+      }
+      return 0;
     });
-    }, [listings, sortOption]);
-  
-    const [currentPage, setCurrentPage] = useState(1);
-    const listingsPerPage = 12;
+  }, [listings, sortOption]);
 
-    const paginatedListings = useMemo(() => {
-        return sortedListings.slice(
-        (currentPage - 1) * listingsPerPage, currentPage * listingsPerPage);
-    }, [sortedListings, currentPage, listingsPerPage]).map((listing:TListing) => listing._id);
+  // Paginate
+  const paginatedListings = useMemo(() => {
+    return sortedListings.slice((currentPage - 1) * listingsPerPage, currentPage * listingsPerPage);
+  }, [sortedListings, currentPage]);
 
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [sortedListings]);
+  // Reset to page 1 when search results change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [sortedListings]);
 
-    const startCurrentListings = (currentPage - 1) * listingsPerPage + 1;
-    const endCurrentListings = Math.min(currentPage * listingsPerPage, sortedListings.length);
-    const totalCurrentListings = sortedListings.length;
-    const noListings = sortedListings.length === 0;
+  const startCurrentListings = (currentPage - 1) * listingsPerPage + 1;
+  const endCurrentListings = Math.min(currentPage * listingsPerPage, sortedListings.length);
+  const totalCurrentListings = sortedListings.length;
+  const noListings = sortedListings.length === 0;
 
   return (
     <>
-      {isLoading || !allListings ?
-        (
-            <Center>
-                <Loader color="cyan" size="xl" mt={30} />
-            </Center>
-        ) 
-        : 
-        (
+      {isLoading ? (
+        <Center>
+          <Loader color="cyan" size="xl" mt={30} />
+        </Center>
+      ) : (
         <Flex direction="column" align="center" gap={20}>
-          
-          <Flex wrap="wrap" gap='lg' align="stretch" justify="center" w={isMobile ? "100%" : "80%"}>
-            {paginatedListings.map((id: string) => (
-              <ListingCard listingID={id} key={id} />
+          <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w={isMobile ? '95%' : '90%'}>
+            {paginatedListings.map((listing) => (
+              <ListingCard key={listing._id} listingID={listing._id} />
             ))}
           </Flex>
 
+          {noListings && (
+            <Flex direction="column" align="center" gap={10} mt={50}>
+              <IconMoodSad2 size={80} />
+              <Text size="xl" fw={500}>
+                No listings found
+              </Text>
+              <Text c="dimmed">Try adjusting your search filters</Text>
+            </Flex>
+          )}
+
           {!noListings && (
             <>
-              <Text fw={500}>
-                Showing {startCurrentListings} to {endCurrentListings} of {totalCurrentListings} results
+              <Text c="dimmed">
+                Showing {startCurrentListings}-{endCurrentListings} of {totalCurrentListings}{' '}
+                results
               </Text>
+
               <Pagination
-                mt="md"
                 total={Math.ceil(sortedListings.length / listingsPerPage)}
                 value={currentPage}
-                onChange={page => {
-                  setCurrentPage(page);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
+                onChange={setCurrentPage}
+                color="cyan"
+                size={isMobile ? 'sm' : 'md'}
               />
+
+              <Button
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                variant="light"
+              >
+                <IconArrowUp />
+              </Button>
             </>
           )}
-
-          {noListings && (
-            <Box ta="center">
-              <IconMoodSad2 color="red" size={80} />
-              <Title order={2} fw={700} c="red">
-                No Listings Found
-              </Title>
-            </Box>
-          )}
-
-          <Button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            mt={20}
-            c="green"
-            variant="light"
-            rightSection={<IconArrowUp />}
-          >
-            Back to Top
-          </Button>
         </Flex>
       )}
     </>

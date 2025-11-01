@@ -1,129 +1,154 @@
-import { cleanedUserData } from "@/utils/getCleanedListingData";
-import { RootState } from "@/store/store";
-import { setUser, updateUser, clearUser } from "@/store/userSlice";
-import { TUsers } from "@/Types";
-import { editProfileSchema } from "@/validationRules/editProfile.joi";
-import { joiResolver } from "@hookform/resolvers/joi";
-import { useMediaQuery, useDisclosure } from "@mantine/hooks";
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { useForm, FieldValues } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useEffect, useState } from 'react';
+import { joiResolver } from '@hookform/resolvers/joi';
+import axios from 'axios';
+import { FieldValues, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { RootState } from '@/store/store';
+import { clearUser, setUser, updateUser } from '@/store/userSlice';
+import { TUsers } from '@/Types';
+import { cleanedUserData } from '@/utils/getCleanedListingData';
+import { editProfileSchema } from '@/validationRules/editProfile.joi';
 
 export const useEditProfile = () => {
-    const jumpTo = useNavigate();
-    const {id} = useParams();
-    const isMobile = useMediaQuery('(max-width: 700px)');
-    const [isDisabled, setDisabled] = useState(true);
-    const dispatch = useDispatch();
-    const [isSubmitting, setSubmitting] = useState(false);
-    const [opened, { open, close }] = useDisclosure(false);
+  const jumpTo = useNavigate();
+  const { id } = useParams();
+  const isMobile = useMediaQuery('(max-width: 700px)');
+  const [isDisabled, setDisabled] = useState(true);
+  const dispatch = useDispatch();
+  const [isSubmitting, setSubmitting] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
 
-    const isAdminView = useSelector((state:RootState) => state.userSlice.isAdminView);
-    const currentUser = useSelector((state:RootState) => state.userSlice.user);
-    const allUsers = useSelector((state:RootState) => state.userSlice.allUsers);
-    const paramsUser = allUsers?.find((account) => account._id === id);
-        
-    const userData = isAdminView ? paramsUser : currentUser;
-     const API_BASE_URL = import.meta.env.VITE_API_URL;
+  const isAdminView = useSelector((state: RootState) => state.userSlice.isAdminView);
+  const currentUser = useSelector((state: RootState) => state.userSlice.user);
+  const allUsers = useSelector((state: RootState) => state.userSlice.allUsers);
+  const paramsUser = allUsers?.find((account) => account._id === id);
 
-    const {register, handleSubmit, reset, control, formState: {errors, isValid, isDirty}, trigger} = useForm<TUsers>({
-        mode: 'all',
-        resolver: joiResolver(editProfileSchema),
-        defaultValues: userData ? cleanedUserData(userData) : {},
-    });
-    
+  const userData = isAdminView ? paramsUser : currentUser;
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-    useEffect(() => {
-        if (userData) {
-            const defaultUserValues = cleanedUserData(userData);
-            reset(defaultUserValues)
-        };
-        
-    }, [reset, userData])
-   
-    const onSubmit = async (data:FieldValues) => {
-        const payload: Partial<TUsers> = {
-            phone: data.phone,
-            profileType: data.profileType,
-        };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors, isValid, isDirty },
+    trigger,
+  } = useForm<TUsers>({
+    mode: 'all',
+    resolver: joiResolver(editProfileSchema),
+    defaultValues: userData ? cleanedUserData(userData) : {},
+  });
 
-        if (data.profileType === "jobseeker") {
-            payload.jobseekerProfile = data.jobseekerProfile;
-        }
-
-        if (data.profileType === "business") {
-            payload.businessProfile = data.businessProfile;
-        }
-
-        try {
-            const response = await axios.put(
-                `${API_BASE_URL}/api/users/${userData?._id}`, payload);
-
-            if (response.status === 200) {
-                const updatedUser = response.data;
-
-                // if not admin view, update the current user information
-                if (!isAdminView) {
-                    dispatch(setUser(updatedUser))
-                }
-                
-                // if it is admin view, update the selected user information
-                if (isAdminView){
-                    dispatch(updateUser(updatedUser))
-                }
-                reset(cleanedUserData(updatedUser));
-                setDisabled(true);
-                toast.success('Profile Updated Successfully!', {position: `bottom-right`});
-            }
-        } catch (error: any) {    
-            toast.error(`Update Failed! ${error?.response?.data || error.message}`, {position: `bottom-right`});
-        }
+  useEffect(() => {
+    if (userData) {
+      const defaultUserValues = cleanedUserData(userData);
+      reset(defaultUserValues);
     }
-    
-    
-    const updateBusinessStatus = async () => {
-        const token  = localStorage.getItem('token') || sessionStorage.getItem('token');
-        axios.defaults.headers.common['x-auth-token'] = token;
-        try {
-            const response = await axios.patch(`${API_BASE_URL}/api/users/${userData?._id}`);
-            if (response.status === 200) {
-                const updatedUser = response.data;
-                setSubmitting(true);
-                setTimeout(() => {
-                    // if not admin view, update the current user information
-                    if (!isAdminView) {
-                        dispatch(setUser(updatedUser))
-                    }
-                    // if it is admin view, update the selected user information
-                    if (isAdminView){
-                        dispatch(updateUser(updatedUser))
-                    }
-                    reset(cleanedUserData(updatedUser));
-                    toast.success('Account Status Updated');
-                    setSubmitting(false);
-                }, 1000);
-            }
-        } catch (error : any) {
-            toast.error(error.response.data.message, {position: `bottom-right`});
-        }
+  }, [reset, userData]);
+
+  const onSubmit = async (data: FieldValues) => {
+    const payload: Partial<TUsers> = {
+      phone: data.phone,
+      profileType: data.profileType,
+    };
+
+    if (data.profileType === 'jobseeker') {
+      payload.jobseekerProfile = data.jobseekerProfile;
     }
 
-    const deleteUser = async () => {
-        const token  = localStorage.getItem('token') || sessionStorage.getItem('token');
-        axios.defaults.headers.common['x-auth-token'] = token;
-        try {
-            const response = await axios.delete(`${API_BASE_URL}/api/users/${userData?._id}`);
-            if (response.status === 200) {
-                !isAdminView ? dispatch(clearUser()) : jumpTo('/admin');
-                toast.warning('Account Deleted.', {position: 'bottom-right'})
-            }
-        } catch (error : any) {
-            toast.error(error.response.data.message, {position: `bottom-right`});
-        }
+    if (data.profileType === 'business') {
+      payload.businessProfile = data.businessProfile;
     }
-    
-    return {isSubmitting, isAdminView,userData, register, handleSubmit, onSubmit, trigger, errors, isDirty, isValid, isDisabled, setDisabled, updateBusinessStatus, isMobile, opened, open, close, deleteUser, control}
-}
+
+    try {
+      const response = await axios.put(`${API_BASE_URL}/api/users/${userData?._id}`, payload);
+
+      if (response.status === 200) {
+        const updatedUser = response.data;
+
+        // if not admin view, update the current user information
+        if (!isAdminView) {
+          dispatch(setUser(updatedUser));
+        }
+
+        // if it is admin view, update the selected user information
+        if (isAdminView) {
+          dispatch(updateUser(updatedUser));
+        }
+        reset(cleanedUserData(updatedUser));
+        setDisabled(true);
+        toast.success('Profile Updated Successfully!', { position: `bottom-right` });
+      }
+    } catch (error: any) {
+      toast.error(`Update Failed! ${error?.response?.data || error.message}`, {
+        position: `bottom-right`,
+      });
+    }
+  };
+
+  const updateBusinessStatus = async () => {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    axios.defaults.headers.common['x-auth-token'] = token;
+    try {
+      const response = await axios.patch(`${API_BASE_URL}/api/users/${userData?._id}`);
+      if (response.status === 200) {
+        const updatedUser = response.data;
+        setSubmitting(true);
+        setTimeout(() => {
+          // if not admin view, update the current user information
+          if (!isAdminView) {
+            dispatch(setUser(updatedUser));
+          }
+          // if it is admin view, update the selected user information
+          if (isAdminView) {
+            dispatch(updateUser(updatedUser));
+          }
+          reset(cleanedUserData(updatedUser));
+          toast.success('Account Status Updated');
+          setSubmitting(false);
+        }, 1000);
+      }
+    } catch (error: any) {
+      toast.error(error.response.data.message, { position: `bottom-right` });
+    }
+  };
+
+  const deleteUser = async () => {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    axios.defaults.headers.common['x-auth-token'] = token;
+    try {
+      const response = await axios.delete(`${API_BASE_URL}/api/users/${userData?._id}`);
+      if (response.status === 200) {
+        !isAdminView ? dispatch(clearUser()) : jumpTo('/admin');
+        toast.warning('Account Deleted.', { position: 'bottom-right' });
+      }
+    } catch (error: any) {
+      toast.error(error.response.data.message, { position: `bottom-right` });
+    }
+  };
+
+  return {
+    isSubmitting,
+    isAdminView,
+    userData,
+    register,
+    handleSubmit,
+    onSubmit,
+    trigger,
+    errors,
+    isDirty,
+    isValid,
+    isDisabled,
+    setDisabled,
+    updateBusinessStatus,
+    isMobile,
+    opened,
+    open,
+    close,
+    deleteUser,
+    control,
+  };
+};

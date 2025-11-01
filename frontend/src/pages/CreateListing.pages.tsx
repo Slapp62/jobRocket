@@ -1,6 +1,10 @@
-import { addListing } from "@/store/listingSlice";
-import { listingSchema } from "@/validationRules/listing.joi";
-import { joiResolver } from "@hookform/resolvers/joi";
+import { useMemo } from 'react';
+import { joiResolver } from '@hookform/resolvers/joi';
+import axios from 'axios';
+import { Controller, useForm, useWatch } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
   Button,
   Fieldset,
@@ -11,18 +15,13 @@ import {
   Textarea,
   TextInput,
   Title,
-} from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
-import axios from "axios";
-import { Controller, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useMemo } from "react";
-import { useWatch } from "react-hook-form";
-import WORK_ARRANGEMENTS from "../data/workArr.ts";
-import INDUSTRIES from "../data/industries.ts";
-import { REGIONS, getCitiesByRegion } from "../data/israelCities.ts";
+} from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { addListing } from '@/store/listingSlice';
+import { listingSchema } from '@/validationRules/listing.joi';
+import INDUSTRIES from '../data/industries.ts';
+import { getCitiesByRegion, REGIONS } from '../data/israelCities.ts';
+import WORK_ARRANGEMENTS from '../data/workArr.ts';
 
 type ListingFormValues = {
   jobTitle: string;
@@ -30,7 +29,7 @@ type ListingFormValues = {
   requirements: string[];
   advantages: string[];
   apply: {
-    method: "email" | "link";
+    method: 'email' | 'link';
     contact: string;
   };
   location: {
@@ -45,9 +44,9 @@ type ListingFormValues = {
 
 export function CreateListing() {
   const jumpTo = useNavigate();
-  const isMobile = useMediaQuery("(max-width: 700px)");
+  const isMobile = useMediaQuery('(max-width: 700px)');
   const dispatch = useDispatch();
-  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8181";
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
 
   const {
     register,
@@ -55,23 +54,23 @@ export function CreateListing() {
     control,
     formState: { errors, isValid },
   } = useForm<ListingFormValues>({
-    mode: "all",
+    mode: 'all',
     resolver: joiResolver(listingSchema),
     defaultValues: {
       requirements: [],
       advantages: [],
-      apply: { method: "email", contact: "" },
-      location: { region: "", city: "" },
-      workArrangement: "",
-      industry: "",
+      apply: { method: 'email', contact: '' },
+      location: { region: '', city: '' },
+      workArrangement: '',
+      industry: '',
       isActive: true,
-      expiresAt: "",
+      expiresAt: '',
     },
   });
 
   const selectedRegion = useWatch({
     control,
-    name: "location.region",
+    name: 'location.region',
   });
 
   const availableCities = useMemo(() => {
@@ -85,9 +84,8 @@ export function CreateListing() {
   }, [selectedRegion]);
 
   const onSubmit = async (data: ListingFormValues) => {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
-    axios.defaults.headers.common["x-auth-token"] = token;
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    axios.defaults.headers.common['x-auth-token'] = token;
     const url = `${API_BASE_URL}/api/listings`;
     const payload = {
       ...data,
@@ -99,14 +97,13 @@ export function CreateListing() {
 
       if (response.status === 201) {
         dispatch(addListing(response.data));
-        toast.success("Listing created!", { position: "bottom-right" });
-        jumpTo("/my-listings");
+        toast.success('Listing created!', { position: 'bottom-right' });
+        jumpTo('/my-listings');
       }
     } catch (error: any) {
-      toast.error(
-        `Listing creation failed! ${error?.response?.data || error.message}`,
-        { position: "bottom-right" },
-      );
+      toast.error(`Listing creation failed! ${error?.response?.data || error.message}`, {
+        position: 'bottom-right',
+      });
     }
   };
 
@@ -121,13 +118,13 @@ export function CreateListing() {
           gap={10}
           py={10}
           mx="auto"
-          style={{ width: isMobile ? "90%" : "50%" }}
+          style={{ width: isMobile ? '90%' : '50%' }}
         >
           <Fieldset legend="Job Info">
             <TextInput
               label="Job Title"
               required
-              {...register("jobTitle")}
+              {...register('jobTitle')}
               error={errors.jobTitle?.message}
             />
 
@@ -135,7 +132,7 @@ export function CreateListing() {
               label="Job Description"
               minRows={4}
               required
-              {...register("jobDescription")}
+              {...register('jobDescription')}
               error={errors.jobDescription?.message}
             />
 
@@ -147,10 +144,10 @@ export function CreateListing() {
                   label="Requirements"
                   placeholder="Add one requirement per line"
                   minRows={3}
-                  value={(field.value || []).join("\n")}
+                  value={(field.value || []).join('\n')}
                   onChange={(event) => {
                     const next = event.currentTarget.value
-                      .split("\n")
+                      .split('\n')
                       .map((line) => line.trim())
                       .filter(Boolean);
                     field.onChange(next);
@@ -168,10 +165,10 @@ export function CreateListing() {
                   label="Nice to Have"
                   placeholder="Add one advantage per line"
                   minRows={3}
-                  value={(field.value || []).join("\n")}
+                  value={(field.value || []).join('\n')}
                   onChange={(event) => {
                     const next = event.currentTarget.value
-                      .split("\n")
+                      .split('\n')
                       .map((line) => line.trim())
                       .filter(Boolean);
                     field.onChange(next);
@@ -191,8 +188,8 @@ export function CreateListing() {
                   label="Application Method"
                   required
                   data={[
-                    { value: "email", label: "Email" },
-                    { value: "link", label: "External Link" },
+                    { value: 'email', label: 'Email' },
+                    { value: 'link', label: 'External Link' },
                   ]}
                   {...field}
                   error={errors.apply?.method?.message}
@@ -203,7 +200,7 @@ export function CreateListing() {
             <TextInput
               label="Application Contact / URL"
               required
-              {...register("apply.contact")}
+              {...register('apply.contact')}
               error={errors.apply?.contact?.message}
             />
           </Fieldset>
@@ -288,9 +285,7 @@ export function CreateListing() {
                 <Switch
                   label="Listing is active"
                   checked={field.value}
-                  onChange={(event) =>
-                    field.onChange(event.currentTarget.checked)
-                  }
+                  onChange={(event) => field.onChange(event.currentTarget.checked)}
                 />
               )}
             />
@@ -298,7 +293,7 @@ export function CreateListing() {
             <TextInput
               label="Expiration Date"
               type="date"
-              {...register("expiresAt")}
+              {...register('expiresAt')}
               error={errors.expiresAt?.message as string}
             />
           </Fieldset>

@@ -1,21 +1,18 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import searchSlice from "./searchSlice";
-import userSlice from "./userSlice";
-import listingSlice from "./listingSlice";
-import storageSession from "redux-persist/lib/storage/session";
-import { persistReducer, persistStore } from "redux-persist";
-
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { persistReducer, persistStore } from 'redux-persist';
+import storageSession from 'redux-persist/lib/storage/session';
+import listingSlice from './listingSlice';
+import userSlice from './userSlice';
 
 export const rootReducer = combineReducers({
-    userSlice,
-    searchSlice,
-    listingSlice,
+  userSlice,
+  listingSlice,
 });
 
 const persistConfig = {
-    key: 'root',
-    storage: storageSession,
-    whitelist: ['userSlice', 'listingSlice'],
+  key: 'root',
+  storage: storageSession,
+  whitelist: ['userSlice', 'listingSlice'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -29,7 +26,6 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
-
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

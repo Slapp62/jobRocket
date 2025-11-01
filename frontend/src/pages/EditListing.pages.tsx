@@ -1,30 +1,30 @@
-import { listingSchema } from "@/validationRules/listing.joi";
+import { useEffect, useMemo, useState } from 'react';
+import { joiResolver } from '@hookform/resolvers/joi';
+import axios from 'axios';
+import { Controller, useForm, useWatch } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
-  Paper,
-  Title,
-  Flex,
-  Fieldset,
-  TextInput,
-  Textarea,
   Button,
+  Fieldset,
+  Flex,
+  Paper,
   Select,
   Switch,
-} from "@mantine/core";
-import { joiResolver } from "@hookform/resolvers/joi";
-import axios from "axios";
-import { useEffect, useMemo, useState } from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useMediaQuery } from "@mantine/hooks";
-import { useDispatch, useSelector } from "react-redux";
-import { editListing } from "@/store/listingSlice";
-import { cleanedListingData } from "@/utils/getCleanedListingData";
-import { RootState } from "@/store/store";
-import { TListing } from "@/Types";
-import WORK_ARRANGEMENTS from "../data/workArr.ts";
-import INDUSTRIES from "../data/industries.ts";
-import { REGIONS, getCitiesByRegion } from "../data/israelCities.ts";
+  Textarea,
+  TextInput,
+  Title,
+} from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { editListing } from '@/store/listingSlice';
+import { RootState } from '@/store/store';
+import { TListing } from '@/Types';
+import { cleanedListingData } from '@/utils/getCleanedListingData';
+import { listingSchema } from '@/validationRules/listing.joi';
+import INDUSTRIES from '../data/industries.ts';
+import { getCitiesByRegion, REGIONS } from '../data/israelCities.ts';
+import WORK_ARRANGEMENTS from '../data/workArr.ts';
 
 type ListingFormValues = {
   jobTitle: string;
@@ -32,7 +32,7 @@ type ListingFormValues = {
   requirements: string[];
   advantages: string[];
   apply: {
-    method: "email" | "link";
+    method: 'email' | 'link';
     contact: string;
   };
   location: {
@@ -46,9 +46,9 @@ type ListingFormValues = {
 };
 
 export function EditListing() {
-  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8181";
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
   const { id } = useParams();
-  const isMobile = useMediaQuery("(max-width: 700px)");
+  const isMobile = useMediaQuery('(max-width: 700px)');
   const [isDisabled, setDisabled] = useState(true);
   const dispatch = useDispatch();
 
@@ -63,21 +63,21 @@ export function EditListing() {
     control,
     trigger,
   } = useForm<ListingFormValues>({
-    mode: "all",
+    mode: 'all',
     resolver: joiResolver(listingSchema),
     defaultValues: listingData
       ? (cleanedListingData(listingData) as ListingFormValues)
       : {
-          jobTitle: "",
-          jobDescription: "",
+          jobTitle: '',
+          jobDescription: '',
           requirements: [],
           advantages: [],
-          apply: { method: "email", contact: "" },
-          location: { region: "", city: "" },
-          workArrangement: "",
-          industry: "",
+          apply: { method: 'email', contact: '' },
+          location: { region: '', city: '' },
+          workArrangement: '',
+          industry: '',
           isActive: true,
-          expiresAt: "",
+          expiresAt: '',
         },
   });
 
@@ -90,7 +90,7 @@ export function EditListing() {
 
   const selectedRegion = useWatch({
     control,
-    name: "location.region",
+    name: 'location.region',
   });
 
   const availableCities = useMemo(() => {
@@ -111,16 +111,15 @@ export function EditListing() {
       });
       if (response.status === 200) {
         dispatch(editListing({ listing: response.data as TListing }));
-        toast.success("Listing updated successfully!", {
-          position: "bottom-right",
+        toast.success('Listing updated successfully!', {
+          position: 'bottom-right',
         });
         setDisabled(true);
       }
     } catch (error: any) {
-      toast.error(
-        `Update failed! ${error?.response?.data?.message || error.message}`,
-        { position: "bottom-right" },
-      );
+      toast.error(`Update failed! ${error?.response?.data?.message || error.message}`, {
+        position: 'bottom-right',
+      });
     }
   };
 
@@ -136,14 +135,14 @@ export function EditListing() {
           gap={10}
           py={10}
           mx="auto"
-          style={{ width: isMobile ? "90%" : "40%" }}
+          style={{ width: isMobile ? '90%' : '40%' }}
         >
           <Fieldset legend="Job Info">
             <TextInput
               label="Job Title"
               required
               disabled={isDisabled}
-              {...register("jobTitle")}
+              {...register('jobTitle')}
               error={errors.jobTitle?.message}
             />
 
@@ -152,7 +151,7 @@ export function EditListing() {
               required
               disabled={isDisabled}
               minRows={4}
-              {...register("jobDescription")}
+              {...register('jobDescription')}
               error={errors.jobDescription?.message}
             />
 
@@ -164,10 +163,10 @@ export function EditListing() {
                   label="Requirements"
                   placeholder="Add one requirement per line"
                   minRows={3}
-                  value={(field.value || []).join("\n")}
+                  value={(field.value || []).join('\n')}
                   onChange={(event) => {
                     const next = event.currentTarget.value
-                      .split("\n")
+                      .split('\n')
                       .map((line) => line.trim())
                       .filter(Boolean);
                     field.onChange(next);
@@ -186,10 +185,10 @@ export function EditListing() {
                   label="Nice to Have"
                   placeholder="Add one advantage per line"
                   minRows={3}
-                  value={(field.value || []).join("\n")}
+                  value={(field.value || []).join('\n')}
                   onChange={(event) => {
                     const next = event.currentTarget.value
-                      .split("\n")
+                      .split('\n')
                       .map((line) => line.trim())
                       .filter(Boolean);
                     field.onChange(next);
@@ -210,8 +209,8 @@ export function EditListing() {
                   label="Application Method"
                   required
                   data={[
-                    { value: "email", label: "Email" },
-                    { value: "link", label: "External Link" },
+                    { value: 'email', label: 'Email' },
+                    { value: 'link', label: 'External Link' },
                   ]}
                   {...field}
                   error={errors.apply?.method?.message}
@@ -224,7 +223,7 @@ export function EditListing() {
               label="Application Contact / URL"
               required
               disabled={isDisabled}
-              {...register("apply.contact")}
+              {...register('apply.contact')}
               error={errors.apply?.contact?.message}
             />
           </Fieldset>
@@ -312,9 +311,7 @@ export function EditListing() {
                 <Switch
                   label="Listing is active"
                   checked={field.value}
-                  onChange={(event) =>
-                    field.onChange(event.currentTarget.checked)
-                  }
+                  onChange={(event) => field.onChange(event.currentTarget.checked)}
                   disabled={isDisabled}
                 />
               )}
@@ -324,7 +321,7 @@ export function EditListing() {
               label="Expiration Date"
               type="date"
               disabled={isDisabled}
-              {...register("expiresAt")}
+              {...register('expiresAt')}
               error={errors.expiresAt?.message as string}
             />
           </Fieldset>

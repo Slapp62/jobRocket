@@ -1,5 +1,5 @@
-import { TextInput, Select, Textarea } from "@mantine/core";
-import { UseFormRegister, FieldErrors, Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
+import { Select, Textarea, TextInput } from '@mantine/core';
 import { TUsers } from '@/Types';
 import WORK_ARRANGEMENTS from '../../data/workArr.ts';
 
@@ -8,18 +8,23 @@ type JobseekerFieldsProps = {
   errors: FieldErrors<TUsers>;
   control: Control<TUsers>;
   disabled?: boolean;
-}
+};
 
 const EDUCATION_LEVELS = [
-  "High School",
-  "Associate Degree",
+  'High School',
+  'Associate Degree',
   "Bachelor's Degree",
   "Master's Degree",
-  "Doctorate",
-  "Other"
+  'Doctorate',
+  'Other',
 ];
 
-export function JobseekerFields({ register, errors, control, disabled = false }: JobseekerFieldsProps) {
+export function JobseekerFields({
+  register,
+  errors,
+  control,
+  disabled = false,
+}: JobseekerFieldsProps) {
   return (
     <>
       {/* Required: First Name */}
@@ -104,10 +109,10 @@ export function JobseekerFields({ register, errors, control, disabled = false }:
             label="Skills"
             placeholder="Enter one skill per line"
             minRows={3}
-            value={(field.value || []).join("\n")}
+            value={(field.value || []).join('\n')}
             onChange={(event) => {
               const next = event.currentTarget.value
-                .split("\n")
+                .split('\n')
                 .map((line) => line.trim())
                 .filter(Boolean);
               field.onChange(next);

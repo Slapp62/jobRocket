@@ -1,27 +1,25 @@
-import { TextInput, Select, Textarea } from "@mantine/core";
-import { UseFormRegister, FieldErrors, Control, Controller, useWatch } from 'react-hook-form';
+import { useMemo } from 'react';
+import { Control, Controller, FieldErrors, UseFormRegister, useWatch } from 'react-hook-form';
+import { Select, Textarea, TextInput } from '@mantine/core';
 import { TUsers } from '@/Types';
 import INDUSTRIES from '../../data/industries.ts';
-import { REGIONS, getCitiesByRegion } from '../../data/israelCities.ts';
-import { useMemo } from 'react';
+import { getCitiesByRegion, REGIONS } from '../../data/israelCities.ts';
 
 type BusinessFieldsProps = {
   register: UseFormRegister<TUsers>;
   errors: FieldErrors<TUsers>;
   control: Control<TUsers>;
   disabled?: boolean;
-}
+};
 
-const EMPLOYEE_COUNTS = [
-  "1-10",
-  "11-50",
-  "51-200",
-  "201-500",
-  "501-1000",
-  "1000+"
-];
+const EMPLOYEE_COUNTS = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
 
-export function BusinessFields({ register, errors, control, disabled = false }: BusinessFieldsProps) {
+export function BusinessFields({
+  register,
+  errors,
+  control,
+  disabled = false,
+}: BusinessFieldsProps) {
   // Watch the selected region to filter cities
   const selectedRegion = useWatch({
     control,
@@ -30,7 +28,9 @@ export function BusinessFields({ register, errors, control, disabled = false }: 
 
   // Get cities for the selected region
   const availableCities = useMemo(() => {
-    if (!selectedRegion) {return [];}
+    if (!selectedRegion) {
+      return [];
+    }
     return getCitiesByRegion(selectedRegion).map((city: string) => ({
       value: city,
       label: city,
@@ -77,7 +77,7 @@ export function BusinessFields({ register, errors, control, disabled = false }: 
         render={({ field }) => (
           <Select
             label="City"
-            placeholder={selectedRegion ? "Select city" : "Select region first"}
+            placeholder={selectedRegion ? 'Select city' : 'Select region first'}
             withAsterisk
             data={availableCities}
             searchable

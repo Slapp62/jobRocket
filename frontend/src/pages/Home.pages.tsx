@@ -1,25 +1,13 @@
+import { useState } from 'react';
 import { IconCards, IconFilter2, IconSearch } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import {
-  Box,
-  Button,
-  Flex,
-  Stack,
-  Select,
-  Text,
-  TextInput,
-  Title,
-} from '@mantine/core';
+import { Link, useNavigate } from 'react-router-dom';
+import { Box, Button, Flex, Select, Stack, Text, TextInput, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import INDUSTRIES from '../data/industries.ts';
-import {getAllCities}  from '../data/israelCities.ts';
-import WORK_ARRANGEMENTS  from '../data/workArr.ts';
 import { RootState } from '@/store/store';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import { useState } from 'react';
+import INDUSTRIES from '../data/industries.ts';
+import { getAllCities } from '../data/israelCities.ts';
+import WORK_ARRANGEMENTS from '../data/workArr.ts';
 
 export function HomePage() {
   const isMobile = useMediaQuery('(max-width: 700px)');
@@ -38,22 +26,53 @@ export function HomePage() {
     workArrangement: '',
   });
 
-  const searchListing = async () => {
-    try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL;
-      const response = await axios.get(`${API_BASE_URL}/api/listings/search/`, {params: searchObj});
+  const searchListing = () => {
+    // Build URL query params from searchObj
+    const params = new URLSearchParams();
 
-      if (response.status === 200) {
-          navigate('/search');
-      }
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || error.message);
-    }    
+    // Only add params that have values
+    if (searchObj.searchWord?.trim()) {
+      params.append('searchWord', searchObj.searchWord.trim());
+    }
+    if (searchObj.sortOption?.trim()) {
+      params.append('sortOption', searchObj.sortOption.trim());
+    }
+    if (searchObj.region?.trim()) {
+      params.append('region', searchObj.region.trim());
+    }
+    if (searchObj.city?.trim()) {
+      params.append('city', searchObj.city.trim());
+    }
+    if (searchObj.industry?.trim()) {
+      params.append('industry', searchObj.industry.trim());
+    }
+    if (searchObj.workArrangement?.trim()) {
+      params.append('workArrangement', searchObj.workArrangement.trim());
+    }
+
+    // Navigate to search page with query params
+    navigate(`/search?${params.toString()}`);
   };
 
   return (
-    <Box mb={-50} h='80vh' py={100} style={{ background: 'linear-gradient(to bottom,rgb(240, 114, 12),rgb(199, 10, 10))'}}>
-      <Stack w="70%" gap={20} px={50} py={30} mx="auto" style={{ borderRadius: '10px', background: 'rgba(192, 192, 192, 0.92)', boxShadow: '0px 5px 100px rgba(0, 0, 0, 0.61)'}}>
+    <Box
+      mb={-50}
+      h="80vh"
+      py={100}
+      style={{ background: 'linear-gradient(to bottom,rgb(240, 114, 12),rgb(199, 10, 10))' }}
+    >
+      <Stack
+        w="70%"
+        gap={20}
+        px={50}
+        py={30}
+        mx="auto"
+        style={{
+          borderRadius: '10px',
+          background: 'rgba(192, 192, 192, 0.92)',
+          boxShadow: '0px 5px 100px rgba(0, 0, 0, 0.61)',
+        }}
+      >
         {/* Conditional Welcome Message */}
         {!user && (
           <Title ta="center" c="black">
@@ -162,8 +181,6 @@ export function HomePage() {
         </Flex>
 
         <Button
-          component={Link}
-          to="/search"
           mx="auto"
           variant="filled"
           color="purple"
@@ -171,7 +188,7 @@ export function HomePage() {
           w="40%"
           fz={20}
           rightSection={<IconSearch />}
-          onClick={() => searchListing()}
+          onClick={searchListing}
         >
           Search
         </Button>

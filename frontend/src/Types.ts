@@ -1,4 +1,3 @@
-
 export type TListing = {
   _id: string;
   businessId: string;
@@ -7,7 +6,7 @@ export type TListing = {
   requirements: string[];
   advantages: string[];
   apply: {
-    method: "email" | "link";
+    method: 'email' | 'link';
     contact: string;
   };
   location: {
@@ -33,7 +32,13 @@ export type TPaginationProps = {
 export type TJobseekerProfile = {
   firstName: string;
   lastName: string;
-  highestEducation: "High School" | "Associate Degree" | "Bachelor's Degree" | "Master's Degree" | "Doctorate" | "Other";
+  highestEducation:
+    | 'High School'
+    | 'Associate Degree'
+    | "Bachelor's Degree"
+    | "Master's Degree"
+    | 'Doctorate'
+    | 'Other';
   preferredWorkArrangement: string;
   linkedinPage?: string;
   resume?: string;
@@ -55,7 +60,7 @@ export type TBusinessProfile = {
     _id?: string;
   };
   industry: string;
-  numberOfEmployees: "1-10" | "11-50" | "51-200" | "201-500" | "501-1000" | "1000+";
+  numberOfEmployees: '1-10' | '11-50' | '51-200' | '201-500' | '501-1000' | '1000+';
   website?: string;
   contactEmail?: string;
   socialMedia?: {
@@ -73,7 +78,7 @@ export type TUsers = {
   email: string;
   password?: string;
   phone: string;
-  profileType: "jobseeker" | "business";
+  profileType: 'jobseeker' | 'business';
   name?: {
     first: string;
     middle?: string;
@@ -96,10 +101,10 @@ export type TUsers = {
   createdAt: string;
 };
 
-export interface TdecodedToken{
+export interface TdecodedToken {
   iat: number;
   exp: number;
   isAdmin: boolean;
-  profileType: "jobseeker" | "business";
+  profileType: 'jobseeker' | 'business';
   _id: string;
 }

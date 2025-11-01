@@ -1,163 +1,213 @@
+import { useEffect, useState } from 'react';
+import clsx from 'clsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
-  Box, Burger, Button, Divider, Drawer, Flex, Text, Group, ScrollArea,
+  Box,
+  Burger,
+  Button,
+  Divider,
+  Drawer,
+  Flex,
+  Group,
+  ScrollArea,
+  Text,
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import classes from '../ComponentStyles/Navigation.module.css';
-import { LightDarkToggle } from './LightDarkToggle'
-import { Logo } from './Logo';
-import clsx from 'clsx';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store/store';
 import { clearUser } from '@/store/userSlice';
-import { toast } from 'react-toastify';
-import { useEffect, useState } from 'react';
 import { AvatarIcon } from './Avatar';
-  
-  export function Navbar() {
-    const user = useSelector((state: RootState) => state.userSlice.user);
-    const loggedIn = useSelector((state: RootState) => state.userSlice.isLoggedIn)
-    const isBusinessUser = user?.profileType === "business";
-    const dispatch = useDispatch<AppDispatch>();
-    
-    const jumpTo = useNavigate();
-    const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-    const { colorScheme } = useMantineColorScheme();
-  
-    const logoutHandler = () => {
-      jumpTo('/');
-      dispatch(clearUser());
-      sessionStorage.removeItem('token');
-      localStorage.removeItem('token');
-      toast.success('Logged out successfully!');
-    }
+import { LightDarkToggle } from './LightDarkToggle';
+import { Logo } from './Logo';
+import classes from '../ComponentStyles/Navigation.module.css';
 
-    const [scrolled, setScrolled] = useState(false);
-    
-    useEffect(() => {
-      const handleScroll = () => {
-        setScrolled(window.scrollY > 10);
-      };
+export function Navbar() {
+  const user = useSelector((state: RootState) => state.userSlice.user);
+  const loggedIn = useSelector((state: RootState) => state.userSlice.isLoggedIn);
+  const isBusinessUser = user?.profileType === 'business';
+  const dispatch = useDispatch<AppDispatch>();
 
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
-    }, [])
+  const jumpTo = useNavigate();
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  const { colorScheme } = useMantineColorScheme();
 
-    return (
-      <Box pos="sticky" className={clsx(classes.navbarTop, {[classes.navbarScrolled]: scrolled} )}>
-        <header className={clsx(colorScheme === 'light' ? classes.navbarLight : classes.navbarDark, classes.header)}>
-          <Flex justify="space-between" align='center' h='100%' px={10} >
-            <Logo/>
+  const logoutHandler = () => {
+    jumpTo('/');
+    dispatch(clearUser());
+    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
+    toast.success('Logged out successfully!');
+  };
 
-            <Group visibleFrom="md" gap={5}>
-                <Link  to="/" className={classes.link}>
-                    <Text fw={700}>Home</Text>
-                </Link>
+  const [scrolled, setScrolled] = useState(false);
 
-                <Link to="/about" className={classes.link} >
-                    <Text fw={700}>About</Text>
-                </Link>
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
 
-                {loggedIn && ( 
-                <Link to="/favorites" className={classes.link} >
-                    <Text fw={700}>Favorites</Text>
-                </Link>)}
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-                {loggedIn && isBusinessUser && (
-                <Link to="/my-listings" className={classes.link} >
-                    <Text fw={700}>My Listings</Text>
-                </Link>)}
-                
-                {user?.isAdmin && (
-                <Link to='/admin' className={classes.link}>
-                    <Text fw={700}>Admin Controls</Text>
-                </Link>)}
+  return (
+    <Box pos="sticky" className={clsx(classes.navbarTop, { [classes.navbarScrolled]: scrolled })}>
+      <header
+        className={clsx(
+          colorScheme === 'light' ? classes.navbarLight : classes.navbarDark,
+          classes.header
+        )}
+      >
+        <Flex justify="space-between" align="center" h="100%" px={10}>
+          <Logo />
+
+          <Group visibleFrom="md" gap={5}>
+            <Link to="/" className={classes.link}>
+              <Text fw={700}>Home</Text>
+            </Link>
+
+            <Link to="/about" className={classes.link}>
+              <Text fw={700}>About</Text>
+            </Link>
+
+            {loggedIn && (
+              <Link to="/favorites" className={classes.link}>
+                <Text fw={700}>Favorites</Text>
+              </Link>
+            )}
+
+            {loggedIn && isBusinessUser && (
+              <Link to="/my-listings" className={classes.link}>
+                <Text fw={700}>My Listings</Text>
+              </Link>
+            )}
+
+            {user?.isAdmin && (
+              <Link to="/admin" className={classes.link}>
+                <Text fw={700}>Admin Controls</Text>
+              </Link>
+            )}
+          </Group>
+
+          <Group>
+            <Group visibleFrom="xs">
+              {!loggedIn && (
+                <Button component={Link} to="/login" variant="outline">
+                  Login
+                </Button>
+              )}
+              {!loggedIn && (
+                <Button component={Link} to="/register">
+                  Register
+                </Button>
+              )}
+
+              {loggedIn && (
+                <Button variant="outline" onClick={logoutHandler}>
+                  Logout
+                </Button>
+              )}
             </Group>
 
             <Group>
-              <Group visibleFrom="xs">
-                {!loggedIn && <Button component={Link} to='/login' variant="outline">Login</Button>}
-                {!loggedIn && <Button component={Link} to='/register'>Register</Button>}
-
-                {loggedIn && <Button variant="outline" onClick={logoutHandler}>Logout</Button>}
-              </Group>
-
-              <Group >
-                {loggedIn && <AvatarIcon/>}
-                <LightDarkToggle />
-                <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="md" />
-              </Group>
-              
+              {loggedIn && <AvatarIcon />}
+              <LightDarkToggle />
+              <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="md" />
             </Group>
-            
+          </Group>
+        </Flex>
+      </header>
+
+      <Drawer
+        opened={drawerOpened}
+        onClose={closeDrawer}
+        size="60%"
+        padding="md"
+        title="IsraJobs"
+        hiddenFrom="md"
+        zIndex={1000000}
+      >
+        <ScrollArea h="calc(100vh - 80px" mx="-sm">
+          <Divider />
+          <Flex direction="column" my={20}>
+            {loggedIn && (
+              <Group my="md" pl="md" align="self-end">
+                <AvatarIcon closeDrawer={closeDrawer} />
+                <Text fz={15}>
+                  {user?.profileType === 'jobseeker'
+                    ? `${user?.jobseekerProfile?.firstName} ${user?.jobseekerProfile?.lastName}`
+                    : user?.businessProfile?.name}
+                </Text>
+              </Group>
+            )}
+
+            <Link to="/" className={classes.link} onClick={closeDrawer}>
+              <Text fz={15} c="indigo" fw={700}>
+                HOME
+              </Text>
+            </Link>
+
+            <Link to="/about" className={classes.link} onClick={closeDrawer}>
+              <Text fz={15} c="indigo" fw={700}>
+                ABOUT
+              </Text>
+            </Link>
+
+            {loggedIn && (
+              <Link to="/favorites" className={classes.link} onClick={closeDrawer}>
+                <Text fz={15} c="indigo" fw={700}>
+                  FAVORITES
+                </Text>
+              </Link>
+            )}
+
+            {user?.profileType === 'business' && (
+              <Link to="/my-listings" className={classes.link} onClick={closeDrawer}>
+                <Text fz={15} c="indigo" fw={700}>
+                  MY LISTINGS
+                </Text>
+              </Link>
+            )}
+
+            {user?.isAdmin && (
+              <Link to="/admin" className={classes.link} onClick={closeDrawer}>
+                <Text fz={15} c="indigo" fw={700}>
+                  ADMIN CONTROLS
+                </Text>
+              </Link>
+            )}
           </Flex>
-        </header>
-  
-        <Drawer
-          opened={drawerOpened}
-          onClose={closeDrawer}
-          size="60%"
-          padding="md"
-          title="IsraJobs"
-          hiddenFrom="md"
-          zIndex={1000000}
-        >
-        <ScrollArea h="calc(100vh - 80px" mx="-sm" >
-            <Divider/>
-                <Flex direction="column" my={20}>
-                    {loggedIn &&
-                    <Group my="md" pl='md' align='self-end'>
-                        <AvatarIcon closeDrawer={closeDrawer}/>
-                        <Text fz={15}>
-                            {user?.profileType === 'jobseeker'
-                                ? `${user?.jobseekerProfile?.firstName} ${user?.jobseekerProfile?.lastName}`
-                                : user?.businessProfile?.name
-                            }
-                        </Text>
-                    </Group>}
+          <Divider my="md" />
 
-                    <Link to="/" className={classes.link} onClick={closeDrawer}>
-                        <Text fz={15} c='indigo' fw={700}>HOME</Text>
-                    </Link>
+          <Flex justify="space-evenly" ta="center" p="sm" gap={5} direction="column">
+            {!loggedIn && (
+              <Button component={Link} to="/login" onClick={closeDrawer} w="95%" variant="outline">
+                Login
+              </Button>
+            )}
 
-                    <Link to="/about" className={classes.link} onClick={closeDrawer}>
-                        <Text fz={15}  c='indigo' fw={700}>ABOUT</Text>
-                    </Link>
+            {!loggedIn && (
+              <Button w="95%" component={Link} to="/register" onClick={closeDrawer}>
+                Register
+              </Button>
+            )}
 
-                    {loggedIn &&  <Link to="/favorites" className={classes.link} onClick={closeDrawer}>
-                        <Text fz={15}  c='indigo'  fw={700}>FAVORITES</Text>
-                    </Link>}
-
-                    {user?.profileType === "business" && <Link to="/my-listings" className={classes.link} onClick={closeDrawer} >
-                        <Text fz={15}  c='indigo'  fw={700}>MY LISTINGS</Text>
-                    </Link>}
-                    
-                    {user?.isAdmin && <Link to='/admin' className={classes.link} onClick={closeDrawer}>
-                        <Text fz={15}  c='indigo'  fw={700}>ADMIN CONTROLS</Text>
-                    </Link>}
-                </Flex>
-            <Divider my="md" />
-
-            
-
-            <Flex justify="space-evenly" ta="center" p="sm" gap={5} direction="column">
-              {!loggedIn && 
-               <Button component={Link} to='/login' onClick={closeDrawer} w="95%" variant="outline">Login</Button>}
-
-              {!loggedIn && 
-              <Button w="95%" component={Link} to='/register' onClick={closeDrawer}>Register</Button>}
-
-              {loggedIn && 
-                <Button variant="outline" onClick={() => {
-                    logoutHandler(); 
-                    closeDrawer()}}
-                >Logout
-                </Button>}
-            </Flex>
-          </ScrollArea>
-        </Drawer>
-      </Box>
-    
-    );
-  }
+            {loggedIn && (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  logoutHandler();
+                  closeDrawer();
+                }}
+              >
+                Logout
+              </Button>
+            )}
+          </Flex>
+        </ScrollArea>
+      </Drawer>
+    </Box>
+  );
+}
