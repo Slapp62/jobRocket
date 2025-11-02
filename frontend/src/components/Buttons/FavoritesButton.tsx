@@ -1,32 +1,58 @@
+import { useState } from 'react';
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
-import { useSelector } from 'react-redux';
 import { ActionIcon } from '@mantine/core';
-import { useLikeUnlike } from '@/hooks/UseLikeUnlike';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
 
 export function FavoritesButton({ listing }: { listing: TListing }) {
-  const toggleLike = useLikeUnlike();
+  const user = useSelector((state: RootState) => state.userSlice.user);
+  const [isLiked, setIsLiked] = useState(
+    listing.likes?.includes(user?._id || '') || false
+  );
+  const [isLoading, setIsLoading] = useState(false);
 
-  const heartOutline = <IconHeart />;
-  const heartFilled = <IconHeartFilled />;
-  const userID = useSelector((state: RootState) => state.userSlice.user?._id);
-  if (!userID) {
-    return null;
-  }
-  const likes = listing.likes ?? [];
-  const isLiked = likes.includes(userID);
+  if (!user) return null;
+
+  const handleToggleLike = async (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card onClick from firing
+
+    setIsLoading(true);
+
+    // Optimistic update
+    const previousState = isLiked;
+    setIsLiked(!isLiked);
+
+    try {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      const API_BASE_URL = import.meta.env.VITE_API_URL;
+
+      await axios.post(
+        `${API_BASE_URL}/api/listings/${listing._id}/like`,
+        {},
+        { headers: { 'x-auth-token': token } }
+      );
+    } catch (error) {
+      // Rollback on failure
+      setIsLiked(previousState);
+      toast.error('Failed to update favorite');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <ActionIcon
-      style={{ flex: 1 }}
-      color="purple"
-      c="purple"
       variant="outline"
+      color="purple"
       size={40}
-      onClick={() => toggleLike(listing, userID, isLiked)}
+      onClick={handleToggleLike}
+      loading={isLoading}
+      style={{ flex: 1 }}
     >
-      {isLiked ? heartFilled : heartOutline}
+      {isLiked ? <IconHeartFilled /> : <IconHeart />}
     </ActionIcon>
   );
 }

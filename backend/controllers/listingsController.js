@@ -72,6 +72,22 @@ listingRouter.get("/liked", authenticateUser, async (req, res) => {
   }
 });
 
+// Get favorited listings by user id (public endpoint for favorites page)
+listingRouter.get("/favorites/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const favoriteListings = await getLikedListings(userId);
+    handleSuccess(
+      res,
+      200,
+      favoriteListings,
+      "Favorite listings fetched successfully",
+    );
+  } catch (error) {
+    handleError(res, error.status, error.message);
+  }
+});
+
 // 3 - get listing by id
 listingRouter.get("/:id", async (req, res) => {
   try {
@@ -122,13 +138,34 @@ listingRouter.put(
   },
 );
 
-// 6 - toggle like on listing
+// 6 - toggle like on listing (PATCH - legacy)
 listingRouter.patch("/:id", authenticateUser, async (req, res) => {
   try {
     const listingId = req.params.id;
     const userId = req.user._id;
     const updatedListing = await toggleLike(listingId, userId);
     handleSuccess(res, 200, updatedListing, "Listing liked successfully");
+  } catch (error) {
+    handleError(res, error.status, error.message);
+  }
+});
+
+// Toggle like on listing (POST - new endpoint)
+listingRouter.post("/:id/like", authenticateUser, async (req, res) => {
+  try {
+    const listingId = req.params.id;
+    const userId = req.user._id;
+    const updatedListing = await toggleLike(listingId, userId);
+
+    // Return a simple response indicating liked status
+    const isLiked = updatedListing.likes.some(
+      (likeId) => likeId.toString() === userId.toString()
+    );
+
+    handleSuccess(res, 200, {
+      liked: isLiked,
+      likeCount: updatedListing.likes.length,
+    }, "Like toggled successfully");
   } catch (error) {
     handleError(res, error.status, error.message);
   }
