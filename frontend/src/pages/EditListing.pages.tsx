@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
@@ -17,8 +16,6 @@ import {
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { editListing } from '@/store/listingSlice';
-import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
 import { cleanedListingData } from '@/utils/getCleanedListingData';
 import { listingSchema } from '@/validationRules/listing.joi';
@@ -50,10 +47,8 @@ export function EditListing() {
   const { id } = useParams();
   const isMobile = useMediaQuery('(max-width: 700px)');
   const [isDisabled, setDisabled] = useState(true);
-  const dispatch = useDispatch();
 
-  const allListings = useSelector((state: RootState) => state.listingSlice.listings);
-  const listingData = allListings?.find((listing) => listing._id === id);
+  const listingData = undefined;
 
   const {
     register,
@@ -110,7 +105,6 @@ export function EditListing() {
         expiresAt: data.expiresAt ? new Date(data.expiresAt).toISOString() : null,
       });
       if (response.status === 200) {
-        dispatch(editListing({ listing: response.data as TListing }));
         toast.success('Listing updated successfully!', {
           position: 'bottom-right',
         });

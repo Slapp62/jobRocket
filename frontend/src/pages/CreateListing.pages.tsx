@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
@@ -17,7 +16,6 @@ import {
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { addListing } from '@/store/listingSlice';
 import { listingSchema } from '@/validationRules/listing.joi';
 import INDUSTRIES from '../data/industries.ts';
 import { getCitiesByRegion, REGIONS } from '../data/israelCities.ts';
@@ -45,7 +43,6 @@ type ListingFormValues = {
 export function CreateListing() {
   const jumpTo = useNavigate();
   const isMobile = useMediaQuery('(max-width: 700px)');
-  const dispatch = useDispatch();
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
 
   const {
@@ -96,7 +93,6 @@ export function CreateListing() {
       const response = await axios.post(url, payload);
 
       if (response.status === 201) {
-        dispatch(addListing(response.data));
         toast.success('Listing created!', { position: 'bottom-right' });
         jumpTo('/my-listings');
       }

@@ -1,41 +1,21 @@
-import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useLocation } from 'react-router-dom';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Flex } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { MobileBottomNav } from '@/components/Navigation/MobileNav.tsx';
 import { useAuthInit } from '@/hooks/UseAuthInit.ts';
 import { useScrollToTop } from '@/hooks/useScrollToTop.ts';
-import { fetchListingsThunk } from '@/store/listingSlice.tsx';
 import { RootState } from '@/store/store.ts';
 import { Footer } from '../components/Navigation/Footer.tsx';
 import { Navbar } from '../components/Navigation/Header.tsx';
 
 export function Layout() {
-  // refresh all listings in redux when visiting homepage
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const fetchedRef = useRef(false);
   const isMobile = useMediaQuery('(max-width: 700px)');
   const isBusiness = useSelector(
     (state: RootState) => state.userSlice.user?.profileType === 'business'
   );
-
-  useEffect(() => {
-    if (
-      location.pathname === '/' ||
-      location.pathname.startsWith('/listing-details') ||
-      location.pathname.startsWith('/my-listings')
-    ) {
-      if (!fetchedRef.current) {
-        dispatch(fetchListingsThunk() as any);
-        fetchedRef.current = true;
-      }
-    } else {
-      fetchedRef.current = false;
-    }
-  }, [location.pathname, dispatch]);
 
   // persist log in between sessions
   useAuthInit();

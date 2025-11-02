@@ -1,14 +1,8 @@
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { removeListing, removeUserListing } from '@/store/listingSlice';
-import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
 
 export function useDeleteListing() {
-  const dispatch = useDispatch();
-  const globalListings = useSelector((state: RootState) => state.listingSlice.listings);
-  const userListings = useSelector((state: RootState) => state.listingSlice.userListings);
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
 
   const deleteListing = async (listing: TListing) => {
@@ -20,19 +14,6 @@ export function useDeleteListing() {
         },
       });
       if (response.status === 200) {
-        // update Redux
-        const thisGlobalListing = globalListings?.find(
-          (globalListing) => globalListing._id === listing._id
-        );
-        const thisUserListing = userListings?.find(
-          (userListing) => userListing._id === listing._id
-        );
-        if (thisGlobalListing) {
-          dispatch(removeListing(thisGlobalListing));
-        }
-        if (thisUserListing) {
-          dispatch(removeUserListing(thisUserListing));
-        }
         toast.success(`Listing deleted successfully`, { position: 'bottom-right' });
       }
     } catch (error: any) {
