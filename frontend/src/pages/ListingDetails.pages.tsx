@@ -14,7 +14,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { FavoritesButton } from '@/components/Buttons/FavoritesButton';
+import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import SocialIcons from '@/components/SocialMedia';
 import { RootState } from '@/store/store';
 

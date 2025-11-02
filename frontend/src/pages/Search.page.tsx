@@ -12,7 +12,9 @@ import { SearchCity } from '@/components/Filters/SearchCity';
 import { SearchIndustry } from '@/components/Filters/SearchIndustry';
 import { SearchRegion } from '@/components/Filters/SearchRegion';
 import { SearchWorkArrangement } from '@/components/Filters/SearchWorkArrangement';
-import ListingSnip from '@/components/ListingSnip';
+import ListingCard from '@/components/ListingCard';
+import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
+import { ViewDetailsAction } from '@/components/ListingActions/ViewDetailsAction';
 
 export function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -128,9 +130,17 @@ export function SearchPage() {
         </Center>
       ) : (
         <Flex direction="column" align="center" gap={20}>
-          <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w={isMobile ? '95%' : '90%'}>
+          <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w={isMobile ? '95vw' : '80vw'}>
             {paginatedListings.map((listing) => (
-              <ListingSnip key={listing._id} listingID={listing._id} />
+              <ListingCard 
+                key={listing._id} 
+                listing={listing} 
+                actions={
+                  <Group gap={10} w="100%">
+                    <FavoritesButton listing={listing} /> 
+                    <ViewDetailsAction listingId={listing._id} width="70%"/>
+                  </Group>
+                } />
             ))}
           </Flex>
 

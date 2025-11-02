@@ -7,7 +7,12 @@ import { toast } from 'react-toastify';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
 
-export function FavoritesButton({ listing }: { listing: TListing }) {
+interface FavoritesButtonProps {
+  listing: TListing;
+  width?: string;
+}
+
+export function FavoritesButton({ listing, width}: FavoritesButtonProps) {
   const user = useSelector((state: RootState) => state.userSlice.user);
   const [isLiked, setIsLiked] = useState(
     listing.likes?.includes(user?._id || '') || false
@@ -34,6 +39,7 @@ export function FavoritesButton({ listing }: { listing: TListing }) {
         {},
         { headers: { 'x-auth-token': token } }
       );
+      toast.success('Favorite updated successfully');
     } catch (error) {
       // Rollback on failure
       setIsLiked(previousState);
@@ -45,12 +51,12 @@ export function FavoritesButton({ listing }: { listing: TListing }) {
 
   return (
     <ActionIcon
-      variant="outline"
+      variant="transparent"
       color="purple"
       size={40}
       onClick={handleToggleLike}
-      loading={isLoading}
       style={{ flex: 1 }}
+      w={width}
     >
       {isLiked ? <IconHeartFilled /> : <IconHeart />}
     </ActionIcon>
