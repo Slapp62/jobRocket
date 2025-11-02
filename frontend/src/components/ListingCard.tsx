@@ -3,14 +3,19 @@ import { Badge, Box, Card, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { motion } from 'framer-motion';
 import { TListing } from '@/Types';
+import styles from './ListingCard.module.css';
 
 type ListingCardProps = {
   listing: TListing;
   actions?: React.ReactNode;
   onClick?: () => void;
+  width?: string | number;
+  mobileWidth?: string | number;
+  height?: string | number;
+  mobileHeight?: string | number;
 };
 
-function ListingCard({ listing, actions, onClick }: ListingCardProps) {
+function ListingCard({ listing, actions, onClick, width, mobileWidth, height, mobileHeight }: ListingCardProps) {
   const isMobile = useMediaQuery('(max-width: 500px)');
 
   return (
@@ -19,19 +24,21 @@ function ListingCard({ listing, actions, onClick }: ListingCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true, amount: 0.2 }}
-      style={{ width: isMobile ? '90%' : '320px' }}
+      whileHover={{ cursor: 'pointer' }}
+      style={{ width: isMobile ? mobileWidth : width, height: isMobile ? mobileHeight : height || '100%' }}
     >
       <Card
         shadow="sm"
         radius="md"
         withBorder
         style={{
-          cursor: onClick ? 'pointer' : 'default',
+          cursor: 'pointer',
           height: '100%',
           display: 'flex',
           flexDirection: 'column'
         }}
         onClick={onClick}
+        className={styles.hover}
       >
         <Stack gap="sm" style={{ flex: 1 }}>
           {/* Job Title */}

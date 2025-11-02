@@ -1,0 +1,16 @@
+.hover {
+  transition: all 0.3s ease;
+}
+.hover:hover {
+  background-color: #e7e7e7;
+}
+
+/* ListingCard.module.css or in your global styles */
+.listing-card-wrapper {
+  border-radius: 8px;
+  transition: outline 0.15s ease;
+}
+
+.listing-card-wrapper.selected {
+  outline: 2px solid #228be6;
+}

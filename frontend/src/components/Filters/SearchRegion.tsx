@@ -2,6 +2,7 @@ import { Select } from '@mantine/core';
 import { IconFilter2 } from '@tabler/icons-react';
 
 const REGION_OPTIONS = [
+  { value: '', label: 'All' },
   { value: 'Galilee', label: 'Galilee' },
   { value: 'Golan', label: 'Golan' },
   { value: 'Center', label: 'Center' },
