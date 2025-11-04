@@ -1,46 +1,21 @@
-import { useEffect, useState } from 'react';
 import { IconMoodSad } from '@tabler/icons-react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Center, Flex, Loader, Stack, Title } from '@mantine/core';
+import { Box, Button, Center, Flex, Loader, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import ListingCard from '@/components/ListingCard';
-import { ViewDetailsAction } from '@/components/ListingActions/ViewDetailsAction';
-import { SocialShareActions } from '@/components/ListingActions/SocialShareActions';
+import { FilterBar } from '@/components/Filters/FilterBar';
+import DesktopDefaultView from '@/components/ListingComponents/Views/DesktopDefaultView';
+import DesktopSplitView from '@/components/ListingComponents/Views/DesktopSplitView';
+import { AnimatePresence } from 'framer-motion';
+import { getParamsInfo } from '@/utils/getParamsInfo';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { TListing } from '@/Types';
 
 export function FavoriteListings() {
-  const [favorites, setFavorites] = useState<TListing[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const user = useSelector((state: RootState) => state.userSlice.user);
   const navigate = useNavigate();
   const isMobile = useMediaQuery('(max-width: 500px)');
+  const {searchParams, updateSearchParam, selectedId, displayListings, isLoading, noListings, totalCurrentListings, handleSelectListing, handleBackToAll } = getParamsInfo(`favorites/${user?._id}`);
 
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      if (!user?._id) {
-        setIsLoading(false);
-        return;
-      }
-
-      try {
-        const API_BASE_URL = import.meta.env.VITE_API_URL;
-        const response = await axios.get(
-          `${API_BASE_URL}/api/listings/favorites/${user._id}`
-        );
-        setFavorites(response.data);
-      } catch (error: any) {
-        console.error('Error fetching favorites:', error);
-        setFavorites([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchFavorites();
-  }, [user?._id]);
 
   if (isLoading) {
     return (
@@ -50,7 +25,7 @@ export function FavoriteListings() {
     );
   }
 
-  if (favorites.length === 0) {
+  if (noListings) {
     return (
       <Flex mt={20} direction="column" align="center" gap={20}>
         <Box mt={20}>
@@ -73,29 +48,29 @@ export function FavoriteListings() {
   }
 
   return (
-    <Flex mt={20} direction="column" align="center" gap={20}>
-      <Title>Favorites</Title>
+     <Box>
+        {/* Filters at top */}
+        <FilterBar searchParams={searchParams} updateSearchParam={updateSearchParam} isMobile={isMobile} />
 
-      <Flex
-        wrap="wrap"
-        gap="lg"
-        align="stretch"
-        justify="center"
-        w={isMobile ? '100%' : '80%'}
-      >
-        {favorites.map((listing) => (
-          <ListingCard
-            key={listing._id}
-            listing={listing}
-            actions={
-              <Stack gap="xs">
-                <ViewDetailsAction listingId={listing._id} />
-                <SocialShareActions listing={listing} />
-              </Stack>
-            }
-          />
-        ))}
-      </Flex>
-    </Flex>
+        <AnimatePresence mode="wait">
+          {selectedId ? (
+            <DesktopSplitView
+              displayListings={displayListings}
+              handleSelectListing={handleSelectListing}
+              handleBackToAll={handleBackToAll}
+              selectedId={selectedId}
+            />
+          ) : (
+            // FULL WIDTH GRID - Default view
+            <DesktopDefaultView
+              isLoading={isLoading}
+              noListings={noListings}
+              displayListings={displayListings}
+              totalCurrentListings={totalCurrentListings}
+              handleSelectListing={handleSelectListing}
+            />
+          )}
+        </AnimatePresence>
+      </Box>
   );
 }

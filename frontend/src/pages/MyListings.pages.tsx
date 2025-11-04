@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Box, Button, Center, Flex, Loader, Stack, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import ListingCard from '@/components/ListingCard';
+import ListingCard from '@/components/ListingComponents/ListingCard';
 import { EditDeleteActions } from '@/components/ListingActions/EditDeleteActions';
 import { ViewDetailsAction } from '@/components/ListingActions/ViewDetailsAction';
 import { TListing } from '@/Types';

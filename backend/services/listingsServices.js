@@ -26,33 +26,59 @@ const getSearchedListings = async (searchObj) => {
   }
 
   // Exact matches for dropdowns
-  if (searchObj.region && searchObj.region.trim() !== '') {
+  if (searchObj.region && searchObj.region.trim() !== '' && searchObj.region !== 'All Regions') {
     query['location.region'] = searchObj.region;
   }
 
-  if (searchObj.city && searchObj.city.trim() !== '') {
+  if (searchObj.city && searchObj.city.trim() !== '' && searchObj.city !== 'All Cities') {
     query['location.city'] = searchObj.city;
   }
 
-  if (searchObj.industry && searchObj.industry.trim() !== '') {
+  if (searchObj.industry && searchObj.industry.trim() !== '' && searchObj.industry !== 'All Industries') {
     query.industry = searchObj.industry;
   }
 
-  if (searchObj.workArrangement && searchObj.workArrangement.trim() !== '') {
+  if (searchObj.workArrangement && searchObj.workArrangement.trim() !== '' && searchObj.workArrangement !== 'All Work Arrangements') {
     query.workArrangement = searchObj.workArrangement;
   }
 
+  const page = parseInt(searchObj.page) || 1;
+  const limit = parseInt(searchObj.limit) || 20;
+  const skip = (page - 1) * limit;
+
+  const sortOptions = {
+    'title-asc': { jobTitle: 1 },
+    'title-desc': { jobTitle: -1 },
+    'date-created-old': { createdAt: 1 },
+    'date-created-new': { createdAt: -1 },
+  };
+  const sortBy = sortOptions[searchObj.sortOption] || { createdAt: -1 };
+
   // Execute search
-  const listings = await Listing.find(query);
+  const [listings, total] = await Promise.all([
+    Listing.find(query)
+      .sort(sortBy)
+      .skip(skip)
+      .limit(limit)
+      .lean(), // Returns plain objects (faster)
+    Listing.countDocuments(query) // Get total count for pagination info
+  ]);
   
   if (listings.length === 0) {
     throwError(404, "No listings found");
   }
   
-  const normalizedListings = listings.map((listing) =>
-    normalizeListingResponse(listing),
-  );
-  return normalizedListings;
+  return {
+    listings: listings.map(normalizeListingResponse),
+    pagination: {
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      totalResults: total,
+      perPage: limit,
+      hasNextPage: page < Math.ceil(total / limit),
+      hasPrevPage: page > 1
+    }
+  };
 };
 
 const createListing = async (listingData) => {

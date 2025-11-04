@@ -1,4 +1,7 @@
 const ISRAELI_CITIES_BY_REGION: Record<string, string[]> = {
+  All: [
+    'All Cities'
+  ],
   // Northern Israel - Galilee Region
   North: [
     'Haifa',

@@ -68,8 +68,8 @@ export function Navbar() {
               <Text fw={700}>Home</Text>
             </Link>
 
-            <Link to="/about" className={classes.link}>
-              <Text fw={700}>About</Text>
+            <Link to="/search" className={classes.link}>
+              <Text fw={700}>Job Board</Text>
             </Link>
 
             {loggedIn && (
@@ -77,6 +77,10 @@ export function Navbar() {
                 <Text fw={700}>Favorites</Text>
               </Link>
             )}
+
+            <Link to="/about" className={classes.link}>
+              <Text fw={700}>About</Text>
+            </Link>
 
             {loggedIn && isBusinessUser && (
               <Link to="/my-listings" className={classes.link}>

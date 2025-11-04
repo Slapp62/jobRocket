@@ -1,4 +1,5 @@
 const INDUSTRIES: string[] = [
+  'All Industries',
   // Tech & Digital
   'Software Development',
   'Cybersecurity',

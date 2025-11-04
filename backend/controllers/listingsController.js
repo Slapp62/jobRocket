@@ -35,13 +35,25 @@ listingRouter.get("/", async (_req, res) => {
   }
 });
 
-listingRouter.get("/search", async (req, res) => {
+listingRouter.get('/search', async (req, res) => {
   try {
-    const searchObj = req.query;
-    const listings = await getSearchedListings(searchObj);
-    handleSuccess(res, 200, listings, "Listings fetched successfully");
+    const searchObj = {
+      searchWord: req.query.searchWord || '',
+      region: req.query.region || '',
+      city: req.query.city || '',
+      industry: req.query.industry || '',
+      workArrangement: req.query.workArrangement || '',
+      sortOption: req.query.sortOption || '',
+      page: req.query.page || '1',
+      limit: req.query.limit || '20'
+    };
+
+    const result = await getSearchedListings(searchObj);
+    
+    // Return both listings and pagination
+    res.json(result);
   } catch (error) {
-    handleError(res, error.status, error.message);
+    handleError(res, error.status || 500, error.message);
   }
 });
 
@@ -77,10 +89,24 @@ listingRouter.get("/favorites/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const favoriteListings = await getLikedListings(userId);
+
+    // Return with pagination format to match /search endpoint
+    const result = {
+      listings: favoriteListings,
+      pagination: {
+        currentPage: 1,
+        totalPages: 1,
+        totalResults: favoriteListings.length,
+        perPage: favoriteListings.length,
+        hasNextPage: false,
+        hasPrevPage: false
+      }
+    };
+
     handleSuccess(
       res,
       200,
-      favoriteListings,
+      result,
       "Favorite listings fetched successfully",
     );
   } catch (error) {
