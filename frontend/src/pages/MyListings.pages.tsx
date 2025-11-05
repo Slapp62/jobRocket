@@ -1,45 +1,45 @@
-import { useEffect, useState } from 'react';
 import { IconCards, IconMoodSad } from '@tabler/icons-react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { Box, Button, Center, Flex, Loader, Stack, Title } from '@mantine/core';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Box, Button, Center, Flex, Loader, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import ListingCard from '@/components/ListingComponents/ListingCard';
-import { EditDeleteActions } from '@/components/ListingActions/EditDeleteActions';
-import { ViewDetailsAction } from '@/components/ListingActions/ViewDetailsAction';
-import { TListing } from '@/Types';
+import { FilterBar } from '@/components/Filters/FilterBar';
+import MyListingsDefaultView from '@/components/ListingComponents/Views/MyListingsDefaultView';
+import MyListingsSplitView from '@/components/ListingComponents/Views/MyListingsSplitView';
+import { AnimatePresence } from 'framer-motion';
+import { getParamsInfo } from '@/utils/getParamsInfo';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export function MyListings() {
-  const [myListings, setMyListings] = useState<TListing[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const user = useSelector((state: RootState) => state.userSlice.user);
   const navigate = useNavigate();
   const isMobile = useMediaQuery('(max-width: 500px)');
+  const [, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    const fetchMyListings = async () => {
-      try {
-        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-        const API_BASE_URL = import.meta.env.VITE_API_URL;
+  const {
+    searchParams: urlSearchParams,
+    updateSearchParam,
+    selectedId,
+    displayListings,
+    isLoading,
+    noListings,
+    totalCurrentListings,
+    handleBackToAll
+  } = getParamsInfo(`user-listings/${user?._id}`);
 
-        const response = await axios.get(`${API_BASE_URL}/api/listings/my-listings`, {
-          headers: { 'x-auth-token': token },
-        });
-
-        setMyListings(response.data);
-      } catch (error: any) {
-        console.error('Error fetching my listings:', error);
-        toast.error('Failed to load your listings');
-        setMyListings([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchMyListings();
-  }, []);
+  const handleEditListing = (listingId: string) => {
+    const params = new URLSearchParams(urlSearchParams);
+    params.set('selected', listingId);
+    setSearchParams(params);
+  };
 
   const handleDelete = async (listingId: string) => {
+    if (!window.confirm('Are you sure you want to delete this listing?')) {
+      return;
+    }
+
     try {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
       const API_BASE_URL = import.meta.env.VITE_API_URL;
@@ -48,24 +48,35 @@ export function MyListings() {
         headers: { 'x-auth-token': token },
       });
 
-      // Update local state - remove deleted listing
-      setMyListings((prev) => prev.filter((listing) => listing._id !== listingId));
       toast.success('Listing deleted successfully');
+
+      // If we're viewing the deleted listing, go back to all listings
+      if (selectedId === listingId) {
+        handleBackToAll();
+      }
+
+      // Refresh the page to reload listings
+      window.location.reload();
     } catch (error: any) {
       toast.error('Failed to delete listing');
-      throw error; // Re-throw so EditDeleteActions can handle loading state
+      throw error;
     }
+  };
+
+  const handleUpdate = () => {
+    // Refresh the page to reload updated listings
+    window.location.reload();
   };
 
   if (isLoading) {
     return (
       <Center>
-        <Loader color="cyan" size="xl" mt={100} />
+        <Loader color="cyan" size="xl" mt={30} />
       </Center>
     );
   }
 
-  if (myListings.length === 0) {
+  if (noListings) {
     return (
       <Flex mt={20} direction="column" align="center" gap={20}>
         <Box mt={20}>
@@ -88,46 +99,47 @@ export function MyListings() {
   }
 
   return (
-    <Flex mt={20} direction="column" align="center" gap={20}>
-      <Title>My Listings</Title>
+     <Box>
+        {/* Create button and filters at top */}
+        <Flex direction="column" gap="md" mb="md">
+          <FilterBar searchParams={urlSearchParams} updateSearchParam={updateSearchParam} isMobile={isMobile} />
+          <Button
+            component={Link}
+            to="/create-listing"
+            mx="auto"
+            variant="outline"
+            color="green"
+            size="md"
+            fz={20}
+            rightSection={<IconCards />}
+          >
+            Create A New Listing
+          </Button>
+          
+        </Flex>
 
-      <Button
-        component={Link}
-        to="/create-listing"
-        mx="auto"
-        variant="outline"
-        color="green"
-        size="md"
-        fz={20}
-        rightSection={<IconCards />}
-      >
-        Create A New Listing
-      </Button>
-
-      <Flex
-        wrap="wrap"
-        gap="lg"
-        align="stretch"
-        justify="center"
-        w={isMobile ? '100%' : '80%'}
-      >
-        {myListings.map((listing) => (
-          <ListingCard
-            key={listing._id}
-            listing={listing}
-            actions={
-              <Stack gap="xs">
-                <ViewDetailsAction listingId={listing._id} />
-                <EditDeleteActions
-                  listingId={listing._id}
-                  listingTitle={listing.jobTitle}
-                  onDelete={() => handleDelete(listing._id)}
-                />
-              </Stack>
-            }
-          />
-        ))}
-      </Flex>
-    </Flex>
+        <AnimatePresence mode="wait">
+          {selectedId ? (
+            <MyListingsSplitView
+              displayListings={displayListings}
+              handleEditListing={handleEditListing}
+              handleBackToAll={handleBackToAll}
+              selectedId={selectedId}
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+            />
+          ) : (
+            // FULL WIDTH GRID - Default view
+            <MyListingsDefaultView
+              isLoading={isLoading}
+              noListings={noListings}
+              displayListings={displayListings}
+              totalCurrentListings={totalCurrentListings}
+              handleEditListing={handleEditListing}
+              onDelete={handleDelete}
+            />
+          )}
+        </AnimatePresence>
+      </Box>
   );
 }

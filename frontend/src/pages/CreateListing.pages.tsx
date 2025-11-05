@@ -22,6 +22,7 @@ import { getCitiesByRegion, REGIONS } from '../data/israelCities.ts';
 import WORK_ARRANGEMENTS from '../data/workArr.ts';
 
 type ListingFormValues = {
+  companyName: string;
   jobTitle: string;
   jobDescription: string;
   requirements: string[];
@@ -54,6 +55,7 @@ export function CreateListing() {
     mode: 'all',
     resolver: joiResolver(listingSchema),
     defaultValues: {
+      companyName: '',
       requirements: [],
       advantages: [],
       apply: { method: 'email', contact: '' },
@@ -83,7 +85,7 @@ export function CreateListing() {
   const onSubmit = async (data: ListingFormValues) => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     axios.defaults.headers.common['x-auth-token'] = token;
-    const url = `${API_BASE_URL}/api/listings`;
+    const url = `${API_BASE_URL}/api/listings/`;
     const payload = {
       ...data,
       expiresAt: data.expiresAt ? new Date(data.expiresAt).toISOString() : null,
@@ -117,6 +119,13 @@ export function CreateListing() {
           style={{ width: isMobile ? '90%' : '50%' }}
         >
           <Fieldset legend="Job Info">
+            <TextInput
+              label="Company Name"
+              required
+              {...register('companyName')}
+              error={errors.companyName?.message}
+            />
+
             <TextInput
               label="Job Title"
               required

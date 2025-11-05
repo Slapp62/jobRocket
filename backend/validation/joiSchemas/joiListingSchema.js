@@ -4,6 +4,11 @@ const { WORK_ARRANGEMENTS } = require("../../data/workArr.js");
 const { CITIES, REGIONS } = require("../../data/israelCities.js");
 
 const joiListingSchema = joi.object({
+  companyName: joi.string().min(2).max(256).required().messages({
+    "string.min": "Company name must be at least 2 characters long",
+    "string.max": "Company name cannot exceed 256 characters",
+    "any.required": "Company name is required",
+  }),
   jobTitle: joi
     .string()
     .min(5)

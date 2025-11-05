@@ -1,4 +1,5 @@
 const INDUSTRIES = [
+  "All",
   // Tech & Digital
   "Software Development",
   "Cybersecurity",

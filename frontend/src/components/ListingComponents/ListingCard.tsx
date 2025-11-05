@@ -13,9 +13,10 @@ type ListingCardProps = {
   mobileWidth?: string | number;
   height?: string | number;
   mobileHeight?: string | number;
+  disableHoverEffect?: boolean;
 };
 
-function ListingCard({ listing, actions, onClick, width, mobileWidth, height, mobileHeight }: ListingCardProps) {
+function ListingCard({ listing, actions, onClick, width, mobileWidth, height, mobileHeight, disableHoverEffect }: ListingCardProps) {
   const isMobile = useMediaQuery('(max-width: 500px)');
 
   return (
@@ -24,7 +25,7 @@ function ListingCard({ listing, actions, onClick, width, mobileWidth, height, mo
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true, amount: 0.2 }}
-      whileHover={{ cursor: 'pointer' }}
+      whileHover={{ cursor: onClick ? 'pointer' : 'default' }}
       style={{ width: isMobile ? mobileWidth : width, height: isMobile ? mobileHeight : height || '100%' }}
     >
       <Card
@@ -32,20 +33,26 @@ function ListingCard({ listing, actions, onClick, width, mobileWidth, height, mo
         radius="md"
         withBorder
         style={{
-          cursor: 'pointer',
+          cursor: onClick ? 'pointer' : 'default',
           height: '100%',
           display: 'flex',
           flexDirection: 'column'
         }}
         onClick={onClick}
-        className={styles.hover}
+        className={disableHoverEffect ? undefined : styles.hover}
       >
         <Stack gap="sm" style={{ flex: 1 }}>
+          {/* Company Name */}
+          
+
           {/* Job Title */}
-          <Text fw={600} size="lg" lineClamp={2}>
+          <Text fw={600} size="lg" lineClamp={2} mt={-8}>
             {listing.jobTitle}
           </Text>
-
+          
+          <Text fw={700} size="md" c="dimmed">
+            {listing.companyName}
+          </Text>
           {/* Badges */}
           <Box>
             <Badge variant="filled" color="teal" mr="xs" size="sm">

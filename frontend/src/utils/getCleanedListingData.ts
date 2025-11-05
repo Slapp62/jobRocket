@@ -43,6 +43,7 @@ export const cleanedUserData = (user: TUsers) => ({
 });
 
 export const cleanedListingData = (listing: TListing) => ({
+  companyName: listing.companyName || '',
   jobTitle: listing.jobTitle,
   jobDescription: listing.jobDescription,
   requirements: listing.requirements || [],

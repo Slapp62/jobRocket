@@ -8,12 +8,14 @@ type EditDeleteActionsProps = {
   listingId: string;
   listingTitle: string;
   onDelete: () => Promise<void>;
+  onEdit?: () => void;
 };
 
 export function EditDeleteActions({
   listingId,
   listingTitle,
-  onDelete
+  onDelete,
+  onEdit
 }: EditDeleteActionsProps) {
   const [opened, { open, close }] = useDisclosure(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -31,17 +33,30 @@ export function EditDeleteActions({
   return (
     <>
       <Stack gap="xs">
-        <Button
-          fullWidth
-          variant="outline"
-          color="green"
-          size="sm"
-          component={Link}
-          to={`/edit-listing/${listingId}`}
-          leftSection={<IconEdit size={16} />}
-        >
-          Edit
-        </Button>
+        {onEdit ? (
+          <Button
+            fullWidth
+            variant="outline"
+            color="green"
+            size="sm"
+            onClick={onEdit}
+            leftSection={<IconEdit size={16} />}
+          >
+            Edit
+          </Button>
+        ) : (
+          <Button
+            fullWidth
+            variant="outline"
+            color="green"
+            size="sm"
+            component={Link}
+            to={`/edit-listing/${listingId}`}
+            leftSection={<IconEdit size={16} />}
+          >
+            Edit
+          </Button>
+        )}
         <Button
           fullWidth
           variant="outline"

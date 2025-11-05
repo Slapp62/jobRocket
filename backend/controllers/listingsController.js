@@ -57,12 +57,17 @@ listingRouter.get('/search', async (req, res) => {
   }
 });
 
-// 2 - get listings by user id
+// 2 - get listings by user id (authenticated)
 listingRouter.get("/my-listings", authenticateUser, async (req, res) => {
   try {
     const userId = req.user._id;
-    const userListings = await getUserListings(userId);
-    handleSuccess(res, 200, userListings, "User listings fetched successfully");
+    const queryParams = {
+      sortOption: req.query.sortOption || '',
+      page: req.query.page || '1',
+      limit: req.query.limit || '20'
+    };
+    const result = await getUserListings(userId, queryParams);
+    handleSuccess(res, 200, result, "User listings fetched successfully");
   } catch (error) {
     handleError(res, error.status, error.message);
   }
@@ -108,6 +113,28 @@ listingRouter.get("/favorites/:userId", async (req, res) => {
       200,
       result,
       "Favorite listings fetched successfully",
+    );
+  } catch (error) {
+    handleError(res, error.status, error.message);
+  }
+});
+
+// Get user's listings by user id (public endpoint for my-listings page)
+listingRouter.get("/user-listings/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const queryParams = {
+      sortOption: req.query.sortOption || '',
+      page: req.query.page || '1',
+      limit: req.query.limit || '20'
+    };
+    const result = await getUserListings(userId, queryParams);
+
+    handleSuccess(
+      res,
+      200,
+      result,
+      "User listings fetched successfully",
     );
   } catch (error) {
     handleError(res, error.status, error.message);

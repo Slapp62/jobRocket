@@ -1,4 +1,7 @@
 const ISRAELI_CITIES_BY_REGION = {
+  All: [
+    'All'
+  ],
   // Northern Israel - Galilee Region
   North: [
     "Haifa",

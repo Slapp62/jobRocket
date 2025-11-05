@@ -1,6 +1,6 @@
 const ISRAELI_CITIES_BY_REGION: Record<string, string[]> = {
   All: [
-    'All Cities'
+    'All'
   ],
   // Northern Israel - Galilee Region
   North: [

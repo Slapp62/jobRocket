@@ -9,6 +9,12 @@ const jobListingSchema = new Schema({
     ref: "Users",
     required: true,
   },
+  companyName: {
+    type: String,
+    required: true,
+    minLength: 2,
+    maxLength: 256,
+  },
   jobTitle: {
     type: String,
     required: true,

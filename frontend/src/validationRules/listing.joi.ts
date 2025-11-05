@@ -4,6 +4,11 @@ import { CITIES, REGIONS } from '../data/israelCities.ts';
 import WORK_ARRANGEMENTS from '../data/workArr.ts';
 
 export const listingSchema = Joi.object({
+  companyName: Joi.string().min(2).max(256).required().messages({
+    'string.min': 'Company name must be at least 2 characters long',
+    'string.max': 'Company name cannot exceed 256 characters',
+    'any.required': 'Company name is required',
+  }),
   jobTitle: Joi.string()
     .min(5)
     .max(100)

@@ -1,4 +1,5 @@
 const WORK_ARRANGEMENTS = [
+  "All",
   "Remote",
   "Hybrid",
   "On-site",

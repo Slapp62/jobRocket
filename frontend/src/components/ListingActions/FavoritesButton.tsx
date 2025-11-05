@@ -20,7 +20,7 @@ export function FavoritesButton({ listing, width}: FavoritesButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   if (!user) return null;
-
+  
   const handleToggleLike = async (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent card onClick from firing
 
@@ -51,8 +51,8 @@ export function FavoritesButton({ listing, width}: FavoritesButtonProps) {
 
   return (
     <ActionIcon
-      variant="transparent"
-      color="purple"
+      variant="light"
+      color="red"
       size={40}
       onClick={handleToggleLike}
       style={{ flex: 1 }}

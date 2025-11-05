@@ -1,18 +1,26 @@
-import { FavoritesButton } from "@/components/ListingActions/FavoritesButton"
-import { Box, Center, Flex, Group, Loader, Stack, Text } from "@mantine/core"
-import { IconMoodSad2 } from "@tabler/icons-react"
-import { motion } from "framer-motion"
-import ListingCard from "../ListingCard"
+import { Box, Center, Flex, Loader, Stack, Text } from "@mantine/core";
+import { IconMoodSad2 } from "@tabler/icons-react";
+import { motion } from "framer-motion";
+import ListingCard from "../ListingCard";
+import { EditDeleteActions } from "@/components/ListingActions/EditDeleteActions";
 
-interface DesktopDefaultViewProps {
+interface MyListingsDefaultViewProps {
     isLoading: boolean;
     noListings: boolean;
     displayListings: any[];
     totalCurrentListings: number;
-    handleSelectListing: (listingId: string) => void;
+    handleEditListing: (listingId: string) => void;
+    onDelete: (listingId: string) => Promise<void>;
 }
 
-const DesktopDefaultView = ({ isLoading, noListings, displayListings, totalCurrentListings, handleSelectListing }: DesktopDefaultViewProps) => {
+const MyListingsDefaultView = ({
+    isLoading,
+    noListings,
+    displayListings,
+    totalCurrentListings,
+    handleEditListing,
+    onDelete
+}: MyListingsDefaultViewProps) => {
     return (
       <motion.div
               key="grid-view"
@@ -51,22 +59,24 @@ const DesktopDefaultView = ({ isLoading, noListings, displayListings, totalCurre
                           key={listing._id}
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ 
-                            duration: 0.3, 
+                          transition={{
+                            duration: 0.3,
                             delay: index * 0.03,
                             ease: 'easeOut'
                           }}
-                          onClick={() => handleSelectListing(listing._id)}
-                          style={{ cursor: 'pointer' }}
                         >
                           <ListingCard
                             listing={listing}
                             actions={
-                              <Group gap={10} w="100%">
-                                <FavoritesButton listing={listing} />
-                              </Group>
+                              <EditDeleteActions
+                                listingId={listing._id}
+                                listingTitle={listing.jobTitle}
+                                onEdit={() => handleEditListing(listing._id)}
+                                onDelete={() => onDelete(listing._id)}
+                              />
                             }
                             width="300px"
+                            disableHoverEffect={true}
                           />
                         </motion.div>
                       ))}
@@ -83,4 +93,4 @@ const DesktopDefaultView = ({ isLoading, noListings, displayListings, totalCurre
     )
 }
 
-export default DesktopDefaultView
+export default MyListingsDefaultView;

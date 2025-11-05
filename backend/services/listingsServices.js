@@ -97,8 +97,29 @@ const getListingById = async (id) => {
   return normalizedListing;
 };
 
-const getUserListings = async (userId) => {
-  const userListings = await Listing.find({ businessId: userId });
+const getUserListings = async (userId, queryParams = {}) => {
+  const page = parseInt(queryParams.page) || 1;
+  const limit = parseInt(queryParams.limit) || 20;
+  const skip = (page - 1) * limit;
+
+  const sortOptions = {
+    'title-asc': { jobTitle: 1 },
+    'title-desc': { jobTitle: -1 },
+    'date-created-old': { createdAt: 1 },
+    'date-created-new': { createdAt: -1 },
+  };
+  const sortBy = sortOptions[queryParams.sortOption] || { createdAt: -1 };
+
+  // Execute query with pagination
+  const [userListings, total] = await Promise.all([
+    Listing.find({ businessId: userId })
+      .sort(sortBy)
+      .skip(skip)
+      .limit(limit)
+      .lean(),
+    Listing.countDocuments({ businessId: userId })
+  ]);
+
   if (userListings.length === 0) {
     throwError(404, "User has no listings");
   }
@@ -106,7 +127,18 @@ const getUserListings = async (userId) => {
   const normalizedUserListings = userListings.map((listing) =>
     normalizeListingResponse(listing),
   );
-  return normalizedUserListings;
+
+  return {
+    listings: normalizedUserListings,
+    pagination: {
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      totalResults: total,
+      perPage: limit,
+      hasNextPage: page < Math.ceil(total / limit),
+      hasPrevPage: page > 1
+    }
+  };
 };
 
 const getLikedListings = async (userId) => {

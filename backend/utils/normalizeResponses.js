@@ -52,6 +52,7 @@ const normalizeListingResponse = (listing) => {
   const normalizedListingData = {
     _id: listing._id,
     businessId: listing.businessId,
+    companyName: listing.companyName,
     jobTitle: listing.jobTitle,
     jobDescription: listing.jobDescription,
     requirements: listing.requirements,

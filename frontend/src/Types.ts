@@ -1,6 +1,7 @@
 export type TListing = {
   _id: string;
   businessId: string;
+  companyName: string;
   jobTitle: string;
   jobDescription: string;
   requirements: string[];

@@ -104,6 +104,9 @@ export function ListingDetailsPanel({ listingId }: ListingDetailPanelProps) {
         <Stack gap="md">
           {/* Header */}
           <Box>
+            <Text fw={700} size="lg" c="dimmed" mb={5}>
+              {listing.companyName}
+            </Text>
             <Title order={2} mb="xs">
               {listing.jobTitle}
             </Title>

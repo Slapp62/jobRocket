@@ -24,6 +24,7 @@ import { getCitiesByRegion, REGIONS } from '../data/israelCities.ts';
 import WORK_ARRANGEMENTS from '../data/workArr.ts';
 
 type ListingFormValues = {
+  companyName: string;
   jobTitle: string;
   jobDescription: string;
   requirements: string[];
@@ -63,6 +64,7 @@ export function EditListing() {
     defaultValues: listingData
       ? (cleanedListingData(listingData) as ListingFormValues)
       : {
+          companyName: '',
           jobTitle: '',
           jobDescription: '',
           requirements: [],
@@ -132,6 +134,14 @@ export function EditListing() {
           style={{ width: isMobile ? '90%' : '40%' }}
         >
           <Fieldset legend="Job Info">
+            <TextInput
+              label="Company Name"
+              required
+              disabled={isDisabled}
+              {...register('companyName')}
+              error={errors.companyName?.message}
+            />
+
             <TextInput
               label="Job Title"
               required
