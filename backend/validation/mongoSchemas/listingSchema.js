@@ -4,20 +4,27 @@ const { WORK_ARRANGEMENTS } = require("../../data/workArr.js");
 const { CITIES, REGIONS } = require("../../data/israelCities.js");
 
 const jobListingSchema = new Schema({
+  embedding: {
+    type: [Number],
+    default: null
+  },
   businessId: {
     type: Schema.Types.ObjectId,
     ref: "Users",
     required: true,
+    index: true,
   },
   companyName: {
     type: String,
     required: true,
+    index: true,
     minLength: 2,
     maxLength: 256,
   },
   jobTitle: {
     type: String,
     required: true,
+    index: true,
     minLength: 5,
     maxLength: 100,
     match: [
@@ -25,7 +32,7 @@ const jobListingSchema = new Schema({
       "Job title can only contain letters, spaces, and basic punctuation",
     ],
   },
-  jobDescription: { type: String, required: true, minLength: 10 },
+  jobDescription: { type: String, required: true, minLength: 10, index: true },
   requirements: [String],
   advantages: [String],
   apply: {
@@ -37,22 +44,26 @@ const jobListingSchema = new Schema({
       type: String,
       enum: REGIONS,
       required: true,
+      index: true,
     },
     city: {
       type: String,
       enum: CITIES,
       required: true,
+      index: true,
     },
   },
   workArrangement: {
     type: String,
     enum: WORK_ARRANGEMENTS,
     required: true,
+    index: true,
   },
   industry: {
     type: String,
     enum: INDUSTRIES,
     required: true,
+    index: true,
   },
   likes: [{ type: Schema.Types.ObjectId, ref: "Users" }],
   isActive: { type: Boolean, default: true },

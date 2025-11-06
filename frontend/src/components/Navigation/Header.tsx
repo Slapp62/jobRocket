@@ -21,7 +21,7 @@ import { clearUser } from '@/store/userSlice';
 import { AvatarIcon } from './Avatar';
 import { LightDarkToggle } from './LightDarkToggle';
 import { Logo } from './Logo';
-import classes from '../ComponentStyles/Navigation.module.css';
+import classes from '../ComponentStyles/Header.module.css';
 
 export function Navbar() {
   const user = useSelector((state: RootState) => state.userSlice.user);
@@ -98,18 +98,18 @@ export function Navbar() {
           <Group>
             <Group visibleFrom="xs">
               {!loggedIn && (
-                <Button component={Link} to="/login" variant="outline">
+                <Button component={Link} to="/login" variant="outline" color="blue">
                   Login
                 </Button>
               )}
               {!loggedIn && (
-                <Button component={Link} to="/register">
+                <Button component={Link} to="/register" color="blue" variant="filled">
                   Register
                 </Button>
               )}
 
               {loggedIn && (
-                <Button variant="outline" onClick={logoutHandler}>
+                <Button variant="outline" color="black" onClick={logoutHandler}>
                   Logout
                 </Button>
               )}
@@ -187,7 +187,7 @@ export function Navbar() {
 
           <Flex justify="space-evenly" ta="center" p="sm" gap={5} direction="column">
             {!loggedIn && (
-              <Button component={Link} to="/login" onClick={closeDrawer} w="95%" variant="outline">
+              <Button component={Link} to="/login" c="black" onClick={closeDrawer} w="95%" variant="outline">
                 Login
               </Button>
             )}

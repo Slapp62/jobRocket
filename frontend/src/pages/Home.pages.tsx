@@ -11,6 +11,7 @@ import { SearchRegion } from '@/components/Filters/SearchRegion';
 import { SearchCity } from '@/components/Filters/SearchCity';
 import { SearchIndustry } from '@/components/Filters/SearchIndustry';
 import { SearchWorkArrangement } from '@/components/Filters/SearchWorkArrangement';
+import styles from './HomePage.module.css';
 
 export function HomePage() {
   const isMobile = useMediaQuery('(max-width: 700px)');
@@ -59,9 +60,8 @@ export function HomePage() {
   return (
     <Box
       mb={-50}
-      h="80vh"
+      h="85vh"
       py={100}
-      style={{ background: 'linear-gradient(to bottom,rgb(240, 114, 12),rgb(199, 10, 10))' }}
     >
       <Stack
         w="70%"
@@ -69,20 +69,22 @@ export function HomePage() {
         px={50}
         py={30}
         mx="auto"
+       
         style={{
           borderRadius: '10px',
-          background: 'rgba(192, 192, 192, 0.92)',
+          background: 'linear-gradient(to bottom,rgba(240, 115, 12, 0.88),rgb(199, 10, 10))',
+          border: '1px solid rgba(255, 255, 255, 1)',
           boxShadow: '0px 5px 100px rgba(0, 0, 0, 0.61)',
         }}
       >
         {/* Conditional Welcome Message */}
         {!user && (
-          <Title ta="center" c="black">
+          <Title ta="center" className={styles.lightDark}>
             Find your next career!
           </Title>
         )}
         {user && (
-          <Text ta="center" c="blue" fw="bold" fz={30}>
+          <Text ta="center" className={styles.lightDark} fw="bold" fz={30}>
             Welcome Back
           </Text>
         )}
@@ -143,7 +145,7 @@ export function HomePage() {
         <Button
           mx="auto"
           variant="filled"
-          color="purple"
+          color="red"
           size="md"
           w="40%"
           fz={20}
@@ -155,8 +157,8 @@ export function HomePage() {
 
         {/* Conditinally Register */}
         {!user && (
-          <Title order={2} ta="center" style={{ color: 'black' }}>
-            <Link to="register" style={{ textDecoration: '', color: 'black' }}>
+          <Title order={2} ta="center" className={styles.lightDark}>
+            <Link to="register" style={{ textDecoration: ''}} className={styles.lightDark}>
               Register
             </Link>{' '}
             now and start your journey
@@ -171,7 +173,8 @@ export function HomePage() {
             fullWidth
             mx="auto"
             variant="filled"
-            color="blue"
+            color="white"
+            className={styles.lightDark}
             size="md"
             fz={20}
             rightSection={<IconCards />}

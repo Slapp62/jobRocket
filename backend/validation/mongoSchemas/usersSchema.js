@@ -3,6 +3,10 @@ const { WORK_ARRANGEMENTS } = require("../../data/workArr");
 const { INDUSTRIES } = require("../../data/industries");
 
 const userSchema = new Schema({
+  embedding: {
+    type: [Number],
+    default: null,
+  },
   email: {
     type: String,
     required: true,

@@ -25,10 +25,10 @@ export function Layout() {
 
   return (
     <>
-      <Flex direction="column" mih="100vh">
+      <Flex direction="column" mih="100vh" >
         <Navbar />
 
-        <main style={{ flex: 1, margin: 0 }}>
+        <main style={{ flex: 1, margin: 0}}>
           <Outlet />
         </main>
 
