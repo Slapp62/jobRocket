@@ -1,12 +1,13 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const express = require("express");
 const cors = require("cors");
 const { handleError } = require("./utils/functionHandlers");
-const dotenv = require("dotenv");
 const router = require("./controllers/main");
 const morgan = require("morgan");
 const errorLogger = require("./middleware/logging/errorLogger");
 require("./middleware/logging/morganTokens");
-dotenv.config();
 const app = express();
 
 // global middleware

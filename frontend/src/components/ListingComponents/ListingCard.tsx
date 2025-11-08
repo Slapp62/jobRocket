@@ -4,6 +4,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { motion } from 'framer-motion';
 import { TListing } from '@/Types';
 import styles from './ListingCard.module.css';
+import { MatchScore } from '../AI_Components/MatchScore';
 
 type ListingCardProps = {
   listing: TListing;

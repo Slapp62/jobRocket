@@ -1,5 +1,5 @@
 const { generateAuthToken } = require("../../auth/providers/jwt");
-const Users = require("../../validation/mongoSchemas/usersSchema");
+const Users = require("../../models/Users");
 
 const getUserToken = async (email) => {
   const user = await Users.findOne({ email });

@@ -1,12 +1,9 @@
 const { Schema, model } = require("mongoose");
-const { WORK_ARRANGEMENTS } = require("../../data/workArr");
-const { INDUSTRIES } = require("../../data/industries");
+const { WORK_ARRANGEMENTS } = require("../data/workArr");
+const { INDUSTRIES } = require("../data/industries");
+const { generateEmbedding, jobseekerToText } = require('../services/embeddingService.js');
 
 const userSchema = new Schema({
-  embedding: {
-    type: [Number],
-    default: null,
-  },
   email: {
     type: String,
     required: true,
@@ -42,6 +39,10 @@ const userSchema = new Schema({
     enum: ["jobseeker", "business"],
   },
   jobseekerProfile: {
+    embedding: {
+      type: [Number],
+      default: null,
+    },
     firstName: {
       type: String,
       required() {
@@ -212,6 +213,20 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+userSchema.pre('save', async function(next) {
+  // Only for jobseekers, and only if their profile changed or embedding is missing
+  if (this.profileType === 'jobseeker' && (this.isModified('jobseekerProfile') || this.isNew)) {
+    try {
+      const profileText = jobseekerToText(this.jobseekerProfile);
+      this.jobseekerProfile.embedding = await generateEmbedding(profileText);
+    } catch (error) {
+      console.error('Failed to generate jobseeker embedding:', error);
+      // Don't block the save if embedding fails
+    }
+  }
+  next();
 });
 
 const Users = model("Users", userSchema);

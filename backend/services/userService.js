@@ -1,6 +1,6 @@
 const { encryptPassword } = require("../utils/bcrypt");
 const { throwError } = require("../utils/functionHandlers");
-const Users = require("../validation/mongoSchemas/usersSchema");
+const Users = require("../models/Users.js");
 const { normalizeUserResponse } = require("../utils/normalizeResponses.js");
 
 const getAllUsers = async () => {

@@ -1,4 +1,4 @@
-const Listing = require("../validation/mongoSchemas/listingSchema");
+const Listing = require("../models/Listings.js");
 const { throwError } = require("../utils/functionHandlers");
 const { normalizeListingResponse } = require("../utils/normalizeResponses");
 

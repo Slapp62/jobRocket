@@ -24,13 +24,17 @@ function jobseekerToText(jobseekerProfile) {
 
 // Helper: job listing → text description
 function listingToText(listing) {
+  const requirements = Array.isArray(listing.requirements)
+    ? listing.requirements.join(', ')
+    : (listing.requirements || 'None specified');
+
   const parts = [
-    listing.title,
+    listing.jobTitle,
     listing.jobDescription,
-    `Requirements: ${listing.requirements || 'None specified'}`,
+    `Requirements: ${requirements}`,
     `Industry: ${listing.industry || ''}`
   ];
-  
+
   return parts.filter(p => p).join('\n').trim();
 }
 

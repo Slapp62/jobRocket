@@ -3,6 +3,9 @@ import { Box, Center, Flex, Group, Loader, Stack, Text } from "@mantine/core"
 import { IconMoodSad2 } from "@tabler/icons-react"
 import { motion } from "framer-motion"
 import ListingCard from "../ListingCard"
+import { MatchScore } from "@/components/AI_Components/MatchScore"
+import { useSelector } from "react-redux"
+import { RootState } from "@/store/store"
 
 interface DesktopDefaultViewProps {
     isLoading: boolean;
@@ -13,6 +16,7 @@ interface DesktopDefaultViewProps {
 }
 
 const DesktopDefaultView = ({ isLoading, noListings, displayListings, totalCurrentListings, handleSelectListing }: DesktopDefaultViewProps) => {
+  const { user } = useSelector((state: RootState) => state.userSlice)
     return (
       <motion.div
               key="grid-view"
@@ -64,6 +68,7 @@ const DesktopDefaultView = ({ isLoading, noListings, displayListings, totalCurre
                             actions={
                               <Group gap={10} w="100%">
                                 <FavoritesButton listing={listing} />
+                                {user && <MatchScore listingId={listing._id} />}
                               </Group>
                             }
                             width="300px"

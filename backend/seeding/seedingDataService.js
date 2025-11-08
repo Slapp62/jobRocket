@@ -1,7 +1,7 @@
 const { encryptPassword } = require("../utils/bcrypt");
 const normalizeListing = require("../utils/normalizeListing");
-const Listing = require("../validation/mongoSchemas/listingSchema");
-const Users = require("../validation/mongoSchemas/usersSchema");
+const Listing = require("../models/Listings");
+const Users = require("../models/Users");
 
 const seedDevData = async (users, listings) => {
   for (const user of users) {

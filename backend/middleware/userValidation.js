@@ -1,5 +1,5 @@
-const joiLoginSchema = require("../validation/joiSchemas/joiLoginSchema");
-const joiUserSchema = require("../validation/joiSchemas/joiUserSchema");
+const joiLoginSchema = require("../validation/Joi/joiLoginSchema");
+const joiUserSchema = require("../validation/Joi/joiUserSchema");
 const { nextError } = require("../utils/functionHandlers");
 
 const profileValidation = (req, res, next) => {

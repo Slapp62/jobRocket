@@ -1,8 +1,8 @@
 const config = require("config");
 const { throwError, nextError } = require("../utils/functionHandlers");
 const { verifyAuthToken } = require("../auth/providers/jwt");
-const Listing = require("../validation/mongoSchemas/listingSchema");
-const Users = require("../validation/mongoSchemas/usersSchema");
+const Listing = require("../models/Listings");
+const Users = require("../models/Users");
 const { verifyPassword } = require("../utils/bcrypt");
 
 const tokenGenerator = config.get("TOKEN_GENERATOR") || "jwt";

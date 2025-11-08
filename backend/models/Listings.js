@@ -1,7 +1,8 @@
 const { Schema, model } = require("mongoose");
-const { INDUSTRIES } = require("../../data/industries.js");
-const { WORK_ARRANGEMENTS } = require("../../data/workArr.js");
-const { CITIES, REGIONS } = require("../../data/israelCities.js");
+const { INDUSTRIES } = require("../data/industries.js");
+const { WORK_ARRANGEMENTS } = require("../data/workArr.js");
+const { CITIES, REGIONS } = require("../data/israelCities.js");
+const { generateEmbedding, listingToText } = require("../services/embeddingService.js");
 
 const jobListingSchema = new Schema({
   embedding: {
@@ -69,6 +70,20 @@ const jobListingSchema = new Schema({
   isActive: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
   expiresAt: Date,
+});
+
+jobListingSchema.pre('save', async function(next) {
+  // Generate embedding if listing content has changed
+  if (this.isModified('jobTitle') || this.isModified('jobDescription') || this.isModified('requirements') || this.isModified('industry')) {
+    try {
+      const listingText = listingToText(this);
+      this.embedding = await generateEmbedding(listingText);
+    } catch (error) {
+      console.error('Failed to generate listing embedding:', error);
+      // Don't block the save if embedding fails
+    }
+  }
+  next();
 });
 
 const Listing = model("JobListings", jobListingSchema);
