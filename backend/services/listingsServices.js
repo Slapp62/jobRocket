@@ -51,6 +51,8 @@ const getSearchedListings = async (searchObj) => {
     'title-desc': { jobTitle: -1 },
     'date-created-old': { createdAt: 1 },
     'date-created-new': { createdAt: -1 },
+    'match-score': { matchScore: -1 },
+    'match-score-desc': { matchScore: 1 },
   };
   const sortBy = sortOptions[searchObj.sortOption] || { createdAt: -1 };
 
@@ -107,6 +109,8 @@ const getUserListings = async (userId, queryParams = {}) => {
     'title-desc': { jobTitle: -1 },
     'date-created-old': { createdAt: 1 },
     'date-created-new': { createdAt: -1 },
+    'match-score': { matchScore: -1 },
+    'match-score-desc': { matchScore: 1 },
   };
   const sortBy = sortOptions[queryParams.sortOption] || { createdAt: -1 };
 

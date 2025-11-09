@@ -6,6 +6,8 @@ const SORT_OPTIONS = [
   { value: 'title-desc', label: 'Title (Z-A)' },
   { value: 'date-created-old', label: 'Date Created (Oldest First)' },
   { value: 'date-created-new', label: 'Date Created (Latest First)' },
+  { value: 'match-score', label: 'Match Score (Highest First)' },
+  { value: 'match-score-desc', label: 'Match Score (Lowest First)' },
 ];
 
 type SearchSortProps = {

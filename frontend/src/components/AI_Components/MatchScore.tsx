@@ -13,9 +13,10 @@ export function MatchScore({ listingId, size = 'md' }: MatchScoreProps) {
 
   useEffect(() => {
     async function fetchScore() {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
       try {
         const response = await axios.get(
-          `/api/recommendations/match-score/${listingId}`
+          `${API_BASE_URL}/api/recommendations/match-score/${listingId}`
         );
         setScore(response.data.matchScore);
       } catch (error) {
@@ -33,10 +34,10 @@ export function MatchScore({ listingId, size = 'md' }: MatchScoreProps) {
   if (score === null || score === undefined || isNaN(score)) return null;
 
   const percentage = Math.round(score * 100);
-  const color = percentage >= 80 ? 'green' : percentage >= 60 ? 'blue' : 'gray';
+  const color = percentage >= 80 ? 'green' : percentage >= 60 ? 'blue' : 'red';
 
   return (
-    <Badge color={color} size={size} variant="filled">
+    <Badge color={color} size="lg" variant="outline" radius="md" h="100%">
       {percentage}% Match
     </Badge>
   );
