@@ -20,11 +20,12 @@ const {
   verifyCredentials,
 } = require("../middleware/authService.js");
 const { generateAuthToken } = require("../auth/providers/jwt.js");
+const { loginLimiter, registrationLimiter } = require("../middleware/rateLimiter.js");
 
 const userRouter = express.Router();
 
 // 1 - Register a new user
-userRouter.post("/", profileValidation, async (req, res) => {
+userRouter.post("/", registrationLimiter, profileValidation, async (req, res) => {
   try {
     const userData = req.body;
     const user = await registerUser(userData);
@@ -38,6 +39,7 @@ userRouter.post("/", profileValidation, async (req, res) => {
 // 2 - User login
 userRouter.post(
   "/login",
+  loginLimiter,
   loginValidation,
   lockoutCheck,
   verifyCredentials,

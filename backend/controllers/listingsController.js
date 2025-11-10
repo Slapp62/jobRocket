@@ -22,6 +22,7 @@ const {
 } = require("../middleware/authService.js");
 const listingValidation = require("../middleware/listingValidation.js");
 const normalizeListing = require("../utils/normalizeListing.js");
+const { listingsLimiter } = require("../middleware/rateLimiter.js");
 
 const listingRouter = express.Router();
 
@@ -157,6 +158,7 @@ listingRouter.post(
   "/",
   authenticateUser,
   businessAuth,
+  listingsLimiter,
   listingValidation,
   async (req, res) => {
     try {
