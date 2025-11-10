@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { SearchPage } from '@/pages/Search.page';
+import ErrorFallback from '../components/ErrorCatching/ErrorFallback';
 import Error404 from '../pages/404.pages';
 import About from '../pages/About.pages';
 import AdminControls from '../pages/AdminControls/AdminControls.pages';
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
     {
       path: '/',
       element: <Layout />,
+      errorElement: <ErrorFallback />,
       children: [
         { index: true, element: <HomePage /> },
         { path: 'search', element: <SearchPage /> },

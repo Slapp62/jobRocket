@@ -1,5 +1,5 @@
-import { Select } from '@mantine/core';
 import { IconFilter2 } from '@tabler/icons-react';
+import { Select } from '@mantine/core';
 
 const REGION_OPTIONS = [
   { value: '', label: 'All' },

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import {
   Box,
   Burger,
@@ -16,6 +15,7 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { AppDispatch, RootState } from '@/store/store';
 import { clearUser } from '@/store/userSlice';
 import { AvatarIcon } from './Avatar';
@@ -38,7 +38,11 @@ export function Navbar() {
     dispatch(clearUser());
     sessionStorage.removeItem('token');
     localStorage.removeItem('token');
-    toast.success('Logged out successfully!');
+    notifications.show({
+      title: 'Success',
+      message: 'Logged out successfully!',
+      color: 'green',
+    });
   };
 
   const [scrolled, setScrolled] = useState(false);
@@ -187,7 +191,14 @@ export function Navbar() {
 
           <Flex justify="space-evenly" ta="center" p="sm" gap={5} direction="column">
             {!loggedIn && (
-              <Button component={Link} to="/login" c="black" onClick={closeDrawer} w="95%" variant="outline">
+              <Button
+                component={Link}
+                to="/login"
+                c="black"
+                onClick={closeDrawer}
+                w="95%"
+                variant="outline"
+              >
                 Login
               </Button>
             )}

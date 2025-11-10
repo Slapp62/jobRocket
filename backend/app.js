@@ -6,7 +6,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const { handleError } = require("./utils/functionHandlers");
-const router = require("./controllers/main");
+const router = require("./routes/main");
 const morgan = require("morgan");
 const errorLogger = require("./middleware/logging/errorLogger");
 require("./middleware/logging/morganTokens");

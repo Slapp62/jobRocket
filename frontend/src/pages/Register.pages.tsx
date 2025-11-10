@@ -3,9 +3,9 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { Anchor, Box, Button, Fieldset, Flex, FloatingIndicator, Tabs, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { BusinessFields } from '@/components/registrationForms/businessFields';
 import { JobseekerFields } from '@/components/registrationForms/jobseekerFields';
 import { SharedCredentials } from '@/components/registrationForms/shareCredentials';
@@ -17,6 +17,7 @@ export function RegisterForm() {
   const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
   const [tabValue, setTabValue] = useState<string | null>('jobseeker');
   const [controlsRefs, setControlsRefs] = useState<Record<string, HTMLButtonElement | null>>({});
+  const [isLoading, setIsLoading] = useState(false);
   const setControlRef = (val: string) => (node: HTMLButtonElement) => {
     controlsRefs[val] = node;
     setControlsRefs(controlsRefs);
@@ -61,16 +62,27 @@ export function RegisterForm() {
       // Don't include jobseekerProfile
     }
 
+    setIsLoading(true);
     try {
       const API_BASE_URL = import.meta.env.VITE_API_URL;
       const response = await axios.post(`${API_BASE_URL}/api/users/`, payload);
 
       if (response.status === 201) {
         jumpTo('/login');
-        toast.success('Registration successful!');
+        notifications.show({
+          title: 'Success',
+          message: 'Registration successful!',
+          color: 'green',
+        });
       }
     } catch (error: any) {
-      toast.error(error.response?.data?.message || error.message);
+      notifications.show({
+        title: 'Error',
+        message: error.response?.data?.message || error.message,
+        color: 'red',
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -149,7 +161,7 @@ export function RegisterForm() {
           >
             Reset Form
           </Button>
-          <Button type="submit" mx="auto" w={200} disabled={!isValid}>
+          <Button type="submit" mx="auto" w={200} disabled={!isValid} loading={isLoading}>
             Submit
           </Button>
 

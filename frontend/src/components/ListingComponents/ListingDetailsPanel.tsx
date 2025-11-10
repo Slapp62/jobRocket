@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { motion } from 'framer-motion';
+import { useSelector } from 'react-redux';
 import {
   Anchor,
   Badge,
@@ -13,10 +16,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { motion } from 'framer-motion';
+import { notifications } from '@mantine/notifications';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import SocialIcons from '@/components/SocialMedia';
 import { RootState } from '@/store/store';
@@ -48,7 +48,11 @@ export function ListingDetailsPanel({ listingId }: ListingDetailPanelProps) {
         setListing(response.data);
         clearTimeout(loaderTimer);
       } catch (error: any) {
-        toast.error('Failed to load listing details');
+        notifications.show({
+          title: 'Error',
+          message: 'Failed to load listing details',
+          color: 'red',
+        });
         setListing(null);
         clearTimeout(loaderTimer);
       } finally {
@@ -62,11 +66,7 @@ export function ListingDetailsPanel({ listingId }: ListingDetailPanelProps) {
   // Show loader only if loading takes longer than 300ms
   if (isLoading && showLoader) {
     return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      >
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
         <Box ta="center" py={50}>
           <Loader size="lg" />
         </Box>
@@ -81,11 +81,7 @@ export function ListingDetailsPanel({ listingId }: ListingDetailPanelProps) {
 
   if (!listing) {
     return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      >
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
         <Box ta="center" py={50}>
           <Text c="dimmed">Failed to load listing</Text>
         </Box>

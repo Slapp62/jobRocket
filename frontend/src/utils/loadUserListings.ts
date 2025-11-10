@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { notifications } from '@mantine/notifications';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
 
@@ -11,6 +11,10 @@ export const loadUserListings = async () => {
     });
     return response.data;
   } catch (error: any) {
-    toast.error(error);
+    notifications.show({
+      title: 'Error',
+      message: error?.message || 'Failed to load listings',
+      color: 'red',
+    });
   }
 };

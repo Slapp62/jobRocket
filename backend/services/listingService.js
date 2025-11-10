@@ -5,7 +5,7 @@ const { normalizeListingResponse } = require("../utils/normalizeResponses");
 const getAllListings = async () => {
   const listings = await Listing.find({});
   if (listings.length === 0) {
-    throwError(404, "No listings found");
+    throwError(404, "No job listings available at the moment.");
   }
   const normalizedListings = listings.map((listing) =>
     normalizeListingResponse(listing),
@@ -67,9 +67,9 @@ const getSearchedListings = async (searchObj) => {
   ]);
   
   if (listings.length === 0) {
-    throwError(404, "No listings found");
+    throwError(404, "No jobs match your search. Try adjusting your filters.");
   }
-  
+
   return {
     listings: listings.map(normalizeListingResponse),
     pagination: {
@@ -93,7 +93,7 @@ const createListing = async (listingData) => {
 const getListingById = async (id) => {
   const listing = await Listing.findById(id);
   if (!listing) {
-    throwError(404, "Listing not found");
+    throwError(404, "This job listing is no longer available.");
   }
   const normalizedListing = normalizeListingResponse(listing);
   return normalizedListing;
@@ -125,7 +125,7 @@ const getUserListings = async (userId, queryParams = {}) => {
   ]);
 
   if (userListings.length === 0) {
-    throwError(404, "User has no listings");
+    throwError(404, "You haven't posted any job listings yet.");
   }
 
   const normalizedUserListings = userListings.map((listing) =>
@@ -148,7 +148,7 @@ const getUserListings = async (userId, queryParams = {}) => {
 const getLikedListings = async (userId) => {
   const likedListings = await Listing.find({ likes: { $in: userId } });
   if (likedListings.length === 0) {
-    throwError(404, "User has no liked listings");
+    throwError(404, "You haven't saved any job listings yet.");
   }
   const normalizedLikedListings = likedListings.map((listing) =>
     normalizeListingResponse(listing),
@@ -165,7 +165,7 @@ const editListingById = async (listingId, updateData) => {
     },
   );
   if (!updatedListing) {
-    throwError(404, "Listing not found");
+    throwError(404, "This job listing couldn't be updated. It may have been removed.");
   }
 
   const normalizedUpdatedListing = normalizeListingResponse(updatedListing);
@@ -175,7 +175,7 @@ const editListingById = async (listingId, updateData) => {
 const deleteListingById = async (listingId) => {
   const deletedListing = await Listing.findByIdAndDelete(listingId);
   if (!deletedListing) {
-    throwError(404, "Listing not found");
+    throwError(404, "This job listing couldn't be deleted. It may have already been removed.");
   }
   const normalizedDeletedListing = normalizeListingResponse(deletedListing);
   return normalizedDeletedListing;
@@ -185,7 +185,7 @@ const toggleLike = async (listingId, userId) => {
   const listing = await Listing.findById(listingId);
 
   if (!listing) {
-    throwError(400, "Listing not found.");
+    throwError(400, "This job listing is no longer available.");
   }
 
   if (listing.likes.includes(userId)) {

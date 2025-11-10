@@ -6,7 +6,7 @@ const { normalizeUserResponse } = require("../utils/normalizeResponses.js");
 const getAllUsers = async () => {
   const users = await Users.find().select("-password").lean();
   if (!users || users.length === 0) {
-    throwError(400, "No users found");
+    throwError(400, "No users found in the system.");
   }
   const normalizedUsers = users.map((user) => normalizeUserResponse(user));
   return normalizedUsers;
@@ -32,7 +32,7 @@ const registerUser = async (userData) => {
 const getUserById = async (userId) => {
   const user = await Users.findById(userId);
   if (!user) {
-    throwError(404, "User not found");
+    throwError(404, "Account not found. Please check and try again.");
   }
   const normalizedUser = normalizeUserResponse(user);
   return normalizedUser;
@@ -43,7 +43,7 @@ const updateProfile = async (userId, updateData) => {
     new: true,
   });
   if (!updatedUser) {
-    throwError(404, "User not found");
+    throwError(404, "Your profile couldn't be updated. Please try logging in again.");
   }
   const normalizedUser = normalizeUserResponse(updatedUser);
   return normalizedUser;
@@ -52,7 +52,7 @@ const updateProfile = async (userId, updateData) => {
 const toggleRole = async (userId) => {
   const user = await Users.findById(userId);
   if (!user) {
-    throwError(404, "User not found");
+    throwError(404, "Your account couldn't be found. Please try logging in again.");
   }
   const newProfileType = user.profileType === "jobseeker" ? "business" : "jobseeker";
   const updatedUser = await Users.findByIdAndUpdate(

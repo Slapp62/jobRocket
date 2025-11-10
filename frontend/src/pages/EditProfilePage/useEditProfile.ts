@@ -4,8 +4,8 @@ import axios from 'axios';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { clearUser, setUser, updateUser } from '@/store/userSlice';
 import { TUsers } from '@/Types';
@@ -80,11 +80,17 @@ export const useEditProfile = () => {
         }
         reset(cleanedUserData(updatedUser));
         setDisabled(true);
-        toast.success('Profile Updated Successfully!', { position: `bottom-right` });
+        notifications.show({
+          title: 'Success',
+          message: 'Profile Updated Successfully!',
+          color: 'green',
+        });
       }
     } catch (error: any) {
-      toast.error(`Update Failed! ${error?.response?.data || error.message}`, {
-        position: `bottom-right`,
+      notifications.show({
+        title: 'Error',
+        message: `Update Failed! ${error?.response?.data || error.message}`,
+        color: 'red',
       });
     }
   };
@@ -107,12 +113,20 @@ export const useEditProfile = () => {
             dispatch(updateUser(updatedUser));
           }
           reset(cleanedUserData(updatedUser));
-          toast.success('Account Status Updated');
+          notifications.show({
+            title: 'Success',
+            message: 'Account Status Updated',
+            color: 'green',
+          });
           setSubmitting(false);
         }, 1000);
       }
     } catch (error: any) {
-      toast.error(error.response.data.message, { position: `bottom-right` });
+      notifications.show({
+        title: 'Error',
+        message: error.response.data.message,
+        color: 'red',
+      });
     }
   };
 
@@ -123,10 +137,18 @@ export const useEditProfile = () => {
       const response = await axios.delete(`${API_BASE_URL}/api/users/${userData?._id}`);
       if (response.status === 200) {
         !isAdminView ? dispatch(clearUser()) : jumpTo('/admin');
-        toast.warning('Account Deleted.', { position: 'bottom-right' });
+        notifications.show({
+          title: 'Warning',
+          message: 'Account Deleted.',
+          color: 'orange',
+        });
       }
     } catch (error: any) {
-      toast.error(error.response.data.message, { position: `bottom-right` });
+      notifications.show({
+        title: 'Error',
+        message: error.response.data.message,
+        color: 'red',
+      });
     }
   };
 

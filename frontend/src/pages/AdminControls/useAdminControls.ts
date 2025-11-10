@@ -2,8 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { useGetAllUsers } from '@/hooks/UseGetAllUser';
 import { removeUser } from '@/store/userSlice';
 import { TUsers } from '@/Types';
@@ -21,18 +21,30 @@ export const useAdminControls = () => {
   // delete user
   const deleteUser = async (id?: string) => {
     if (!id) {
-      return toast.error('User ID not found.', { position: 'bottom-right' });
+      return notifications.show({
+        title: 'Error',
+        message: 'User ID not found.',
+        color: 'red',
+      });
     }
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     axios.defaults.headers.common['x-auth-token'] = token;
     try {
       const response = await axios.delete(`${API_BASE_URL}/api/users/${id}`);
       if (response.status === 200) {
-        toast.warning('Account Deleted.', { position: 'bottom-right' });
+        notifications.show({
+          title: 'Warning',
+          message: 'Account Deleted.',
+          color: 'orange',
+        });
         dispatch(removeUser(id));
       }
     } catch (error: any) {
-      toast.error(error.response.data.message, { position: `bottom-right` });
+      notifications.show({
+        title: 'Error',
+        message: error.response.data.message,
+        color: 'red',
+      });
     }
   };
 

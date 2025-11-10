@@ -1,102 +1,102 @@
-import { Flex, ScrollArea, Stack, Button, Box } from "@mantine/core";
-import { IconArrowLeft } from "@tabler/icons-react";
-import { motion } from "framer-motion";
-import ListingCard from "../ListingCard";
-import { EditListingPanel } from "../EditListingPanel";
+import { IconArrowLeft } from '@tabler/icons-react';
+import { motion } from 'framer-motion';
+import { Box, Button, Flex, ScrollArea, Stack } from '@mantine/core';
+import { EditListingPanel } from '../EditListingPanel';
+import ListingCard from '../ListingCard';
 
 interface MyListingsSplitViewProps {
-    displayListings: any[];
-    handleEditListing: (listingId: string) => void;
-    handleBackToAll: () => void;
-    selectedId: string;
-    onDelete: (listingId: string) => Promise<void>;
-    onUpdate: () => void;
+  displayListings: any[];
+  handleEditListing: (listingId: string) => void;
+  handleBackToAll: () => void;
+  selectedId: string;
+  onDelete: (listingId: string) => Promise<void>;
+  onUpdate: () => void;
 }
 
 const MyListingsSplitView = ({
-    displayListings,
-    handleEditListing,
-    handleBackToAll,
-    selectedId,
-    onDelete,
-    onUpdate
+  displayListings,
+  handleEditListing,
+  handleBackToAll,
+  selectedId,
+  onDelete,
+  onUpdate,
 }: MyListingsSplitViewProps) => {
-    return(
-      // SPLIT VIEW - When listing is selected for editing
-            <motion.div
-              key="split-view"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              style={{ width: '80vw', margin: 'auto' }}
-            >
-              <Flex h="calc(100vh - 200px)" gap={0}>
-                {/* LEFT SIDE: Condensed listing cards */}
-                <motion.div
-                  initial={{ width: 0, opacity: 0 }}
-                  animate={{ width: '40%', opacity: 1 }}
-                  exit={{ width: 0, opacity: 0 }}
-                  transition={{ duration: 0.4, ease: 'easeInOut' }}
+  return (
+    // SPLIT VIEW - When listing is selected for editing
+    <motion.div
+      key="split-view"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      style={{ width: '80vw', margin: 'auto' }}
+    >
+      <Flex h="calc(100vh - 200px)" gap={0}>
+        {/* LEFT SIDE: Condensed listing cards */}
+        <motion.div
+          initial={{ width: 0, opacity: 0 }}
+          animate={{ width: '40%', opacity: 1 }}
+          exit={{ width: 0, opacity: 0 }}
+          transition={{ duration: 0.4, ease: 'easeInOut' }}
+          style={{
+            borderRight: '1px solid #dee2e6',
+            overflow: 'hidden',
+          }}
+        >
+          <ScrollArea h="100%">
+            <Stack gap="sm" p="md">
+              {/* Back button */}
+              <Button
+                variant="subtle"
+                leftSection={<IconArrowLeft size={16} />}
+                onClick={handleBackToAll}
+                mb="sm"
+                w="80%"
+                mx="auto"
+              >
+                Go Back
+              </Button>
+
+              {displayListings.map((listing) => (
+                <Box
+                  key={listing._id}
+                  onClick={() => handleEditListing(listing._id)}
                   style={{
-                    borderRight: '1px solid #dee2e6',
-                    overflow: 'hidden'
+                    cursor: 'pointer',
+                    outline: selectedId === listing._id ? '2px solid #228be6' : 'none',
+                    borderRadius: '8px',
+                    transition: 'outline 0.2s ease',
                   }}
                 >
-                  <ScrollArea h="100%">
-                    <Stack gap="sm" p="md">
-                      {/* Back button */}
-                      <Button
-                        variant="subtle"
-                        leftSection={<IconArrowLeft size={16} />}
-                        onClick={handleBackToAll}
-                        mb="sm"
-                        w='80%'
-                        mx='auto'
-                      >
-                        Go Back
-                      </Button>
+                  <ListingCard listing={listing} width="100%" />
+                </Box>
+              ))}
+            </Stack>
+          </ScrollArea>
+        </motion.div>
 
-                      {displayListings.map((listing) => (
-                        <Box
-                          key={listing._id}
-                          onClick={() => handleEditListing(listing._id)}
-                          style={{
-                            cursor: 'pointer',
-                            outline: selectedId === listing._id ? '2px solid #228be6' : 'none',
-                            borderRadius: '8px',
-                            transition: 'outline 0.2s ease',
-                          }}
-                        >
-                          <ListingCard listing={listing} width="100%" />
-                        </Box>
-                      ))}
-                    </Stack>
-                  </ScrollArea>
-                </motion.div>
-
-                {/* RIGHT SIDE: Edit panel */}
-                <motion.div
-                  initial={{ width: 0, opacity: 0 }}
-                  animate={{ width: '60%', opacity: 1 }}
-                  exit={{ width: 0, opacity: 0 }}
-                  transition={{ duration: 0.4, ease: 'easeInOut' }}
-                  style={{ overflow: 'hidden' }}
-                >
-                  <ScrollArea h="100%">
-                    <Box p="lg">
-                      <EditListingPanel
-                        listingId={selectedId}
-                        onDelete={onDelete}
-                        onCancel={handleBackToAll}
-                        onUpdate={onUpdate}
-                      />
-                    </Box>
-                  </ScrollArea>
-                </motion.div>
-              </Flex>
-            </motion.div>
-    )
-}
+        {/* RIGHT SIDE: Edit panel */}
+        <motion.div
+          initial={{ width: 0, opacity: 0 }}
+          animate={{ width: '60%', opacity: 1 }}
+          exit={{ width: 0, opacity: 0 }}
+          transition={{ duration: 0.4, ease: 'easeInOut' }}
+          style={{ overflow: 'hidden' }}
+        >
+          <ScrollArea h="100%">
+            <Box p="lg">
+              <EditListingPanel
+                listingId={selectedId}
+                onDelete={onDelete}
+                onCancel={handleBackToAll}
+                onUpdate={onUpdate}
+              />
+            </Box>
+          </ScrollArea>
+        </motion.div>
+      </Flex>
+    </motion.div>
+  );
+};
 
 export default MyListingsSplitView;

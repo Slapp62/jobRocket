@@ -1,23 +1,23 @@
 import { useEffect, useMemo, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { IconDeviceFloppy, IconTrash, IconX } from '@tabler/icons-react';
 import axios from 'axios';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import {
   Button,
+  Center,
   Fieldset,
   Flex,
+  Group,
+  Loader,
   Select,
   Stack,
   Switch,
   Textarea,
   TextInput,
   Title,
-  Loader,
-  Center,
-  Group,
 } from '@mantine/core';
-import { IconTrash, IconDeviceFloppy, IconX } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
 import { TListing } from '@/Types';
 import { cleanedListingData } from '@/utils/getCleanedListingData';
 import { listingSchema } from '@/validationRules/listing.joi';
@@ -52,7 +52,12 @@ interface EditListingPanelProps {
   onUpdate: () => void;
 }
 
-export function EditListingPanel({ listingId, onDelete, onCancel, onUpdate }: EditListingPanelProps) {
+export function EditListingPanel({
+  listingId,
+  onDelete,
+  onCancel,
+  onUpdate,
+}: EditListingPanelProps) {
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
   const [listingData, setListingData] = useState<TListing | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -78,7 +83,11 @@ export function EditListingPanel({ listingId, onDelete, onCancel, onUpdate }: Ed
         const defaults = cleanedListingData(response.data) as ListingFormValues;
         reset(defaults);
       } catch (error: any) {
-        toast.error('Failed to load listing data');
+        notifications.show({
+          title: 'Error',
+          message: 'Failed to load listing data',
+          color: 'red',
+        });
         console.error(error);
       } finally {
         setIsLoading(false);
@@ -117,10 +126,18 @@ export function EditListingPanel({ listingId, onDelete, onCancel, onUpdate }: Ed
           headers: { 'x-auth-token': token },
         }
       );
-      toast.success('Listing updated successfully!');
+      notifications.show({
+        title: 'Success',
+        message: 'Listing updated successfully!',
+        color: 'green',
+      });
       onUpdate();
     } catch (error: any) {
-      toast.error(`Update failed! ${error?.response?.data?.message || error.message}`);
+      notifications.show({
+        title: 'Error',
+        message: `Update failed! ${error?.response?.data?.message || error.message}`,
+        color: 'red',
+      });
     } finally {
       setIsSaving(false);
     }
@@ -144,12 +161,7 @@ export function EditListingPanel({ listingId, onDelete, onCancel, onUpdate }: Ed
     <Stack gap="md" p="md">
       <Flex justify="space-between" align="center">
         <Title order={2}>Edit Listing</Title>
-        <Button
-          variant="subtle"
-          color="gray"
-          onClick={onCancel}
-          leftSection={<IconX size={16} />}
-        >
+        <Button variant="subtle" color="gray" onClick={onCancel} leftSection={<IconX size={16} />}>
           Cancel
         </Button>
       </Flex>

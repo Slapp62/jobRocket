@@ -1,16 +1,16 @@
 import { IconCards, IconMoodSad } from '@tabler/icons-react';
+import axios from 'axios';
+import { AnimatePresence } from 'framer-motion';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Box, Button, Center, Flex, Loader, Title } from '@mantine/core';
+import { Box, Button, Center, Flex, Skeleton, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { FilterBar } from '@/components/Filters/FilterBar';
 import MyListingsDefaultView from '@/components/ListingComponents/Views/MyListingsDefaultView';
 import MyListingsSplitView from '@/components/ListingComponents/Views/MyListingsSplitView';
-import { AnimatePresence } from 'framer-motion';
-import { getParamsInfo } from '@/utils/getParamsInfo';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import { getParamsInfo } from '@/utils/getParamsInfo';
 
 export function MyListings() {
   const user = useSelector((state: RootState) => state.userSlice.user);
@@ -26,7 +26,7 @@ export function MyListings() {
     isLoading,
     noListings,
     totalCurrentListings,
-    handleBackToAll
+    handleBackToAll,
   } = getParamsInfo(`user-listings/${user?._id}`);
 
   const handleEditListing = (listingId: string) => {
@@ -48,7 +48,11 @@ export function MyListings() {
         headers: { 'x-auth-token': token },
       });
 
-      toast.success('Listing deleted successfully');
+      notifications.show({
+        title: 'Success',
+        message: 'Listing deleted successfully',
+        color: 'green',
+      });
 
       // If we're viewing the deleted listing, go back to all listings
       if (selectedId === listingId) {
@@ -58,7 +62,11 @@ export function MyListings() {
       // Refresh the page to reload listings
       window.location.reload();
     } catch (error: any) {
-      toast.error('Failed to delete listing');
+      notifications.show({
+        title: 'Error',
+        message: 'Failed to delete listing',
+        color: 'red',
+      });
       throw error;
     }
   };
@@ -70,9 +78,15 @@ export function MyListings() {
 
   if (isLoading) {
     return (
-      <Center>
-        <Loader color="cyan" size="xl" mt={30} />
-      </Center>
+      <Flex direction="column" align="center" mx="auto" gap={20} py="md" w="90vw">
+        <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="90%" mx="auto">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Box key={i} style={{ width: isMobile ? '95vw' : '300px' }}>
+              <Skeleton height={280} radius="md" />
+            </Box>
+          ))}
+        </Flex>
+      </Flex>
     );
   }
 
@@ -99,47 +113,50 @@ export function MyListings() {
   }
 
   return (
-     <Box>
-        {/* Create button and filters at top */}
-        <Flex direction="column" gap="md" mb="md">
-          <FilterBar searchParams={urlSearchParams} updateSearchParam={updateSearchParam} isMobile={isMobile} />
-          <Button
-            component={Link}
-            to="/create-listing"
-            mx="auto"
-            variant="outline"
-            color="green"
-            size="md"
-            fz={20}
-            rightSection={<IconCards />}
-          >
-            Create A New Listing
-          </Button>
-          
-        </Flex>
+    <Box>
+      {/* Create button and filters at top */}
+      <Flex direction="column" gap="md" mb="md">
+        <FilterBar
+          searchParams={urlSearchParams}
+          updateSearchParam={updateSearchParam}
+          isMobile={isMobile}
+        />
+        <Button
+          component={Link}
+          to="/create-listing"
+          mx="auto"
+          variant="outline"
+          color="green"
+          size="md"
+          fz={20}
+          rightSection={<IconCards />}
+        >
+          Create A New Listing
+        </Button>
+      </Flex>
 
-        <AnimatePresence mode="wait">
-          {selectedId ? (
-            <MyListingsSplitView
-              displayListings={displayListings}
-              handleEditListing={handleEditListing}
-              handleBackToAll={handleBackToAll}
-              selectedId={selectedId}
-              onDelete={handleDelete}
-              onUpdate={handleUpdate}
-            />
-          ) : (
-            // FULL WIDTH GRID - Default view
-            <MyListingsDefaultView
-              isLoading={isLoading}
-              noListings={noListings}
-              displayListings={displayListings}
-              totalCurrentListings={totalCurrentListings}
-              handleEditListing={handleEditListing}
-              onDelete={handleDelete}
-            />
-          )}
-        </AnimatePresence>
-      </Box>
+      <AnimatePresence mode="wait">
+        {selectedId ? (
+          <MyListingsSplitView
+            displayListings={displayListings}
+            handleEditListing={handleEditListing}
+            handleBackToAll={handleBackToAll}
+            selectedId={selectedId}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate}
+          />
+        ) : (
+          // FULL WIDTH GRID - Default view
+          <MyListingsDefaultView
+            isLoading={isLoading}
+            noListings={noListings}
+            displayListings={displayListings}
+            totalCurrentListings={totalCurrentListings}
+            handleEditListing={handleEditListing}
+            onDelete={handleDelete}
+          />
+        )}
+      </AnimatePresence>
+    </Box>
   );
 }

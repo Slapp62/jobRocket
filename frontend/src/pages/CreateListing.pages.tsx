@@ -1,9 +1,8 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import {
   Button,
   Fieldset,
@@ -16,6 +15,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { listingSchema } from '@/validationRules/listing.joi';
 import INDUSTRIES from '../data/industries.ts';
 import { getCitiesByRegion, REGIONS } from '../data/israelCities.ts';
@@ -45,6 +45,7 @@ export function CreateListing() {
   const jumpTo = useNavigate();
   const isMobile = useMediaQuery('(max-width: 700px)');
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -91,17 +92,26 @@ export function CreateListing() {
       expiresAt: data.expiresAt ? new Date(data.expiresAt).toISOString() : null,
     };
 
+    setIsLoading(true);
     try {
       const response = await axios.post(url, payload);
 
       if (response.status === 201) {
-        toast.success('Listing created!', { position: 'bottom-right' });
+        notifications.show({
+          title: 'Success',
+          message: 'Listing created!',
+          color: 'green',
+        });
         jumpTo('/my-listings');
       }
     } catch (error: any) {
-      toast.error(`Listing creation failed! ${error?.response?.data || error.message}`, {
-        position: 'bottom-right',
+      notifications.show({
+        title: 'Error',
+        message: `Listing creation failed! ${error?.response?.data || error.message}`,
+        color: 'red',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -305,7 +315,7 @@ export function CreateListing() {
         </Flex>
 
         <Flex justify="center" my={10}>
-          <Button type="submit" size="lg" disabled={!isValid}>
+          <Button type="submit" size="lg" disabled={!isValid} loading={isLoading}>
             Create
           </Button>
         </Flex>

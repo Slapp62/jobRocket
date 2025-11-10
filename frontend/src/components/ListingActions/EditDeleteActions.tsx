@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Button, Group, Modal, Stack, Text } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
+import { Button, Group, Modal, Stack, Text } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 type EditDeleteActionsProps = {
   listingId: string;
@@ -15,7 +15,7 @@ export function EditDeleteActions({
   listingId,
   listingTitle,
   onDelete,
-  onEdit
+  onEdit,
 }: EditDeleteActionsProps) {
   const [opened, { open, close }] = useDisclosure(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -69,26 +69,13 @@ export function EditDeleteActions({
         </Button>
       </Stack>
 
-      <Modal
-        opened={opened}
-        onClose={close}
-        title="Delete Listing"
-        centered
-      >
+      <Modal opened={opened} onClose={close} title="Delete Listing" centered>
         <Text>Are you sure you want to delete "{listingTitle}"?</Text>
         <Group mt={20} justify="flex-end" gap="sm">
-          <Button
-            variant="outline"
-            onClick={close}
-            disabled={isDeleting}
-          >
+          <Button variant="outline" onClick={close} disabled={isDeleting}>
             Cancel
           </Button>
-          <Button
-            color="red"
-            onClick={handleDelete}
-            loading={isDeleting}
-          >
+          <Button color="red" onClick={handleDelete} loading={isDeleting}>
             Delete
           </Button>
         </Group>

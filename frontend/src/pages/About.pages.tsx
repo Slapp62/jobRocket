@@ -1,7 +1,6 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { IconBriefcase, IconUsers, IconWorld } from '@tabler/icons-react';
-import { toast } from 'react-toastify';
 import {
   Button,
   Container,
@@ -17,8 +16,11 @@ import {
   Title,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 
 const AboutPage: FC = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const form = useForm({
     initialValues: {
       name: '',
@@ -39,14 +41,26 @@ const AboutPage: FC = () => {
     const templateID = 'template_itsqp9u';
     const publicKey = 'a6IxywqmqlHjFDfxD';
 
+    setIsSubmitting(true);
     emailjs
       .send(serviceID, templateID, values, publicKey)
       .then(() => {
-        toast.success('Message sent successfully!');
+        notifications.show({
+          title: 'Success',
+          message: 'Message sent successfully!',
+          color: 'green',
+        });
         form.reset();
       })
       .catch((error: any) => {
-        toast.error(`Failed to send the message, please try again. ${error.message}`);
+        notifications.show({
+          title: 'Error',
+          message: `Failed to send the message, please try again. ${error.message}`,
+          color: 'red',
+        });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
       });
   };
 
@@ -131,7 +145,7 @@ const AboutPage: FC = () => {
           {...form.getInputProps('message')}
         />
         <Group justify="center" mt="xl">
-          <Button type="submit" size="md">
+          <Button type="submit" size="md" loading={isSubmitting}>
             Send message
           </Button>
         </Group>

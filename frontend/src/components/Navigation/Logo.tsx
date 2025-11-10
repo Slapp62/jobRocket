@@ -6,7 +6,7 @@ import { Group, Image } from '@mantine/core';
 export function Logo() {
   return (
     <Link to="/" style={{ textDecoration: 'none' }}>
-      <Group align='center' justify='center'>
+      <Group align="center" justify="center">
         <Image src={icon} alt="Logo" height={50} />
         <Image src={name} alt="Logo" height={30} />
       </Group>

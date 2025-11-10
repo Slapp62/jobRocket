@@ -1,5 +1,5 @@
-import { Select } from '@mantine/core';
 import { IconFilter2 } from '@tabler/icons-react';
+import { Select } from '@mantine/core';
 
 const SORT_OPTIONS = [
   { value: 'title-asc', label: 'Title (A-Z)' },

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { setAllUsers } from '@/store/userSlice';
 
@@ -22,7 +22,11 @@ export function useGetAllUsers() {
           const response = await axios.get(`${API_BASE_URL}/api/users`);
           dispatch(setAllUsers(response.data));
         } catch (error: any) {
-          toast.error(error);
+          notifications.show({
+            title: 'Error',
+            message: error?.message || 'Failed to load users',
+            color: 'red',
+          });
         }
       };
       loadUsers();

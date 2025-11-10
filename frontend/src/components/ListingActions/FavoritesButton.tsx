@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
-import { ActionIcon } from '@mantine/core';
-import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { ActionIcon } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
 
@@ -12,15 +12,13 @@ interface FavoritesButtonProps {
   width?: string;
 }
 
-export function FavoritesButton({ listing, width}: FavoritesButtonProps) {
+export function FavoritesButton({ listing, width }: FavoritesButtonProps) {
   const user = useSelector((state: RootState) => state.userSlice.user);
-  const [isLiked, setIsLiked] = useState(
-    listing.likes?.includes(user?._id || '') || false
-  );
+  const [isLiked, setIsLiked] = useState(listing.likes?.includes(user?._id || '') || false);
   const [isLoading, setIsLoading] = useState(false);
 
   if (!user) return null;
-  
+
   const handleToggleLike = async (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent card onClick from firing
 
@@ -39,11 +37,19 @@ export function FavoritesButton({ listing, width}: FavoritesButtonProps) {
         {},
         { headers: { 'x-auth-token': token } }
       );
-      toast.success('Favorite updated successfully');
+      notifications.show({
+        title: 'Success',
+        message: 'Favorite updated successfully',
+        color: 'green',
+      });
     } catch (error) {
       // Rollback on failure
       setIsLiked(previousState);
-      toast.error('Failed to update favorite');
+      notifications.show({
+        title: 'Error',
+        message: 'Failed to update favorite',
+        color: 'red',
+      });
     } finally {
       setIsLoading(false);
     }

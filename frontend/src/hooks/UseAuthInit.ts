@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { notifications } from '@mantine/notifications';
 import { setUser } from '@/store/userSlice';
 import { TdecodedToken } from '@/Types';
 
@@ -24,7 +24,11 @@ export function useAuthInit() {
 
           dispatch(setUser(userData.data));
         } catch (error: any) {
-          toast.error('Could not auto-login in. Please login again.', error.response.data);
+          notifications.show({
+            title: 'Error',
+            message: 'Could not auto-login in. Please login again.',
+            color: 'red',
+          });
         }
       }
     };

@@ -3,11 +3,12 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import {
   Button,
+  Center,
   Fieldset,
   Flex,
+  Loader,
   Paper,
   Select,
   Switch,
@@ -16,6 +17,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { TListing } from '@/Types';
 import { cleanedListingData } from '@/utils/getCleanedListingData';
 import { listingSchema } from '@/validationRules/listing.joi';
@@ -48,8 +50,9 @@ export function EditListing() {
   const { id } = useParams();
   const isMobile = useMediaQuery('(max-width: 700px)');
   const [isDisabled, setDisabled] = useState(true);
-
-  const listingData = undefined;
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [listingData, setListingData] = useState<TListing | null>(null);
 
   const {
     register,
@@ -78,12 +81,34 @@ export function EditListing() {
         },
   });
 
+  // Fetch listing data on mount
   useEffect(() => {
-    if (listingData) {
-      const defaults = cleanedListingData(listingData) as ListingFormValues;
-      reset(defaults);
-    }
-  }, [reset, listingData]);
+    const fetchListing = async () => {
+      if (!id) return;
+
+      setIsLoading(true);
+      try {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+        axios.defaults.headers.common['x-auth-token'] = token;
+
+        const response = await axios.get(`${API_BASE_URL}/api/listings/${id}`);
+        setListingData(response.data);
+
+        const defaults = cleanedListingData(response.data) as ListingFormValues;
+        reset(defaults);
+      } catch (error: any) {
+        notifications.show({
+          title: 'Error',
+          message: `Failed to load listing: ${error?.response?.data?.message || error.message}`,
+          color: 'red',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchListing();
+  }, [id, reset, API_BASE_URL]);
 
   const selectedRegion = useWatch({
     control,
@@ -101,23 +126,42 @@ export function EditListing() {
   }, [selectedRegion]);
 
   const onSubmit = async (data: ListingFormValues) => {
+    setIsSubmitting(true);
     try {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      axios.defaults.headers.common['x-auth-token'] = token;
+
       const response = await axios.put(`${API_BASE_URL}/api/listings/${id}`, {
         ...data,
         expiresAt: data.expiresAt ? new Date(data.expiresAt).toISOString() : null,
       });
       if (response.status === 200) {
-        toast.success('Listing updated successfully!', {
-          position: 'bottom-right',
+        notifications.show({
+          title: 'Success',
+          message: 'Listing updated successfully!',
+          color: 'green',
         });
         setDisabled(true);
       }
     } catch (error: any) {
-      toast.error(`Update failed! ${error?.response?.data?.message || error.message}`, {
-        position: 'bottom-right',
+      notifications.show({
+        title: 'Error',
+        message: `Update failed! ${error?.response?.data?.message || error.message}`,
+        color: 'red',
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
+  // Show loading state while fetching listing data
+  if (isLoading) {
+    return (
+      <Center h="50vh">
+        <Loader size="lg" />
+      </Center>
+    );
+  }
 
   return (
     <Paper>
@@ -353,7 +397,7 @@ export function EditListing() {
             Reset
           </Button>
 
-          <Button type="submit" size="md" disabled={!isValid || !isDirty}>
+          <Button type="submit" size="md" disabled={!isValid || !isDirty} loading={isSubmitting}>
             Update
           </Button>
         </Flex>

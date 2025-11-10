@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Badge, Loader } from '@mantine/core';
 import axios from 'axios';
+import { Badge, Loader } from '@mantine/core';
 
 interface MatchScoreProps {
   listingId: string;

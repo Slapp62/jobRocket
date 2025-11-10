@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import { Flex } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { MobileBottomNav } from '@/components/Navigation/MobileNav.tsx';
@@ -25,25 +24,16 @@ export function Layout() {
 
   return (
     <>
-      <Flex direction="column" mih="100vh" >
+      <Flex direction="column" mih="100vh">
         <Navbar />
 
-        <main style={{ flex: 1, margin: 0}}>
+        <main style={{ flex: 1, margin: 0 }}>
           <Outlet />
         </main>
 
         <Footer />
 
         {isMobile && isBusiness && <MobileBottomNav />}
-
-        <ToastContainer
-          position={isMobile ? 'top-right' : 'bottom-right'}
-          toastClassName="custom-toast"
-          newestOnTop={!isMobile}
-          theme="light"
-          autoClose={3000}
-          closeOnClick
-        />
       </Flex>
     </>
   );

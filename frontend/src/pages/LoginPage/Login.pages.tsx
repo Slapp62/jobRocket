@@ -5,7 +5,6 @@ import { jwtDecode } from 'jwt-decode';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import {
   Button,
   Checkbox,
@@ -17,6 +16,7 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { AppDispatch } from '@/store/store';
 import { setUser } from '@/store/userSlice';
 import { TdecodedToken } from '@/Types';
@@ -66,11 +66,19 @@ export function LoginPage() {
       const userResponse = await axios.get(`${API_BASE_URL}/api/users/${_id}`);
 
       dispatch(setUser(userResponse.data));
-      toast.success('Logged In!', { position: 'bottom-right' });
+      notifications.show({
+        title: 'Success',
+        message: 'Logged In!',
+        color: 'green',
+      });
 
       jumpTo('/');
     } catch (error: any) {
-      toast.error(error.response.data.message, { position: 'bottom-right' });
+      notifications.show({
+        title: 'Error',
+        message: error.response.data.message,
+        color: 'red',
+      });
     } finally {
       setIsLoading(false);
     }

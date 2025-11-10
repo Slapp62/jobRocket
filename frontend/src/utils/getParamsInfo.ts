@@ -1,8 +1,8 @@
-import { TListing } from "@/Types";
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSearchParams } from 'react-router-dom';
+import { notifications } from '@mantine/notifications';
+import { TListing } from '@/Types';
 
 export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,7 +21,7 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
     totalResults: 0,
     perPage: 20,
     hasNextPage: false,
-    hasPrevPage: false
+    hasPrevPage: false,
   });
 
   // Fetch search results when URL params change
@@ -50,7 +50,11 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
         setListings(response.data.listings);
         setPaginationInfo(response.data.pagination);
       } catch (error: any) {
-        toast.error(error.response?.data?.message || error.message);
+        notifications.show({
+          title: 'Error',
+          message: error.response?.data?.message || error.message,
+          color: 'red',
+        });
         setListings([]);
       } finally {
         setIsLoading(false);
@@ -118,6 +122,6 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
     handleBackToAll,
     updateSearchParam,
     searchParams,
-    setSearchParams
+    setSearchParams,
   };
-}
+};
