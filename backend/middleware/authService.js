@@ -2,8 +2,7 @@ const config = require("config");
 const { throwError, nextError } = require("../utils/functionHandlers");
 const { verifyAuthToken } = require("../auth/providers/jwt");
 const Listing = require("../models/Listings");
-const Users = require("../models/Users");
-const { verifyPassword } = require("../utils/bcrypt");
+const authService = require("../services/authService");
 
 const tokenGenerator = config.get("TOKEN_GENERATOR") || "jwt";
 
@@ -11,21 +10,9 @@ const lockoutCheck = async (req, _res, next) => {
   const { email } = req.body;
 
   try {
-    const user = await Users.findOne({ email });
-    if (!user) {
-      return next();
-    }
-    const isPrevTimeout = user.loginTimeout > 0;
-    const isLockedOut = Date.now() - user.loginTimeout < 60 * 1000;
-    const lockoutTime = 60 - (Date.now() - user.loginTimeout) / 1000;
+    const { isLockedOut, lockoutTime } = await authService.checkLockoutStatus(email);
 
-    if (!isLockedOut && user.loginAttempts === 3) {
-      user.loginAttempts = 0;
-      user.loginTimeout = 0;
-      await user.save();
-    }
-
-    if (isPrevTimeout && isLockedOut) {
+    if (isLockedOut) {
       throwError(
         403,
         `Access denied. You have been locked out. Time remaining: ${lockoutTime}s`,
@@ -40,35 +27,8 @@ const lockoutCheck = async (req, _res, next) => {
 const verifyCredentials = async (req, _res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await Users.findOne({ email });
-    if (!user) {
-      throwError(401, "Invalid email or password.");
-    }
-
-    const enteredPassword = password;
-    const savedPassword = user.password;
-    const isPasswordValid = await verifyPassword(
-      enteredPassword,
-      savedPassword,
-    );
-    const loginAttempts = user.loginAttempts;
-
-    if (user && !isPasswordValid) {
-      user.loginAttempts = loginAttempts + 1;
-
-      if (user.loginAttempts === 3) {
-        user.loginTimeout = Date.now();
-      }
-
-      await user.save();
-      throwError(401, "Invalid email or password.");
-    }
-
-    user.loginAttempts = 0;
-    user.loginTimeout = 0;
-    await user.save();
+    const user = await authService.verifyUserCredentials(email, password);
     req.user = user;
-
     next();
   } catch (error) {
     return next(error);
