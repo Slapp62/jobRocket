@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Badge, Box, Card, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { TListing } from '@/Types';
-import { MatchScore } from '../AI_Components/MatchScore';
+import { MatchScore } from '../../AI_Components/MatchScore';
 import styles from './ListingCard.module.css';
 
 type ListingCardProps = {

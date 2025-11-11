@@ -17,6 +17,7 @@ import {
   Title,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { PageMeta } from '@/SEO/PageMeta';
 import { AppDispatch } from '@/store/store';
 import { setUser } from '@/store/userSlice';
 import { TdecodedToken } from '@/Types';
@@ -85,12 +86,19 @@ export function LoginPage() {
   };
 
   return (
-    <Container size={420} my={100}>
-      {message && (
-        <Title order={3} ta="center" c="red" mb={10}>
-          {message}
-        </Title>
-      )}
+    <>
+      <PageMeta
+        title="Log In | JobRocket"
+        description="Log in to your JobRocket account"
+        keywords="login, sign in, account access"
+      />
+
+      <Container size={420} my={100}>
+        {message && (
+          <Title order={3} ta="center" c="red" mb={10}>
+            {message}
+          </Title>
+        )}
       {!message && (
         <Title ta="center" className={classes.title}>
           Welcome back!
@@ -135,6 +143,7 @@ export function LoginPage() {
           </Button>
         </form>
       </Paper>
-    </Container>
+      </Container>
+    </>
   );
 }

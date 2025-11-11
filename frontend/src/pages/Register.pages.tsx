@@ -9,6 +9,7 @@ import { notifications } from '@mantine/notifications';
 import { BusinessFields } from '@/components/registrationForms/businessFields';
 import { JobseekerFields } from '@/components/registrationForms/jobseekerFields';
 import { SharedCredentials } from '@/components/registrationForms/shareCredentials';
+import { PageMeta } from '@/SEO/PageMeta';
 import { TUsers } from '@/Types';
 import { registrationSchema } from '@/validationRules/register.joi';
 import classes from './formTabs.module.css';
@@ -87,10 +88,17 @@ export function RegisterForm() {
   };
 
   return (
-    <Flex style={{ width: isMobile ? '95%' : '70%' }} mx="auto" direction="column">
-      <Box ref={registerRef} ta="center">
-        <h1>Registration Form</h1>
-      </Box>
+    <>
+      <PageMeta
+        title="Sign Up | JobRocket"
+        description="Create your JobRocket account to start finding English-speaking jobs in Israel"
+        keywords="register, sign up, create account, job seeker registration"
+      />
+
+      <Flex style={{ width: isMobile ? '95%' : '70%' }} mx="auto" direction="column">
+        <Box ref={registerRef} ta="center">
+          <h1>Registration Form</h1>
+        </Box>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Flex
@@ -173,6 +181,7 @@ export function RegisterForm() {
           </Text>
         </Flex>
       </form>
-    </Flex>
+      </Flex>
+    </>
   );
 }

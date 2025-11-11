@@ -1,6 +1,7 @@
 const listingService = require("../services/listingService.js");
 const { handleSuccess, handleError } = require("../utils/functionHandlers.js");
 const normalizeListing = require("../utils/normalizeListing.js");
+const {normalizeSearch} = require("../services/filterService.js");
 
 async function getAllListings(req, res) {
   try {
@@ -13,18 +14,8 @@ async function getAllListings(req, res) {
 
 async function getSearchedListings(req, res) {
   try {
-    const searchObj = {
-      searchWord: req.query.searchWord || '',
-      region: req.query.region || '',
-      city: req.query.city || '',
-      industry: req.query.industry || '',
-      workArrangement: req.query.workArrangement || '',
-      sortOption: req.query.sortOption || '',
-      page: req.query.page || '1',
-      limit: req.query.limit || '20'
-    };
-
-    const result = await listingService.getSearchedListings(searchObj);
+    const normalizedSearchParams = normalizeSearch(req.query);
+    const result = await listingService.getSearchedListings(normalizedSearchParams);
     res.json(result);
   } catch (error) {
     handleError(res, error.status || 500, error.message);

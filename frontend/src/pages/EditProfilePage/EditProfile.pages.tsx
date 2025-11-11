@@ -3,6 +3,7 @@ import { Button, Fieldset, Flex, Text, TextInput, Title } from '@mantine/core';
 import { DeleteUserModal } from '@/components/Modals/DeleteUserModal';
 import { BusinessFields } from '@/components/registrationForms/businessFields';
 import { JobseekerFields } from '@/components/registrationForms/jobseekerFields';
+import { PageMeta } from '@/SEO/PageMeta';
 import { useEditProfile } from './useEditProfile';
 
 export function EditProfile() {
@@ -34,6 +35,12 @@ export function EditProfile() {
 
   return (
     <>
+      <PageMeta
+        title="My Profile | JobRocket"
+        description="Manage your JobRocket profile and job search preferences"
+        keywords="job seeker profile, manage account, profile settings"
+      />
+
       <Flex mt={20} direction="column" align="center" gap={20}>
         <Title>Edit Profile</Title>
 

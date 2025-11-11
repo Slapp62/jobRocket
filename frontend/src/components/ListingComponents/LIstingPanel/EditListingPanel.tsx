@@ -21,9 +21,9 @@ import { notifications } from '@mantine/notifications';
 import { TListing } from '@/Types';
 import { cleanedListingData } from '@/utils/getCleanedListingData';
 import { listingSchema } from '@/validationRules/listing.joi';
-import INDUSTRIES from '../../data/industries.ts';
-import { getCitiesByRegion, REGIONS } from '../../data/israelCities.ts';
-import WORK_ARRANGEMENTS from '../../data/workArr.ts';
+import INDUSTRIES from '../../../data/industries.ts';
+import { getCitiesByRegion, REGIONS } from '../../../data/israelCities.ts';
+import WORK_ARRANGEMENTS from '../../../data/workArr.ts';
 
 type ListingFormValues = {
   companyName: string;

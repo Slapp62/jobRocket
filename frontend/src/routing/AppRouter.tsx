@@ -9,7 +9,6 @@ import { EditListing } from '../pages/EditListing.pages';
 import { EditProfile } from '../pages/EditProfilePage/EditProfile.pages';
 import { FavoriteListings } from '../pages/Favorites.pages';
 import { HomePage } from '../pages/Home.pages';
-import { ListingDetails } from '../pages/ListingDetails.pages';
 import { LoginPage } from '../pages/LoginPage/Login.pages';
 import { MyListings } from '../pages/MyListings.pages';
 import { RegisterForm } from '../pages/Register.pages';
@@ -28,7 +27,6 @@ const router = createBrowserRouter(
         { path: 'login', element: <LoginPage /> },
         { path: 'about', element: <About /> },
         { path: 'register', element: <RegisterForm /> },
-        { path: 'listing-details/:id', element: <ListingDetails /> },
         { path: 'edit-listing/:id', element: <EditListing /> },
         {
           path: 'favorites',

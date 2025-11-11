@@ -5,7 +5,7 @@ import { Box, Center, Flex, Group, Skeleton, Stack, Text } from '@mantine/core';
 import { MatchScore } from '@/components/AI_Components/MatchScore';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import { RootState } from '@/store/store';
-import ListingCard from '../ListingCard';
+import ListingCard from '../ListingCard/ListingCard';
 
 interface DesktopDefaultViewProps {
   isLoading: boolean;
@@ -37,7 +37,9 @@ const DesktopDefaultView = ({
             <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="90%" mx="auto">
               {Array.from({ length: 6 }).map((_, i) => (
                 <Box key={i} style={{ width: '300px' }}>
-                  <Skeleton height={280} radius="md" />
+                  <Skeleton height={1} circle />
+                  <Skeleton height={1} />
+                  <Skeleton height={1} />
                 </Box>
               ))}
             </Flex>

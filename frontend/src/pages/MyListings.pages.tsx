@@ -9,6 +9,7 @@ import { notifications } from '@mantine/notifications';
 import { FilterBar } from '@/components/Filters/FilterBar';
 import MyListingsDefaultView from '@/components/ListingComponents/Views/MyListingsDefaultView';
 import MyListingsSplitView from '@/components/ListingComponents/Views/MyListingsSplitView';
+import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 import { getParamsInfo } from '@/utils/getParamsInfo';
 
@@ -113,8 +114,15 @@ export function MyListings() {
   }
 
   return (
-    <Box>
-      {/* Create button and filters at top */}
+    <>
+      <PageMeta
+        title="My Job Listings | JobRocket"
+        description="Manage your company's job postings on JobRocket"
+        keywords="employer dashboard, manage job postings, business listings"
+      />
+
+      <Box>
+        {/* Create button and filters at top */}
       <Flex direction="column" gap="md" mb="md">
         <FilterBar
           searchParams={urlSearchParams}
@@ -157,6 +165,7 @@ export function MyListings() {
           />
         )}
       </AnimatePresence>
-    </Box>
+      </Box>
+    </>
   );
 }

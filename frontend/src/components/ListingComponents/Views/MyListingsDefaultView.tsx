@@ -2,7 +2,7 @@ import { IconMoodSad2 } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import { Box, Center, Flex, Loader, Stack, Text } from '@mantine/core';
 import { EditDeleteActions } from '@/components/ListingActions/EditDeleteActions';
-import ListingCard from '../ListingCard';
+import ListingCard from '../ListingCard/ListingCard';
 
 interface MyListingsDefaultViewProps {
   isLoading: boolean;

@@ -4,7 +4,7 @@ import { Box, Button, Flex, Group, Pagination, Skeleton, Text } from '@mantine/c
 import { useMediaQuery } from '@mantine/hooks';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import { ViewDetailsAction } from '@/components/ListingActions/ViewDetailsAction';
-import ListingCard from '../ListingCard';
+import ListingCard from '../ListingCard/ListingCard';
 
 interface MobileViewProps {
   displayListings: any[];

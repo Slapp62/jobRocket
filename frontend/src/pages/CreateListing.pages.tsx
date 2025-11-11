@@ -16,6 +16,7 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { PageMeta } from '@/SEO/PageMeta';
 import { listingSchema } from '@/validationRules/listing.joi';
 import INDUSTRIES from '../data/industries.ts';
 import { getCitiesByRegion, REGIONS } from '../data/israelCities.ts';
@@ -116,11 +117,18 @@ export function CreateListing() {
   };
 
   return (
-    <Paper>
-      <Title ta="center" my={10}>
-        Create A Listing
-      </Title>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <>
+      <PageMeta
+        title="Post a Job | JobRocket"
+        description="Create a new job listing and reach English-speaking candidates in Israel"
+        keywords="post job, create listing, hire employees, job posting"
+      />
+
+      <Paper>
+        <Title ta="center" my={10}>
+          Create A Listing
+        </Title>
+        <form onSubmit={handleSubmit(onSubmit)}>
         <Flex
           direction="column"
           gap={10}
@@ -320,6 +328,7 @@ export function CreateListing() {
           </Button>
         </Flex>
       </form>
-    </Paper>
+      </Paper>
+    </>
   );
 }

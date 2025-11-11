@@ -7,6 +7,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { FilterBar } from '@/components/Filters/FilterBar';
 import DesktopDefaultView from '@/components/ListingComponents/Views/DesktopDefaultView';
 import DesktopSplitView from '@/components/ListingComponents/Views/DesktopSplitView';
+import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 import { getParamsInfo } from '@/utils/getParamsInfo';
 
@@ -58,8 +59,15 @@ export function FavoriteListings() {
   }
 
   return (
-    <Box>
-      {/* Filters at top */}
+    <>
+      <PageMeta
+        title="My Saved Jobs | JobRocket"
+        description="View and manage your saved job listings"
+        keywords="saved jobs, favorites, bookmarked listings"
+      />
+
+      <Box>
+        {/* Filters at top */}
       <FilterBar
         searchParams={searchParams}
         updateSearchParam={updateSearchParam}
@@ -85,6 +93,7 @@ export function FavoriteListings() {
           />
         )}
       </AnimatePresence>
-    </Box>
+      </Box>
+    </>
   );
 }
