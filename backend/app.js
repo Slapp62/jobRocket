@@ -19,7 +19,7 @@ app.use(helmet());
 // Configure CORS
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? 'https://jobrocket.onrender.com' 
+    ? 'https://jobrocket-site.onrender.com' 
     : ['http://localhost:5173' || 'http://localhost:5174'], // Vite's default port
   credentials: true
 }));

@@ -57,7 +57,9 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
         });
         setListings([]);
       } finally {
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
       }
     };
 
