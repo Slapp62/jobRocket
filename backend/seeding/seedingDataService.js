@@ -1,7 +1,7 @@
-const { encryptPassword } = require("../utils/bcrypt");
-const normalizeListing = require("../utils/normalizeListing");
-const Listing = require("../models/Listings");
-const Users = require("../models/Users");
+const { encryptPassword } = require('../utils/bcrypt');
+const normalizeListing = require('../utils/normalizeListing');
+const Listing = require('../models/Listings');
+const Users = require('../models/Users');
 
 const seedDevData = async (users, listings) => {
   for (const user of users) {
@@ -15,11 +15,11 @@ const seedDevData = async (users, listings) => {
       const newUser = new Users(user);
       await newUser.save();
     } catch (error) {
-      console.error("Error seeding user:", error);
+      console.error('Error seeding user:', error);
     }
   }
 
-  const businessUser = await Users.findOne({ profileType: "business" });
+  const businessUser = await Users.findOne({ profileType: 'business' });
   for (const listing of listings) {
     try {
       const storedListing = await Listing.findOne({
@@ -30,12 +30,12 @@ const seedDevData = async (users, listings) => {
       }
       const normalizedListing = await normalizeListing(
         listing,
-        businessUser._id,
+        businessUser._id
       );
       const newListing = new Listing(normalizedListing);
       await newListing.save();
     } catch (error) {
-      console.error("Error seeding listing:", error);
+      console.error('Error seeding listing:', error);
     }
   }
 };
@@ -45,7 +45,7 @@ const seedTestData = async (users, listings) => {
     await Users.deleteMany({});
     await Listing.deleteMany({});
   } catch (error) {
-    console.error("Error deleting data:", error);
+    console.error('Error deleting data:', error);
   }
 
   for (const user of users) {
@@ -55,21 +55,21 @@ const seedTestData = async (users, listings) => {
       const newUser = new Users(userCopy);
       await newUser.save();
     } catch (error) {
-      console.error("Error seeding user:", error);
+      console.error('Error seeding user:', error);
     }
   }
 
-  const businessUser = await Users.findOne({ profileType: "business" });
+  const businessUser = await Users.findOne({ profileType: 'business' });
   for (const listing of listings) {
     try {
       const normalizedListing = await normalizeListing(
         listing,
-        businessUser._id,
+        businessUser._id
       );
       const newListing = new Listing(normalizedListing);
       await newListing.save();
     } catch (error) {
-      console.error("Error seeding listing:", error);
+      console.error('Error seeding listing:', error);
     }
   }
 };

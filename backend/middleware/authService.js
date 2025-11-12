@@ -1,21 +1,22 @@
-const config = require("config");
-const { throwError, nextError } = require("../utils/functionHandlers");
-const { verifyAuthToken } = require("../auth/providers/jwt");
-const Listing = require("../models/Listings");
-const authService = require("../services/authService");
+const config = require('config');
+const { throwError, nextError } = require('../utils/functionHandlers');
+const { verifyAuthToken } = require('../auth/providers/jwt');
+const Listing = require('../models/Listings');
+const authService = require('../services/authService');
 
-const tokenGenerator = config.get("TOKEN_GENERATOR") || "jwt";
+const tokenGenerator = config.get('TOKEN_GENERATOR') || 'jwt';
 
 const lockoutCheck = async (req, _res, next) => {
   const { email } = req.body;
 
   try {
-    const { isLockedOut, lockoutTime } = await authService.checkLockoutStatus(email);
+    const { isLockedOut, lockoutTime } =
+      await authService.checkLockoutStatus(email);
 
     if (isLockedOut) {
       throwError(
         403,
-        `Access denied. You have been locked out. Time remaining: ${lockoutTime}s`,
+        `Access denied. You have been locked out. Time remaining: ${lockoutTime}s`
       );
     }
     next();
@@ -36,16 +37,16 @@ const verifyCredentials = async (req, _res, next) => {
 };
 
 const authenticateUser = (req, _res, next) => {
-  if (tokenGenerator === "jwt") {
-    const token = req.header("x-auth-token");
+  if (tokenGenerator === 'jwt') {
+    const token = req.header('x-auth-token');
     if (!token) {
-      return throwError(401, "Access denied. No token provided.");
+      return throwError(401, 'Access denied. No token provided.');
     }
 
     try {
       const userData = verifyAuthToken(token);
       if (!userData) {
-        throwError(401, "Access denied. Invalid token.");
+        throwError(401, 'Access denied. Invalid token.');
       }
 
       req.user = userData;
@@ -58,15 +59,15 @@ const authenticateUser = (req, _res, next) => {
 
 const adminAuth = (req, _res, next) => {
   if (!req.user.isAdmin) {
-    return nextError(next, 403, "Access denied. Admin access only.");
+    return nextError(next, 403, 'Access denied. Admin access only.');
   }
 
   next();
 };
 
 const businessAuth = (req, _res, next) => {
-  if (req.user.profileType !== "business") {
-    return nextError(next, 403, "Access denied. Business access only.");
+  if (req.user.profileType !== 'business') {
+    return nextError(next, 403, 'Access denied. Business access only.');
   }
   next();
 };
@@ -76,21 +77,21 @@ const userAdminAuth = async (req, _res, next) => {
   if (req.user._id === requestedUserId || req.user.isAdmin) {
     next();
   } else {
-    nextError(next, 403, "Access denied. Unauthorized user.");
+    nextError(next, 403, 'Access denied. Unauthorized user.');
   }
 };
 
 const listingCreatorAuth = async (req, _res, next) => {
   try {
     const listingId = req.params.id;
-    const listing = await Listing.findById(listingId, "businessId");
+    const listing = await Listing.findById(listingId, 'businessId');
 
     if (!listing) {
-      throwError(404, "Listing not found");
+      throwError(404, 'Listing not found');
     }
 
     if (listing.businessId.toString() !== req.user._id) {
-      throwError(403, "Access denied. Unauthorized user.");
+      throwError(403, 'Access denied. Unauthorized user.');
     }
 
     next();
@@ -104,12 +105,12 @@ const listingCreatorAdminAuth = async (req, _res, next) => {
     const listingId = req.params.id;
     const listing = await Listing.findById(listingId);
     if (!listing) {
-      throwError(404, "Listing not found");
+      throwError(404, 'Listing not found');
     }
 
     const listingBusinessId = listing.businessId.toString();
     if (listingBusinessId !== req.user._id && !req.user.isAdmin) {
-      throwError(403, "Access denied. Unauthorized user.");
+      throwError(403, 'Access denied. Unauthorized user.');
     }
 
     next();

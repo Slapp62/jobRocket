@@ -8,7 +8,7 @@ const normalizeUserResponse = (user) => {
     createdAt: user.createdAt,
   };
 
-  if (user.profileType === "jobseeker" && user.jobseekerProfile) {
+  if (user.profileType === 'jobseeker' && user.jobseekerProfile) {
     normalizedUserData.jobseekerProfile = {
       firstName: user.jobseekerProfile.firstName,
       lastName: user.jobseekerProfile.lastName,
@@ -21,7 +21,7 @@ const normalizeUserResponse = (user) => {
     };
   }
 
-  if (user.profileType === "business" && user.businessProfile) {
+  if (user.profileType === 'business' && user.businessProfile) {
     normalizedUserData.businessProfile = {
       name: user.businessProfile.name,
       location: {

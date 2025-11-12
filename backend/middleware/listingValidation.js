@@ -1,5 +1,5 @@
-const { nextError } = require("../utils/functionHandlers");
-const joiListingSchema = require("../validation/Joi/joiListingSchema");
+const { nextError } = require('../utils/functionHandlers');
+const joiListingSchema = require('../validation/Joi/joiListingSchema');
 
 const listingValidation = (req, res, next) => {
   const { error } = joiListingSchema.validate(req.body, { abortEarly: false });

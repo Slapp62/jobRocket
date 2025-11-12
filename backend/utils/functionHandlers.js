@@ -1,6 +1,6 @@
-const chalk = require("chalk");
+const chalk = require('chalk');
 
-const handleSuccess = (res, status, data = {}, message = "") => {
+const handleSuccess = (res, status, data = {}, message = '') => {
   console.log(chalk.blueBright.bold(message, status));
   return res.status(status).json(data);
 };
@@ -17,10 +17,13 @@ const nextError = (next, status, message) => {
   return next(error);
 };
 
-const handleError = (res, status = 500, message = "") => {
+const handleError = (res, status = 500, message = '') => {
   // Convert any object to string safely
-  const errorMessage = typeof message === 'string' ? message : message?.message || 'An error occurred';
-  
+  const errorMessage =
+    typeof message === 'string'
+      ? message
+      : message?.message || 'An error occurred';
+
   console.log(chalk.redBright.bold(errorMessage, status));
   return res.status(status).json({ message: errorMessage });
 };

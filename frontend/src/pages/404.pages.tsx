@@ -1,4 +1,4 @@
-import { BsFillEmojiTearFill } from 'react-icons/bs';
+import { IconMoodSad } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Center, Flex } from '@mantine/core';
 
@@ -12,7 +12,7 @@ const Error404 = () => {
   return (
     <Center>
       <Flex direction="column" align="center" justify="center" mt={100}>
-        <BsFillEmojiTearFill size={100} />
+        <IconMoodSad size={100} />
         <h1 className="text-3xl font-bold">404: Page Not Found</h1>
         <Button onClick={goHome}>Return to Homepage</Button>
       </Flex>

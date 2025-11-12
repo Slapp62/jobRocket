@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const {
   registerUser,
   loginUser,
@@ -7,41 +7,51 @@ const {
   updateUserProfile,
   toggleUserRole,
   deleteUser,
-} = require("../controllers/userController.js");
+} = require('../controllers/userController.js');
 const {
   profileValidation,
   loginValidation,
-} = require("../middleware/userValidation.js");
+} = require('../middleware/userValidation.js');
 const {
   authenticateUser,
   adminAuth,
   userAdminAuth,
   lockoutCheck,
   verifyCredentials,
-} = require("../middleware/authService.js");
-const { loginLimiter, registrationLimiter } = require("../middleware/rateLimiter.js");
+} = require('../middleware/authService.js');
+const {
+  loginLimiter,
+  registrationLimiter,
+} = require('../middleware/rateLimiter.js');
 
 const router = express.Router();
 
 // Register a new user
-router.post("/", registrationLimiter, profileValidation, registerUser);
+router.post('/', registrationLimiter, profileValidation, registerUser);
 
 // User login
-router.post("/login", loginLimiter, loginValidation, lockoutCheck, verifyCredentials, loginUser);
+router.post(
+  '/login',
+  loginLimiter,
+  loginValidation,
+  lockoutCheck,
+  verifyCredentials,
+  loginUser
+);
 
 // Get all users (admin only)
-router.get("/", authenticateUser, adminAuth, getAllUsers);
+router.get('/', authenticateUser, adminAuth, getAllUsers);
 
 // Get user by ID
-router.get("/:id", authenticateUser, userAdminAuth, getUserById);
+router.get('/:id', authenticateUser, userAdminAuth, getUserById);
 
 // Update user profile
-router.put("/:id", authenticateUser, userAdminAuth, updateUserProfile);
+router.put('/:id', authenticateUser, userAdminAuth, updateUserProfile);
 
 // Toggle user role
-router.patch("/:id", authenticateUser, userAdminAuth, toggleUserRole);
+router.patch('/:id', authenticateUser, userAdminAuth, toggleUserRole);
 
 // Delete user
-router.delete("/:id", authenticateUser, userAdminAuth, deleteUser);
+router.delete('/:id', authenticateUser, userAdminAuth, deleteUser);
 
 module.exports = router;

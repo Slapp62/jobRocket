@@ -9,8 +9,9 @@ function calculateMatchScore(embedding1, embedding2) {
     magnitude2 += embedding2[i] ** 2;
   }
 
-  const similarity = dotProduct / (Math.sqrt(magnitude1) * Math.sqrt(magnitude2));
-  
+  const similarity =
+    dotProduct / (Math.sqrt(magnitude1) * Math.sqrt(magnitude2));
+
   // Convert from -1 to 1 range into 0 to 1 range
   return (similarity + 1) / 2;
 }

@@ -19,7 +19,6 @@ export function HomePage() {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.userSlice.user);
   const isBusiness = user?.profileType === 'business';
-  //const isAdmin = user?.isAdmin;
   const [searchObj, setSearchObj] = useState({
     searchWord: '',
     sortOption: '',

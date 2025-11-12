@@ -1,7 +1,10 @@
-const { Schema, model } = require("mongoose");
-const { WORK_ARRANGEMENTS } = require("../data/workArr");
-const { INDUSTRIES } = require("../data/industries");
-const { generateEmbedding, jobseekerToText } = require('../services/embeddingService.js');
+const { Schema, model } = require('mongoose');
+const { WORK_ARRANGEMENTS } = require('../data/workArr');
+const { INDUSTRIES } = require('../data/industries');
+const {
+  generateEmbedding,
+  jobseekerToText,
+} = require('../services/embeddingService.js');
 
 const userSchema = new Schema({
   email: {
@@ -9,7 +12,7 @@ const userSchema = new Schema({
     required: true,
     unique: true,
     lowercase: true,
-    match: [/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/, "Please enter a valid email"],
+    match: [/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/, 'Please enter a valid email'],
   },
   password: {
     type: String,
@@ -30,13 +33,13 @@ const userSchema = new Schema({
     required: true,
     match: [
       /^(\+972[-\s]?|972[-\s]?|0)((2|3|4|8|9)[-\s]?\d{7}|5[0-9][-\s]?\d{7})$/,
-      "Phone must be a valid Israeli phone number",
+      'Phone must be a valid Israeli phone number',
     ],
   },
   profileType: {
     type: String,
     required: true,
-    enum: ["jobseeker", "business"],
+    enum: ['jobseeker', 'business'],
   },
   jobseekerProfile: {
     embedding: {
@@ -46,7 +49,7 @@ const userSchema = new Schema({
     firstName: {
       type: String,
       required() {
-        return this.profileType === "jobseeker";
+        return this.profileType === 'jobseeker';
       },
       minLength: 2,
       maxLength: 256,
@@ -54,7 +57,7 @@ const userSchema = new Schema({
     lastName: {
       type: String,
       required() {
-        return this.profileType === "jobseeker";
+        return this.profileType === 'jobseeker';
       },
       minLength: 2,
       maxLength: 256,
@@ -62,33 +65,33 @@ const userSchema = new Schema({
     highestEducation: {
       type: String,
       required() {
-        return this.profileType === "jobseeker";
+        return this.profileType === 'jobseeker';
       },
       enum: [
-        "High School",
-        "Associate Degree",
+        'High School',
+        'Associate Degree',
         "Bachelor's Degree",
         "Master's Degree",
-        "Doctorate",
-        "Other",
+        'Doctorate',
+        'Other',
       ],
     },
     preferredWorkArrangement: {
       type: String,
       required() {
-        return this.profileType === "jobseeker";
+        return this.profileType === 'jobseeker';
       },
       enum: WORK_ARRANGEMENTS,
     },
     linkedinPage: {
       type: String,
       maxLength: 512,
-      default: "",
+      default: '',
     },
     resume: {
       type: String,
       maxLength: 1024,
-      default: "",
+      default: '',
     },
     skills: {
       type: [String],
@@ -97,7 +100,7 @@ const userSchema = new Schema({
     description: {
       type: String,
       maxLength: 2000,
-      default: "",
+      default: '',
     },
     _id: {
       type: Schema.Types.ObjectId,
@@ -108,7 +111,7 @@ const userSchema = new Schema({
     name: {
       type: String,
       required() {
-        return this.profileType === "business";
+        return this.profileType === 'business';
       },
       minLength: 2,
       maxLength: 256,
@@ -117,7 +120,7 @@ const userSchema = new Schema({
       country: {
         type: String,
         required() {
-          return this.profileType === "business";
+          return this.profileType === 'business';
         },
         minLength: 2,
         maxLength: 256,
@@ -125,7 +128,7 @@ const userSchema = new Schema({
       city: {
         type: String,
         required() {
-          return this.profileType === "business";
+          return this.profileType === 'business';
         },
         minLength: 2,
         maxLength: 256,
@@ -138,11 +141,11 @@ const userSchema = new Schema({
     logo: {
       url: {
         type: String,
-        default: "",
+        default: '',
       },
       alt: {
         type: String,
-        default: "company logo",
+        default: 'company logo',
         maxLength: 256,
       },
       _id: {
@@ -153,42 +156,42 @@ const userSchema = new Schema({
     industry: {
       type: String,
       required() {
-        return this.profileType === "business";
+        return this.profileType === 'business';
       },
       enum: INDUSTRIES,
     },
     numberOfEmployees: {
       type: String,
       required() {
-        return this.profileType === "business";
+        return this.profileType === 'business';
       },
-      enum: ["1-10", "11-50", "51-200", "201-500", "501-1000", "1000+"],
+      enum: ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'],
     },
     website: {
       type: String,
       maxLength: 512,
-      default: "",
+      default: '',
     },
     contactEmail: {
       type: String,
-      match: [/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/, "Please enter a valid email"],
-      default: "",
+      match: [/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/, 'Please enter a valid email'],
+      default: '',
     },
     socialMedia: {
       linkedin: {
         type: String,
         maxLength: 512,
-        default: "",
+        default: '',
       },
       twitter: {
         type: String,
         maxLength: 512,
-        default: "",
+        default: '',
       },
       facebook: {
         type: String,
         maxLength: 512,
-        default: "",
+        default: '',
       },
       _id: {
         type: Schema.Types.ObjectId,
@@ -198,7 +201,7 @@ const userSchema = new Schema({
     description: {
       type: String,
       maxLength: 2000,
-      default: "",
+      default: '',
     },
     _id: {
       type: Schema.Types.ObjectId,
@@ -215,9 +218,12 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   // Only for jobseekers, and only if their profile changed or embedding is missing
-  if (this.profileType === 'jobseeker' && (this.isModified('jobseekerProfile') || this.isNew)) {
+  if (
+    this.profileType === 'jobseeker' &&
+    (this.isModified('jobseekerProfile') || this.isNew)
+  ) {
     try {
       const profileText = jobseekerToText(this.jobseekerProfile);
       this.jobseekerProfile.embedding = await generateEmbedding(profileText);
@@ -229,5 +235,5 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-const Users = model("Users", userSchema);
+const Users = model('Users', userSchema);
 module.exports = Users;

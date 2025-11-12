@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const { throwError } = require("../../utils/functionHandlers");
+const jwt = require('jsonwebtoken');
+const { throwError } = require('../../utils/functionHandlers');
 
 const generateAuthToken = (user) => {
   try {
@@ -11,7 +11,7 @@ const generateAuthToken = (user) => {
         profileType,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" },
+      { expiresIn: '1h' }
     );
 
     return token;
@@ -22,7 +22,7 @@ const generateAuthToken = (user) => {
 
 const verifyAuthToken = (token) => {
   try {
-    const userData = jwt.verify(token, process.env.JWT_SECRET || "");
+    const userData = jwt.verify(token, process.env.JWT_SECRET || '');
     return userData;
   } catch (error) {
     throwError(401, error.message);

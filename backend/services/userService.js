@@ -1,12 +1,12 @@
-const { encryptPassword } = require("../utils/bcrypt");
-const { throwError } = require("../utils/functionHandlers");
-const Users = require("../models/Users.js");
-const { normalizeUserResponse } = require("../utils/normalizeResponses.js");
+const { encryptPassword } = require('../utils/bcrypt');
+const { throwError } = require('../utils/functionHandlers');
+const Users = require('../models/Users.js');
+const { normalizeUserResponse } = require('../utils/normalizeResponses.js');
 
 const getAllUsers = async () => {
-  const users = await Users.find().select("-password").lean();
+  const users = await Users.find().select('-password').lean();
   if (!users || users.length === 0) {
-    throwError(400, "No users found in the system.");
+    throwError(400, 'No users found in the system.');
   }
   const normalizedUsers = users.map((user) => normalizeUserResponse(user));
   return normalizedUsers;
@@ -15,7 +15,7 @@ const getAllUsers = async () => {
 const registerUser = async (userData) => {
   const existingUser = await Users.findOne({ email: userData.email });
   if (existingUser) {
-    const error = new Error("User already exists");
+    const error = new Error('User already exists');
     error.status = 400;
     throw error;
   }
@@ -32,7 +32,7 @@ const registerUser = async (userData) => {
 const getUserById = async (userId) => {
   const user = await Users.findById(userId);
   if (!user) {
-    throwError(404, "Account not found. Please check and try again.");
+    throwError(404, 'Account not found. Please check and try again.');
   }
   const normalizedUser = normalizeUserResponse(user);
   return normalizedUser;
@@ -43,7 +43,10 @@ const updateProfile = async (userId, updateData) => {
     new: true,
   });
   if (!updatedUser) {
-    throwError(404, "Your profile couldn't be updated. Please try logging in again.");
+    throwError(
+      404,
+      "Your profile couldn't be updated. Please try logging in again."
+    );
   }
   const normalizedUser = normalizeUserResponse(updatedUser);
   return normalizedUser;
@@ -52,13 +55,17 @@ const updateProfile = async (userId, updateData) => {
 const toggleRole = async (userId) => {
   const user = await Users.findById(userId);
   if (!user) {
-    throwError(404, "Your account couldn't be found. Please try logging in again.");
+    throwError(
+      404,
+      "Your account couldn't be found. Please try logging in again."
+    );
   }
-  const newProfileType = user.profileType === "jobseeker" ? "business" : "jobseeker";
+  const newProfileType =
+    user.profileType === 'jobseeker' ? 'business' : 'jobseeker';
   const updatedUser = await Users.findByIdAndUpdate(
     userId,
     { profileType: newProfileType },
-    { new: true },
+    { new: true }
   );
   const normalizedUser = normalizeUserResponse(updatedUser);
   return normalizedUser;
@@ -67,7 +74,7 @@ const toggleRole = async (userId) => {
 const deleteUser = async (userId) => {
   const deletedUser = await Users.findByIdAndDelete(userId);
   if (!deletedUser) {
-    throwError(404, "User not found");
+    throwError(404, 'User not found');
   }
   const normalizedUser = normalizeUserResponse(deletedUser);
   return normalizedUser;

@@ -1,4 +1,3 @@
-
 const normalizeSearch = (query) => {
   if (query.city === 'All') {
     query.city = '';
@@ -20,7 +19,7 @@ const normalizeSearch = (query) => {
     workArrangement: query.workArrangement || '',
     sortOption: query.sortOption || '',
     page: query.page || '1',
-    limit: query.limit || '20'
+    limit: query.limit || '20',
   };
 };
 

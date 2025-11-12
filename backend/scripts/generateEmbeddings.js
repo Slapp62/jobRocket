@@ -9,7 +9,7 @@ async function backfillEmbeddings() {
   console.log('Generating jobseeker embeddings...');
   const jobseekers = await User.find({
     profileType: 'jobseeker',
-    'jobseekerProfile.embedding': { $exists: false }
+    'jobseekerProfile.embedding': { $exists: false },
   });
 
   for (const user of jobseekers) {
@@ -19,7 +19,7 @@ async function backfillEmbeddings() {
 
   console.log('\nGenerating listing embeddings...');
   const listings = await JobListing.find({
-    embedding: { $exists: false }
+    embedding: { $exists: false },
   });
 
   for (const listing of listings) {

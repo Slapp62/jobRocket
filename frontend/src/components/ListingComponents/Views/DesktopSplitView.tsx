@@ -2,7 +2,7 @@ import { IconArrowLeft } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import { Box, Button, Flex, ScrollArea, Stack } from '@mantine/core';
 import ListingCard from '../ListingCard/ListingCard';
-import { ListingDetailsPanel } from '../LIstingPanel/ListingDetailsPanel';
+import { ListingDetailsPanel } from '../ListingPanel/ListingDetailsPanel';
 
 interface DesktopSplitViewProps {
   displayListings: any[];

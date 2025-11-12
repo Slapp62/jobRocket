@@ -18,7 +18,7 @@ const registrationLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-// listings limiter 
+// listings limiter
 const listingsLimiter = rateLimit({
   windowMs: 60 * 60 * 1000 * 24, // 24 hours in milliseconds
   max: 10, // 10 attempts per window
@@ -27,8 +27,18 @@ const listingsLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+// applications limiter
+const applicationsLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000 * 1, // 1 hour in milliseconds
+  max: 50, // 50 attempts per window
+  message: 'Too many applications attempts. Please try again in 1 hour.',
+  standardHeaders: true, // Return rate limit info in headers
+  legacyHeaders: false,
+});
+
 module.exports = {
   loginLimiter,
   registrationLimiter,
   listingsLimiter,
+  applicationsLimiter,
 };

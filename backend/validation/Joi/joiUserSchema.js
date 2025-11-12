@@ -1,28 +1,31 @@
-const joi = require("joi");
-const { WORK_ARRANGEMENTS } = require("../../data/workArr");
-const { INDUSTRIES } = require("../../data/industries");
+const joi = require('joi');
+const { WORK_ARRANGEMENTS } = require('../../data/workArr');
+const { INDUSTRIES } = require('../../data/industries');
 
 const joiUserSchema = joi.object({
-  email: joi.string().email({ tlds: { allow: false } }).required(),
+  email: joi
+    .string()
+    .email({ tlds: { allow: false } })
+    .required(),
   password: joi
     .string()
     .required()
     .pattern(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/
     )
     .messages({
-      "string.pattern.base":
-        "Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+      'string.pattern.base':
+        'Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character',
     }),
 
   phone: joi
     .string()
     .pattern(
-      /^(\+972[-\s]?|972[-\s]?|0)((2|3|4|8|9)[-\s]?\d{7}|5[0-9][-\s]?\d{7})$/,
+      /^(\+972[-\s]?|972[-\s]?|0)((2|3|4|8|9)[-\s]?\d{7}|5[0-9][-\s]?\d{7})$/
     )
     .required(),
 
-  profileType: joi.string().valid("jobseeker", "business").required(),
+  profileType: joi.string().valid('jobseeker', 'business').required(),
 
   jobseekerProfile: joi
     .object({
@@ -31,25 +34,25 @@ const joiUserSchema = joi.object({
       highestEducation: joi
         .string()
         .valid(
-          "High School",
-          "Associate Degree",
+          'High School',
+          'Associate Degree',
           "Bachelor's Degree",
           "Master's Degree",
-          "Doctorate",
-          "Other",
+          'Doctorate',
+          'Other'
         )
         .required(),
       preferredWorkArrangement: joi
         .string()
         .valid(...WORK_ARRANGEMENTS)
         .required(),
-      linkedinPage: joi.string().uri().max(512).optional().allow(""),
-      resume: joi.string().max(1024).optional().allow(""),
+      linkedinPage: joi.string().uri().max(512).optional().allow(''),
+      resume: joi.string().max(1024).optional().allow(''),
       skills: joi.array().items(joi.string()).optional().default([]),
-      description: joi.string().max(2000).optional().allow(""),
+      description: joi.string().max(2000).optional().allow(''),
     })
-    .when("profileType", {
-      is: "jobseeker",
+    .when('profileType', {
+      is: 'jobseeker',
       then: joi.required(),
       otherwise: joi.forbidden(),
     }),
@@ -65,32 +68,35 @@ const joiUserSchema = joi.object({
         .required(),
       logo: joi
         .object({
-          url: joi.string().uri().optional().empty(""),
-          alt: joi.string().max(256).optional().empty(""),
+          url: joi.string().uri().optional().empty(''),
+          alt: joi.string().max(256).optional().empty(''),
         })
         .optional(),
-      industry: joi.string().valid(...INDUSTRIES).required(),
+      industry: joi
+        .string()
+        .valid(...INDUSTRIES)
+        .required(),
       numberOfEmployees: joi
         .string()
-        .valid("1-10", "11-50", "51-200", "201-500", "501-1000", "1000+")
+        .valid('1-10', '11-50', '51-200', '201-500', '501-1000', '1000+')
         .required(),
-      website: joi.string().uri().max(512).optional().allow(""),
+      website: joi.string().uri().max(512).optional().allow(''),
       contactEmail: joi
         .string()
         .email({ tlds: { allow: false } })
         .optional()
-        .allow(""),
+        .allow(''),
       socialMedia: joi
         .object({
-          linkedin: joi.string().uri().max(512).optional().allow(""),
-          twitter: joi.string().uri().max(512).optional().allow(""),
-          facebook: joi.string().uri().max(512).optional().allow(""),
+          linkedin: joi.string().uri().max(512).optional().allow(''),
+          twitter: joi.string().uri().max(512).optional().allow(''),
+          facebook: joi.string().uri().max(512).optional().allow(''),
         })
         .optional(),
-      description: joi.string().max(2000).optional().allow(""),
+      description: joi.string().max(2000).optional().allow(''),
     })
-    .when("profileType", {
-      is: "business",
+    .when('profileType', {
+      is: 'business',
       then: joi.required(),
       otherwise: joi.forbidden(),
     }),

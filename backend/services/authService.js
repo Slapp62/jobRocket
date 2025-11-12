@@ -1,6 +1,6 @@
-const Users = require("../models/Users");
-const { verifyPassword } = require("../utils/bcrypt");
-const { throwError } = require("../utils/functionHandlers");
+const Users = require('../models/Users');
+const { verifyPassword } = require('../utils/bcrypt');
+const { throwError } = require('../utils/functionHandlers');
 
 /**
  * Check if a user is locked out due to failed login attempts
@@ -28,7 +28,7 @@ async function checkLockoutStatus(email) {
   return {
     isLockedOut: isPrevTimeout && isLockedOut,
     lockoutTime,
-    user
+    user,
   };
 }
 
@@ -42,7 +42,7 @@ async function verifyUserCredentials(email, password) {
   const user = await Users.findOne({ email });
 
   if (!user) {
-    throwError(401, "Invalid email or password.");
+    throwError(401, 'Invalid email or password.');
   }
 
   const isPasswordValid = await verifyPassword(password, user.password);
@@ -56,7 +56,7 @@ async function verifyUserCredentials(email, password) {
     }
 
     await user.save();
-    throwError(401, "Invalid email or password.");
+    throwError(401, 'Invalid email or password.');
   }
 
   // Reset login attempts on successful login

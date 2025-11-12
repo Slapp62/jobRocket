@@ -1,14 +1,14 @@
-const Listing = require("../models/Listings.js");
-const { throwError } = require("../utils/functionHandlers");
-const { normalizeListingResponse } = require("../utils/normalizeResponses");
+const Listing = require('../models/Listings.js');
+const { throwError } = require('../utils/functionHandlers');
+const { normalizeListingResponse } = require('../utils/normalizeResponses');
 
 const getAllListings = async () => {
   const listings = await Listing.find({});
   if (listings.length === 0) {
-    throwError(404, "No job listings available at the moment.");
+    throwError(404, 'No job listings available at the moment.');
   }
   const normalizedListings = listings.map((listing) =>
-    normalizeListingResponse(listing),
+    normalizeListingResponse(listing)
   );
   return normalizedListings;
 };
@@ -21,24 +21,40 @@ const getSearchedListings = async (searchObj) => {
   if (searchObj.searchWord && searchObj.searchWord.trim() !== '') {
     query.$or = [
       { jobTitle: { $regex: searchObj.searchWord, $options: 'i' } },
-      { jobDescription: { $regex: searchObj.searchWord, $options: 'i' } }
+      { jobDescription: { $regex: searchObj.searchWord, $options: 'i' } },
     ];
   }
 
   // Exact matches for dropdowns
-  if (searchObj.region && searchObj.region.trim() !== '' && searchObj.region !== 'All Regions') {
+  if (
+    searchObj.region &&
+    searchObj.region.trim() !== '' &&
+    searchObj.region !== 'All Regions'
+  ) {
     query['location.region'] = searchObj.region;
   }
 
-  if (searchObj.city && searchObj.city.trim() !== '' && searchObj.city !== 'All Cities') {
+  if (
+    searchObj.city &&
+    searchObj.city.trim() !== '' &&
+    searchObj.city !== 'All Cities'
+  ) {
     query['location.city'] = searchObj.city;
   }
 
-  if (searchObj.industry && searchObj.industry.trim() !== '' && searchObj.industry !== 'All Industries') {
+  if (
+    searchObj.industry &&
+    searchObj.industry.trim() !== '' &&
+    searchObj.industry !== 'All Industries'
+  ) {
     query.industry = searchObj.industry;
   }
 
-  if (searchObj.workArrangement && searchObj.workArrangement.trim() !== '' && searchObj.workArrangement !== 'All Work Arrangements') {
+  if (
+    searchObj.workArrangement &&
+    searchObj.workArrangement.trim() !== '' &&
+    searchObj.workArrangement !== 'All Work Arrangements'
+  ) {
     query.workArrangement = searchObj.workArrangement;
   }
 
@@ -58,16 +74,12 @@ const getSearchedListings = async (searchObj) => {
 
   // Execute search
   const [listings, total] = await Promise.all([
-    Listing.find(query)
-      .sort(sortBy)
-      .skip(skip)
-      .limit(limit)
-      .lean(), // Returns plain objects (faster)
-    Listing.countDocuments(query) // Get total count for pagination info
+    Listing.find(query).sort(sortBy).skip(skip).limit(limit).lean(), // Returns plain objects (faster)
+    Listing.countDocuments(query), // Get total count for pagination info
   ]);
-  
+
   if (listings.length === 0) {
-    throwError(404, "No jobs match your search. Try adjusting your filters.");
+    throwError(404, 'No jobs match your search. Try adjusting your filters.');
   }
 
   return {
@@ -78,8 +90,8 @@ const getSearchedListings = async (searchObj) => {
       totalResults: total,
       perPage: limit,
       hasNextPage: page < Math.ceil(total / limit),
-      hasPrevPage: page > 1
-    }
+      hasPrevPage: page > 1,
+    },
   };
 };
 
@@ -93,7 +105,7 @@ const createListing = async (listingData) => {
 const getListingById = async (id) => {
   const listing = await Listing.findById(id);
   if (!listing) {
-    throwError(404, "This job listing is no longer available.");
+    throwError(404, 'This job listing is no longer available.');
   }
   const normalizedListing = normalizeListingResponse(listing);
   return normalizedListing;
@@ -121,7 +133,7 @@ const getUserListings = async (userId, queryParams = {}) => {
       .skip(skip)
       .limit(limit)
       .lean(),
-    Listing.countDocuments({ businessId: userId })
+    Listing.countDocuments({ businessId: userId }),
   ]);
 
   if (userListings.length === 0) {
@@ -129,7 +141,7 @@ const getUserListings = async (userId, queryParams = {}) => {
   }
 
   const normalizedUserListings = userListings.map((listing) =>
-    normalizeListingResponse(listing),
+    normalizeListingResponse(listing)
   );
 
   return {
@@ -140,8 +152,8 @@ const getUserListings = async (userId, queryParams = {}) => {
       totalResults: total,
       perPage: limit,
       hasNextPage: page < Math.ceil(total / limit),
-      hasPrevPage: page > 1
-    }
+      hasPrevPage: page > 1,
+    },
   };
 };
 
@@ -151,7 +163,7 @@ const getLikedListings = async (userId) => {
     throwError(404, "You haven't saved any job listings yet.");
   }
   const normalizedLikedListings = likedListings.map((listing) =>
-    normalizeListingResponse(listing),
+    normalizeListingResponse(listing)
   );
   return normalizedLikedListings;
 };
@@ -162,10 +174,13 @@ const editListingById = async (listingId, updateData) => {
     updateData,
     {
       new: true,
-    },
+    }
   );
   if (!updatedListing) {
-    throwError(404, "This job listing couldn't be updated. It may have been removed.");
+    throwError(
+      404,
+      "This job listing couldn't be updated. It may have been removed."
+    );
   }
 
   const normalizedUpdatedListing = normalizeListingResponse(updatedListing);
@@ -175,7 +190,10 @@ const editListingById = async (listingId, updateData) => {
 const deleteListingById = async (listingId) => {
   const deletedListing = await Listing.findByIdAndDelete(listingId);
   if (!deletedListing) {
-    throwError(404, "This job listing couldn't be deleted. It may have already been removed.");
+    throwError(
+      404,
+      "This job listing couldn't be deleted. It may have already been removed."
+    );
   }
   const normalizedDeletedListing = normalizeListingResponse(deletedListing);
   return normalizedDeletedListing;
@@ -185,7 +203,7 @@ const toggleLike = async (listingId, userId) => {
   const listing = await Listing.findById(listingId);
 
   if (!listing) {
-    throwError(400, "This job listing is no longer available.");
+    throwError(400, 'This job listing is no longer available.');
   }
 
   if (listing.likes.includes(userId)) {

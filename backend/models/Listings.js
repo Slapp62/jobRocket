@@ -1,17 +1,20 @@
-const { Schema, model } = require("mongoose");
-const { INDUSTRIES } = require("../data/industries.js");
-const { WORK_ARRANGEMENTS } = require("../data/workArr.js");
-const { CITIES, REGIONS } = require("../data/israelCities.js");
-const { generateEmbedding, listingToText } = require("../services/embeddingService.js");
+const { Schema, model } = require('mongoose');
+const { INDUSTRIES } = require('../data/industries.js');
+const { WORK_ARRANGEMENTS } = require('../data/workArr.js');
+const { CITIES, REGIONS } = require('../data/israelCities.js');
+const {
+  generateEmbedding,
+  listingToText,
+} = require('../services/embeddingService.js');
 
 const jobListingSchema = new Schema({
   embedding: {
     type: [Number],
-    default: null
+    default: null,
   },
   businessId: {
     type: Schema.Types.ObjectId,
-    ref: "Users",
+    ref: 'Users',
     required: true,
     index: true,
   },
@@ -30,14 +33,14 @@ const jobListingSchema = new Schema({
     maxLength: 100,
     match: [
       /^[a-zA-Z\s.,;:!?'"()\-&/]+$/,
-      "Job title can only contain letters, spaces, and basic punctuation",
+      'Job title can only contain letters, spaces, and basic punctuation',
     ],
   },
   jobDescription: { type: String, required: true, minLength: 10, index: true },
   requirements: [String],
   advantages: [String],
   apply: {
-    method: { type: String, enum: ["email", "link"], required: true },
+    method: { type: String, enum: ['email', 'link'], required: true },
     contact: { type: String, required: true }, // email address or URL
   },
   location: {
@@ -66,15 +69,20 @@ const jobListingSchema = new Schema({
     required: true,
     index: true,
   },
-  likes: [{ type: Schema.Types.ObjectId, ref: "Users" }],
+  likes: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
   isActive: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
   expiresAt: Date,
 });
 
-jobListingSchema.pre('save', async function(next) {
+jobListingSchema.pre('save', async function (next) {
   // Generate embedding if listing content has changed
-  if (this.isModified('jobTitle') || this.isModified('jobDescription') || this.isModified('requirements') || this.isModified('industry')) {
+  if (
+    this.isModified('jobTitle') ||
+    this.isModified('jobDescription') ||
+    this.isModified('requirements') ||
+    this.isModified('industry')
+  ) {
     try {
       const listingText = listingToText(this);
       this.embedding = await generateEmbedding(listingText);
@@ -86,6 +94,6 @@ jobListingSchema.pre('save', async function(next) {
   next();
 });
 
-const Listing = model("JobListings", jobListingSchema);
+const Listing = model('JobListings', jobListingSchema);
 
 module.exports = Listing;
