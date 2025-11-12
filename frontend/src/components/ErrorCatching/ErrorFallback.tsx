@@ -15,6 +15,7 @@ export default function ErrorFallback() {
             We're sorry for the inconvenience. Please try refreshing the page or go back to the home
             page.
           </Text>
+          <Text c="red">Error: {error.message}</Text>
           <Button w="20%" variant="outline" onClick={() => window.location.reload()}>
             Refresh Page
           </Button>

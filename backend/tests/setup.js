@@ -3,6 +3,7 @@ const { seedTestData } = require('../seeding/seedingDataService');
 const mongoose = require('mongoose');
 const dummyUsers = require('../seeding/seedingData/userSeedingData');
 const dummyListings = require('../seeding/seedingData/listingSeedingData');
+const dummyApplications = require('../seeding/seedingData/applicationSeedingData');
 const chalk = require('chalk');
 const config = require('config');
 const PORT = config.get('PORT') || 3000;
@@ -19,7 +20,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   try {
-    await seedTestData(dummyUsers, dummyListings);
+    await seedTestData(dummyUsers, dummyListings, dummyApplications);
     console.log(chalk.green.bold('Test data seeded'));
   } catch (error) {
     console.error('Failed to seed test data:', error);

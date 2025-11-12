@@ -109,3 +109,16 @@ export interface TdecodedToken {
   profileType: 'jobseeker' | 'business';
   _id: string;
 }
+
+export type TApplication = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  jobseekerId: string;
+  listingId: string;
+  coverLetter: string;
+  resume: string;
+  createdAt: string;
+};

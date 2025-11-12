@@ -5,6 +5,7 @@ const config = require('config');
 const { seedDevData } = require('./seeding/seedingDataService');
 const dummyUsers = require('./seeding/seedingData/userSeedingData');
 const dummyListings = require('./seeding/seedingData/listingSeedingData');
+const dummyApplications = require('./seeding/seedingData/applicationSeedingData');
 
 // Function-based startup for explicit control
 const startServer = async () => {
@@ -14,7 +15,7 @@ const startServer = async () => {
       console.log(chalk.green.bold(`server running on port ${PORT}`));
       await connectToDB();
       if (process.env.NODE_ENV === 'development') {
-        await seedDevData(dummyUsers, dummyListings);
+        await seedDevData(dummyUsers, dummyListings, dummyApplications);
       }
     });
     return server; // Return server instance for potential cleanup

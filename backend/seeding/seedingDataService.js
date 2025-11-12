@@ -2,8 +2,9 @@ const { encryptPassword } = require('../utils/bcrypt');
 const normalizeListing = require('../utils/normalizeListing');
 const Listing = require('../models/Listings');
 const Users = require('../models/Users');
+const Applications = require('../models/Applications');
 
-const seedDevData = async (users, listings) => {
+const seedDevData = async (users, listings, applications = []) => {
   for (const user of users) {
     try {
       const existingUser = await Users.findOne({ email: user.email });
@@ -20,12 +21,14 @@ const seedDevData = async (users, listings) => {
   }
 
   const businessUser = await Users.findOne({ profileType: 'business' });
+  const seededListings = [];
   for (const listing of listings) {
     try {
       const storedListing = await Listing.findOne({
         jobTitle: listing.jobTitle,
       });
       if (storedListing) {
+        seededListings.push(storedListing);
         continue;
       }
       const normalizedListing = await normalizeListing(
@@ -34,16 +37,56 @@ const seedDevData = async (users, listings) => {
       );
       const newListing = new Listing(normalizedListing);
       await newListing.save();
+      seededListings.push(newListing);
     } catch (error) {
       console.error('Error seeding listing:', error);
     }
   }
+
+  // Seed applications
+  for (const application of applications) {
+    try {
+      const applicant = await Users.findOne({ email: application.applicantEmail });
+      if (!applicant) {
+        console.error(`Applicant not found: ${application.applicantEmail}`);
+        continue;
+      }
+
+      const listing = seededListings[application.listingIndex];
+      if (!listing) {
+        console.error(`Listing not found at index: ${application.listingIndex}`);
+        continue;
+      }
+
+      // Check if application already exists
+      const existingApplication = await Applications.findOne({
+        listingId: listing._id,
+        applicantId: applicant._id,
+      });
+      if (existingApplication) {
+        continue;
+      }
+
+      const newApplication = new Applications({
+        listingId: listing._id,
+        applicantId: applicant._id,
+        resume: application.resume,
+        coverLetter: application.coverLetter,
+        message: application.message,
+        status: application.status,
+      });
+      await newApplication.save();
+    } catch (error) {
+      console.error('Error seeding application:', error);
+    }
+  }
 };
 
-const seedTestData = async (users, listings) => {
+const seedTestData = async (users, listings, applications = []) => {
   try {
     await Users.deleteMany({});
     await Listing.deleteMany({});
+    await Applications.deleteMany({});
   } catch (error) {
     console.error('Error deleting data:', error);
   }
@@ -60,6 +103,7 @@ const seedTestData = async (users, listings) => {
   }
 
   const businessUser = await Users.findOne({ profileType: 'business' });
+  const seededListings = [];
   for (const listing of listings) {
     try {
       const normalizedListing = await normalizeListing(
@@ -68,8 +112,38 @@ const seedTestData = async (users, listings) => {
       );
       const newListing = new Listing(normalizedListing);
       await newListing.save();
+      seededListings.push(newListing);
     } catch (error) {
       console.error('Error seeding listing:', error);
+    }
+  }
+
+  // Seed applications
+  for (const application of applications) {
+    try {
+      const applicant = await Users.findOne({ email: application.applicantEmail });
+      if (!applicant) {
+        console.error(`Applicant not found: ${application.applicantEmail}`);
+        continue;
+      }
+
+      const listing = seededListings[application.listingIndex];
+      if (!listing) {
+        console.error(`Listing not found at index: ${application.listingIndex}`);
+        continue;
+      }
+
+      const newApplication = new Applications({
+        listingId: listing._id,
+        applicantId: applicant._id,
+        resume: application.resume,
+        coverLetter: application.coverLetter,
+        message: application.message,
+        status: application.status,
+      });
+      await newApplication.save();
+    } catch (error) {
+      console.error('Error seeding application:', error);
     }
   }
 };

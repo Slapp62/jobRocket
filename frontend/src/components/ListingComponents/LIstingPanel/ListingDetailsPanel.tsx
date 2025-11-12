@@ -21,6 +21,8 @@ import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import SocialIcons from '@/components/SocialMedia';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
+import { useDisclosure } from '@mantine/hooks';
+import { ApplicationModal } from '@/components/Application/applicationModal';
 
 type ListingDetailPanelProps = {
   listingId: string;
@@ -31,6 +33,7 @@ export function ListingDetailsPanel({ listingId }: ListingDetailPanelProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [showLoader, setShowLoader] = useState(false);
   const user = useSelector((state: RootState) => state.userSlice.user);
+  const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -201,6 +204,15 @@ export function ListingDetailsPanel({ listingId }: ListingDetailPanelProps) {
               Posted on {new Date(listing.createdAt).toLocaleDateString()}
             </Text>
           )}
+
+          <Button
+            variant="outline"
+            color="blue"
+            onClick={open}
+          >
+            Apply
+          </Button>
+          <ApplicationModal opened={opened} onClose={close} listingID={listing._id} />
         </Stack>
       </Card>
     </motion.div>
