@@ -37,9 +37,9 @@ const DesktopDefaultView = ({
             <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="90%" mx="auto">
               {Array.from({ length: 6 }).map((_, i) => (
                 <Box key={i} style={{ width: '300px' }}>
-                  <Skeleton height={4} circle />
-                  <Skeleton height={3} />
-                  <Skeleton height={3} />
+                  <Skeleton height={8} circle />
+                  <Skeleton height={4} />
+                  <Skeleton height={4} />
                 </Box>
               ))}
             </Flex>
