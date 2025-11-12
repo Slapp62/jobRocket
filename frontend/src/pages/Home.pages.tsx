@@ -171,7 +171,7 @@ export function HomePage() {
           {isBusiness && (
             <Button
               component={Link}
-              to="create-card"
+              to="create-listing"
               fullWidth
               mx="auto"
               variant="filled"
