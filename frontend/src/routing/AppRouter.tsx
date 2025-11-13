@@ -11,9 +11,12 @@ import { FavoriteListings } from '../pages/Favorites.pages';
 import { HomePage } from '../pages/Home.pages';
 import { LoginPage } from '../pages/LoginPage/Login.pages';
 import { MyListings } from '../pages/MyListings.pages';
+import PrivacyPolicy from '../pages/PrivacyPolicy.pages';
 import { RegisterForm } from '../pages/Register.pages';
+import TermsOfService from '../pages/TermsOfService.pages';
 import { Layout } from './Layout';
 import RouteGuard from './RouteGuard';
+import { MyApplications } from '@/pages/MyApplications.page';
 
 const router = createBrowserRouter(
   [
@@ -27,7 +30,16 @@ const router = createBrowserRouter(
         { path: 'login', element: <LoginPage /> },
         { path: 'about', element: <About /> },
         { path: 'register', element: <RegisterForm /> },
+        { path: 'privacy-policy', element: <PrivacyPolicy /> },
+        { path: 'terms-of-service', element: <TermsOfService /> },
         { path: 'edit-listing/:id', element: <EditListing /> },
+        { 
+          path: 'my-applications', 
+          element: 
+            <RouteGuard profileType="jobseeker">
+              <MyApplications />
+            </RouteGuard> 
+        },
         {
           path: 'favorites',
           element: (

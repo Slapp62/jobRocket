@@ -13,6 +13,7 @@ import { SearchWorkArrangement } from '@/components/Filters/SearchWorkArrangemen
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 import styles from './HomePage.module.css';
+import HomePageCards from '@/components/InfoCards/homePageCards';
 
 export function HomePage() {
   const isMobile = useMediaQuery('(max-width: 700px)');
@@ -64,7 +65,7 @@ export function HomePage() {
         keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
       />
 
-      <Box mb={-50} h="85vh" py={100}>
+      <Box mb={-50} h="85%" py={100}>
         <Stack
           w="70%"
           gap={20}
@@ -183,6 +184,26 @@ export function HomePage() {
               Create A Listing
             </Button>
           )}
+        </Stack>
+
+        <Stack justify="center" align="center" mt="100px" bg="red" p="50px">
+          <Flex justify="start" align="center" w="80%">
+            <HomePageCards 
+              title="The Best Job Board for English Speakers in Israel" 
+              description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies." 
+              height="200px" 
+              width="500px" 
+              fontSize=""/>
+          </Flex>
+
+          <Flex justify="end" align="center" w="80%">
+            <HomePageCards 
+              title="Create a Job Seeker or Employer Account" 
+              description="As a job seeker, you can search for jobs, apply to them, and manage your applications. As an employer, you can create job listings and manage your company's listings." 
+              height="200px" 
+              width="500px" 
+              fontSize=""/>
+          </Flex>
         </Stack>
       </Box>
     </>

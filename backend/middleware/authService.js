@@ -3,6 +3,7 @@ const { throwError, nextError } = require('../utils/functionHandlers');
 const { verifyAuthToken } = require('../auth/providers/jwt');
 const Listing = require('../models/Listings');
 const authService = require('../services/authService');
+const chalk = require('chalk');
 
 const tokenGenerator = config.get('TOKEN_GENERATOR') || 'jwt';
 
@@ -41,6 +42,29 @@ const authenticateUser = (req, _res, next) => {
     const token = req.header('x-auth-token');
     if (!token) {
       return throwError(401, 'Access denied. No token provided.');
+    }
+
+    try {
+      const userData = verifyAuthToken(token);
+      if (!userData) {
+        throwError(401, 'Access denied. Invalid token.');
+      }
+
+      req.user = userData;
+      next();
+    } catch (error) {
+      next(error);
+    }
+  }
+};
+
+const optionalAuthenticateUser = (req, _res, next) => {
+  if (tokenGenerator === 'jwt') {
+    const token = req.header('x-auth-token');
+    if (!token) {
+      req.user = { _id: null };  // Create the object first
+      console.log(chalk.yellow('No token provided.'));
+      return next();
     }
 
     try {
@@ -122,6 +146,7 @@ const listingCreatorAdminAuth = async (req, _res, next) => {
 module.exports = {
   verifyCredentials,
   authenticateUser,
+  optionalAuthenticateUser,
   adminAuth,
   businessAuth,
   userAdminAuth,

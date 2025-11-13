@@ -115,10 +115,11 @@ export type TApplication = {
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
+  phone?: string;
   jobseekerId: string;
-  listingId: string;
-  coverLetter: string;
+  listingId: any;
   resume: string;
+  message?: string;
   createdAt: string;
+  status: string;
 };

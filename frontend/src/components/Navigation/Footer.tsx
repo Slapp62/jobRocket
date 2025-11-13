@@ -14,6 +14,13 @@ const data = [
     ],
   },
   {
+    title: 'Legal',
+    links: [
+      { label: 'Privacy Policy', link: '/privacy-policy' },
+      { label: 'Terms of Service', link: '/terms-of-service' },
+    ],
+  },
+  {
     title: 'Project',
     links: [
       { label: 'GitHub', link: 'https://github.com/Slapp62/reactMantineProject.git' },

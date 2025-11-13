@@ -5,6 +5,7 @@ async function submitApplication(req, res) {
   try {
     const listingId = req.params.listingId;
     const applicantId = req.user._id;
+    
     const applicationData = req.body;
     const application = await applicationsService.submitApplication(
       listingId,

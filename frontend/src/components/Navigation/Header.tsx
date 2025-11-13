@@ -82,9 +82,13 @@ export function Navbar() {
               </Link>
             )}
 
-            <Link to="/about" className={classes.link}>
-              <Text fw={700}>About</Text>
-            </Link>
+            
+
+            {loggedIn && (
+              <Link to="/my-applications" className={classes.link}>
+                <Text fw={700}>My Applications</Text>
+              </Link>
+            )}
 
             {loggedIn && isBusinessUser && (
               <Link to="/my-listings" className={classes.link}>
@@ -92,6 +96,10 @@ export function Navbar() {
               </Link>
             )}
 
+            <Link to="/about" className={classes.link}>
+              <Text fw={700}>About</Text>
+            </Link>
+            
             {user?.isAdmin && (
               <Link to="/admin" className={classes.link}>
                 <Text fw={700}>Admin Controls</Text>

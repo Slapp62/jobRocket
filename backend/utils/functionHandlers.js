@@ -6,7 +6,7 @@ const handleSuccess = (res, status, data = {}, message = '') => {
 };
 
 const throwError = (status, message) => {
-  const error = new Error(message);
+  const error = new Error(`${message}`);
   error.status = status;
   throw error;
 };

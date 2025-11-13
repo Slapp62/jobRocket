@@ -1,5 +1,5 @@
 const applicationValidation = require('../middleware/applicationValidation');
-const {authenticateUser} = require('../middleware/authService');
+const {authenticateUser, optionalAuthenticateUser} = require('../middleware/authService');
 const {applicationsLimiter} = require('../middleware/rateLimiter');
 const router = require('express').Router();
 const {
@@ -9,7 +9,7 @@ const {
   updateApplicationStatus,
 } = require('../controllers/applicationsController');
 
-router.post('/:listingId', authenticateUser, applicationsLimiter, applicationValidation, submitApplication);
+router.post('/:listingId', optionalAuthenticateUser, applicationsLimiter, applicationValidation, submitApplication);
 
 router.get('/my-applications', authenticateUser, getApplicationsByID);
 

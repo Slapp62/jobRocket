@@ -84,7 +84,7 @@ export function EditListing() {
   // Fetch listing data on mount
   useEffect(() => {
     const fetchListing = async () => {
-      if (!id) return;
+      if (!id) {return;}
 
       setIsLoading(true);
       try {

@@ -26,9 +26,9 @@ export function SearchPage() {
   const city = searchParams.get('city');
 
   const buildTitle = () => {
-    if (industry && city) return `${industry} Jobs in ${city} | JobRocket`;
-    if (industry && !city) return `${industry} Jobs | JobRocket`;
-    if (!industry && city) return `Jobs in ${city} | JobRocket`;
+    if (industry && city) {return `${industry} Jobs in ${city} | JobRocket`;}
+    if (industry && !city) {return `${industry} Jobs | JobRocket`;}
+    if (!industry && city) {return `Jobs in ${city} | JobRocket`;}
     return 'Job Search Results | JobRocket';
   };
 

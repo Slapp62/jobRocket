@@ -14,17 +14,20 @@ async function submitApplication(listingId, applicantId, applicationData) {
     error.status = 400;
     throw error;
   }
-
+    
   // Create application
   const application = new Applications({
     listingId,
-    applicantId,
+    applicantId: applicantId,
+    firstName: applicationData.firstName,
+    lastName: applicationData.lastName,
+    email: applicationData.email,
+    phone: applicationData.phone === '' ? undefined : applicationData.phone,
     resume: applicationData.resume,
-    coverLetter: applicationData.coverLetter, // Can be undefined
-    message: applicationData.message, // Can be undefined
+    message: applicationData.message === '' ? undefined : applicationData.message,
     status: 'pending',
   });
-
+  console.log(application)
   await application.save();
   return application;
 }
@@ -55,7 +58,7 @@ async function getListingApplications(listingId, requesterId) {
   const applications = await Applications.find({ listingId })
     .populate(
       'applicantId',
-      'jobseekerProfile.firstName jobseekerProfile.lastName'
+      'jobseekerProfile.firstName jobseekerProfile.lastName jobseekerProfile.email jobseekerProfile.phone jobseekerProfile.resume jobseekerProfile.message' 
     )
     .sort({ createdAt: -1 });
 
