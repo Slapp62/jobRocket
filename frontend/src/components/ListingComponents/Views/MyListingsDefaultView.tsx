@@ -69,7 +69,7 @@ const MyListingsDefaultView = ({
                       />
                     }
                     width="300px"
-                    disableHoverEffect={true}
+                    disableHoverEffect
                   />
                 </motion.div>
               ))}
