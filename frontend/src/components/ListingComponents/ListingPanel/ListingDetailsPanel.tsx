@@ -218,3 +218,5 @@ export function ListingDetailsPanel({ listingId }: ListingDetailPanelProps) {
     </motion.div>
   );
 }
+
+export default ListingDetailsPanel;

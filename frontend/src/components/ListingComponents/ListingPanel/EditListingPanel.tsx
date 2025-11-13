@@ -387,3 +387,5 @@ export function EditListingPanel({
     </Stack>
   );
 }
+
+export default EditListingPanel;
