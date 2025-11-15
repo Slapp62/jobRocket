@@ -123,48 +123,48 @@ export function MyListings() {
 
       <Box>
         {/* Create button and filters at top */}
-      <Flex direction="column" gap="md" mb="md">
-        <FilterBar
-          searchParams={urlSearchParams}
-          updateSearchParam={updateSearchParam}
-          isMobile={isMobile}
-        />
-        <Button
-          component={Link}
-          to="/create-listing"
-          mx="auto"
-          variant="outline"
-          color="green"
-          size="md"
-          fz={20}
-          rightSection={<IconCards />}
-        >
-          Create A New Listing
-        </Button>
-      </Flex>
+        <Flex direction="column" gap="md" mb="md">
+          <FilterBar
+            searchParams={urlSearchParams}
+            updateSearchParam={updateSearchParam}
+            isMobile={isMobile}
+          />
+          <Button
+            component={Link}
+            to="/create-listing"
+            mx="auto"
+            variant="outline"
+            color="green"
+            size="md"
+            fz={20}
+            rightSection={<IconCards />}
+          >
+            Create A New Listing
+          </Button>
+        </Flex>
 
-      <AnimatePresence mode="wait">
-        {selectedId ? (
-          <MyListingsSplitView
-            displayListings={displayListings}
-            handleEditListing={handleEditListing}
-            handleBackToAll={handleBackToAll}
-            selectedId={selectedId}
-            onDelete={handleDelete}
-            onUpdate={handleUpdate}
-          />
-        ) : (
-          // FULL WIDTH GRID - Default view
-          <MyListingsDefaultView
-            isLoading={isLoading}
-            noListings={noListings}
-            displayListings={displayListings}
-            totalCurrentListings={totalCurrentListings}
-            handleEditListing={handleEditListing}
-            onDelete={handleDelete}
-          />
-        )}
-      </AnimatePresence>
+        <AnimatePresence mode="wait">
+          {selectedId ? (
+            <MyListingsSplitView
+              displayListings={displayListings}
+              handleEditListing={handleEditListing}
+              handleBackToAll={handleBackToAll}
+              selectedId={selectedId}
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+            />
+          ) : (
+            // FULL WIDTH GRID - Default view
+            <MyListingsDefaultView
+              isLoading={isLoading}
+              noListings={noListings}
+              displayListings={displayListings}
+              totalCurrentListings={totalCurrentListings}
+              handleEditListing={handleEditListing}
+              onDelete={handleDelete}
+            />
+          )}
+        </AnimatePresence>
       </Box>
     </>
   );

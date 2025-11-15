@@ -16,26 +16,38 @@ import {
   Text,
   Title,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { ApplicationModal } from '@/components/Application/applicationModal';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import SocialIcons from '@/components/SocialMedia';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
-import { useDisclosure } from '@mantine/hooks';
-import { ApplicationModal } from '@/components/Application/applicationModal';
 
 type ListingDetailPanelProps = {
   listingId: string;
+  listing?: TListing;
 };
 
-export function ListingDetailsPanel({ listingId }: ListingDetailPanelProps) {
-  const [listing, setListing] = useState<TListing | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export function ListingDetailsPanel({
+  listingId,
+  listing: providedListing,
+}: ListingDetailPanelProps) {
+  const [listing, setListing] = useState<TListing | null>(providedListing || null);
+  const [isLoading, setIsLoading] = useState(!providedListing);
   const [showLoader, setShowLoader] = useState(false);
   const user = useSelector((state: RootState) => state.userSlice.user);
   const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
+    // If listing is already provided, skip API call
+    if (providedListing) {
+      setListing(providedListing);
+      setIsLoading(false);
+      return;
+    }
+
+    // Otherwise, fetch from API
     const fetchListing = async () => {
       setIsLoading(true);
       setShowLoader(false);
@@ -64,7 +76,7 @@ export function ListingDetailsPanel({ listingId }: ListingDetailPanelProps) {
     };
 
     fetchListing();
-  }, [listingId]);
+  }, [listingId, providedListing]);
 
   // Show loader only if loading takes longer than 300ms
   if (isLoading && showLoader) {
@@ -205,11 +217,7 @@ export function ListingDetailsPanel({ listingId }: ListingDetailPanelProps) {
             </Text>
           )}
 
-          <Button
-            variant="outline"
-            color="blue"
-            onClick={open}
-          >
+          <Button variant="outline" color="blue" onClick={open}>
             Apply
           </Button>
           <ApplicationModal opened={opened} onClose={close} listingID={listing._id} />

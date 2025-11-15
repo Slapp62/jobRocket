@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Container, Title, Text, List, Paper, Anchor, Box } from '@mantine/core';
+import { Anchor, Box, Container, List, Paper, Text, Title } from '@mantine/core';
 
 const PrivacyPolicy: FC = () => {
   return (
@@ -35,8 +35,8 @@ const PrivacyPolicy: FC = () => {
             Age Restriction:
           </Text>
           <Text>
-            You must be at least 15 years old to use JobRocket. We do not knowingly collect
-            personal information from individuals under 15 years of age.
+            You must be at least 15 years old to use JobRocket. We do not knowingly collect personal
+            information from individuals under 15 years of age.
           </Text>
         </Paper>
       </Box>
@@ -49,7 +49,9 @@ const PrivacyPolicy: FC = () => {
         <Title order={3} size="h4" mb="xs" mt="md">
           2.1 Information You Provide Directly
         </Title>
-        <Text mb="sm">When you register and use our Service, we collect the following information:</Text>
+        <Text mb="sm">
+          When you register and use our Service, we collect the following information:
+        </Text>
 
         <Text fw={600} mt="md" mb="xs">
           For All Users:
@@ -166,7 +168,9 @@ const PrivacyPolicy: FC = () => {
         <Title order={2} size="h3" mb="sm">
           4. Artificial Intelligence and Data Processing
         </Title>
-        <Text mb="sm">JobRocket uses artificial intelligence to enhance job matching capabilities:</Text>
+        <Text mb="sm">
+          JobRocket uses artificial intelligence to enhance job matching capabilities:
+        </Text>
         <List mb="md">
           <List.Item>
             <strong>Embedding Generation:</strong> We use OpenAI's API (text-embedding-3-small
@@ -213,7 +217,8 @@ const PrivacyPolicy: FC = () => {
             <strong>Purpose:</strong> Generate embeddings for job matching algorithm
           </List.Item>
           <List.Item>
-            <strong>Data Shared:</strong> Profile information, job listings, skills, and descriptions
+            <strong>Data Shared:</strong> Profile information, job listings, skills, and
+            descriptions
           </List.Item>
           <List.Item>
             <strong>Privacy Policy:</strong>{' '}
@@ -246,7 +251,8 @@ const PrivacyPolicy: FC = () => {
             <strong>Purpose:</strong> Cloud database hosting
           </List.Item>
           <List.Item>
-            <strong>Data Stored:</strong> All user accounts, profiles, job listings, and applications
+            <strong>Data Stored:</strong> All user accounts, profiles, job listings, and
+            applications
           </List.Item>
           <List.Item>
             <strong>Security:</strong> Industry-standard encryption and security measures
@@ -296,7 +302,8 @@ const PrivacyPolicy: FC = () => {
             <strong>Account Security:</strong> Automatic account lockout after failed login attempts
           </List.Item>
           <List.Item>
-            <strong>Input Validation:</strong> Protection against NoSQL injection and malicious input
+            <strong>Input Validation:</strong> Protection against NoSQL injection and malicious
+            input
           </List.Item>
           <List.Item>
             <strong>HTTP Security:</strong> Security headers implemented via Helmet.js
@@ -321,20 +328,20 @@ const PrivacyPolicy: FC = () => {
             <strong>Active Accounts:</strong> Data is retained while your account remains active
           </List.Item>
           <List.Item>
-            <strong>Account Deletion:</strong> Upon request, your account and associated data will be
-            deleted immediately from our active database
+            <strong>Account Deletion:</strong> Upon request, your account and associated data will
+            be deleted immediately from our active database
           </List.Item>
           <List.Item>
             <strong>Backup Systems:</strong> Data may remain in backup systems for up to 30 days
             following deletion
           </List.Item>
           <List.Item>
-            <strong>Legal Requirements:</strong> We may retain certain information if required by law
-            or for legitimate business purposes
+            <strong>Legal Requirements:</strong> We may retain certain information if required by
+            law or for legitimate business purposes
           </List.Item>
           <List.Item>
-            <strong>Session Data:</strong> JWT tokens expire after 1 hour; session storage is cleared
-            upon logout
+            <strong>Session Data:</strong> JWT tokens expire after 1 hour; session storage is
+            cleared upon logout
           </List.Item>
         </List>
       </Box>
@@ -353,8 +360,9 @@ const PrivacyPolicy: FC = () => {
         </Title>
         <List mb="md">
           <List.Item>
-            <strong>Job Applications:</strong> When you apply for a job, your application information
-            (resume, cover letter, message) is shared with the business that posted the listing
+            <strong>Job Applications:</strong> When you apply for a job, your application
+            information (resume, cover letter, message) is shared with the business that posted the
+            listing
           </List.Item>
           <List.Item>
             <strong>Public Listings:</strong> Job listings posted by businesses are publicly visible
@@ -419,9 +427,8 @@ const PrivacyPolicy: FC = () => {
             settings
           </List.Item>
           <List.Item>
-            Contact us at{' '}
-            <Anchor href="mailto:admin@jobrocket.co.il">admin@jobrocket.co.il</Anchor> to request a
-            copy of the information we hold about you
+            Contact us at <Anchor href="mailto:admin@jobrocket.co.il">admin@jobrocket.co.il</Anchor>{' '}
+            to request a copy of the information we hold about you
           </List.Item>
         </List>
 
@@ -432,14 +439,18 @@ const PrivacyPolicy: FC = () => {
           <List.Item>
             You can update your profile information directly through the platform
           </List.Item>
-          <List.Item>If you cannot update information yourself, contact us for assistance</List.Item>
+          <List.Item>
+            If you cannot update information yourself, contact us for assistance
+          </List.Item>
         </List>
 
         <Title order={3} size="h4" mb="xs" mt="md">
           8.3 Right to Deletion
         </Title>
         <List mb="md">
-          <List.Item>You can delete your account at any time through your account settings</List.Item>
+          <List.Item>
+            You can delete your account at any time through your account settings
+          </List.Item>
           <List.Item>
             Alternatively, submit a deletion request to{' '}
             <Anchor href="mailto:admin@jobrocket.co.il">admin@jobrocket.co.il</Anchor>
@@ -453,9 +464,7 @@ const PrivacyPolicy: FC = () => {
           8.4 Right to Object
         </Title>
         <List mb="md">
-          <List.Item>
-            You may object to certain processing of your personal information
-          </List.Item>
+          <List.Item>You may object to certain processing of your personal information</List.Item>
           <List.Item>Contact us to discuss your concerns</List.Item>
         </List>
 
@@ -463,11 +472,10 @@ const PrivacyPolicy: FC = () => {
           8.5 Role Switching
         </Title>
         <List mb="md">
+          <List.Item>You can switch between jobseeker and business profiles at any time</List.Item>
           <List.Item>
-            You can switch between jobseeker and business profiles at any time
-          </List.Item>
-          <List.Item>
-            Note that switching roles may affect the visibility and functionality of certain features
+            Note that switching roles may affect the visibility and functionality of certain
+            features
           </List.Item>
         </List>
       </Box>
@@ -568,9 +576,7 @@ const PrivacyPolicy: FC = () => {
           technology, legal requirements, or other factors. When we make changes:
         </Text>
         <List mb="md">
-          <List.Item>
-            We will update the "Last Updated" date at the top of this policy
-          </List.Item>
+          <List.Item>We will update the "Last Updated" date at the top of this policy</List.Item>
           <List.Item>
             Significant changes will be communicated through email or prominent notice on our
             platform
@@ -595,7 +601,9 @@ const PrivacyPolicy: FC = () => {
         </Text>
         <List mb="md">
           <List.Item>We will investigate the breach and assess its impact</List.Item>
-          <List.Item>We will notify affected users via email within a reasonable timeframe</List.Item>
+          <List.Item>
+            We will notify affected users via email within a reasonable timeframe
+          </List.Item>
           <List.Item>We will notify relevant Israeli authorities as required by law</List.Item>
           <List.Item>
             We will take immediate steps to mitigate the breach and prevent future occurrences
@@ -662,8 +670,7 @@ const PrivacyPolicy: FC = () => {
           <Text fw={700}>Privacy Protection Authority</Text>
           <Text>Ministry of Justice</Text>
           <Text>
-            Email:{' '}
-            <Anchor href="mailto:privacy@justice.gov.il">privacy@justice.gov.il</Anchor>
+            Email: <Anchor href="mailto:privacy@justice.gov.il">privacy@justice.gov.il</Anchor>
           </Text>
           <Text>
             Website:{' '}
@@ -689,9 +696,7 @@ const PrivacyPolicy: FC = () => {
       </Box>
 
       <Box ta="center" c="dimmed" pt="xl" mt="xl" style={{ borderTop: '1px solid #e0e0e0' }}>
-        <Text size="sm">
-          © {new Date().getFullYear()} JobRocket. All rights reserved.
-        </Text>
+        <Text size="sm">© {new Date().getFullYear()} JobRocket. All rights reserved.</Text>
         <Text size="sm">
           By using JobRocket, you acknowledge that you have read and understood this Privacy Policy.
         </Text>

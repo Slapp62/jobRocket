@@ -46,7 +46,9 @@ const seedDevData = async (users, listings, applications = []) => {
   // Seed applications
   for (const application of applications) {
     try {
-      const applicant = await Users.findOne({ email: application.applicantEmail });
+      const applicant = await Users.findOne({
+        email: application.applicantEmail,
+      });
       if (!applicant) {
         console.error(`Applicant not found: ${application.applicantEmail}`);
         continue;
@@ -54,7 +56,9 @@ const seedDevData = async (users, listings, applications = []) => {
 
       const listing = seededListings[application.listingIndex];
       if (!listing) {
-        console.error(`Listing not found at index: ${application.listingIndex}`);
+        console.error(
+          `Listing not found at index: ${application.listingIndex}`
+        );
         continue;
       }
 
@@ -121,7 +125,9 @@ const seedTestData = async (users, listings, applications = []) => {
   // Seed applications
   for (const application of applications) {
     try {
-      const applicant = await Users.findOne({ email: application.applicantEmail });
+      const applicant = await Users.findOne({
+        email: application.applicantEmail,
+      });
       if (!applicant) {
         console.error(`Applicant not found: ${application.applicantEmail}`);
         continue;
@@ -129,7 +135,9 @@ const seedTestData = async (users, listings, applications = []) => {
 
       const listing = seededListings[application.listingIndex];
       if (!listing) {
-        console.error(`Listing not found at index: ${application.listingIndex}`);
+        console.error(
+          `Listing not found at index: ${application.listingIndex}`
+        );
         continue;
       }
 

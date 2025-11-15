@@ -17,7 +17,9 @@ export function FavoritesButton({ listing, width }: FavoritesButtonProps) {
   const [isLiked, setIsLiked] = useState(listing.likes?.includes(user?._id || '') || false);
   const [isLoading, setIsLoading] = useState(false);
 
-  if (!user) {return null;}
+  if (!user) {
+    return null;
+  }
 
   const handleToggleLike = async (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent card onClick from firing

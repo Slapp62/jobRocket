@@ -1,24 +1,14 @@
 const joi = require('joi');
 
 const joiApplicationSchema = joi.object({
-  firstName: joi
-    .string()
-    .required()
-    .min(2)
-    .max(30)
-    .messages({
-      'string.empty': 'First name is required',
-      'string.min': 'First name must be between 2 and 30 characters',
-    }),
-  lastName: joi
-    .string()
-    .required()
-    .min(2)
-    .max(30)
-    .messages({
-      'string.empty': 'Last name is required',
-      'string.min': 'Last name must be between 2 and 30 characters',
-    }),
+  firstName: joi.string().required().min(2).max(30).messages({
+    'string.empty': 'First name is required',
+    'string.min': 'First name must be between 2 and 30 characters',
+  }),
+  lastName: joi.string().required().min(2).max(30).messages({
+    'string.empty': 'Last name is required',
+    'string.min': 'Last name must be between 2 and 30 characters',
+  }),
   email: joi
     .string()
     .email({ tlds: { allow: false } })
@@ -35,20 +25,10 @@ const joiApplicationSchema = joi.object({
     .messages({
       'string.pattern.base': 'Phone must be a valid Israeli phone number.',
     }),
-  resume: joi
-    .string()
-    .required()
-    .min(10)
-    .max(500)
-    .messages({
-      'any.required': 'Resume is required',
-    }),
-  message: joi
-    .string()
-    .optional()
-    .allow('')
-    .min(10)
-    .max(2000),
+  resume: joi.string().required().min(10).max(500).messages({
+    'any.required': 'Resume is required',
+  }),
+  message: joi.string().optional().allow('').min(10).max(2000),
 });
 
 module.exports = joiApplicationSchema;

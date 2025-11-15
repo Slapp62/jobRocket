@@ -17,6 +17,9 @@ const DesktopSplitView = ({
   handleBackToAll,
   selectedId,
 }: DesktopSplitViewProps) => {
+  // Find the selected listing from the already-loaded displayListings
+  const selectedListing = displayListings.find((listing) => listing._id === selectedId);
+
   return (
     // SPLIT VIEW - When listing is selected
     <motion.div
@@ -81,7 +84,7 @@ const DesktopSplitView = ({
         >
           <ScrollArea h="100%">
             <Box p="lg">
-              <ListingDetailsPanel listingId={selectedId} />
+              <ListingDetailsPanel listingId={selectedId} listing={selectedListing} />
             </Box>
           </ScrollArea>
         </motion.div>

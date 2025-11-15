@@ -76,30 +76,34 @@ export function Navbar() {
               <Text fw={700}>Job Board</Text>
             </Link>
 
-            {loggedIn && (
+            {loggedIn && user?.profileType === 'jobseeker' && (
               <Link to="/favorites" className={classes.link}>
                 <Text fw={700}>Favorites</Text>
               </Link>
             )}
 
-            
-
-            {loggedIn && (
+            {loggedIn && user?.profileType === 'jobseeker' && (
               <Link to="/my-applications" className={classes.link}>
                 <Text fw={700}>My Applications</Text>
               </Link>
             )}
 
-            {loggedIn && isBusinessUser && (
+            {loggedIn && user?.profileType === 'business' && (
               <Link to="/my-listings" className={classes.link}>
                 <Text fw={700}>My Listings</Text>
+              </Link>
+            )}
+
+            {loggedIn && user?.profileType === 'business' && (
+              <Link to="/dashboard" className={classes.link}>
+                <Text fw={700}>Dashboard</Text>
               </Link>
             )}
 
             <Link to="/about" className={classes.link}>
               <Text fw={700}>About</Text>
             </Link>
-            
+
             {user?.isAdmin && (
               <Link to="/admin" className={classes.link}>
                 <Text fw={700}>Admin Controls</Text>

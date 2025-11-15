@@ -10,10 +10,10 @@ import { SearchRegion } from '@/components/Filters/SearchRegion';
 import { SearchSort } from '@/components/Filters/SearchSort';
 import { SearchText } from '@/components/Filters/SearchText.tsx';
 import { SearchWorkArrangement } from '@/components/Filters/SearchWorkArrangement';
+import HomePageCards from '@/components/InfoCards/homePageCards';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 import styles from './HomePage.module.css';
-import HomePageCards from '@/components/InfoCards/homePageCards';
 
 export function HomePage() {
   const isMobile = useMediaQuery('(max-width: 700px)');
@@ -153,6 +153,7 @@ export function HomePage() {
             fz={20}
             rightSection={<IconSearch />}
             onClick={searchListing}
+            className={styles.lightDark}
           >
             Search
           </Button>
@@ -172,10 +173,10 @@ export function HomePage() {
             <Button
               component={Link}
               to="create-listing"
-              fullWidth
+              w="40%"
               mx="auto"
               variant="filled"
-              color="white"
+              color="orange"
               className={styles.lightDark}
               size="md"
               fz={20}
@@ -188,21 +189,23 @@ export function HomePage() {
 
         <Stack justify="center" align="center" mt="100px" bg="red" p="50px">
           <Flex justify="start" align="center" w="80%">
-            <HomePageCards 
-              title="The Best Job Board for English Speakers in Israel" 
-              description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies." 
-              height="200px" 
-              width="500px" 
-              fontSize=""/>
+            <HomePageCards
+              title="The Best Job Board for English Speakers in Israel"
+              description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
+              height="200px"
+              width="500px"
+              fontSize=""
+            />
           </Flex>
 
           <Flex justify="end" align="center" w="80%">
-            <HomePageCards 
-              title="Create a Job Seeker or Employer Account" 
-              description="As a job seeker, you can search for jobs, apply to them, and manage your applications. As an employer, you can create job listings and manage your company's listings." 
-              height="200px" 
-              width="500px" 
-              fontSize=""/>
+            <HomePageCards
+              title="Create a Job Seeker or Employer Account"
+              description="As a job seeker, you can search for jobs, apply to them, and manage your applications. As an employer, you can create job listings and manage your company's listings."
+              height="200px"
+              width="500px"
+              fontSize=""
+            />
           </Flex>
         </Stack>
       </Box>

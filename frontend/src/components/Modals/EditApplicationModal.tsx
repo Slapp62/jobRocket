@@ -1,21 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import { Button, Modal, Stack, Textarea, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { RootState } from '@/store/store';
 import { TApplication } from '@/Types';
 import { applicationSchema } from '@/validationRules/application.joi';
 
-interface ApplicationModalProps {
+interface EditApplicationModalProps {
   opened: boolean;
   onClose: () => void;
-  listingID: string;
+  application: TApplication | null;
+  onSuccess?: () => void;
 }
 
-export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModalProps) => {
+export const EditApplicationModal = ({
+  opened,
+  onClose,
+  application,
+  onSuccess,
+}: EditApplicationModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const {
     reset,
@@ -29,27 +33,47 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
     criteriaMode: 'all',
   });
 
+  // Populate form with existing application data when modal opens
+  useEffect(() => {
+    if (application && opened) {
+      reset({
+        firstName: application.firstName,
+        lastName: application.lastName,
+        email: application.email,
+        phone: application.phone || '',
+        resume: application.resume,
+        message: application.message || '',
+      });
+    }
+  }, [application, opened, reset]);
+
   const onSubmit = async (data: TApplication) => {
+    if (!application) return;
+
     try {
       setIsLoading(true);
       const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
-      await axios.post(`${API_BASE_URL}/api/applications/${listingID}`, data, {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+      await axios.put(`${API_BASE_URL}/api/applications/${application._id}`, data, {
         headers: {
-          'x-auth-token': localStorage.getItem('token') || null,
+          'x-auth-token': token,
         },
       });
-      onClose();
-      reset();
+
       notifications.show({
-        title: 'Application',
-        message: 'Application submitted successfully',
+        title: 'Success',
+        message: 'Application updated successfully',
         color: 'green',
       });
-    } catch (error) {
+
+      onClose();
+      if (onSuccess) onSuccess();
+    } catch (error: any) {
       console.error(error);
       notifications.show({
-        title: 'Application',
-        message: 'Application failed to submit.',
+        title: 'Error',
+        message: error.response?.data?.message || 'Failed to update application',
         color: 'red',
       });
     } finally {
@@ -57,10 +81,10 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
     }
   };
 
-  const user = useSelector((state: RootState) => state.userSlice.user);
+  if (!application) return null;
 
   return (
-    <Modal opened={opened} onClose={onClose} title="Application" size="lg" zIndex={1000}>
+    <Modal opened={opened} onClose={onClose} title="Edit Application" size="lg" zIndex={1000}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack p="lg">
           <TextInput
@@ -85,7 +109,7 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
           />
           <Textarea label="Message" {...register('message')} error={errors.message?.message} />
           <Button type="submit" mx="auto" w={200} disabled={!isValid} loading={isLoading}>
-            Submit
+            Update Application
           </Button>
         </Stack>
       </form>

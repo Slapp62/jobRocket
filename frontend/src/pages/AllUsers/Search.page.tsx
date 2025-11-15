@@ -1,5 +1,5 @@
 import { AnimatePresence } from 'framer-motion';
-import { Box } from '@mantine/core';
+import { Box, Flex, Skeleton, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { FilterBar } from '@/components/Filters/FilterBar';
 import DesktopDefaultView from '@/components/ListingComponents/Views/DesktopDefaultView';
@@ -26,11 +26,46 @@ export function SearchPage() {
   const city = searchParams.get('city');
 
   const buildTitle = () => {
-    if (industry && city) {return `${industry} Jobs in ${city} | JobRocket`;}
-    if (industry && !city) {return `${industry} Jobs | JobRocket`;}
-    if (!industry && city) {return `Jobs in ${city} | JobRocket`;}
+    if (industry && city) {
+      return `${industry} Jobs in ${city} | JobRocket`;
+    }
+    if (industry && !city) {
+      return `${industry} Jobs | JobRocket`;
+    }
+    if (!industry && city) {
+      return `Jobs in ${city} | JobRocket`;
+    }
     return 'Job Search Results | JobRocket';
   };
+
+  // Show loading skeleton before anything else
+  if (isLoading) {
+    return (
+      <>
+        <PageMeta
+          title={buildTitle()}
+          description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
+          keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
+        />
+        <Flex direction="column" align="center" mx="auto" gap={20} py="md" w="90vw">
+          <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="90%" mx="auto">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <Stack
+                p="sm"
+                m="sm"
+                key={i}
+                style={{ width: '300px', border: '1px solid #dee2e6', borderRadius: '8px' }}
+              >
+                <Skeleton height={30} radius="sm" w="80%" />
+                <Skeleton height={10} radius="sm" />
+                <Skeleton height={50} radius="sm" />
+              </Stack>
+            ))}
+          </Flex>
+        </Flex>
+      </>
+    );
+  }
 
   // DESKTOP VIEW
   if (isDesktop) {

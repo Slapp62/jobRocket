@@ -5,7 +5,7 @@ async function submitApplication(req, res) {
   try {
     const listingId = req.params.listingId;
     const applicantId = req.user._id;
-    
+
     const applicationData = req.body;
     const application = await applicationsService.submitApplication(
       listingId,
@@ -60,9 +60,27 @@ async function updateApplicationStatus(req, res) {
   }
 }
 
+async function updateApplicationData(req, res) {
+  try {
+    const { id } = req.params;
+    const applicationData = req.body;
+    const requesterId = req.user._id;
+
+    const application = await applicationsService.updateApplicationData(
+      id,
+      applicationData,
+      requesterId
+    );
+    handleSuccess(res, 200, application, 'Application updated successfully');
+  } catch (error) {
+    handleError(res, error.status || 500, error.message);
+  }
+}
+
 module.exports = {
   submitApplication,
   getApplicationsByID,
   getListingApplications,
   updateApplicationStatus,
+  updateApplicationData,
 };

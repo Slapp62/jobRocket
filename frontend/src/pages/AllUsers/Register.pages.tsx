@@ -100,87 +100,96 @@ export function RegisterForm() {
           <h1>Registration Form</h1>
         </Box>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Flex
-          mx="auto"
-          direction="column"
-          w={isMobile ? '95%' : '60%'}
-          justify="space-between"
-          gap={5}
-        >
-          <SharedCredentials register={register} errors={errors} control={control} />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Flex
+            mx="auto"
+            direction="column"
+            w={isMobile ? '95%' : '60%'}
+            justify="space-between"
+            gap={5}
+          >
+            <SharedCredentials register={register} errors={errors} control={control} />
 
-          <Fieldset legend="Choose An Account Type">
-            <Tabs
-              variant="none"
-              value={tabValue}
-              onChange={(newValue) => {
-                setTabValue(newValue);
-                // Update profileType in form when tab changes
-                setValue('profileType', newValue as 'jobseeker' | 'business');
+            <Fieldset legend="Choose An Account Type">
+              <Tabs
+                variant="none"
+                value={tabValue}
+                onChange={(newValue) => {
+                  setTabValue(newValue);
+                  // Update profileType in form when tab changes
+                  setValue('profileType', newValue as 'jobseeker' | 'business');
+                }}
+              >
+                <Tabs.List ref={setRootRef} className={classes.list}>
+                  <Tabs.Tab
+                    value="jobseeker"
+                    ref={setControlRef('jobseeker')}
+                    className={classes.tab}
+                  >
+                    Job Seeker
+                  </Tabs.Tab>
+                  <Tabs.Tab
+                    value="business"
+                    ref={setControlRef('business')}
+                    className={classes.tab}
+                  >
+                    Business
+                  </Tabs.Tab>
+
+                  <FloatingIndicator
+                    target={tabValue ? controlsRefs[tabValue] : null}
+                    parent={rootRef}
+                    className={classes.indicator}
+                  />
+                </Tabs.List>
+
+                <Tabs.Panel value="jobseeker">
+                  <JobseekerFields register={register} errors={errors} control={control} />
+                </Tabs.Panel>
+                <Tabs.Panel value="business">
+                  <BusinessFields register={register} errors={errors} control={control} />
+                </Tabs.Panel>
+              </Tabs>
+            </Fieldset>
+          </Flex>
+
+          <Flex
+            gap={10}
+            align="center"
+            w="95%"
+            mx="auto"
+            my={20}
+            style={{ flexDirection: isMobile ? 'row' : 'column' }}
+          >
+            <Button
+              variant="outline"
+              type="reset"
+              w={200}
+              disabled={!isDirty}
+              onClick={() => {
+                reset();
+                registerRef.current?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              <Tabs.List ref={setRootRef} className={classes.list}>
-                <Tabs.Tab
-                  value="jobseeker"
-                  ref={setControlRef('jobseeker')}
-                  className={classes.tab}
-                >
-                  Job Seeker
-                </Tabs.Tab>
-                <Tabs.Tab value="business" ref={setControlRef('business')} className={classes.tab}>
-                  Business
-                </Tabs.Tab>
+              Reset Form
+            </Button>
+            <Button type="submit" mx="auto" w={200} disabled={!isValid} loading={isLoading}>
+              Submit
+            </Button>
 
-                <FloatingIndicator
-                  target={tabValue ? controlsRefs[tabValue] : null}
-                  parent={rootRef}
-                  className={classes.indicator}
-                />
-              </Tabs.List>
-
-              <Tabs.Panel value="jobseeker">
-                <JobseekerFields register={register} errors={errors} control={control} />
-              </Tabs.Panel>
-              <Tabs.Panel value="business">
-                <BusinessFields register={register} errors={errors} control={control} />
-              </Tabs.Panel>
-            </Tabs>
-          </Fieldset>
-        </Flex>
-
-        <Flex
-          gap={10}
-          align="center"
-          w="95%"
-          mx="auto"
-          my={20}
-          style={{ flexDirection: isMobile ? 'row' : 'column' }}
-        >
-          <Button
-            variant="outline"
-            type="reset"
-            w={200}
-            disabled={!isDirty}
-            onClick={() => {
-              reset();
-              registerRef.current?.scrollIntoView({ behavior: 'smooth' });
-            }}
-          >
-            Reset Form
-          </Button>
-          <Button type="submit" mx="auto" w={200} disabled={!isValid} loading={isLoading}>
-            Submit
-          </Button>
-
-          <Text c="dimmed" size="sm" ta="center" mt={5}>
-            Already have an account?{' '}
-            <Anchor size="sm" component="button" onClick={() => jumpTo('/login')} underline="hover">
-              Login
-            </Anchor>
-          </Text>
-        </Flex>
-      </form>
+            <Text c="dimmed" size="sm" ta="center" mt={5}>
+              Already have an account?{' '}
+              <Anchor
+                size="sm"
+                component="button"
+                onClick={() => jumpTo('/login')}
+                underline="hover"
+              >
+                Login
+              </Anchor>
+            </Text>
+          </Flex>
+        </form>
       </Flex>
     </>
   );

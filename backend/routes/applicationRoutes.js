@@ -7,6 +7,7 @@ const {
   getApplicationsByID,
   getListingApplications,
   updateApplicationStatus,
+  updateApplicationData,
 } = require('../controllers/applicationsController');
 
 router.post('/:listingId', optionalAuthenticateUser, applicationsLimiter, applicationValidation, submitApplication);
@@ -16,9 +17,16 @@ router.get('/my-applications', authenticateUser, getApplicationsByID);
 router.get('/listing/:listingId', authenticateUser, getListingApplications);
 
 router.patch(
-  '/:id',
+  '/:id/status',
   authenticateUser,
   updateApplicationStatus
+);
+
+router.put(
+  '/:id',
+  authenticateUser,
+  applicationValidation,
+  updateApplicationData
 );
 
 module.exports = router;

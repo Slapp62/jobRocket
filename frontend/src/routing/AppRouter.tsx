@@ -1,22 +1,22 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { SearchPage } from '@/pages/Search.page';
+import { SearchPage } from '@/pages/AllUsers/Search.page';
 import ErrorFallback from '../components/ErrorCatching/ErrorFallback';
-import Error404 from '../pages/404.pages';
-import About from '../pages/About.pages';
+import Error404 from '../pages/Static/404.pages';
+import About from '../pages/Static/About.pages';
 import AdminControls from '../pages/AdminControls/AdminControls.pages';
-import { CreateListing } from '../pages/CreateListing.pages';
-import { EditListing } from '../pages/EditListing.pages';
+import { CreateListing } from '../pages/BusinessUsers/CreateListing.pages';
+import { EditListing } from '../pages/BusinessUsers/EditListing.pages';
 import { EditProfile } from '../pages/EditProfilePage/EditProfile.pages';
-import { FavoriteListings } from '../pages/Favorites.pages';
-import { HomePage } from '../pages/Home.pages';
+import { FavoriteListings } from '../pages/Jobseekers/Favorites.pages';
+import { HomePage } from '../pages/HomePage/Home.pages';
 import { LoginPage } from '../pages/LoginPage/Login.pages';
-import { MyListings } from '../pages/MyListings.pages';
-import PrivacyPolicy from '../pages/PrivacyPolicy.pages';
-import { RegisterForm } from '../pages/Register.pages';
-import TermsOfService from '../pages/TermsOfService.pages';
+import { MyListings } from '../pages/BusinessUsers/MyListings.pages';
+import PrivacyPolicy from '../pages/Static/PrivacyPolicy.pages';
+import { RegisterForm } from '../pages/AllUsers/Register.pages';
+import TermsOfService from '../pages/Static/TermsOfService.pages';
 import { Layout } from './Layout';
 import RouteGuard from './RouteGuard';
-import { MyApplications } from '@/pages/MyApplications.page';
+import { MyApplications } from '@/pages/Jobseekers/MyApplications.page';
 
 const router = createBrowserRouter(
   [
@@ -33,12 +33,13 @@ const router = createBrowserRouter(
         { path: 'privacy-policy', element: <PrivacyPolicy /> },
         { path: 'terms-of-service', element: <TermsOfService /> },
         { path: 'edit-listing/:id', element: <EditListing /> },
-        { 
-          path: 'my-applications', 
-          element: 
+        {
+          path: 'my-applications',
+          element: (
             <RouteGuard profileType="jobseeker">
               <MyApplications />
-            </RouteGuard> 
+            </RouteGuard>
+          ),
         },
         {
           path: 'favorites',

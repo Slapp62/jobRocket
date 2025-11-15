@@ -170,8 +170,6 @@ describe('GET /api/applications/listing/:listingId - Get Listing Applications', 
       .expect(200);
 
     expect(response.body[0]).toHaveProperty('applicantId');
-    expect(response.body[0].applicantId).toHaveProperty(
-      'jobseekerProfile'
-    );
+    expect(response.body[0].applicantId).toHaveProperty('jobseekerProfile');
   });
 });

@@ -36,7 +36,12 @@ const DesktopDefaultView = ({
           <Flex direction="column" align="center" mx="auto" gap={20} py="md" w="90vw">
             <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="90%" mx="auto">
               {Array.from({ length: 12 }).map((_, i) => (
-                <Stack p="sm" m="sm" key={i} style={{ width: '300px', border: '1px solid #dee2e6', borderRadius: '8px' }}>
+                <Stack
+                  p="sm"
+                  m="sm"
+                  key={i}
+                  style={{ width: '300px', border: '1px solid #dee2e6', borderRadius: '8px' }}
+                >
                   <Skeleton height={30} radius="sm" w="80%" />
                   <Skeleton height={10} radius="sm" />
                   <Skeleton height={50} radius="sm" />

@@ -14,7 +14,7 @@ async function submitApplication(listingId, applicantId, applicationData) {
     error.status = 400;
     throw error;
   }
-    
+
   // Create application
   const application = new Applications({
     listingId,
@@ -24,17 +24,18 @@ async function submitApplication(listingId, applicantId, applicationData) {
     email: applicationData.email,
     phone: applicationData.phone === '' ? undefined : applicationData.phone,
     resume: applicationData.resume,
-    message: applicationData.message === '' ? undefined : applicationData.message,
+    message:
+      applicationData.message === '' ? undefined : applicationData.message,
     status: 'pending',
   });
-  console.log(application)
+  console.log(application);
   await application.save();
   return application;
 }
 
 async function getApplicantApplications(applicantId) {
   const applications = await Applications.find({ applicantId })
-    .populate('listingId', 'jobTitle companyName') // Fetch only these fields from listing
+    .populate('listingId') // Fetch all listing fields
     .sort({ createdAt: -1 });
 
   return applications;
@@ -58,7 +59,7 @@ async function getListingApplications(listingId, requesterId) {
   const applications = await Applications.find({ listingId })
     .populate(
       'applicantId',
-      'jobseekerProfile.firstName jobseekerProfile.lastName jobseekerProfile.email jobseekerProfile.phone jobseekerProfile.resume jobseekerProfile.message' 
+      'jobseekerProfile.firstName jobseekerProfile.lastName jobseekerProfile.email jobseekerProfile.phone jobseekerProfile.resume jobseekerProfile.message'
     )
     .sort({ createdAt: -1 });
 
@@ -87,9 +88,54 @@ async function updateApplicationStatus(applicationId, newStatus, requesterId) {
   return application;
 }
 
+async function updateApplicationData(
+  applicationId,
+  applicationData,
+  requesterId
+) {
+  const application = await Applications.findById(applicationId);
+
+  if (!application) {
+    const error = new Error('Application not found');
+    error.status = 404;
+    throw error;
+  }
+
+  // Verify requester is the applicant
+  if (application.applicantId.toString() !== requesterId) {
+    const error = new Error('Not authorized to update this application');
+    error.status = 403;
+    throw error;
+  }
+
+  // Only allow updates if status is pending
+  if (application.status !== 'pending') {
+    const error = new Error('Cannot update application that is not pending');
+    error.status = 400;
+    throw error;
+  }
+
+  // Update allowed fields
+  if (applicationData.firstName)
+    application.firstName = applicationData.firstName;
+  if (applicationData.lastName) application.lastName = applicationData.lastName;
+  if (applicationData.email) application.email = applicationData.email;
+  if (applicationData.phone !== undefined)
+    application.phone =
+      applicationData.phone === '' ? undefined : applicationData.phone;
+  if (applicationData.resume) application.resume = applicationData.resume;
+  if (applicationData.message !== undefined)
+    application.message =
+      applicationData.message === '' ? undefined : applicationData.message;
+
+  await application.save();
+  return application;
+}
+
 module.exports = {
   submitApplication,
   getApplicantApplications,
   getListingApplications,
   updateApplicationStatus,
+  updateApplicationData,
 };

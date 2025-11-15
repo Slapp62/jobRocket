@@ -24,6 +24,14 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
     hasPrevPage: false,
   });
 
+  // Create a stable key for search params that excludes 'selected'
+  // This ensures changing selectedId doesn't trigger a refetch
+  const searchParamsKey = Array.from(searchParams.entries())
+    .filter(([key]) => key !== 'selected')
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([key, value]) => `${key}=${value}`)
+    .join('&');
+
   // Fetch search results when URL params change
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -41,8 +49,8 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
 
         // ADD pagination params
         params.page = currentPage;
-        // In your fetch function, adjust limit based on view
-        params.limit = isDesktop && !selectedId ? 100 : paginationInfo.perPage;
+        // Set limit for desktop (selectedId doesn't affect fetching)
+        params.limit = isDesktop ? 100 : paginationInfo.perPage;
 
         const response = await axios.get(`${API_BASE_URL}/api/listings/${endpoint}`, { params });
 
@@ -59,19 +67,22 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
       } finally {
         setTimeout(() => {
           setIsLoading(false);
-        }, 2000);
+        }, 500);
       }
     };
 
     fetchSearchResults();
-  }, [searchParams, currentPage, endpoint, isDesktop, selectedId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParamsKey, currentPage, endpoint, isDesktop]);
 
   // Listings are already sorted and paginated by backend
   const displayListings = listings;
   // Reset to page 1 when search params change (not when data arrives)
+  // Using searchParamsKey ensures 'selected' changes don't reset page
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchParams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParamsKey]);
 
   // Handle listing selection (for desktop split-panel)
   const handleSelectListing = (listingId: string) => {

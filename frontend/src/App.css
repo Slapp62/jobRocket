@@ -8,3 +8,12 @@
         width: 60%;
     }
 }
+
+.card-hover {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.card-hover:hover {
+    background-color: rgb(238, 237, 237);
+}

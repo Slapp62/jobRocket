@@ -30,8 +30,12 @@ export function MatchScore({ listingId, size = 'md' }: MatchScoreProps) {
     fetchScore();
   }, [listingId]);
 
-  if (loading) {return <Loader size={size} />;}
-  if (score === null || score === undefined || isNaN(score)) {return null;}
+  if (loading) {
+    return <Loader size={size} />;
+  }
+  if (score === null || score === undefined || isNaN(score)) {
+    return null;
+  }
 
   const percentage = Math.round(score * 100);
   const color = percentage >= 80 ? 'green' : percentage >= 60 ? 'blue' : 'red';

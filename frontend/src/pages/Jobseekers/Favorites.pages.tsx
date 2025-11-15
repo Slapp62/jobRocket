@@ -2,7 +2,7 @@ import { IconMoodSad } from '@tabler/icons-react';
 import { AnimatePresence } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Center, Flex, Skeleton, Title } from '@mantine/core';
+import { Box, Button, Center, Flex, Skeleton, Stack, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { FilterBar } from '@/components/Filters/FilterBar';
 import DesktopDefaultView from '@/components/ListingComponents/Views/DesktopDefaultView';
@@ -32,10 +32,17 @@ export function FavoriteListings() {
     return (
       <Flex direction="column" align="center" mx="auto" gap={20} py="md" w="90vw">
         <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="90%" mx="auto">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Box key={i} style={{ width: isMobile ? '95vw' : '300px' }}>
-              <Skeleton height={280} radius="md" />
-            </Box>
+          {Array.from({ length: 12 }).map((_, i) => (
+            <Stack
+              p="sm"
+              m="sm"
+              key={i}
+              style={{ width: '300px', border: '1px solid #dee2e6', borderRadius: '8px' }}
+            >
+              <Skeleton height={30} radius="sm" w="80%" />
+              <Skeleton height={10} radius="sm" />
+              <Skeleton height={50} radius="sm" />
+            </Stack>
           ))}
         </Flex>
       </Flex>
@@ -68,31 +75,31 @@ export function FavoriteListings() {
 
       <Box>
         {/* Filters at top */}
-      <FilterBar
-        searchParams={searchParams}
-        updateSearchParam={updateSearchParam}
-        isMobile={isMobile}
-      />
+        <FilterBar
+          searchParams={searchParams}
+          updateSearchParam={updateSearchParam}
+          isMobile={isMobile}
+        />
 
-      <AnimatePresence mode="wait">
-        {selectedId ? (
-          <DesktopSplitView
-            displayListings={displayListings}
-            handleSelectListing={handleSelectListing}
-            handleBackToAll={handleBackToAll}
-            selectedId={selectedId}
-          />
-        ) : (
-          // FULL WIDTH GRID - Default view
-          <DesktopDefaultView
-            isLoading={isLoading}
-            noListings={noListings}
-            displayListings={displayListings}
-            totalCurrentListings={totalCurrentListings}
-            handleSelectListing={handleSelectListing}
-          />
-        )}
-      </AnimatePresence>
+        <AnimatePresence mode="wait">
+          {selectedId ? (
+            <DesktopSplitView
+              displayListings={displayListings}
+              handleSelectListing={handleSelectListing}
+              handleBackToAll={handleBackToAll}
+              selectedId={selectedId}
+            />
+          ) : (
+            // FULL WIDTH GRID - Default view
+            <DesktopDefaultView
+              isLoading={isLoading}
+              noListings={noListings}
+              displayListings={displayListings}
+              totalCurrentListings={totalCurrentListings}
+              handleSelectListing={handleSelectListing}
+            />
+          )}
+        </AnimatePresence>
       </Box>
     </>
   );

@@ -99,50 +99,50 @@ export function LoginPage() {
             {message}
           </Title>
         )}
-      {!message && (
-        <Title ta="center" className={classes.title}>
-          Welcome back!
-        </Title>
-      )}
+        {!message && (
+          <Title ta="center" className={classes.title}>
+            Welcome back!
+          </Title>
+        )}
 
-      <Paper withBorder p={30} mt={30} radius="md" shadow="lg">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <TextInput
-            label="Email"
-            placeholder="you@email.com"
-            {...register('email')}
-            error={errors.email?.message}
-          />
-          <PasswordInput
-            mt={10}
-            label="Password"
-            placeholder="Your password"
-            {...register('password')}
-            error={errors.password?.message}
-          />
-
-          <Group justify="space-between" mt="lg">
-            <Checkbox
-              label="Remember me"
-              checked={rememberMe}
-              onChange={(event) => setRemember(event.currentTarget.checked)}
+        <Paper withBorder p={30} mt={30} radius="md" shadow="lg">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <TextInput
+              label="Email"
+              placeholder="you@email.com"
+              {...register('email')}
+              error={errors.email?.message}
             />
-          </Group>
+            <PasswordInput
+              mt={10}
+              label="Password"
+              placeholder="Your password"
+              {...register('password')}
+              error={errors.password?.message}
+            />
 
-          <Group justify="center">
-            <Text c="dimmed" size="sm" ta="center" my="lg">
-              Don't have an account yet?
-            </Text>
-            <Button p={0} variant="transparent" component={Link} to="/register">
-              Create account
+            <Group justify="space-between" mt="lg">
+              <Checkbox
+                label="Remember me"
+                checked={rememberMe}
+                onChange={(event) => setRemember(event.currentTarget.checked)}
+              />
+            </Group>
+
+            <Group justify="center">
+              <Text c="dimmed" size="sm" ta="center" my="lg">
+                Don't have an account yet?
+              </Text>
+              <Button p={0} variant="transparent" component={Link} to="/register">
+                Create account
+              </Button>
+            </Group>
+
+            <Button type="submit" fullWidth loading={isLoading} disabled={!isValid}>
+              Sign in
             </Button>
-          </Group>
-
-          <Button type="submit" fullWidth loading={isLoading} disabled={!isValid}>
-            Sign in
-          </Button>
-        </form>
-      </Paper>
+          </form>
+        </Paper>
       </Container>
     </>
   );

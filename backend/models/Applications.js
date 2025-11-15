@@ -11,7 +11,7 @@ const applicationSchema = new Schema({
   applicantId: {
     type: Schema.Types.ObjectId,
     ref: 'Users',
-    required: false,  // Allow null for non-users
+    required: false, // Allow null for non-users
     default: null,
     index: true,
   },
@@ -35,7 +35,7 @@ const applicationSchema = new Schema({
       validator: function (v) {
         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
       },
-      message: props => `${props.value} is not a valid email!`,
+      message: (props) => `${props.value} is not a valid email!`,
     },
   },
   phone: {
@@ -45,7 +45,7 @@ const applicationSchema = new Schema({
       validator: function (v) {
         return /^0(?:5[0-9]|[2-4689])(?:-?\d{3}(?:-?\d{4}))$/.test(v);
       },
-      message: props => `${props.value} is not a valid Israeli phone number!`,
+      message: (props) => `${props.value} is not a valid Israeli phone number!`,
     },
   },
   resume: {

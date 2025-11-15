@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Container, Title, Text, List, Paper, Anchor, Box } from '@mantine/core';
+import { Anchor, Box, Container, List, Paper, Text, Title } from '@mantine/core';
 
 const TermsOfService: FC = () => {
   return (
@@ -26,9 +26,8 @@ const TermsOfService: FC = () => {
         </Text>
         <Text mb="md">
           By accessing or using JobRocket, you acknowledge that you have read, understood, and agree
-          to be bound by these Terms and our{' '}
-          <Anchor href="/privacy-policy">Privacy Policy</Anchor>. If you do not agree to these
-          Terms, you must not use our Service.
+          to be bound by these Terms and our <Anchor href="/privacy-policy">Privacy Policy</Anchor>.
+          If you do not agree to these Terms, you must not use our Service.
         </Text>
         <Paper p="md" withBorder bg="yellow.0" mb="md">
           <Text fw={700} mb="xs">
@@ -81,12 +80,12 @@ const TermsOfService: FC = () => {
           To use certain features of JobRocket, you must create an account. You agree to:
         </Text>
         <List mb="md">
-          <List.Item>Provide accurate, current, and complete information during registration</List.Item>
+          <List.Item>
+            Provide accurate, current, and complete information during registration
+          </List.Item>
           <List.Item>Maintain and promptly update your account information</List.Item>
           <List.Item>Keep your password secure and confidential</List.Item>
-          <List.Item>
-            Be responsible for all activities that occur under your account
-          </List.Item>
+          <List.Item>Be responsible for all activities that occur under your account</List.Item>
           <List.Item>
             Notify us immediately of any unauthorized use of your account at{' '}
             <Anchor href="mailto:admin@jobrocket.co.il">admin@jobrocket.co.il</Anchor>
@@ -117,7 +116,9 @@ const TermsOfService: FC = () => {
           You may delete your account at any time through your account settings. Upon deletion:
         </Text>
         <List mb="md">
-          <List.Item>Your personal data will be immediately removed from our active systems</List.Item>
+          <List.Item>
+            Your personal data will be immediately removed from our active systems
+          </List.Item>
           <List.Item>Your job listings (if any) will be removed</List.Item>
           <List.Item>Your applications will be removed</List.Item>
           <List.Item>
@@ -134,35 +135,28 @@ const TermsOfService: FC = () => {
         <Title order={3} size="h4" mb="xs" mt="md">
           4.1 Acceptable Use
         </Title>
-        <Text mb="sm">You agree to use JobRocket only for lawful purposes and in accordance with these Terms. You agree NOT to:</Text>
+        <Text mb="sm">
+          You agree to use JobRocket only for lawful purposes and in accordance with these Terms.
+          You agree NOT to:
+        </Text>
         <List mb="md">
-          <List.Item>
-            Violate any applicable Israeli or international laws or regulations
-          </List.Item>
-          <List.Item>
-            Post false, misleading, fraudulent, or deceptive content
-          </List.Item>
+          <List.Item>Violate any applicable Israeli or international laws or regulations</List.Item>
+          <List.Item>Post false, misleading, fraudulent, or deceptive content</List.Item>
           <List.Item>
             Impersonate any person or entity or falsely state or misrepresent your affiliation
           </List.Item>
           <List.Item>
             Post job listings for positions that do not exist or that you are not authorized to fill
           </List.Item>
-          <List.Item>
-            Harass, abuse, threaten, or discriminate against other users
-          </List.Item>
-          <List.Item>
-            Spam, solicit, or advertise unrelated products or services
-          </List.Item>
+          <List.Item>Harass, abuse, threaten, or discriminate against other users</List.Item>
+          <List.Item>Spam, solicit, or advertise unrelated products or services</List.Item>
           <List.Item>
             Use automated systems (bots, scrapers, etc.) to access the Service without authorization
           </List.Item>
           <List.Item>
             Attempt to gain unauthorized access to our systems or other users' accounts
           </List.Item>
-          <List.Item>
-            Upload or transmit viruses, malware, or any other malicious code
-          </List.Item>
+          <List.Item>Upload or transmit viruses, malware, or any other malicious code</List.Item>
           <List.Item>
             Interfere with or disrupt the Service or servers/networks connected to the Service
           </List.Item>
@@ -180,12 +174,8 @@ const TermsOfService: FC = () => {
         </Title>
         <Text mb="sm">If you post job listings, you agree that:</Text>
         <List mb="md">
-          <List.Item>
-            All job listings are for legitimate positions that actually exist
-          </List.Item>
-          <List.Item>
-            You have the authority to recruit for the positions you post
-          </List.Item>
+          <List.Item>All job listings are for legitimate positions that actually exist</List.Item>
+          <List.Item>You have the authority to recruit for the positions you post</List.Item>
           <List.Item>
             Your listings comply with Israeli employment and anti-discrimination laws
           </List.Item>
@@ -215,9 +205,7 @@ const TermsOfService: FC = () => {
           <List.Item>
             You understand that your application information will be shared with the employer
           </List.Item>
-          <List.Item>
-            You will not submit spam or mass applications
-          </List.Item>
+          <List.Item>You will not submit spam or mass applications</List.Item>
         </List>
 
         <Title order={3} size="h4" mb="xs" mt="md">
@@ -286,9 +274,7 @@ const TermsOfService: FC = () => {
         <Title order={3} size="h4" mb="xs" mt="md">
           5.3 Content Moderation
         </Title>
-        <Text mb="sm">
-          JobRocket reserves the right, but not the obligation, to:
-        </Text>
+        <Text mb="sm">JobRocket reserves the right, but not the obligation, to:</Text>
         <List mb="md">
           <List.Item>Monitor, review, and moderate content posted on the Service</List.Item>
           <List.Item>
@@ -349,9 +335,7 @@ const TermsOfService: FC = () => {
           <List.Item>Any damages or losses caused by third-party services</List.Item>
           <List.Item>The availability or functionality of external links</List.Item>
         </List>
-        <Text>
-          Your use of third-party services is subject to their own terms and policies.
-        </Text>
+        <Text>Your use of third-party services is subject to their own terms and policies.</Text>
       </Box>
 
       <Box mb="xl">
@@ -369,13 +353,9 @@ const TermsOfService: FC = () => {
         </Text>
         <List mb="md">
           <List.Item>The Service will be uninterrupted, secure, or error-free</List.Item>
-          <List.Item>
-            The results obtained from the Service will be accurate or reliable
-          </List.Item>
+          <List.Item>The results obtained from the Service will be accurate or reliable</List.Item>
           <List.Item>Any errors or defects will be corrected</List.Item>
-          <List.Item>
-            The Service will meet your specific requirements
-          </List.Item>
+          <List.Item>The Service will meet your specific requirements</List.Item>
         </List>
 
         <Title order={3} size="h4" mb="xs" mt="md">
@@ -390,9 +370,7 @@ const TermsOfService: FC = () => {
           <List.Item>Guarantee that employers will find suitable candidates</List.Item>
           <List.Item>Verify the accuracy of job listings or user profiles</List.Item>
           <List.Item>Participate in hiring decisions or employment relationships</List.Item>
-          <List.Item>
-            Act as an employer, recruiter, or employment agency
-          </List.Item>
+          <List.Item>Act as an employer, recruiter, or employment agency</List.Item>
         </List>
 
         <Title order={3} size="h4" mb="xs" mt="md">
@@ -407,15 +385,9 @@ const TermsOfService: FC = () => {
           <List.Item>Lost profits, data, or opportunities</List.Item>
           <List.Item>Business interruption</List.Item>
           <List.Item>Loss of employment or hiring opportunities</List.Item>
-          <List.Item>
-            Damages arising from your use or inability to use the Service
-          </List.Item>
-          <List.Item>
-            Damages arising from user content or conduct of other users
-          </List.Item>
-          <List.Item>
-            Damages arising from unauthorized access to your account
-          </List.Item>
+          <List.Item>Damages arising from your use or inability to use the Service</List.Item>
+          <List.Item>Damages arising from user content or conduct of other users</List.Item>
+          <List.Item>Damages arising from unauthorized access to your account</List.Item>
         </List>
         <Text mb="md">
           Our total liability to you for all claims arising from your use of the Service shall not
@@ -447,9 +419,7 @@ const TermsOfService: FC = () => {
           <List.Item>Your violation of these Terms</List.Item>
           <List.Item>Your violation of any rights of another party</List.Item>
           <List.Item>Content you post or submit to the Service</List.Item>
-          <List.Item>
-            Your interactions with other users
-          </List.Item>
+          <List.Item>Your interactions with other users</List.Item>
         </List>
       </Box>
 
@@ -461,22 +431,14 @@ const TermsOfService: FC = () => {
         <Title order={3} size="h4" mb="xs" mt="md">
           10.1 Right to Modify
         </Title>
-        <Text mb="md">
-          We reserve the right to:
-        </Text>
+        <Text mb="md">We reserve the right to:</Text>
         <List mb="md">
           <List.Item>
             Modify, suspend, or discontinue any aspect of the Service at any time
           </List.Item>
-          <List.Item>
-            Change features, functionality, or availability of the Service
-          </List.Item>
-          <List.Item>
-            Implement rate limits or usage restrictions
-          </List.Item>
-          <List.Item>
-            Update these Terms from time to time
-          </List.Item>
+          <List.Item>Change features, functionality, or availability of the Service</List.Item>
+          <List.Item>Implement rate limits or usage restrictions</List.Item>
+          <List.Item>Update these Terms from time to time</List.Item>
         </List>
         <Text mb="md">
           We will provide reasonable notice of material changes when feasible, but are not obligated
@@ -524,15 +486,11 @@ const TermsOfService: FC = () => {
         <Title order={3} size="h4" mb="xs" mt="md">
           11.2 Effect of Termination
         </Title>
-        <Text mb="sm">
-          Upon termination of your account:
-        </Text>
+        <Text mb="sm">Upon termination of your account:</Text>
         <List mb="md">
           <List.Item>Your right to access and use the Service immediately ceases</List.Item>
           <List.Item>Your content may be deleted from our active systems</List.Item>
-          <List.Item>
-            We are not liable for any losses resulting from termination
-          </List.Item>
+          <List.Item>We are not liable for any losses resulting from termination</List.Item>
           <List.Item>
             Sections of these Terms that by their nature should survive termination will continue to
             apply
@@ -582,9 +540,7 @@ const TermsOfService: FC = () => {
           We reserve the right to modify these Terms at any time. When we make changes:
         </Text>
         <List mb="md">
-          <List.Item>
-            We will update the "Last Updated" date at the top of these Terms
-          </List.Item>
+          <List.Item>We will update the "Last Updated" date at the top of these Terms</List.Item>
           <List.Item>
             Material changes will be communicated via email or prominent notice on the platform
           </List.Item>

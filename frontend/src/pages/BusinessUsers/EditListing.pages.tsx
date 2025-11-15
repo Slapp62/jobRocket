@@ -18,12 +18,12 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import INDUSTRIES from '@/data/industries.ts';
+import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
+import WORK_ARRANGEMENTS from '@/data/workArr.ts';
 import { TListing } from '@/Types';
 import { cleanedListingData } from '@/utils/getCleanedListingData';
 import { listingSchema } from '@/validationRules/listing.joi';
-import INDUSTRIES from '../data/industries.ts';
-import { getCitiesByRegion, REGIONS } from '../data/israelCities.ts';
-import WORK_ARRANGEMENTS from '../data/workArr.ts';
 
 type ListingFormValues = {
   companyName: string;
@@ -84,7 +84,9 @@ export function EditListing() {
   // Fetch listing data on mount
   useEffect(() => {
     const fetchListing = async () => {
-      if (!id) {return;}
+      if (!id) {
+        return;
+      }
 
       setIsLoading(true);
       try {
