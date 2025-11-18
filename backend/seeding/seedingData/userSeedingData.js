@@ -50,17 +50,9 @@ const dummyUsers = [
     email: 'admin@email.com',
     password: 'AdminPass789$',
     phone: '054-5555555',
-    profileType: 'jobseeker',
-    jobseekerProfile: {
-      firstName: 'Admin',
-      lastName: 'User',
-      highestEducation: "Master's Degree",
-      preferredWorkArrangement: 'Full-time Remote',
-      linkedinPage: '',
-      resume: '',
-      skills: ['System Administration', 'DevOps', 'Security'],
-      description:
-        'Platform administrator with extensive experience in system management.',
+    profileType: 'admin',
+    adminProfile: {
+      name: 'Admin',
     },
     isAdmin: true,
   },

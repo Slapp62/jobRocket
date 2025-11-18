@@ -2,7 +2,10 @@ const dummyApplications = [
   {
     // Application for Senior Full Stack Developer (Sarah Cohen)
     listingIndex: 0, // Will be mapped to actual listing ID
+    firstName: 'Sarah',
+    lastName: 'Cohen',
     applicantEmail: 'sarah.cohen@email.com',
+    phone: '0541234567',
     resume:
       'Experienced Full Stack Developer with 3 years of professional experience. Strong expertise in JavaScript, React, Node.js, and MongoDB. Built multiple enterprise-level web applications from scratch. Proficient in modern development practices including CI/CD, testing, and agile methodologies. Passionate about clean code and user experience.',
     coverLetter:
@@ -14,7 +17,10 @@ const dummyApplications = [
   {
     // Application for Data Scientist (Sarah Cohen - also applying)
     listingIndex: 2,
+    firstName: 'Sarah',
+    lastName: 'Cohen',
     applicantEmail: 'sarah.cohen@email.com',
+    phone: '0541234567',
     resume:
       'Full Stack Developer with strong analytical skills and growing interest in data science. Self-taught Python for data analysis. Completed online courses in machine learning and statistics. Experience working with data visualization libraries and building analytics dashboards for web applications.',
     coverLetter:
@@ -24,7 +30,10 @@ const dummyApplications = [
   {
     // Application for DevOps Engineer (Admin User)
     listingIndex: 4,
+    firstName: 'Admin',
+    lastName: 'User',
     applicantEmail: 'admin@email.com',
+    phone: '0541234567',
     resume:
       'System Administrator and DevOps professional with extensive experience in cloud infrastructure, CI/CD pipelines, and automation. Expert in AWS services, Docker, Kubernetes, and infrastructure as code. Strong background in security, monitoring, and incident response. Proven track record of improving system reliability and reducing deployment times.',
     coverLetter:
@@ -36,7 +45,10 @@ const dummyApplications = [
   {
     // Application for UX/UI Designer (Sarah Cohen - diverse applications)
     listingIndex: 5,
+    firstName: 'Sarah',
+    lastName: 'Cohen',
     applicantEmail: 'sarah.cohen@email.com',
+    phone: '0541234567',
     resume:
       'Full Stack Developer with a strong eye for design and user experience. Experienced in creating responsive, intuitive interfaces using modern design principles. Proficient in CSS, styled-components, and working closely with designers to implement pixel-perfect designs. Strong understanding of accessibility and usability best practices.',
     coverLetter:
@@ -46,7 +58,10 @@ const dummyApplications = [
   {
     // Application for Cybersecurity Analyst (Admin User)
     listingIndex: 6,
+    firstName: 'Admin',
+    lastName: 'User',
     applicantEmail: 'admin@email.com',
+    phone: '0541234567',
     resume:
       'Cybersecurity professional with deep expertise in threat detection, SIEM tools, and incident response. Certified in CISSP and Security+. Experience implementing security frameworks and conducting vulnerability assessments. Strong knowledge of network security, cloud security, and compliance requirements. Successfully mitigated numerous security incidents and implemented proactive security measures.',
     coverLetter:
@@ -58,7 +73,10 @@ const dummyApplications = [
   {
     // Application for QA Automation Engineer (Admin User)
     listingIndex: 10,
+    firstName: 'Admin',
+    lastName: 'User',
     applicantEmail: 'admin@email.com',
+    phone: '0541234567',
     resume:
       'Quality Assurance professional with strong programming skills in Python and Java. Extensive experience designing and implementing test automation frameworks using Selenium and pytest. Skilled in integrating automated tests into CI/CD pipelines. Deep understanding of software testing methodologies, API testing, and performance testing. Committed to maintaining high quality standards throughout the development lifecycle.',
     coverLetter:
@@ -68,7 +86,10 @@ const dummyApplications = [
   {
     // Application for Online Learning Platform Developer (Sarah Cohen)
     listingIndex: 12,
+    firstName: 'Sarah',
+    lastName: 'Cohen',
     applicantEmail: 'sarah.cohen@email.com',
+    phone: '0541234567',
     resume:
       'Full Stack Developer with 3 years of experience building interactive web applications. Strong proficiency in React and Node.js. Experience integrating video streaming and real-time features. Passionate about education and creating engaging user experiences. Built several educational web applications as side projects, including an online course platform with video lessons and progress tracking.',
     coverLetter:

@@ -73,6 +73,10 @@ const seedDevData = async (users, listings, applications = []) => {
 
       const newApplication = new Applications({
         listingId: listing._id,
+        firstName: application.firstName,
+        lastName: application.lastName,
+        applicantEmail: application.applicantEmail,
+        phone: application.phone,
         applicantId: applicant._id,
         resume: application.resume,
         coverLetter: application.coverLetter,

@@ -44,23 +44,14 @@ async function getApplicantApplications(applicantId) {
 async function getDashboardData(businessId){
   const listings = await Listings.find({businessId: businessId});
   if (!listings || listings.length === 0) {
-    return {
-      listings: [],
-      applications: [],
-      metrics: {
-        totalListings: 0,
-        totalApplications: 0,
-        pendingApplications: 0,
-        reviewedApplications: 0,
-        rejectedApplications: 0,
-      }
-    };
+    const error = new Error('No listings found');
+    error.status = 404;
+    throw error;
   }
 
   const listingIds = listings.map(listing => listing._id);
   const applications = await Applications.find({listingId : {$in: listingIds}})
-    .populate('listingId')
-    .populate('applicantId', 'jobseekerProfile.firstName jobseekerProfile.lastName jobseekerProfile.email');
+    .populate('listingId');
   let reviewed = 0;
   let pending = 0;
   let rejected = 0;

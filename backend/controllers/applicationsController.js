@@ -18,6 +18,16 @@ async function submitApplication(req, res) {
   }
 }
 
+async function getDashboardData(req, res) {
+  try {
+    const businessId = req.user._id;
+    const data = await applicationsService.getDashboardData(businessId);
+    handleSuccess(res, 200, data, 'Dashboard data fetched successfully.')
+  } catch (error) {
+    handleError(res, error.status, error.message);
+  }
+}
+
 async function getApplicationsByID(req, res) {
   try {
     const applicantId = req.user._id;
@@ -79,6 +89,7 @@ async function updateApplicationData(req, res) {
 
 module.exports = {
   submitApplication,
+  getDashboardData,
   getApplicationsByID,
   getListingApplications,
   updateApplicationStatus,

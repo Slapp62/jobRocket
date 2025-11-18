@@ -27,10 +27,9 @@ const applicationSchema = new Schema({
     minlength: 2,
     maxlength: 30,
   },
-  email: {
+  applicantEmail: {
     type: String,
     required: true,
-    unique: true,
     validate: {
       validator: function (v) {
         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);

@@ -9,7 +9,7 @@ const joiApplicationSchema = joi.object({
     'string.empty': 'Last name is required',
     'string.min': 'Last name must be between 2 and 30 characters',
   }),
-  email: joi
+  applicantEmail: joi
     .string()
     .email({ tlds: { allow: false } })
     .required()

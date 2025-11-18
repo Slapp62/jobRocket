@@ -39,7 +39,7 @@ const userSchema = new Schema({
   profileType: {
     type: String,
     required: true,
-    enum: ['jobseeker', 'business'],
+    enum: ['jobseeker', 'business', 'admin'],
   },
   jobseekerProfile: {
     embedding: {
@@ -202,6 +202,20 @@ const userSchema = new Schema({
       type: String,
       maxLength: 2000,
       default: '',
+    },
+    _id: {
+      type: Schema.Types.ObjectId,
+      auto: true,
+    },
+  },
+  adminProfile: {
+    name: {
+      type: String,
+      required() {
+        return this.profileType === 'admin';
+      },
+      minLength: 2,
+      maxLength: 256,
     },
     _id: {
       type: Schema.Types.ObjectId,
