@@ -116,10 +116,24 @@ export type TApplication = {
   lastName: string;
   email: string;
   phone?: string;
-  jobseekerId: string;
-  listingId: any;
+  applicantId: string;
+  listingId: TListing | string;
   resume: string;
   message?: string;
   createdAt: string;
-  status: string;
+  status: 'pending' | 'reviewed' | 'rejected';
+};
+
+export type TDashboardMetrics = {
+  totalListings: number,
+  totalApplications: number,
+  pendingApplications: number,
+  reviewedApplications: number,
+  rejectedApplications: number,
+};
+
+export type TBusinessDashboard = {
+  listings: TListing[],
+  applications: TApplication[],
+  metrics: TDashboardMetrics,
 };

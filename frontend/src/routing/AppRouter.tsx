@@ -17,6 +17,7 @@ import TermsOfService from '../pages/Static/TermsOfService.pages';
 import { Layout } from './Layout';
 import RouteGuard from './RouteGuard';
 import { MyApplications } from '@/pages/Jobseekers/MyApplications.page';
+import { Dashboard } from '@/pages/BusinessUsers/Dashboard';
 
 const router = createBrowserRouter(
   [
@@ -62,6 +63,14 @@ const router = createBrowserRouter(
           element: (
             <RouteGuard>
               <EditProfile />
+            </RouteGuard>
+          ),
+        },
+        {
+          path: 'dashboard',
+          element: (
+            <RouteGuard profileType='business'>
+              <Dashboard />
             </RouteGuard>
           ),
         },

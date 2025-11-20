@@ -20,7 +20,7 @@ export function MyApplications() {
   const [selectedListing, setSelectedListing] = useState<TListing | null>(null);
   const [editOpened, { open: openEdit, close: closeEdit }] = useDisclosure(false);
   const [selectedApplication, setSelectedApplication] = useState<TApplication | null>(null);
-
+  
   useEffect(() => {
     const fetchApplications = async () => {
       setIsLoading(true);
@@ -99,8 +99,8 @@ export function MyApplications() {
             {applications.map((application, index) => (
               <Card withBorder key={index} p="md" w="250px" style={{ display: 'flex' }}>
                 <Stack h="100%" w="100%" justify="space-between" style={{ flex: 1 }}>
-                  <Title order={5}>{application.listingId.companyName}</Title>
-                  <Text>{application.listingId.jobTitle}</Text>
+                  {typeof application.listingId === 'object' && <Title order={5}>{application.listingId.companyName}</Title>}
+                  {typeof application.listingId === 'object' && <Text>{application.listingId.jobTitle}</Text>}
                     <Badge
                       variant="outline"
                       c={

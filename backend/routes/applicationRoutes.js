@@ -19,7 +19,7 @@ router.get('/business/dashboard', authenticateUser, businessAuth, getDashboardDa
 router.get('/listing/:listingId', authenticateUser, getListingApplications);
 
 router.patch(
-  '/:id/status',
+  '/status/:id',
   authenticateUser,
   updateApplicationStatus
 );
