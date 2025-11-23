@@ -1,23 +1,23 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { SearchPage } from '@/pages/AllUsers/Search.page';
+import { Dashboard } from '@/pages/BusinessUsers/Dashboard/Dashboard.pages';
+import { MyApplications } from '@/pages/Jobseekers/MyApplications.page';
 import ErrorFallback from '../components/ErrorCatching/ErrorFallback';
-import Error404 from '../pages/Static/404.pages';
-import About from '../pages/Static/About.pages';
 import AdminControls from '../pages/AdminControls/AdminControls.pages';
+import { RegisterForm } from '../pages/AllUsers/Register.pages';
 import { CreateListing } from '../pages/BusinessUsers/CreateListing.pages';
 import { EditListing } from '../pages/BusinessUsers/EditListing.pages';
-import { EditProfile } from '../pages/EditProfilePage/EditProfile.pages';
-import { FavoriteListings } from '../pages/Jobseekers/Favorites.pages';
-import { HomePage } from '../pages/HomePage/Home.pages';
-import { LoginPage } from '../pages/LoginPage/Login.pages';
 import { MyListings } from '../pages/BusinessUsers/MyListings.pages';
+import { EditProfile } from '../pages/EditProfilePage/EditProfile.pages';
+import { HomePage } from '../pages/HomePage/Home.pages';
+import { FavoriteListings } from '../pages/Jobseekers/Favorites.pages';
+import { LoginPage } from '../pages/LoginPage/Login.pages';
+import Error404 from '../pages/Static/404.pages';
+import About from '../pages/Static/About.pages';
 import PrivacyPolicy from '../pages/Static/PrivacyPolicy.pages';
-import { RegisterForm } from '../pages/AllUsers/Register.pages';
 import TermsOfService from '../pages/Static/TermsOfService.pages';
 import { Layout } from './Layout';
 import RouteGuard from './RouteGuard';
-import { MyApplications } from '@/pages/Jobseekers/MyApplications.page';
-import { Dashboard } from '@/pages/BusinessUsers/Dashboard';
 
 const router = createBrowserRouter(
   [
@@ -69,7 +69,7 @@ const router = createBrowserRouter(
         {
           path: 'dashboard',
           element: (
-            <RouteGuard profileType='business'>
+            <RouteGuard profileType="business">
               <Dashboard />
             </RouteGuard>
           ),

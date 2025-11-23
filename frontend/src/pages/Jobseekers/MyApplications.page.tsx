@@ -20,7 +20,7 @@ export function MyApplications() {
   const [selectedListing, setSelectedListing] = useState<TListing | null>(null);
   const [editOpened, { open: openEdit, close: closeEdit }] = useDisclosure(false);
   const [selectedApplication, setSelectedApplication] = useState<TApplication | null>(null);
-  
+
   useEffect(() => {
     const fetchApplications = async () => {
       setIsLoading(true);
@@ -99,38 +99,42 @@ export function MyApplications() {
             {applications.map((application, index) => (
               <Card withBorder key={index} p="md" w="250px" style={{ display: 'flex' }}>
                 <Stack h="100%" w="100%" justify="space-between" style={{ flex: 1 }}>
-                  {typeof application.listingId === 'object' && <Title order={5}>{application.listingId.companyName}</Title>}
-                  {typeof application.listingId === 'object' && <Text>{application.listingId.jobTitle}</Text>}
-                    <Badge
-                      variant="outline"
-                      c={
-                        application.status === 'rejected'
-                          ? 'red'
-                          : application.status === 'pending'
-                            ? 'yellow'
-                            : 'green'
-                      }
-                    >
-                      {application.status}
-                    </Badge>
-                    <Text fz="sm" c="dimmed">
-                      Submitted on {new Date(application.createdAt).toLocaleDateString()}
-                    </Text>
-                    <Button
-                      variant="outline"
-                      onClick={() => handleViewListing(application.listingId)}
-                    >
-                      View Listing
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() => handleEditApplication(application)}
-                      disabled={application.status !== 'pending'}
-                    >
-                      Edit Application
-                    </Button>
-                  </Stack>
-                </Card>
+                  {typeof application.listingId === 'object' && (
+                    <Title order={5}>{application.listingId.companyName}</Title>
+                  )}
+                  {typeof application.listingId === 'object' && (
+                    <Text>{application.listingId.jobTitle}</Text>
+                  )}
+                  <Badge
+                    variant="outline"
+                    c={
+                      application.status === 'rejected'
+                        ? 'red'
+                        : application.status === 'pending'
+                          ? 'yellow'
+                          : 'green'
+                    }
+                  >
+                    {application.status}
+                  </Badge>
+                  <Text fz="sm" c="dimmed">
+                    Submitted on {new Date(application.createdAt).toLocaleDateString()}
+                  </Text>
+                  <Button
+                    variant="outline"
+                    onClick={() => handleViewListing(application.listingId)}
+                  >
+                    View Listing
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => handleEditApplication(application)}
+                    disabled={application.status !== 'pending'}
+                  >
+                    Edit Application
+                  </Button>
+                </Stack>
+              </Card>
             ))}
           </Flex>
         </Stack>

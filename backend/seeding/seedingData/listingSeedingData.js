@@ -433,7 +433,7 @@ const dummyListings = [
     industry: 'Tourism & Travel',
   },
   {
-    companyName: 'Kosher Delights Restaurant Group',
+    companyName: 'Kosher Delight Restaurant Group',
     jobTitle: 'Executive Chef',
     jobDescription:
       "Lead our culinary team at one of Tel Aviv's premier kosher restaurants. You will create innovative menus, manage kitchen operations, train staff, and ensure the highest standards of food quality and presentation. Bring your passion for gastronomy to our diverse clientele.",
@@ -452,7 +452,7 @@ const dummyListings = [
     ],
     apply: {
       method: 'email',
-      contact: 'chef@kosherdelights.co.il',
+      contact: 'chef@kosherdelight.co.il',
     },
     location: {
       region: 'Center',
@@ -460,151 +460,6 @@ const dummyListings = [
     },
     workArrangement: 'Full-time On-site',
     industry: 'Restaurants & Food Service',
-  },
-  {
-    companyName: 'LogiFlow Systems',
-    jobTitle: 'Supply Chain Operations Manager',
-    jobDescription:
-      "Optimize our logistics operations and drive efficiency across the supply chain. You'll oversee inventory management, coordinate with suppliers and distributors, implement process improvements, and ensure timely delivery of products throughout Israel and internationally.",
-    requirements: [
-      "Bachelor's degree in Supply Chain Management or Business",
-      '5+ years of supply chain or logistics experience',
-      'Strong understanding of inventory management systems',
-      'Experience with ERP systems (SAP, Oracle)',
-      'Excellent problem-solving and leadership skills',
-    ],
-    advantages: [
-      'Six Sigma or Lean certification',
-      'Experience with international shipping and customs',
-      'Knowledge of warehouse management systems (WMS)',
-      'Fluency in English and Hebrew',
-    ],
-    apply: {
-      method: 'email',
-      contact: 'operations@logiflow.co.il',
-    },
-    location: {
-      region: 'Center',
-      city: 'Ashdod',
-    },
-    workArrangement: 'Full-time On-site',
-    industry: 'Logistics & Supply Chain',
-  },
-  {
-    companyName: 'Legal Advisors LLP',
-    jobTitle: 'Corporate Legal Associate',
-    jobDescription:
-      'Join our dynamic corporate law practice. You will advise clients on commercial transactions, mergers and acquisitions, corporate governance, and regulatory compliance. Work with startups, SMEs, and established corporations in a fast-paced environment.',
-    requirements: [
-      'Licensed attorney with Israeli Bar Association',
-      '2-4 years of corporate law experience',
-      'Strong research and analytical skills',
-      'Excellent written and verbal communication in Hebrew and English',
-      'Ability to manage multiple matters simultaneously',
-    ],
-    advantages: [
-      'Experience with tech startups or venture capital',
-      'LL.M. degree',
-      'Background in securities law',
-      'Fluency in additional languages',
-    ],
-    apply: {
-      method: 'link',
-      contact: 'https://legaladvisors.co.il/careers/associate',
-    },
-    location: {
-      region: 'Center',
-      city: 'Herzliya',
-    },
-    workArrangement: 'Hybrid',
-    industry: 'Legal Services',
-  },
-  {
-    companyName: 'BuildTech Construction',
-    jobTitle: 'Civil Engineer - Infrastructure Projects',
-    jobDescription:
-      'Design and oversee major infrastructure projects including roads, bridges, and public facilities. You will work on projects from conception through completion, collaborating with architects, contractors, and government agencies to deliver quality infrastructure.',
-    requirements: [
-      "Bachelor's degree in Civil Engineering",
-      'Licensed Professional Engineer in Israel',
-      '4+ years of experience in infrastructure projects',
-      'Proficiency in AutoCAD and civil engineering software',
-      'Strong project management skills',
-    ],
-    advantages: [
-      "Master's degree in Structural Engineering",
-      'Experience with seismic design',
-      'Knowledge of BIM (Building Information Modeling)',
-      'PMP certification',
-    ],
-    apply: {
-      method: 'email',
-      contact: 'engineering@buildtech.co.il',
-    },
-    location: {
-      region: 'North',
-      city: 'Haifa',
-    },
-    workArrangement: 'Full-time On-site',
-    industry: 'Construction',
-  },
-  {
-    companyName: 'Fitness Revolution Studios',
-    jobTitle: 'Personal Trainer & Group Fitness Instructor',
-    jobDescription:
-      "Inspire and motivate our members to achieve their fitness goals. You'll design personalized workout programs, lead energetic group classes, and create a positive, supportive environment. Part-time position with flexible hours and growth opportunities.",
-    requirements: [
-      'Certified Personal Trainer (recognized certification)',
-      '1+ years of training experience',
-      'Knowledge of exercise physiology and nutrition basics',
-      'Excellent interpersonal and motivational skills',
-      'CPR and First Aid certified',
-    ],
-    advantages: [
-      'Specialty certifications (yoga, pilates, CrossFit, etc.)',
-      'Experience with rehabilitation or physical therapy',
-      'Nutrition coaching certification',
-      'Social media presence or influencer experience',
-    ],
-    apply: {
-      method: 'email',
-      contact: 'trainers@fitnessrevolution.co.il',
-    },
-    location: {
-      region: 'Center',
-      city: "Ra'anana",
-    },
-    workArrangement: 'Part-time On-site',
-    industry: 'Fitness & Wellness',
-  },
-  {
-    companyName: 'AgriTech Innovations',
-    jobTitle: 'Agricultural Technology Specialist',
-    jobDescription:
-      'Help revolutionize Israeli agriculture with cutting-edge technology. You will work with farmers to implement smart farming solutions, including precision agriculture, IoT sensors, and automated irrigation systems. Field work combined with technical support and training.',
-    requirements: [
-      "Bachelor's degree in Agriculture, Agronomy, or related field",
-      'Understanding of modern farming practices and technology',
-      'Strong technical aptitude and problem-solving skills',
-      'Willingness to work in field conditions',
-      "Valid driver's license",
-    ],
-    advantages: [
-      'Experience with IoT devices or sensor networks',
-      'Knowledge of data analysis and agricultural software',
-      'Background in sustainable farming practices',
-      'Fluency in Arabic',
-    ],
-    apply: {
-      method: 'link',
-      contact: 'https://agritech-innovations.co.il/jobs/specialist',
-    },
-    location: {
-      region: 'South',
-      city: 'Netivot',
-    },
-    workArrangement: 'Field Work',
-    industry: 'Agriculture',
   },
 ];
 

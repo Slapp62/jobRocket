@@ -125,15 +125,15 @@ export type TApplication = {
 };
 
 export type TDashboardMetrics = {
-  totalListings: number,
-  totalApplications: number,
-  pendingApplications: number,
-  reviewedApplications: number,
-  rejectedApplications: number,
+  totalListings: number;
+  totalApplications: number;
+  pendingApplications: number;
+  reviewedApplications: number;
+  rejectedApplications: number;
 };
 
 export type TBusinessDashboard = {
-  listings: TListing[],
-  applications: TApplication[],
-  metrics: TDashboardMetrics,
+  listings: TListing[];
+  applications: TApplication[];
+  metrics: TDashboardMetrics;
 };
