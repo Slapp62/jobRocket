@@ -1,26 +1,11 @@
 import { useEffect, useState } from 'react';
 import {
-  IconBriefcase,
-  IconChecks,
-  IconClock,
-  IconFileText,
-  IconUsers,
-  IconX,
-} from '@tabler/icons-react';
-import {
-  Badge,
-  Card,
   Center,
   Container,
-  Flex,
-  Group,
   Loader,
-  Paper,
-  Select,
   Stack,
   Tabs,
   Text,
-  ThemeIcon,
   Title,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -32,23 +17,35 @@ import { PageMeta } from '@/SEO/PageMeta';
 import {
   TApplication,
   TBusinessDashboard,
-  TBusinessProfile,
-  TDashboardMetrics,
-  TListing,
 } from '@/Types';
 import { DashApplications } from './DashApplications';
 import { DashListings } from './DashListings';
 import { DashMetrics } from './DashMetrics';
+import { useDashboardListings } from './useDashboardListings';
 
 export const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState<TBusinessDashboard>();
   const [isLoading, setIsLoading] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string | null>('all');  // 'all', 'pending', 'reviewed', 'rejected'
   const [appListingFilter, setAppListingFilter] = useState<string | null>('all'); // 'all' or a specific listing ID  
-
+  const {
+    listings,
+    isLoading: listingsLoading,
+    searchText,
+    setSearchText,
+    industry,
+    setIndustry,
+    sortOption,
+    setSortOption,
+    activeFilter,
+    setActiveFilter,
+    page,
+    setPage
+  } = useDashboardListings();
+  
   const listingOptions = [
     { value: 'all', label: 'All Listings' },
-    ...(dashboardData?.listings.map(listing => ({
+    ...(listings.map(listing => ({
       value: listing._id,
       label: listing.jobTitle
     })) ?? [])
@@ -152,7 +149,20 @@ export const Dashboard = () => {
               </Tabs.List>
               
               <Tabs.Panel value="listings">
-                <DashListings dashboardData={dashboardData}/>
+                <DashListings 
+                  listings={listings}
+                  isLoading={listingsLoading}
+                  searchText={searchText}
+                  setSearchText={setSearchText}
+                  sortOption={sortOption}
+                  setSortOption={setSortOption}
+                  activeFilter={activeFilter}
+                  setActiveFilter={setActiveFilter}
+                  page={page}
+                  setPage={setPage}
+                  industry={industry}
+                  setIndustry={setIndustry}
+                />
               </Tabs.Panel>
 
               <Tabs.Panel value="applications">

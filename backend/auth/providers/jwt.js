@@ -11,7 +11,7 @@ const generateAuthToken = (user) => {
         profileType,
       },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '24h' }
     );
 
     return token;

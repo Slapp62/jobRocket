@@ -27,3 +27,29 @@ export const updateApplicationStatus = async (
 
   return response.data;
 };
+
+export const fetchBusinessListings = async (filterParams: {
+  searchWord?: string;
+  industry?: string | null;
+  sortOption?: string | null;
+  page?: number;
+  limit?: number;
+}) => {
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  
+  // Build URL query string from filter parameters
+  // Example: { searchWord: 'engineer', industry: 'All', page: 1 }
+  // becomes: "searchWord=engineer&page=1"
+  const queryString = new URLSearchParams(
+    Object.entries(filterParams)  // Convert object to array: [['searchWord', 'engineer'], ['industry', 'All'], ['page', 1]]
+      .filter(([_, value]) => value !== undefined && value !== 'All')  // Remove empty filters and 'All' values
+      .map(([key, value]) => [key, String(value)])  // Convert all values to strings (URLs need strings)
+  ).toString();  // Convert to URL format: "searchWord=engineer&page=1"
+  
+  const response = await axios.get(
+    `${API_BASE_URL}/api/listings/business-listings?${queryString}`,
+    { headers: { 'x-auth-token': token } }
+  );
+  
+  return response.data;
+};

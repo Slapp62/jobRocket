@@ -1,7 +1,7 @@
 const listingService = require('../services/listingService.js');
 const { handleSuccess, handleError } = require('../utils/functionHandlers.js');
 const normalizeListing = require('../utils/normalizeListing.js');
-const { normalizeSearch } = require('../services/filterService.js');
+const filterService = require('../services/filterService.js');
 
 async function getAllListings(req, res) {
   try {
@@ -14,8 +14,9 @@ async function getAllListings(req, res) {
 
 async function getSearchedListings(req, res) {
   try {
-    const normalizedSearchParams = normalizeSearch(req.query);
-    const result = await listingService.getSearchedListings(
+    // remove search filters in case of "All" selection
+    const normalizedSearchParams = filterService.normalizeSearch(req.query);
+    const result = await filterService.getSearchedListings(
       normalizedSearchParams
     );
     res.json(result);
@@ -24,16 +25,13 @@ async function getSearchedListings(req, res) {
   }
 }
 
-async function getUserListings(req, res) {
+async function getBusinessListings(req, res) {
   try {
-    const userId = req.user._id;
-    const queryParams = {
-      sortOption: req.query.sortOption || '',
-      page: req.query.page || '1',
-      limit: req.query.limit || '20',
-    };
-    const result = await listingService.getUserListings(userId, queryParams);
-    handleSuccess(res, 200, result, 'User listings fetched successfully');
+    const businessId = req.user._id;
+    const normalizedSearchParams = filterService.normalizeSearch(req.query);
+    
+    const result = await filterService.getSearchedListings(normalizedSearchParams, businessId);
+    handleSuccess(res, 200, result, 'Business listings fetched successfully');
   } catch (error) {
     handleError(res, error.status, error.message);
   }
@@ -178,7 +176,7 @@ module.exports = {
   getAllListings,
   getSearchedListings,
   getListingById,
-  getUserListings,
+  getBusinessListings,
   getLikedListings,
   getFavoriteListings,
   getUserListingsPublic,

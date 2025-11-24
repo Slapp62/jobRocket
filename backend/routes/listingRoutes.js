@@ -3,7 +3,7 @@ const {
   getAllListings,
   getSearchedListings,
   getListingById,
-  getUserListings,
+  getBusinessListings,
   getLikedListings,
   getFavoriteListings,
   getUserListingsPublic,
@@ -31,7 +31,7 @@ router.get('/', getAllListings);
 router.get('/search', getSearchedListings);
 
 // Get user's own listings (authenticated)
-router.get('/my-listings', authenticateUser, getUserListings);
+router.get('/business-listings', authenticateUser, getBusinessListings);
 
 // Get liked listings (authenticated)
 router.get('/liked', authenticateUser, getLikedListings);

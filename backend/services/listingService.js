@@ -1,5 +1,5 @@
 const Listing = require('../models/Listings.js');
-const { throwError } = require('../utils/functionHandlers');
+const { throwError } = require('../utils/functionHandlers.js');
 const { normalizeListingResponse } = require('../utils/normalizeResponses');
 
 const getAllListings = async () => {
@@ -11,88 +11,6 @@ const getAllListings = async () => {
     normalizeListingResponse(listing)
   );
   return normalizedListings;
-};
-
-const getSearchedListings = async (searchObj) => {
-  // Build filter object dynamically
-  const query = {};
-
-  // Text search (searches in jobTitle AND jobDescription)
-  if (searchObj.searchWord && searchObj.searchWord.trim() !== '') {
-    query.$or = [
-      { jobTitle: { $regex: searchObj.searchWord, $options: 'i' } },
-      { jobDescription: { $regex: searchObj.searchWord, $options: 'i' } },
-    ];
-  }
-
-  // Exact matches for dropdowns
-  if (
-    searchObj.region &&
-    searchObj.region.trim() !== '' &&
-    searchObj.region !== 'All Regions'
-  ) {
-    query['location.region'] = searchObj.region;
-  }
-
-  if (
-    searchObj.city &&
-    searchObj.city.trim() !== '' &&
-    searchObj.city !== 'All Cities'
-  ) {
-    query['location.city'] = searchObj.city;
-  }
-
-  if (
-    searchObj.industry &&
-    searchObj.industry.trim() !== '' &&
-    searchObj.industry !== 'All Industries'
-  ) {
-    query.industry = searchObj.industry;
-  }
-
-  if (
-    searchObj.workArrangement &&
-    searchObj.workArrangement.trim() !== '' &&
-    searchObj.workArrangement !== 'All Work Arrangements'
-  ) {
-    query.workArrangement = searchObj.workArrangement;
-  }
-
-  const page = parseInt(searchObj.page) || 1;
-  const limit = parseInt(searchObj.limit) || 20;
-  const skip = (page - 1) * limit;
-
-  const sortOptions = {
-    'title-asc': { jobTitle: 1 },
-    'title-desc': { jobTitle: -1 },
-    'date-created-old': { createdAt: 1 },
-    'date-created-new': { createdAt: -1 },
-    'match-score': { matchScore: -1 },
-    'match-score-desc': { matchScore: 1 },
-  };
-  const sortBy = sortOptions[searchObj.sortOption] || { createdAt: -1 };
-
-  // Execute search
-  const [listings, total] = await Promise.all([
-    Listing.find(query).sort(sortBy).skip(skip).limit(limit).lean(), // Returns plain objects (faster)
-    Listing.countDocuments(query), // Get total count for pagination info
-  ]);
-
-  if (listings.length === 0) {
-    throwError(404, 'No jobs match your search. Try adjusting your filters.');
-  }
-
-  return {
-    listings: listings.map(normalizeListingResponse),
-    pagination: {
-      currentPage: page,
-      totalPages: Math.ceil(total / limit),
-      totalResults: total,
-      perPage: limit,
-      hasNextPage: page < Math.ceil(total / limit),
-      hasPrevPage: page > 1,
-    },
-  };
 };
 
 const createListing = async (listingData) => {
@@ -109,52 +27,6 @@ const getListingById = async (id) => {
   }
   const normalizedListing = normalizeListingResponse(listing);
   return normalizedListing;
-};
-
-const getUserListings = async (userId, queryParams = {}) => {
-  const page = parseInt(queryParams.page) || 1;
-  const limit = parseInt(queryParams.limit) || 20;
-  const skip = (page - 1) * limit;
-
-  const sortOptions = {
-    'title-asc': { jobTitle: 1 },
-    'title-desc': { jobTitle: -1 },
-    'date-created-old': { createdAt: 1 },
-    'date-created-new': { createdAt: -1 },
-    'match-score': { matchScore: -1 },
-    'match-score-desc': { matchScore: 1 },
-  };
-  const sortBy = sortOptions[queryParams.sortOption] || { createdAt: -1 };
-
-  // Execute query with pagination
-  const [userListings, total] = await Promise.all([
-    Listing.find({ businessId: userId })
-      .sort(sortBy)
-      .skip(skip)
-      .limit(limit)
-      .lean(),
-    Listing.countDocuments({ businessId: userId }),
-  ]);
-
-  if (userListings.length === 0) {
-    throwError(404, "You haven't posted any job listings yet.");
-  }
-
-  const normalizedUserListings = userListings.map((listing) =>
-    normalizeListingResponse(listing)
-  );
-
-  return {
-    listings: normalizedUserListings,
-    pagination: {
-      currentPage: page,
-      totalPages: Math.ceil(total / limit),
-      totalResults: total,
-      perPage: limit,
-      hasNextPage: page < Math.ceil(total / limit),
-      hasPrevPage: page > 1,
-    },
-  };
 };
 
 const getLikedListings = async (userId) => {
@@ -219,10 +91,8 @@ const toggleLike = async (listingId, userId) => {
 
 module.exports = {
   getAllListings,
-  getSearchedListings,
   createListing,
   getListingById,
-  getUserListings,
   getLikedListings,
   editListingById,
   deleteListingById,
