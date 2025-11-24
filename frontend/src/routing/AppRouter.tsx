@@ -11,7 +11,7 @@ import { MyListings } from '../pages/BusinessUsers/MyListings.pages';
 import { EditProfile } from '../pages/EditProfilePage/EditProfile.pages';
 import { HomePage } from '../pages/HomePage/Home.pages';
 import { FavoriteListings } from '../pages/Jobseekers/Favorites.pages';
-import { LoginPage } from '../pages/LoginPage/Login.pages';
+import { LoginPage } from '../pages/AllUsers/LoginPage/Login.pages';
 import Error404 from '../pages/Static/404.pages';
 import About from '../pages/Static/About.pages';
 import PrivacyPolicy from '../pages/Static/PrivacyPolicy.pages';

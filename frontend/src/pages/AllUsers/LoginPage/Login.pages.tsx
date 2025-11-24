@@ -31,7 +31,6 @@ export function LoginPage() {
 
   const dispatch = useDispatch<AppDispatch>();
   const [rememberMe, setRemember] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -58,7 +57,7 @@ export function LoginPage() {
       });
 
       const token = response.data;
-      localStorage.setItem('rememberMe', rememberMe ? 'true ' : 'false');
+      localStorage.setItem('rememberMe', rememberMe ? 'true' : 'false');
       localStorage.setItem('token', token);
 
       axios.defaults.headers.common['x-auth-token'] = token;

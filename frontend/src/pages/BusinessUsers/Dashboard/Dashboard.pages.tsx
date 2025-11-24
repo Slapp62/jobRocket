@@ -18,6 +18,7 @@ import {
   Paper,
   Select,
   Stack,
+  Tabs,
   Text,
   ThemeIcon,
   Title,
@@ -42,6 +43,22 @@ import { DashMetrics } from './DashMetrics';
 export const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState<TBusinessDashboard>();
   const [isLoading, setIsLoading] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<string | null>('all');  // 'all', 'pending', 'reviewed', 'rejected'
+  const [appListingFilter, setAppListingFilter] = useState<string | null>('all'); // 'all' or a specific listing ID  
+
+  const listingOptions = [
+    { value: 'all', label: 'All Listings' },
+    ...(dashboardData?.listings.map(listing => ({
+      value: listing._id,
+      label: listing.jobTitle
+    })) ?? [])
+  ];
+
+  const filteredApplications = dashboardData?.applications.filter(app => {
+    const matchesStatus = statusFilter === 'all' || app.status === statusFilter;
+    const matchesListingFilter = appListingFilter === 'all' || (typeof app.listingId === 'object' && app.listingId._id === appListingFilter)
+    return matchesStatus && matchesListingFilter
+  });
 
   useEffect(() => {
     const getDashboardData = async () => {
@@ -64,8 +81,10 @@ export const Dashboard = () => {
 
   const handleStatusChange = async (applicationId: string, newStatus: string | null) => {
     if (!newStatus) return;
+    const validStatus = newStatus as 'pending' | 'reviewed' | 'rejected';
+
     try {
-      await updateApplicationStatus(applicationId, newStatus);
+      await updateApplicationStatus(applicationId, validStatus);
       // Refresh dashboard data to reflect the status change
       const data = await fetchDashboardData();
       setDashboardData(data);
@@ -79,7 +98,6 @@ export const Dashboard = () => {
 
     setDashboardData(prev => {
       if (!prev) return prev;
-      const validStatus = newStatus as 'pending' | 'reviewed' | 'rejected';
 
       const updatedApplications : TApplication[] = prev.applications.map(app => 
         app._id === applicationId ? { ...app, status: validStatus } : app
@@ -107,7 +125,7 @@ export const Dashboard = () => {
         description="Manage your listings and applications."
         keywords="analytics, dashboard, job applications, manage job applications, manage job listings"
       />
-
+      
       {isLoading ? (
         <Center py={50} h="calc(100vh - 200px)">
           <Loader size="xl" variant="oval" />
@@ -127,11 +145,28 @@ export const Dashboard = () => {
 
             <DashMetrics dashboardData={dashboardData} />
 
-            {/* Active Job Listings */}
-            {/* <DashListings dashboardData={dashboardData}/> */}
+            <Tabs color="orange" variant="outline" defaultValue="listings">
+              <Tabs.List mb={20} justify='center'>
+                <Tabs.Tab value="listings" fz={20}>Listings</Tabs.Tab>
+                <Tabs.Tab value="applications" fz={20}>Applications</Tabs.Tab>
+              </Tabs.List>
+              
+              <Tabs.Panel value="listings">
+                <DashListings dashboardData={dashboardData}/>
+              </Tabs.Panel>
 
-            {/* Recent Applications */}
-            <DashApplications dashApplications={dashboardData?.applications} onStatusChange={handleStatusChange} />
+              <Tabs.Panel value="applications">
+                <DashApplications 
+                  dashApplications={filteredApplications} 
+                  onStatusChange={handleStatusChange} 
+                  statusFilter={statusFilter}
+                  onFilterChange={setStatusFilter}
+                  listingFilter={appListingFilter}
+                  onListingFilterChange={setAppListingFilter}
+                  listingOptions={listingOptions}
+                />
+              </Tabs.Panel>
+            </Tabs>
           </Stack>
         </Container>
       )}
