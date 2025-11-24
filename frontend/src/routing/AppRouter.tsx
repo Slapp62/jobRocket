@@ -7,7 +7,6 @@ import AdminControls from '../pages/AdminControls/AdminControls.pages';
 import { RegisterForm } from '../pages/AllUsers/Register.pages';
 import { CreateListing } from '../pages/BusinessUsers/CreateListing.pages';
 import { EditListing } from '../pages/BusinessUsers/EditListing.pages';
-import { MyListings } from '../pages/BusinessUsers/MyListings.pages';
 import { EditProfile } from '../pages/EditProfilePage/EditProfile.pages';
 import { HomePage } from '../pages/HomePage/Home.pages';
 import { FavoriteListings } from '../pages/Jobseekers/Favorites.pages';
@@ -79,14 +78,6 @@ const router = createBrowserRouter(
           element: (
             <RouteGuard isAdmin>
               <AdminControls />
-            </RouteGuard>
-          ),
-        },
-        {
-          path: 'my-listings',
-          element: (
-            <RouteGuard profileType="business">
-              <MyListings />
             </RouteGuard>
           ),
         },

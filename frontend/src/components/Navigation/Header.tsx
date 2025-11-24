@@ -89,12 +89,6 @@ export function Navbar() {
             )}
 
             {loggedIn && user?.profileType === 'business' && (
-              <Link to="/my-listings" className={classes.link}>
-                <Text fw={700}>My Listings</Text>
-              </Link>
-            )}
-
-            {loggedIn && user?.profileType === 'business' && (
               <Link to="/dashboard" className={classes.link}>
                 <Text fw={700}>Dashboard</Text>
               </Link>
@@ -165,28 +159,28 @@ export function Navbar() {
 
             <Link to="/" className={classes.link} onClick={closeDrawer}>
               <Text fz={15} c="indigo" fw={700}>
-                HOME
+                Home
               </Text>
             </Link>
 
             <Link to="/about" className={classes.link} onClick={closeDrawer}>
               <Text fz={15} c="indigo" fw={700}>
-                ABOUT
+                About
               </Text>
             </Link>
 
             {loggedIn && (
               <Link to="/favorites" className={classes.link} onClick={closeDrawer}>
                 <Text fz={15} c="indigo" fw={700}>
-                  FAVORITES
+                  Favorites
                 </Text>
               </Link>
             )}
 
             {user?.profileType === 'business' && (
-              <Link to="/my-listings" className={classes.link} onClick={closeDrawer}>
+              <Link to="/dashboard" className={classes.link} onClick={closeDrawer}>
                 <Text fz={15} c="indigo" fw={700}>
-                  MY LISTINGS
+                  Dashboard
                 </Text>
               </Link>
             )}
@@ -194,7 +188,7 @@ export function Navbar() {
             {user?.isAdmin && (
               <Link to="/admin" className={classes.link} onClick={closeDrawer}>
                 <Text fz={15} c="indigo" fw={700}>
-                  ADMIN CONTROLS
+                  Admin Controls
                 </Text>
               </Link>
             )}
