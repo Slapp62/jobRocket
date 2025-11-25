@@ -147,13 +147,14 @@ export function HomePage() {
           <Button
             mx="auto"
             variant="filled"
-            color="red"
+            color="white"
+            c="black"
             size="md"
             w="40%"
             fz={20}
             rightSection={<IconSearch />}
             onClick={searchListing}
-            className={styles.lightDark}
+            style={{ fontWeight: 700 }}
           >
             Search
           </Button>
@@ -176,18 +177,27 @@ export function HomePage() {
               w="40%"
               mx="auto"
               variant="filled"
-              color="orange"
-              className={styles.lightDark}
+              color="white"
+              c="black"
               size="md"
               fz={20}
               rightSection={<IconCards />}
+              style={{ fontWeight: 700 }}
             >
               Create A Listing
             </Button>
           )}
         </Stack>
 
-        <Stack justify="center" align="center" mt="100px" bg="red" p="50px">
+        <Stack
+          justify="center"
+          align="center"
+          mt="100px"
+          p="50px"
+          style={{
+            background: 'linear-gradient(135deg, #FF6B35 0%, #E63946 100%)'
+          }}
+        >
           <Flex justify="start" align="center" w="80%">
             <HomePageCards
               title="The Best Job Board for English Speakers in Israel"

@@ -1,4 +1,5 @@
 const applicationsService = require('../services/applicationsService.js');
+const { getFilteredApplications } = require('../services/filterService.js');
 const { handleSuccess, handleError } = require('../utils/functionHandlers.js');
 
 async function submitApplication(req, res) {
@@ -18,13 +19,24 @@ async function submitApplication(req, res) {
   }
 }
 
-async function getDashboardData(req, res) {
+async function getDashboardMetrics(req, res) {
   try {
     const businessId = req.user._id;
-    const data = await applicationsService.getDashboardData(businessId);
-    handleSuccess(res, 200, data, 'Dashboard data fetched successfully.')
+    const data = await applicationsService.getDashboardMetrics(businessId);
+    handleSuccess(res, 200, data, 'Dashboard metrics fetched successfully.')
   } catch (error) {
     handleError(res, error.status, error.message);
+  }
+}
+
+async function getBusinessApplications(req, res){
+  try {
+    const businessId = req.user._id;
+    const filterParams = req.query;
+    const applications = await getFilteredApplications(businessId, filterParams);
+    handleSuccess(res, 200, applications);
+  } catch (error) {
+    handleError(res, error.status || 500, error.message);
   }
 }
 
@@ -89,9 +101,10 @@ async function updateApplicationData(req, res) {
 
 module.exports = {
   submitApplication,
-  getDashboardData,
+  getDashboardMetrics,
   getApplicationsByID,
   getListingApplications,
   updateApplicationStatus,
   updateApplicationData,
+  getBusinessApplications
 };

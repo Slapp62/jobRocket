@@ -122,10 +122,10 @@ export function ListingDetailsPanel({
               {listing.jobTitle}
             </Title>
             <Group gap="xs">
-              <Badge variant="filled" color="teal">
+              <Badge variant="filled" color="rocketOrange">
                 {listing.workArrangement}
               </Badge>
-              <Badge variant="filled" color="blue">
+              <Badge variant="filled" color="rocketRed">
                 {listing.industry}
               </Badge>
             </Group>
@@ -217,7 +217,7 @@ export function ListingDetailsPanel({
             </Text>
           )}
 
-          <Button variant="outline" color="blue" onClick={open}>
+          <Button variant="outline" color="rocketOrange" onClick={open}>
             Apply
           </Button>
           <ApplicationModal opened={opened} onClose={close} listingID={listing._id} />

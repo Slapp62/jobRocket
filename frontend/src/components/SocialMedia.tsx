@@ -14,15 +14,15 @@ const SocialIcons = (props: { listingID: string }) => {
 
   return (
     <>
-      <ActionIcon size={40} variant="light" color="indigo">
+      <ActionIcon size={40} variant="light" color="rocketOrange">
         <IconBrandLinkedin onClick={() => window.open(linkedInUrl, '_blank')} />
       </ActionIcon>
 
-      <ActionIcon size={40} variant="light" color="indigo">
+      <ActionIcon size={40} variant="light" color="rocketOrange">
         <IconBrandWhatsapp onClick={() => window.open(whatsappUrl, '_blank')} />
       </ActionIcon>
 
-      <ActionIcon size={40} variant="light" color="indigo">
+      <ActionIcon size={40} variant="light" color="rocketOrange">
         <IconBrandTwitter onClick={() => window.open(xUrl, '_blank')} />
       </ActionIcon>
     </>

@@ -7,6 +7,7 @@ import DesktopSplitView from '@/components/ListingComponents/Views/DesktopSplitV
 import MobileView from '@/components/ListingComponents/Views/MobileView';
 import { PageMeta } from '@/SEO/PageMeta';
 import { getParamsInfo } from '@/utils/getParamsInfo';
+import styles from '@/styles/gradients.module.css';
 
 export function SearchPage() {
   const isMobile = useMediaQuery('(max-width: 500px)');
@@ -47,7 +48,8 @@ export function SearchPage() {
           description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
           keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
         />
-        <Flex direction="column" align="center" mx="auto" gap={20} py="md" w="90vw">
+        <Box className={styles.pageBackground}>
+          <Flex direction="column" align="center" mx="auto" gap={20} py="md" w="90vw">
           <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="90%" mx="auto">
             {Array.from({ length: 12 }).map((_, i) => (
               <Stack
@@ -63,6 +65,7 @@ export function SearchPage() {
             ))}
           </Flex>
         </Flex>
+        </Box>
       </>
     );
   }
@@ -76,7 +79,7 @@ export function SearchPage() {
           description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
           keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
         />
-        <Box>
+        <Box className={styles.pageBackground}>
           {/* Filters at top */}
           <FilterBar
             searchParams={searchParams}
@@ -116,13 +119,15 @@ export function SearchPage() {
         description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
         keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
       />
-      <FilterBar
-        searchParams={searchParams}
-        updateSearchParam={updateSearchParam}
-        isMobile={isMobile}
-      />
+      <Box className={styles.pageBackground}>
+        <FilterBar
+          searchParams={searchParams}
+          updateSearchParam={updateSearchParam}
+          isMobile={isMobile}
+        />
 
-      <MobileView displayListings={displayListings} isLoading={isLoading} />
+        <MobileView displayListings={displayListings} isLoading={isLoading} />
+      </Box>
     </>
   );
 }

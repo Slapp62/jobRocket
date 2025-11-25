@@ -1,5 +1,6 @@
 import { Anchor, Badge, Box, Divider, Group, List, Modal, Stack, Text, Title } from '@mantine/core';
 import { TListing } from '@/Types';
+import styles from '@/styles/gradients.module.css';
 
 type ListingDetailsModalProps = {
   opened: boolean;
@@ -20,7 +21,16 @@ export const ListingDetailsModal = ({ opened, onClose, listing }: ListingDetails
       {listing && (
         <Stack gap="md" h="100%">
           {/* Header */}
-          <Box>
+          <Box
+            p="md"
+            className={styles.cardGradientSubtle}
+            style={{
+              borderRadius: '8px',
+              marginTop: '-16px',
+              marginLeft: '-16px',
+              marginRight: '-16px'
+            }}
+          >
             <Text fw={700} size="lg" c="dimmed" mb={5}>
               {listing.companyName}
             </Text>
@@ -28,10 +38,10 @@ export const ListingDetailsModal = ({ opened, onClose, listing }: ListingDetails
               {listing.jobTitle}
             </Title>
             <Group gap="xs">
-              <Badge variant="filled" color="teal">
+              <Badge variant="filled" color="rocketOrange">
                 {listing.workArrangement}
               </Badge>
-              <Badge variant="filled" color="blue">
+              <Badge variant="filled" color="rocketRed">
                 {listing.industry}
               </Badge>
             </Group>

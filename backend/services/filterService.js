@@ -1,5 +1,7 @@
 const Listing = require('../models/Listings.js');
+const Applications = require('../models/Applications.js');
 const { normalizeListingResponse } = require('../utils/normalizeResponses');
+const { normalizeApplicationResponse } = require('../utils/normalizeResponses');
 const { throwError } = require('../utils/functionHandlers');
 
 const normalizeSearch = (query) => {
@@ -27,7 +29,7 @@ const normalizeSearch = (query) => {
   };
 };
 
-const getSearchedListings = async (searchObj, businessId = null) => {
+const getFilteredListings = async (filterParams, businessId = null) => {
   // Build filter object dynamically
   const query = {};
 
@@ -37,48 +39,48 @@ const getSearchedListings = async (searchObj, businessId = null) => {
   }
 
   // Text search (searches in jobTitle AND jobDescription)
-  if (searchObj.searchWord && searchObj.searchWord.trim() !== '') {
+  if (filterParams.searchText && filterParams.searchText.trim() !== '') {
     query.$or = [
-      { jobTitle: { $regex: searchObj.searchWord, $options: 'i' } },
-      { jobDescription: { $regex: searchObj.searchWord, $options: 'i' } },
+      { jobTitle: { $regex: filterParams.searchText, $options: 'i' } },
+      { jobDescription: { $regex: filterParams.searchText, $options: 'i' } },
     ];
   }
 
   // Exact matches for dropdowns
   if (
-    searchObj.region &&
-    searchObj.region.trim() !== '' &&
-    searchObj.region !== 'All Regions'
+    filterParams.region &&
+    filterParams.region.trim() !== '' &&
+    filterParams.region !== 'All Regions'
   ) {
-    query['location.region'] = searchObj.region;
+    query['location.region'] = filterParams.region;
   }
 
   if (
-    searchObj.city &&
-    searchObj.city.trim() !== '' &&
-    searchObj.city !== 'All Cities'
+    filterParams.city &&
+    filterParams.city.trim() !== '' &&
+    filterParams.city !== 'All Cities'
   ) {
-    query['location.city'] = searchObj.city;
+    query['location.city'] = filterParams.city;
   }
 
   if (
-    searchObj.industry &&
-    searchObj.industry.trim() !== '' &&
-    searchObj.industry !== 'All Industries'
+    filterParams.industry &&
+    filterParams.industry.trim() !== '' &&
+    filterParams.industry !== 'All Industries'
   ) {
-    query.industry = searchObj.industry;
+    query.industry = filterParams.industry;
   }
 
   if (
-    searchObj.workArrangement &&
-    searchObj.workArrangement.trim() !== '' &&
-    searchObj.workArrangement !== 'All Work Arrangements'
+    filterParams.workArrangement &&
+    filterParams.workArrangement.trim() !== '' &&
+    filterParams.workArrangement !== 'All Work Arrangements'
   ) {
-    query.workArrangement = searchObj.workArrangement;
+    query.workArrangement = filterParams.workArrangement;
   }
 
-  const page = parseInt(searchObj.page) || 1;
-  const limit = parseInt(searchObj.limit) || 20;
+  const page = parseInt(filterParams.page) || 1;
+  const limit = parseInt(filterParams.limit) || 20;
   const skip = (page - 1) * limit;
 
   const sortOptions = {
@@ -89,7 +91,7 @@ const getSearchedListings = async (searchObj, businessId = null) => {
     'match-score': { matchScore: -1 },
     'match-score-desc': { matchScore: 1 },
   };
-  const sortBy = sortOptions[searchObj.sortOption] || { createdAt: -1 };
+  const sortBy = sortOptions[filterParams.sortOption] || { createdAt: -1 };
 
   // Execute search
   const [listings, total] = await Promise.all([
@@ -114,7 +116,77 @@ const getSearchedListings = async (searchObj, businessId = null) => {
   };
 };
 
+async function getFilteredApplications(businessId, filterParams) {
+  // Get all listings for the business 
+  const listings = await Listing.find({businessId});
+  // Get all listingIds
+  const listingIds = listings.map(listing => listing._id);
+
+  // Start query for applications with all applications for the listings
+  const query = { listingId: { $in: listingIds } };
+
+  if (filterParams.status && filterParams.status !== 'all') {
+    query.status = filterParams.status;
+  }
+
+  if (filterParams.searchText) {
+    query.$or = [
+      { firstName: { $regex: filterParams.searchText, $options: 'i' } },
+      { lastName: { $regex: filterParams.searchText, $options: 'i' } },
+      { email: { $regex: filterParams.searchText, $options: 'i' } }
+    ];
+  }
+
+  // Date range filter
+  if (filterParams.dateFrom || filterParams.dateTo) {
+    query.createdAt = {};
+    if (filterParams.dateFrom) query.createdAt.$gte = new Date(filterParams.dateFrom);
+    if (filterParams.dateTo) {
+      const endOfDay = new Date(filterParams.dateTo);
+      endOfDay.setHours(23, 59, 59, 999);
+      query.createdAt.$lte = endOfDay;
+    }
+  }
+
+  // Specific listing filter
+  if (filterParams.listingId && filterParams.listingId !== 'all') {
+    query.listingId = filterParams.listingId;
+  }
+
+  const sortOptions = {
+    'date-newest': { createdAt: -1 },
+    'date-oldest': { createdAt: 1 },
+    'name-asc': { firstName: 1, lastName: 1 },
+    'name-desc': { firstName: -1, lastName: -1 },
+  };
+
+  const page = parseInt(filterParams.page) || 1;
+  const limit = parseInt(filterParams.limit) || 20;
+  const skip = (page - 1) * limit;
+
+  const sortBy = sortOptions[filterParams.sortOption] || { createdAt: -1 };
+  
+  // Execute search
+  const [applications, total] = await Promise.all([
+    Applications.find(query).populate('listingId').sort(sortBy).skip(skip).limit(limit).lean(), // Returns plain objects (faster)
+    Applications.countDocuments(query), // Get total count for pagination info
+  ]);
+
+  return {
+    applications: applications.map(normalizeApplicationResponse),
+    pagination: {
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      totalResults: total,
+      perPage: limit,
+      hasNextPage: page < Math.ceil(total / limit),
+      hasPrevPage: page > 1,
+    },
+  };
+}
+
 module.exports = {
   normalizeSearch,
-  getSearchedListings
+  getFilteredListings,
+  getFilteredApplications
 };

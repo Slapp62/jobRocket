@@ -10,6 +10,7 @@ import DesktopSplitView from '@/components/ListingComponents/Views/DesktopSplitV
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 import { getParamsInfo } from '@/utils/getParamsInfo';
+import styles from '@/styles/gradients.module.css';
 
 export function FavoriteListings() {
   const user = useSelector((state: RootState) => state.userSlice.user);
@@ -30,8 +31,9 @@ export function FavoriteListings() {
 
   if (isLoading) {
     return (
-      <Flex direction="column" align="center" mx="auto" gap={20} py="md" w="90vw">
-        <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="90%" mx="auto">
+      <Box className={styles.pageBackground}>
+        <Flex direction="column" align="center" mx="auto" gap={20} py="md" w="90vw">
+          <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="90%" mx="auto">
           {Array.from({ length: 12 }).map((_, i) => (
             <Stack
               p="sm"
@@ -46,22 +48,25 @@ export function FavoriteListings() {
           ))}
         </Flex>
       </Flex>
+      </Box>
     );
   }
 
   if (noListings) {
     return (
-      <Flex mt={20} direction="column" align="center" gap={20}>
-        <Box mt={20}>
-          <IconMoodSad color="gray" size={100} />
-        </Box>
-        <Title my={10} c="gray">
-          No Favorites Found
-        </Title>
-        <Button onClick={() => navigate('/search')} variant="filled" color="blue" size="lg" fz={20}>
-          Find Some Favorites
-        </Button>
-      </Flex>
+      <Box className={styles.pageBackground}>
+        <Flex mt={20} direction="column" align="center" gap={20}>
+          <Box mt={20}>
+            <IconMoodSad color="gray" size={100} />
+          </Box>
+          <Title my={10} c="gray">
+            No Favorites Found
+          </Title>
+          <Button onClick={() => navigate('/search')} variant="filled" color="rocketOrange" size="lg" fz={20}>
+            Find Some Favorites
+          </Button>
+        </Flex>
+      </Box>
     );
   }
 
@@ -73,7 +78,7 @@ export function FavoriteListings() {
         keywords="saved jobs, favorites, bookmarked listings"
       />
 
-      <Box>
+      <Box className={styles.pageBackground}>
         {/* Filters at top */}
         <FilterBar
           searchParams={searchParams}

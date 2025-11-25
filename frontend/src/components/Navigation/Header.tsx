@@ -108,18 +108,18 @@ export function Navbar() {
           <Group>
             <Group visibleFrom="xs">
               {!loggedIn && (
-                <Button component={Link} to="/login" variant="outline" color="blue">
+                <Button component={Link} to="/login" variant="outline" color="rocketOrange">
                   Login
                 </Button>
               )}
               {!loggedIn && (
-                <Button component={Link} to="/register" color="blue" variant="filled">
+                <Button component={Link} to="/register" color="rocketOrange" variant="filled">
                   Register
                 </Button>
               )}
 
               {loggedIn && (
-                <Button variant="outline" color="black" onClick={logoutHandler}>
+                <Button variant="outline" color="dark" onClick={logoutHandler}>
                   Logout
                 </Button>
               )}
@@ -158,20 +158,20 @@ export function Navbar() {
             )}
 
             <Link to="/" className={classes.link} onClick={closeDrawer}>
-              <Text fz={15} c="indigo" fw={700}>
+              <Text fz={15} c="rocketOrange" fw={700}>
                 Home
               </Text>
             </Link>
 
             <Link to="/about" className={classes.link} onClick={closeDrawer}>
-              <Text fz={15} c="indigo" fw={700}>
+              <Text fz={15} c="rocketOrange" fw={700}>
                 About
               </Text>
             </Link>
 
             {loggedIn && (
               <Link to="/favorites" className={classes.link} onClick={closeDrawer}>
-                <Text fz={15} c="indigo" fw={700}>
+                <Text fz={15} c="rocketOrange" fw={700}>
                   Favorites
                 </Text>
               </Link>
@@ -179,7 +179,7 @@ export function Navbar() {
 
             {user?.profileType === 'business' && (
               <Link to="/dashboard" className={classes.link} onClick={closeDrawer}>
-                <Text fz={15} c="indigo" fw={700}>
+                <Text fz={15} c="rocketOrange" fw={700}>
                   Dashboard
                 </Text>
               </Link>
@@ -187,7 +187,7 @@ export function Navbar() {
 
             {user?.isAdmin && (
               <Link to="/admin" className={classes.link} onClick={closeDrawer}>
-                <Text fz={15} c="indigo" fw={700}>
+                <Text fz={15} c="rocketOrange" fw={700}>
                   Admin Controls
                 </Text>
               </Link>
@@ -200,7 +200,7 @@ export function Navbar() {
               <Button
                 component={Link}
                 to="/login"
-                c="black"
+                color="rocketOrange"
                 onClick={closeDrawer}
                 w="95%"
                 variant="outline"
@@ -210,13 +210,14 @@ export function Navbar() {
             )}
 
             {!loggedIn && (
-              <Button w="95%" component={Link} to="/register" onClick={closeDrawer}>
+              <Button w="95%" color="rocketOrange" component={Link} to="/register" onClick={closeDrawer}>
                 Register
               </Button>
             )}
 
             {loggedIn && (
               <Button
+                color="dark"
                 variant="outline"
                 onClick={() => {
                   logoutHandler();

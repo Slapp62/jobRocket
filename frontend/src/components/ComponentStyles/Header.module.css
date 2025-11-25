@@ -33,17 +33,17 @@
     font-weight: 500;
     font-size: var(--mantine-font-size-sm);
     height: 36px;
-    transition: all 0.2s ease;  
+    transition: all 0.2s ease;
 
     @media (max-width: $mantine-breakpoint-sm) {
       height: 42px;
       width: 100%;
     }
-  
+
     &:hover {
-      background-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-6));
+      background-color: light-dark(var(--mantine-color-rocketOrange-0), var(--mantine-color-dark-6));
       border-radius: 10px;
-      
+
     }
   }
   

@@ -9,25 +9,25 @@ import {
   Title,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import styles from '@/styles/gradients.module.css';
 import {
-  fetchDashboardData,
+  fetchDashboardMetrics,
   updateApplicationStatus,
 } from '@/pages/BusinessUsers/Dashboard/dashboardApi';
 import { PageMeta } from '@/SEO/PageMeta';
 import {
   TApplication,
-  TBusinessDashboard,
+  TDashboardMetrics,
 } from '@/Types';
 import { DashApplications } from './DashApplications';
 import { DashListings } from './DashListings';
 import { DashMetrics } from './DashMetrics';
-import { useDashboardListings } from './useDashboardListings';
+import { useDashboardListings } from './useDashboardListings'
+import { useDashboardApplications } from './useDashboardApplications'
 
 export const Dashboard = () => {
-  const [dashboardData, setDashboardData] = useState<TBusinessDashboard>();
+  const [dashboardMetrics, setDashboardMetrics] = useState<TDashboardMetrics>();
   const [isLoading, setIsLoading] = useState(false);
-  const [statusFilter, setStatusFilter] = useState<string | null>('all');  // 'all', 'pending', 'reviewed', 'rejected'
-  const [appListingFilter, setAppListingFilter] = useState<string | null>('all'); // 'all' or a specific listing ID  
   const {
     listings,
     isLoading: listingsLoading,
@@ -42,6 +42,28 @@ export const Dashboard = () => {
     page,
     setPage
   } = useDashboardListings();
+
+  const {
+    applications,
+    isLoading: applicationsLoading,
+    searchText : appSearchText,
+    setSearchText: setAppSearchText,
+    status,
+    setStatus,
+    listingId,
+    setListingId,
+    dateFrom,
+    setDateFrom,
+    dateTo,
+    setDateTo,
+    sortOption : appSortOption,
+    setSortOption: setAppSortOption,
+    page : appPage,
+    setPage: setAppPage,
+    newStatus,
+    setNewStatus,
+    setApplications
+  } = useDashboardApplications();
   
   const listingOptions = [
     { value: 'all', label: 'All Listings' },
@@ -51,18 +73,12 @@ export const Dashboard = () => {
     })) ?? [])
   ];
 
-  const filteredApplications = dashboardData?.applications.filter(app => {
-    const matchesStatus = statusFilter === 'all' || app.status === statusFilter;
-    const matchesListingFilter = appListingFilter === 'all' || (typeof app.listingId === 'object' && app.listingId._id === appListingFilter)
-    return matchesStatus && matchesListingFilter
-  });
-
   useEffect(() => {
-    const getDashboardData = async () => {
+    const getDashboardMetrics = async () => {
       try {
         setIsLoading(true);
-        const data = await fetchDashboardData();
-        setDashboardData(data);
+        const data = await fetchDashboardMetrics();
+        setDashboardMetrics(data); // Keep this for now since metrics are in here
       } catch (error: any) {
         notifications.show({
           title: 'Error',
@@ -73,7 +89,7 @@ export const Dashboard = () => {
         setIsLoading(false);
       }
     };
-    getDashboardData();
+    getDashboardMetrics();
   }, []);
 
   const handleStatusChange = async (applicationId: string, newStatus: string | null) => {
@@ -82,35 +98,36 @@ export const Dashboard = () => {
 
     try {
       await updateApplicationStatus(applicationId, validStatus);
-      // Refresh dashboard data to reflect the status change
-      const data = await fetchDashboardData();
-      setDashboardData(data);
-    } catch (error) {
+      // Refresh dashboard metrics to reflect the status change
+      const data = await fetchDashboardMetrics();
+      setDashboardMetrics(data);
+    } catch (error : any) {
       notifications.show({
         title: 'Error',
-        message: 'Failed to update application status',
+        message: error.response?.data?.message || 'Failed to update application status',
         color: 'red'
       });
     }
 
-    setDashboardData(prev => {
+    setApplications(prev => {
       if (!prev) return prev;
 
-      const updatedApplications : TApplication[] = prev.applications.map(app => 
+      return prev.map(app => 
         app._id === applicationId ? { ...app, status: validStatus } : app
       );
+    });
 
+    setDashboardMetrics((prev) => {
+      if (!prev) return prev;
       const updatedMetrics = {
-        ...prev.metrics,
-        pendingApplications: updatedApplications.filter(app => app.status === 'pending').length,
-        reviewedApplications: updatedApplications.filter(app => app.status === 'reviewed').length,
-        rejectedApplications: updatedApplications.filter(app => app.status === 'rejected').length,
+        pendingApplications: applications.filter(app => app.status === 'pending').length,
+        reviewedApplications: applications.filter(app => app.status === 'reviewed').length,
+        rejectedApplications: applications.filter(app => app.status === 'rejected').length,
       }
   
       return {
         ...prev,
-        applications: updatedApplications,
-        metrics: updatedMetrics
+       updatedMetrics
       };
     });   
   };
@@ -122,14 +139,15 @@ export const Dashboard = () => {
         description="Manage your listings and applications."
         keywords="analytics, dashboard, job applications, manage job applications, manage job listings"
       />
-      
-      {isLoading ? (
-        <Center py={50} h="calc(100vh - 200px)">
-          <Loader size="xl" variant="oval" />
-        </Center>
-      ) : (
-        <Container size="xl" py="xl" w="85%">
-          <Stack gap="xl">
+
+      <div className={styles.pageBackgroundAlt}>
+        {isLoading ? (
+          <Center py={50} h="calc(100vh - 200px)">
+            <Loader size="xl" variant="oval" />
+          </Center>
+        ) : (
+          <Container size="xl" py="xl" w="85%">
+            <Stack gap="xl">
             {/* Header */}
             <div>
               <Title order={1} mb="xs">
@@ -140,14 +158,39 @@ export const Dashboard = () => {
               </Text>
             </div>
 
-            <DashMetrics dashboardData={dashboardData} />
+            <DashMetrics dashboardMetrics={dashboardMetrics} />
 
-            <Tabs color="orange" variant="outline" defaultValue="listings">
-              <Tabs.List mb={20} justify='center'>
-                <Tabs.Tab value="listings" fz={20}>Listings</Tabs.Tab>
-                <Tabs.Tab value="applications" fz={20}>Applications</Tabs.Tab>
+            <Tabs color="rocketOrange" variant="outline" defaultValue="applications">
+              <Tabs.List mb={20} justify='center' fw={600} >
+                <Tabs.Tab value="applications" fz={30}>Applications</Tabs.Tab>
+                <Tabs.Tab value="listings" fz={30}>Listings</Tabs.Tab>
               </Tabs.List>
-              
+
+              <Tabs.Panel value="applications">
+                <DashApplications 
+                  dashApplications={applications} 
+                  listingOptions={listingOptions}
+                  onStatusChange={handleStatusChange}
+                  searchText={appSearchText}
+                  setSearchText={setAppSearchText}
+                  status={status}
+                  setStatus={setStatus}
+                  listingId={listingId}
+                  setListingId={setListingId}
+                  dateFrom={dateFrom}
+                  setDateFrom={setDateFrom}
+                  dateTo={dateTo}
+                  setDateTo={setDateTo}
+                  sortOption={appSortOption}
+                  setSortOption={setAppSortOption}
+                  page={appPage}
+                  setPage={setAppPage}
+                  updateApplicationStatus={handleStatusChange}
+                  newStatus={newStatus}
+                  setNewStatus={setNewStatus}
+                />
+              </Tabs.Panel>
+
               <Tabs.Panel value="listings">
                 <DashListings 
                   listings={listings}
@@ -164,22 +207,11 @@ export const Dashboard = () => {
                   setIndustry={setIndustry}
                 />
               </Tabs.Panel>
-
-              <Tabs.Panel value="applications">
-                <DashApplications 
-                  dashApplications={filteredApplications} 
-                  onStatusChange={handleStatusChange} 
-                  statusFilter={statusFilter}
-                  onFilterChange={setStatusFilter}
-                  listingFilter={appListingFilter}
-                  onListingFilterChange={setAppListingFilter}
-                  listingOptions={listingOptions}
-                />
-              </Tabs.Panel>
             </Tabs>
           </Stack>
         </Container>
       )}
+      </div>
     </>
   );
 };

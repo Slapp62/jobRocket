@@ -20,7 +20,7 @@ export const useDashboardListings = () => {
       setIsLoading(true)
       try {
         const data = await fetchBusinessListings({
-          searchWord: searchText,
+          searchWord: searchText || undefined,
           industry,
           sortOption,
           page,

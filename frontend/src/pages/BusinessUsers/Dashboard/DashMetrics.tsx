@@ -1,39 +1,52 @@
 import { IconBriefcase, IconChecks, IconClock, IconUsers, IconX } from '@tabler/icons-react';
 import { Group, Paper, Text, ThemeIcon } from '@mantine/core';
-import { TBusinessDashboard } from '@/Types';
+import { TDashboardMetrics } from '@/Types';
+import styles from '@/styles/gradients.module.css';
 
 interface DashMetricsProps {
-  dashboardData?: TBusinessDashboard;
+  dashboardMetrics?: TDashboardMetrics;
 }
 
-export const DashMetrics = ({ dashboardData }: DashMetricsProps) => {
+export const DashMetrics = ({ dashboardMetrics }: DashMetricsProps) => {
   return (
     <Group gap="md" grow>
       <>
-        <Paper shadow="sm" p="md" radius="md" withBorder>
+        <Paper
+          shadow="sm"
+          p="md"
+          radius="md"
+          withBorder
+          className={styles.cardGradientSubtle}
+        >
           <Group justify="space-between" mb="xs">
             <Text size="xs" c="dimmed" fw={700} tt="uppercase">
               Total Applications
             </Text>
-            <ThemeIcon color="blue" variant="light" size="lg" radius="md">
+            <ThemeIcon color="rocketOrange" variant="light" size="lg" radius="md">
               <IconUsers size={20} />
             </ThemeIcon>
           </Group>
           <Text size="xl" fw={700}>
-            {dashboardData?.metrics?.totalApplications || 0}
+            {dashboardMetrics?.metrics?.totalApplications || 0}
           </Text>
         </Paper>
-        <Paper shadow="sm" p="md" radius="md" withBorder>
+        <Paper
+          shadow="sm"
+          p="md"
+          radius="md"
+          withBorder
+          className={styles.cardGradientRed}
+        >
           <Group justify="space-between" mb="xs">
             <Text size="xs" c="dimmed" fw={700} tt="uppercase">
               Total Listings
             </Text>
-            <ThemeIcon color="violet" variant="light" size="lg" radius="md">
+            <ThemeIcon color="rocketRed" variant="light" size="lg" radius="md">
               <IconBriefcase size={20} />
             </ThemeIcon>
           </Group>
           <Text size="xl" fw={700}>
-            {dashboardData?.metrics?.totalListings || 0}
+            {dashboardMetrics?.metrics?.totalListings || 0}
           </Text>
         </Paper>
         <Paper shadow="sm" p="md" radius="md" withBorder>
@@ -46,7 +59,7 @@ export const DashMetrics = ({ dashboardData }: DashMetricsProps) => {
             </ThemeIcon>
           </Group>
           <Text size="xl" fw={700}>
-            {dashboardData?.metrics?.pendingApplications || 0}
+            {dashboardMetrics?.metrics?.pendingApplications || 0}
           </Text>
         </Paper>
         <Paper shadow="sm" p="md" radius="md" withBorder>
@@ -59,7 +72,7 @@ export const DashMetrics = ({ dashboardData }: DashMetricsProps) => {
             </ThemeIcon>
           </Group>
           <Text size="xl" fw={700}>
-            {dashboardData?.metrics?.reviewedApplications || 0}
+            {dashboardMetrics?.metrics?.reviewedApplications || 0}
           </Text>
         </Paper>
         <Paper shadow="sm" p="md" radius="md" withBorder>
@@ -72,7 +85,7 @@ export const DashMetrics = ({ dashboardData }: DashMetricsProps) => {
             </ThemeIcon>
           </Group>
           <Text size="xl" fw={700}>
-            {dashboardData?.metrics?.rejectedApplications || 0}
+            {dashboardMetrics?.metrics?.rejectedApplications || 0}
           </Text>
         </Paper>
       </>

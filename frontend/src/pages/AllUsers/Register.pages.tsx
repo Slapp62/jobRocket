@@ -13,6 +13,7 @@ import { PageMeta } from '@/SEO/PageMeta';
 import { TUsers } from '@/Types';
 import { registrationSchema } from '@/validationRules/register.joi';
 import classes from './formTabs.module.css';
+import styles from '@/styles/gradients.module.css';
 
 export function RegisterForm() {
   const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
@@ -110,7 +111,11 @@ export function RegisterForm() {
           >
             <SharedCredentials register={register} errors={errors} control={control} />
 
-            <Fieldset legend="Choose An Account Type">
+            <Fieldset
+              legend="Choose An Account Type"
+              className={styles.cardGradientSubtle}
+              style={{ borderRadius: '8px' }}
+            >
               <Tabs
                 variant="none"
                 value={tabValue}

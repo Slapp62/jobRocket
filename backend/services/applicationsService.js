@@ -1,5 +1,6 @@
 const Applications = require('../models/Applications.js');
 const Listings = require('../models/Listings.js');
+const { normalizeApplicationResponse } = require('../utils/normalizeResponses');
 
 async function submitApplication(listingId, applicantId, applicationData) {
   // Check if listing exists and is active
@@ -41,7 +42,7 @@ async function getApplicantApplications(applicantId) {
   return applications;
 }
 
-async function getDashboardData(businessId){
+async function getDashboardMetrics(businessId){
   const listings = await Listings.find({businessId: businessId});
   if (!listings || listings.length === 0) {
     const error = new Error('No listings found');
@@ -51,7 +52,6 @@ async function getDashboardData(businessId){
 
   const listingIds = listings.map(listing => listing._id);
   const applications = await Applications.find({listingId : {$in: listingIds}})
-    .populate('listingId');
   let reviewed = 0;
   let pending = 0;
   let rejected = 0;
@@ -63,8 +63,6 @@ async function getDashboardData(businessId){
   })
 
   return {
-    listings,
-    applications,
     metrics: {
       totalListings: listings.length,
       totalApplications: applications.length,
@@ -168,7 +166,7 @@ async function updateApplicationData(
 
 module.exports = {
   submitApplication,
-  getDashboardData,
+  getDashboardMetrics,
   getApplicantApplications,
   getListingApplications,
   updateApplicationStatus,

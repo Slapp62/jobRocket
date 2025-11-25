@@ -23,6 +23,7 @@ import { setUser } from '@/store/userSlice';
 import { TdecodedToken } from '@/Types';
 import { loginSchema } from '@/validationRules/login.joi';
 import classes from './Login.module.css';
+import styles from '@/styles/gradients.module.css';
 
 export function LoginPage() {
   const jumpTo = useNavigate();
@@ -104,7 +105,14 @@ export function LoginPage() {
           </Title>
         )}
 
-        <Paper withBorder p={30} mt={30} radius="md" shadow="lg">
+        <Paper
+          withBorder
+          p={30}
+          mt={30}
+          radius="md"
+          shadow="lg"
+          className={styles.cardGradientSubtle}
+        >
           <form onSubmit={handleSubmit(onSubmit)}>
             <TextInput
               label="Email"

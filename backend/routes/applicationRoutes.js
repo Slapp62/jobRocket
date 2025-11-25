@@ -8,14 +8,18 @@ const {
   getListingApplications,
   updateApplicationStatus,
   updateApplicationData,
-  getDashboardData,
+  getDashboardMetrics,
+  getBusinessApplications,
 } = require('../controllers/applicationsController');
 
 router.post('/:listingId', optionalAuthenticateUser, applicationsLimiter, applicationValidation, submitApplication);
 
 router.get('/my-applications', authenticateUser, getApplicationsByID);
 
-router.get('/business/dashboard', authenticateUser, businessAuth, getDashboardData);
+router.get('/business/dashboard/metrics', authenticateUser, businessAuth, getDashboardMetrics);
+
+router.get('/business-applications', authenticateUser, businessAuth, getBusinessApplications);
+
 router.get('/listing/:listingId', authenticateUser, getListingApplications);
 
 router.patch(

@@ -67,10 +67,10 @@ function ListingCard({
           </Text>
           {/* Badges */}
           <Box>
-            <Badge variant="filled" color="teal" mr="xs" size="sm">
+            <Badge variant="filled" color="rocketOrange" mr="xs" size="sm">
               {listing.workArrangement}
             </Badge>
-            <Badge variant="filled" color="blue" size="sm">
+            <Badge variant="filled" color="rocketRed" size="sm">
               {listing.industry}
             </Badge>
           </Box>

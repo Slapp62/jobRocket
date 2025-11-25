@@ -1,39 +1,69 @@
 import {
-  IconBriefcase,
-  IconChecks,
-  IconClock,
-  IconFileText,
+  IconDashboard,
+  IconDownload,
+  IconFileDownload,
+  IconPdf,
   IconPencil,
   IconTrash,
-  IconUsers,
-  IconX,
 } from '@tabler/icons-react';
-import { ActionIcon, Anchor, Badge, Card, Center, defaultOptionsFilter, Flex, Group, Paper, Select, Stack, Table, Text, ThemeIcon, Title } from '@mantine/core';
-import { TBusinessDashboard } from '@/Types';
-import { updateApplicationStatus } from './dashboardApi';
-import { notifications } from '@mantine/notifications';
-import INDUSTRIES from '@/data/industries';
+import { ActionIcon, Anchor, Center, Group, Select, Stack, Table, Text, TextInput, Title } from '@mantine/core';
+import { TApplication } from '@/Types';
 
 interface DashApplicationsProps {
-  dashApplications?: TBusinessDashboard['applications'];
+  dashApplications?: TApplication[];
+  searchText: string;
+  setSearchText: (searchText: string) => void;
+  status: string | null;
+  setStatus: (status: string | null) => void;
+  listingId: string | null;
+  setListingId: (listingId: string | null) => void;
+  dateFrom: string | null;
+  setDateFrom: (dateFrom: string | null) => void;
+  dateTo: string | null;
+  setDateTo: (dateTo: string | null) => void;
+  sortOption: string | null;
+  setSortOption: (sortOption: string | null) => void;
+  page: number;
+  setPage: (page: number) => void;
   onStatusChange: (applicationId: string, newStatus: string | null) => void;
-  statusFilter: string | null;
-  onFilterChange: (status:string | null) => void;
-  listingFilter: string | null;
-  onListingFilterChange: (status:string | null) => void;
-  listingOptions?: { value: string; label: string; }[];
+  listingOptions: { value: string; label: string }[];
+  updateApplicationStatus: (applicationId: string, newStatus: string | null) => void;
+  newStatus: string | null;
+  setNewStatus: (newStatus: string | null) => void;
 }
 
 export const DashApplications = (
-  { dashApplications, onStatusChange, statusFilter, onFilterChange, listingFilter, onListingFilterChange, listingOptions }: DashApplicationsProps) => {
+  { dashApplications, searchText, setSearchText, status, setStatus, listingId, setListingId, dateFrom, setDateFrom, dateTo, setDateTo, sortOption, setSortOption, page, setPage, onStatusChange, listingOptions, updateApplicationStatus, newStatus, setNewStatus }: DashApplicationsProps) => {
 
   return (
     <Stack>
-      <Group justify='center'>
+      <Group justify='center' align='center'>
         <Select 
-          w={200}
-          value={statusFilter}
-          onChange={(value)=>onFilterChange(value)}
+          label="Listing"
+          w='15%'
+          value={listingId}
+          onChange={(value)=>setListingId(value)}
+          data={listingOptions}
+        />
+        <TextInput
+          type="date"
+          label="From"
+          value={dateFrom || ''}
+          onChange={(e) => setDateFrom(e.target.value)}
+          w='15%'
+        />
+        <TextInput
+          type="date"
+          label="To"
+          value={dateTo || ''}
+          onChange={(e) => setDateTo(e.target.value)}
+          w='15%'
+        />
+        <Select 
+          label="Status"
+          w='15%'
+          value={status}
+          onChange={(value)=>setStatus(value)}
           data={[
             {value:'all', label: "All Statuses"},
             {value:'pending', label: "Pending"},
@@ -41,11 +71,24 @@ export const DashApplications = (
             {value:'rejected', label: "Rejected"},
           ]}
         />
-        <Select 
-          w={200}
-          value={listingFilter}
-          onChange={(value)=>onListingFilterChange(value)}
-          data={listingOptions}
+        <TextInput
+          label="Search"
+          w='15%'
+          value={searchText}
+          onChange={(e)=>setSearchText(e.target.value)}
+          placeholder="Search applications..."
+        />
+        <Select
+          label="Sort"
+          w='15%'
+          value={sortOption}
+          onChange={(value)=>setSortOption(value)}
+          data={[
+            {value:'date-newest', label: "Newest First"},
+            {value:'date-oldest', label: "Oldest First"},
+            {value:'name-asc', label: "Name (A-Z)"},
+            {value:'name-desc', label: "Name (Z-A)"},
+          ]}
         />
       </Group>
       {dashApplications?.length === 0 ? 
@@ -63,7 +106,8 @@ export const DashApplications = (
             <Table.Th>Email</Table.Th>
             <Table.Th>Submitted</Table.Th>
             <Table.Th>Resume</Table.Th>
-            <Table.Th>Delete</Table.Th>
+            <Table.Th>Status</Table.Th>
+            <Table.Th>Actions</Table.Th>
           </Table.Tr>
         </Table.Thead>
 
@@ -107,42 +151,42 @@ export const DashApplications = (
               </Table.Td>
 
               <Table.Td>
-                <Anchor>Resume</Anchor>
+                <Anchor href={app.resume} target="_blank" ><IconFileDownload size={30} /></Anchor>
               </Table.Td>
               
               <Table.Td>
-                <Text fz="sm" c={
-                  app.status === "reviewed" ? 'green' 
-                  : app.status === "rejected" ? 'red' 
-                  : 'orange'
-                }>{
-                  app.status === "reviewed" ? 'Reviewed' 
-                  : app.status === "rejected" ? 'Rejected' 
-                  : 'Pending'}
-                </Text>
-              </Table.Td>
-
-              <Table.Td>
-                <ActionIcon
-                  size={30}
-                  variant="outline"
-                  color="yellow"
-                  onClick={() => {}}
-                >
-                  <IconPencil size={25} stroke={1.5} />
-                </ActionIcon>
+                <Select
+                  px={5}
+                  value={newStatus || app.status}
+                  onChange={(value) => updateApplicationStatus(app._id, value)}
+                  data={[
+                    { value: 'pending', label: 'Pending' },
+                    { value: 'reviewed', label: 'Reviewed' },
+                    { value: 'rejected', label: 'Rejected' },
+                  ]}
+                />
               </Table.Td>
 
               <Table.Td styles={{ td: { borderRight: '1px solid #eee' } }}>
-              <ActionIcon
-                size={30}
-                variant="outline"
-                color="red"
-                onClick={()=>{}}
-              >
-                <IconTrash size={25} stroke={1.5} />
-              </ActionIcon>
-            </Table.Td>
+                <Group gap="xs">
+                  <ActionIcon
+                    size={30}
+                    variant="outline"
+                    color="yellow"
+                    onClick={() => {}}
+                  >
+                    <IconPencil size={25} stroke={1.5} />
+                  </ActionIcon>
+                  <ActionIcon
+                    size={30}
+                    variant="outline"
+                    color="red"
+                    onClick={()=>{}}
+                  >
+                    <IconTrash size={25} stroke={1.5} />
+                  </ActionIcon>
+                </Group>
+              </Table.Td>
             </Table.Tr>
           ))}
         </Table.Tbody>

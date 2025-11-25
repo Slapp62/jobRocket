@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { IconBriefcase, IconUsers, IconWorld } from '@tabler/icons-react';
 import {
+  Box,
   Button,
   Container,
   Grid,
@@ -17,6 +18,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
+import styles from '@/styles/gradients.module.css';
 
 const AboutPage: FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -65,10 +67,11 @@ const AboutPage: FC = () => {
   };
 
   return (
-    <Container size="md" py="xl">
-      <Title order={1} mb="md" ta="center">
-        About Us
-      </Title>
+    <Box className={styles.pageBackgroundAlt} style={{ paddingBottom: '40px' }}>
+      <Container size="md" py="xl">
+        <Title order={1} mb="md" ta="center">
+          About Us
+        </Title>
       <Text size="lg" mb="xl">
         At <strong>IsraJobs</strong>, we connect motivated professionals in Israel with companies
         seeking great talent. Whether you're hiring or job-hunting, our goal is to make the process
@@ -83,11 +86,16 @@ const AboutPage: FC = () => {
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <Paper shadow="md" p="md" radius="md">
+          <Paper
+            shadow="md"
+            p="md"
+            radius="md"
+            className={styles.cardGradientSubtle}
+          >
             <Title order={4}>Our Mission</Title>
             <Text mt="sm">
-              We’re building the go-to platform for job seekers and employers to connect with
-              purpose. From transparent listings to smart matching tools, we’re reshaping the future
+              We're building the go-to platform for job seekers and employers to connect with
+              purpose. From transparent listings to smart matching tools, we're reshaping the future
               of work.
             </Text>
           </Paper>
@@ -152,6 +160,7 @@ const AboutPage: FC = () => {
       </form>
       `
     </Container>
+    </Box>
   );
 };
 
@@ -162,9 +171,15 @@ type StatProps = {
 };
 
 const Stat: FC<StatProps> = ({ icon, label, value }) => (
-  <Paper shadow="xs" p="md" radius="md" withBorder>
+  <Paper
+    shadow="xs"
+    p="md"
+    radius="md"
+    withBorder
+    className={styles.cardGradientOrange}
+  >
     <Group>
-      <ThemeIcon variant="light" size="lg" radius="xl">
+      <ThemeIcon variant="light" size="lg" radius="xl" color="rocketOrange">
         {icon}
       </ThemeIcon>
       <div>

@@ -2,7 +2,7 @@
     margin-inline: 5px;
     margin-block: 2px;
     border-radius: 5px;
-    
+
 
     @media (max-width: 600px){
         width: 60%;
@@ -16,4 +16,55 @@
 
 .card-hover:hover {
     background-color: rgb(238, 237, 237);
+}
+
+/* Rocket Theme Gradient Utilities */
+.gradient-fire {
+    background: linear-gradient(135deg, #FF6B35 0%, #E63946 100%);
+}
+
+.gradient-launch {
+    background: linear-gradient(135deg, #E63946 0%, #FF6B35 50%, #F77F00 100%);
+}
+
+.gradient-subtle {
+    background: linear-gradient(135deg, #FFF4E6 0%, #FFE8CC 100%);
+}
+
+.gradient-subtle-vertical {
+    background: linear-gradient(180deg, #FFF4E6 0%, #FFE8CC 100%);
+}
+
+.gradient-orange {
+    background: linear-gradient(135deg, #FFA94D 0%, #FF6B35 100%);
+}
+
+.gradient-red {
+    background: linear-gradient(135deg, #FF758D 0%, #E63946 100%);
+}
+
+.gradient-dark {
+    background: linear-gradient(135deg, #2C1810 0%, #1A0A05 100%);
+}
+
+/* Colored shadows for depth */
+.shadow-orange {
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+}
+
+.shadow-orange-lg {
+    box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+}
+
+.shadow-red {
+    box-shadow: 0 4px 12px rgba(230, 57, 70, 0.2);
+}
+
+/* Hover glow effects */
+.hover-glow-orange {
+    transition: box-shadow 0.3s ease;
+}
+
+.hover-glow-orange:hover {
+    box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
 }

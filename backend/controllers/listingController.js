@@ -16,7 +16,7 @@ async function getSearchedListings(req, res) {
   try {
     // remove search filters in case of "All" selection
     const normalizedSearchParams = filterService.normalizeSearch(req.query);
-    const result = await filterService.getSearchedListings(
+    const result = await filterService.getFilteredListings(
       normalizedSearchParams
     );
     res.json(result);
@@ -30,7 +30,7 @@ async function getBusinessListings(req, res) {
     const businessId = req.user._id;
     const normalizedSearchParams = filterService.normalizeSearch(req.query);
     
-    const result = await filterService.getSearchedListings(normalizedSearchParams, businessId);
+    const result = await filterService.getFilteredListings(normalizedSearchParams, businessId);
     handleSuccess(res, 200, result, 'Business listings fetched successfully');
   } catch (error) {
     handleError(res, error.status, error.message);

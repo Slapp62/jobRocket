@@ -36,7 +36,7 @@ export function useAuthInit() {
             localStorage.removeItem('rememberMe');
             return;  // Don't proceed with auto-login
           }
-          
+
           const id = decodedToken._id;
 
           axios.defaults.headers.common['x-auth-token'] = token;
@@ -54,16 +54,6 @@ export function useAuthInit() {
       }
     };
 
-    const handleBeforeUnload = () => {
-      const rememberMe = localStorage.getItem('rememberMe');
-
-      if (rememberMe !== 'true') {
-        localStorage.removeItem('token');
-        localStorage.removeItem('rememberMe');
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
     tokenHandler();
   }, [dispatch]);
 }

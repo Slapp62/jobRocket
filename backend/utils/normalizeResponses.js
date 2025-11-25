@@ -76,4 +76,22 @@ const normalizeListingResponse = (listing) => {
   return normalizedListingData;
 };
 
-module.exports = { normalizeUserResponse, normalizeListingResponse };
+const normalizeApplicationResponse = (application) => {
+  const normalizedApplicationData = {
+    _id: application._id,
+    listingId: application.listingId,
+    applicantId: application.applicantId,
+    firstName: application.firstName,
+    lastName: application.lastName,
+    email: application.email,
+    phone: application.phone,
+    resume: application.resume,
+    message: application.message,
+    status: application.status,
+    createdAt: application.createdAt,
+  };
+
+  return normalizedApplicationData;
+};
+
+module.exports = { normalizeUserResponse, normalizeListingResponse, normalizeApplicationResponse };

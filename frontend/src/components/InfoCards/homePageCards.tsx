@@ -1,4 +1,5 @@
 import { Stack, Text, Title } from '@mantine/core';
+import styles from '@/styles/gradients.module.css';
 
 type HomePageCardsProps = {
   title: string;
@@ -12,12 +13,12 @@ const HomePageCards = ({ title, description, height, width, fontSize }: HomePage
   return (
     <Stack
       c="red"
-      bg="white"
       h={height}
       w={width}
       p="lg"
       justify="center"
-      style={{ border: '1px solid #dee2e6', borderRadius: '8px' }}
+      className={styles.cardGradientSubtle}
+      style={{ borderRadius: '8px' }}
     >
       <Title order={2}>{title}</Title>
       <Text size={fontSize}>{description}</Text>

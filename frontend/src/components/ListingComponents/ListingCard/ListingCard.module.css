@@ -2,7 +2,8 @@
   transition: all 0.3s ease;
 }
 .hover:hover {
-  background-color: #e7e7e7;
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+  transform: translateY(-2px);
 }
 
 /* ListingCard.module.css or in your global styles */
@@ -12,5 +13,5 @@
 }
 
 .listing-card-wrapper.selected {
-  outline: 2px solid #228be6;
+  outline: 2px solid #FF6B35;
 }
