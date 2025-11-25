@@ -1,8 +1,7 @@
 import { IconPencil, IconTrash } from '@tabler/icons-react';
 import { ActionIcon, Group, Select, Stack, Table, Text, TextInput } from '@mantine/core';
-import { TBusinessDashboard, TListing } from '@/Types';
+import { TListing } from '@/Types';
 import INDUSTRIES from '@/data/industries';
-import { valid } from 'joi';
 
 interface DashListingsProps {
   listings: TListing[];
