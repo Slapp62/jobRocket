@@ -6,7 +6,6 @@ import ErrorFallback from '../components/ErrorCatching/ErrorFallback';
 import AdminControls from '../pages/AdminControls/AdminControls.pages';
 import { RegisterForm } from '../pages/AllUsers/Register.pages';
 import { CreateListing } from '../pages/BusinessUsers/CreateListing.pages';
-import { EditListing } from '../pages/BusinessUsers/EditListing.pages';
 import { EditProfile } from '../pages/EditProfilePage/EditProfile.pages';
 import { HomePage } from '../pages/HomePage/Home.pages';
 import { FavoriteListings } from '../pages/Jobseekers/Favorites.pages';
@@ -32,7 +31,6 @@ const router = createBrowserRouter(
         { path: 'register', element: <RegisterForm /> },
         { path: 'privacy-policy', element: <PrivacyPolicy /> },
         { path: 'terms-of-service', element: <TermsOfService /> },
-        { path: 'edit-listing/:id', element: <EditListing /> },
         {
           path: 'my-applications',
           element: (
