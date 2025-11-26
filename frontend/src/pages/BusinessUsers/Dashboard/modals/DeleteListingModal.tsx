@@ -1,5 +1,5 @@
 import { Modal, Group, Button, Text } from "@mantine/core";
-import { deleteListing } from "../dashboardApi";
+import { deleteListing } from "../utils/dashboardApi";
 import { useState } from "react";
 import { notifications } from "@mantine/notifications";
 
@@ -8,32 +8,11 @@ interface DeleteListingModalProps {
   onClose: () => void;
   listingId: string;
   listingTitle: string;
-  onSuccess: () => void;
+  handleDelete: (listingId: string) => Promise<void>;
 }
 
-export const DeleteListingModal = ({opened, onClose, listingId, listingTitle, onSuccess} : DeleteListingModalProps) => {
+export const DeleteListingModal = ({opened, onClose, handleDelete, listingId, listingTitle} : DeleteListingModalProps) => {
   const [isDeleting, setIsDeleting] = useState(false)
-
-  const handleDelete = async () => {
-    try {
-      setIsDeleting(true)
-      const response = await deleteListing(listingId)
-      notifications.show({
-        title: 'Success',
-        message: 'Listing successfully deleted.',
-        color: 'green',
-      });
-      onSuccess() 
-    } catch (error : any) {
-      notifications.show({
-        title: 'Error',
-        message: error.response?.data?.message || error.message,
-        color: 'red',
-      });
-    } finally {
-      setIsDeleting(false)
-    }
-  }
 
   return (
     <Modal opened={opened} onClose={onClose} title="Delete Listing" centered>
@@ -46,7 +25,7 @@ export const DeleteListingModal = ({opened, onClose, listingId, listingTitle, on
         <Button variant="outline" onClick={onClose}>
           Cancel
         </Button>
-        <Button color="red" onClick={handleDelete} loading={isDeleting}>
+        <Button color="red" onClick={() => {onClose(), handleDelete(listingId)}} loading={isDeleting}>
           Delete
         </Button>
       </Group>

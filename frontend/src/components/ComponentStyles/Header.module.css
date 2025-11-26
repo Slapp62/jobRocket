@@ -1,11 +1,11 @@
-.navbarTop{
+/* .navbarTop{
   position: sticky;
   top: 0;
   z-index: 999;
   transition: all 0.3s ease; 
-}
+} */
 
-.navbarScrolled{  
+/* .navbarScrolled{  
   background-color: rgb(255, 255, 255);
   opacity: 0.95;
   top: 10px;
@@ -14,7 +14,7 @@
   border-radius: 15px;  
   transition: all 0.3s ease;  
   overflow: hidden;
-}
+} */
 
 .header {
     padding-block: 5px;

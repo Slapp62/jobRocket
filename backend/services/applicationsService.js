@@ -1,5 +1,6 @@
 const Applications = require('../models/Applications.js');
 const Listings = require('../models/Listings.js');
+const { throwError } = require('../utils/functionHandlers.js');
 const { normalizeApplicationResponse } = require('../utils/normalizeResponses');
 
 async function submitApplication(listingId, applicantId, applicationData) {
@@ -77,15 +78,11 @@ async function getListingApplications(listingId, requesterId) {
   // Verify requester owns this listing
   const listing = await Listings.findById(listingId);
   if (!listing) {
-    const error = new Error('Listing not found');
-    error.status = 404;
-    throw error;
+    throwError(404, 'Listing not found');
   }
 
   if (listing.businessId.toString() !== requesterId) {
-    const error = new Error('Not authorized to view these applications');
-    error.status = 403;
-    throw error;
+    throwError(403, 'Not authorized to view these applications');
   }
 
   const applications = await Applications.find({ listingId })
@@ -103,16 +100,12 @@ async function updateApplicationStatus(applicationId, newStatus, requesterId) {
     await Applications.findById(applicationId).populate('listingId');
 
   if (!application) {
-    const error = new Error('Application not found');
-    error.status = 404;
-    throw error;
+    throwError(404, 'Application not found');
   }
 
   // Verify requester owns the listing
   if (application.listingId.businessId.toString() !== requesterId) {
-    const error = new Error('Not authorized');
-    error.status = 403;
-    throw error;
+    throwError(403, 'Not authorized');
   }
 
   application.status = newStatus;
@@ -164,6 +157,23 @@ async function updateApplicationData(
   return application;
 }
 
+
+async function deleteApplication(applicationId, listingId, requesterId) {
+  const application = await Applications.findById(applicationId);
+  if (!application) {
+    throwError(404, 'Application not found');
+  }
+
+  const listing = await Listings.find({listingId});
+  if (listing.businessId !== requesterId) {
+    throwError(403, 'Not authorized to delete this application');
+  }
+
+  await Applications.findByIdAndUpdate(applicationId, { hiddenFromBusiness: true });
+  return { deleted: true, id: applicationId };
+}
+
+
 module.exports = {
   submitApplication,
   getDashboardMetrics,
@@ -171,4 +181,5 @@ module.exports = {
   getListingApplications,
   updateApplicationStatus,
   updateApplicationData,
+  deleteApplication,
 };

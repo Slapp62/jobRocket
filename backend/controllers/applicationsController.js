@@ -99,6 +99,18 @@ async function updateApplicationData(req, res) {
   }
 }
 
+async function deleteApplication(req, res) {
+  try {
+    const { id } = req.params;
+    const requesterId = req.user._id;
+
+    const result = await applicationsService.deleteApplication(id, requesterId);
+    handleSuccess(res, 200, result, 'Application deleted successfully');
+  } catch (error) {
+    handleError(res, error.status || 500, error.message);
+  }
+}
+
 module.exports = {
   submitApplication,
   getDashboardMetrics,
@@ -106,5 +118,6 @@ module.exports = {
   getListingApplications,
   updateApplicationStatus,
   updateApplicationData,
-  getBusinessApplications
+  getBusinessApplications,
+  deleteApplication
 };

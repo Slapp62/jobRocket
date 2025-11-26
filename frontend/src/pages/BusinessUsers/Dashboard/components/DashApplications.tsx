@@ -8,6 +8,9 @@ import {
 } from '@tabler/icons-react';
 import { ActionIcon, Anchor, Center, Group, Select, Stack, Table, Text, TextInput, Title } from '@mantine/core';
 import { TApplication } from '@/Types';
+import { useDisclosure } from '@mantine/hooks';
+import { useState } from 'react';
+import { DeleteApplicationModal } from '../modals/DeleteApplicationModal';
 
 interface DashApplicationsProps {
   dashApplications?: TApplication[];
@@ -30,13 +33,23 @@ interface DashApplicationsProps {
   updateApplicationStatus: (applicationId: string, newStatus: string | null) => void;
   newStatus: string | null;
   setNewStatus: (newStatus: string | null) => void;
+  handleApplicationDelete: (applicationId: string) => Promise<void>;
 }
 
 export const DashApplications = (
-  { dashApplications, searchText, setSearchText, status, setStatus, listingId, setListingId, dateFrom, setDateFrom, dateTo, setDateTo, sortOption, setSortOption, page, setPage, onStatusChange, listingOptions, updateApplicationStatus, newStatus, setNewStatus }: DashApplicationsProps) => {
+  { dashApplications, searchText, setSearchText, status, setStatus, listingId, setListingId, dateFrom, setDateFrom, dateTo, setDateTo, sortOption, setSortOption, page, setPage, onStatusChange, listingOptions, updateApplicationStatus, newStatus, setNewStatus, handleApplicationDelete }: DashApplicationsProps) => {
 
+  const [deleteOpened, { open: openDelete, close: closeDelete }] = useDisclosure(false);
+  const [applicationDelete, setApplicationDelete] = useState<{id: string, title: string} | null>(null);
+  
+  const handleDeleteApplication = (id: string, title: string) => {
+    setApplicationDelete({ id, title });
+    openDelete();
+  };
+    
   return (
-    <Stack>
+    <>
+      <Stack>
       <Group justify='center' align='center'>
         <Select 
           label="Listing"
@@ -172,16 +185,8 @@ export const DashApplications = (
                   <ActionIcon
                     size={30}
                     variant="outline"
-                    color="yellow"
-                    onClick={() => {}}
-                  >
-                    <IconPencil size={25} stroke={1.5} />
-                  </ActionIcon>
-                  <ActionIcon
-                    size={30}
-                    variant="outline"
                     color="red"
-                    onClick={()=>{}}
+                    onClick={()=>{handleDeleteApplication(app._id, `${typeof app.listingId === 'object' && app.listingId.jobTitle}`)}}
                   >
                     <IconTrash size={25} stroke={1.5} />
                   </ActionIcon>
@@ -192,6 +197,15 @@ export const DashApplications = (
         </Table.Tbody>
       </Table>
     </Table.ScrollContainer>}
-    </Stack>
+      </Stack>
+
+      <DeleteApplicationModal 
+        opened={deleteOpened} 
+        onClose={closeDelete} 
+        applicationId={applicationDelete?.id || ""} 
+        applicationTitle={applicationDelete?.title || ""} 
+        handleDelete={handleApplicationDelete} 
+      />
+    </>
   );
 };

@@ -10,6 +10,7 @@ const {
   updateApplicationData,
   getDashboardMetrics,
   getBusinessApplications,
+  deleteApplication,
 } = require('../controllers/applicationsController');
 
 router.post('/:listingId', optionalAuthenticateUser, applicationsLimiter, applicationValidation, submitApplication);
@@ -34,5 +35,7 @@ router.put(
   applicationValidation,
   updateApplicationData
 );
+
+router.delete('/:id', authenticateUser, deleteApplication);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TListing } from '@/Types';
-import { fetchBusinessListings } from './dashboardApi';
+import { fetchBusinessListings } from '../utils/dashboardApi';
 import { notifications } from '@mantine/notifications';
 
 export const useDashboardListings = () => {
@@ -15,28 +15,33 @@ export const useDashboardListings = () => {
   const [sortOption, setSortOption] = useState<string | null>('date-created-new');
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    const getBusinessListings = async () => {
-      setIsLoading(true)
-      try {
-        const data = await fetchBusinessListings({
-          searchWord: searchText || undefined,
-          industry,
-          sortOption,
-          page,
-          limit: 20
-        }) 
-        setListings(data.listings);
-      } catch (error : any) {
-        notifications.show({
-          title: 'Error',
-          message: error.response?.data?.message || 'Failed to load listings',
-          color: 'red',
-        });
-      } finally {
-        setIsLoading(false)
-      }
+  const getBusinessListings = async () => {
+    setIsLoading(true)
+    try {
+      const data = await fetchBusinessListings({
+        searchWord: searchText || undefined,
+        industry,
+        sortOption,
+        page,
+        limit: 20
+      }) 
+      setListings(data.listings);
+    } catch (error : any) {
+      notifications.show({
+        title: 'Error',
+        message: error.response?.data?.message || 'Failed to load listings',
+        color: 'red',
+      });
+    } finally {
+      setIsLoading(false)
     }
+  }
+  
+  const removeListingById = (listingId : string)=> {
+    return listings.filter((listing) => listing._id !== listingId)
+  }
+
+  useEffect(() => { 
     getBusinessListings();
   }, [searchText, sortOption, industry, page])
 
@@ -52,10 +57,9 @@ export const useDashboardListings = () => {
     : activeFilteredListings.sort((a,b) => (b.likes?.length || 0) - (a.likes?.length || 0))
     : activeFilteredListings
 
-  // TODO: Pagination
-
   return {
     listings: sortFavorites,
+    setListings,
     isLoading,
     searchText,
     industry,
@@ -67,5 +71,7 @@ export const useDashboardListings = () => {
     setActiveFilter,
     setSortOption,
     setPage,
+    refetchListings: getBusinessListings ,
+    removeListingById
   };
 };

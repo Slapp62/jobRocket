@@ -1,10 +1,11 @@
-import { IconPencil, IconTrash } from '@tabler/icons-react';
+import { IconCircle, IconCircleFilled, IconPencil, IconTrash } from '@tabler/icons-react';
 import { ActionIcon, Group, Select, Stack, Table, Text, TextInput } from '@mantine/core';
 import { TListing } from '@/Types';
 import INDUSTRIES from '@/data/industries';
-import { DeleteListingModal } from './Actions/DeleteListingModal';
+import { DeleteListingModal } from '../modals/DeleteListingModal';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
+import { EditListingModal } from '../modals/EditListingModal';
 
 interface DashListingsProps {
   listings: TListing[];
@@ -19,33 +20,39 @@ interface DashListingsProps {
   setActiveFilter: (activeFilter: string | null) => void;
   page: number;
   setPage: (page: number) => void;
+  handleEdit: (listingId: string) => Promise<void>;
+  handleDelete: (listingId: string) => Promise<void>;
 }
 
-export const DashListings = ({ listings, isLoading, searchText, setSearchText, industry, setIndustry, sortOption, setSortOption, activeFilter, setActiveFilter, page, setPage }: DashListingsProps) => {
+export const DashListings = ({ listings, handleDelete, handleEdit, searchText, setSearchText, industry, setIndustry, sortOption, setSortOption, activeFilter, setActiveFilter, page, setPage }: DashListingsProps) => {
   const [deleteOpened, { open: openDelete, close: closeDelete }] = useDisclosure(false);
   const [listingDelete, setListingDelete] = useState<{id: string, title: string} | null>(null);
+  const [editOpened, { open: openEdit, close: closeEdit }] = useDisclosure(false);
+  const [listingEdit, setListingEdit] = useState<TListing>();
 
-  const handleDeleteListing = (id: string, title: string) => {
-    console.log('Deleting listing:', id, title);
+  const clickDeleteListing = (id: string, title: string) => {
     setListingDelete({ id, title });
     openDelete();
   };
-
-  const handleDeleteSuccess = () => {
-    closeDelete();
-    // Refresh the listings or update the state as needed
+  const clickEditListing = (listing: TListing) => {
+    setListingEdit(listing);
+    openEdit();
   };
+
+  
 
   return (
     <>
       <Stack>
         <Group justify='center'>
           <TextInput
+            label="Search listings"
             placeholder="Search listings"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
           <Select
+            label="Sort by"
             placeholder="Select sort option"
             value={sortOption}
             onChange={(value) => {setSortOption(value)}}
@@ -60,6 +67,7 @@ export const DashListings = ({ listings, isLoading, searchText, setSearchText, i
             ]}
           />
           <Select
+            label="Filter by status"
             placeholder="Select active filter"
             value={activeFilter}
             onChange={(value) => {setActiveFilter(value)}}
@@ -70,6 +78,7 @@ export const DashListings = ({ listings, isLoading, searchText, setSearchText, i
             ]}
           />
           <Select
+            label="Filter by industry"
             placeholder="Select industry"
             value={industry}
             onChange={(value) => {setIndustry(value)}}
@@ -129,7 +138,7 @@ export const DashListings = ({ listings, isLoading, searchText, setSearchText, i
                   </Table.Td>
 
                   <Table.Td>
-                    <Text fz="sm">{listing.isActive}</Text>
+                    {listing.isActive === true ? <IconCircleFilled size={16} color="green" /> : <IconCircleFilled size={16} color="red" />}
                   </Table.Td>
                   
                   <Table.Td>
@@ -141,7 +150,7 @@ export const DashListings = ({ listings, isLoading, searchText, setSearchText, i
                       size={30}
                       variant="outline"
                       color="yellow"
-                      onClick={() => {}}
+                      onClick={() => clickEditListing(listing)}
                     >
                       <IconPencil size={25} stroke={1.5} />
                     </ActionIcon>
@@ -152,7 +161,7 @@ export const DashListings = ({ listings, isLoading, searchText, setSearchText, i
                     size={30}
                     variant="outline"
                     color="red"
-                    onClick={() => handleDeleteListing(listing._id, listing.jobTitle)}
+                    onClick={() => clickDeleteListing(listing._id, listing.jobTitle)}
                   >
                     <IconTrash size={25} stroke={1.5} />
                   </ActionIcon>
@@ -164,12 +173,19 @@ export const DashListings = ({ listings, isLoading, searchText, setSearchText, i
         </Table.ScrollContainer>
       </Stack>
 
+      <EditListingModal 
+        opened={editOpened} 
+        onClose={closeEdit} 
+        listing={listingEdit} 
+        //handleEdit={handleEdit} 
+      />
+
       <DeleteListingModal 
         opened={deleteOpened} 
         onClose={closeDelete} 
         listingId={listingDelete?.id || ""} 
         listingTitle={listingDelete?.title || ""} 
-        onSuccess={handleDeleteSuccess} 
+        handleDelete={handleDelete} 
       />
     </>
   );

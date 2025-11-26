@@ -9,27 +9,36 @@ import {
   Title,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import styles from '@/styles/gradients.module.css';
 import {
+  deleteApplication,
+  deleteListing,
+  fetchBusinessListings,
   fetchDashboardMetrics,
   updateApplicationStatus,
-} from '@/pages/BusinessUsers/Dashboard/dashboardApi';
+} from '@/pages/BusinessUsers/Dashboard/utils/dashboardApi';
 import { PageMeta } from '@/SEO/PageMeta';
 import {
   TApplication,
   TDashboardMetrics,
 } from '@/Types';
-import { DashApplications } from './DashApplications';
-import { DashListings } from './DashListings';
-import { DashMetrics } from './DashMetrics';
-import { useDashboardListings } from './useDashboardListings'
-import { useDashboardApplications } from './useDashboardApplications'
+import { DashApplications } from './components/DashApplications';
+import { DashListings } from './components/DashListings';
+import { DashMetrics } from './components/DashMetrics';
+import { useDashboardListings } from './hooks/useDashboardListings'
+import { useDashboardApplications } from './hooks/useDashboardApplications'
+import { useDashboardMetrics } from './hooks/useDashboardMetrics';
 
 export const Dashboard = () => {
-  const [dashboardMetrics, setDashboardMetrics] = useState<TDashboardMetrics>();
   const [isLoading, setIsLoading] = useState(false);
   const {
+    dashboardMetrics,
+    setDashboardMetrics,
+    getDashboardMetrics
+  } = useDashboardMetrics();
+
+  const {
     listings,
+    setListings,
     isLoading: listingsLoading,
     searchText,
     setSearchText,
@@ -40,7 +49,8 @@ export const Dashboard = () => {
     activeFilter,
     setActiveFilter,
     page,
-    setPage
+    setPage,
+    removeListingById
   } = useDashboardListings();
 
   const {
@@ -62,7 +72,8 @@ export const Dashboard = () => {
     setPage: setAppPage,
     newStatus,
     setNewStatus,
-    setApplications
+    setApplications,
+    removeApplicationById
   } = useDashboardApplications();
   
   const listingOptions = [
@@ -73,24 +84,83 @@ export const Dashboard = () => {
     })) ?? [])
   ];
 
-  useEffect(() => {
-    const getDashboardMetrics = async () => {
-      try {
-        setIsLoading(true);
-        const data = await fetchDashboardMetrics();
-        setDashboardMetrics(data); // Keep this for now since metrics are in here
-      } catch (error: any) {
-        notifications.show({
-          title: 'Error',
-          message: error.response?.data?.message || error.message,
-          color: 'red',
-        });
-      } finally {
-        setIsLoading(false);
+  const handleEditListing = async () => {
+    
+  };
+
+  const handleListingDelete = async (listingId: string) => {
+    if (!listingId) return;
+    const newListings = removeListingById(listingId);
+    setListings(newListings);
+
+    try {
+      await deleteListing(listingId);
+      // Refresh dashboard metrics to reflect the change
+      notifications.show({
+        title: 'Success',
+        message: 'Listing deleted successfully',
+        color: 'green'
+      });
+    } catch (error : any) {
+      notifications.show({
+        title: 'Error',
+        message: error.response?.data?.message || 'Failed to delete listing',
+        color: 'red'
+      });
+    }
+
+    // update listings metrics
+    //TODO: add option to delete associated applications
+    setDashboardMetrics((prev) => {
+      if (!prev) return prev;
+  
+      return {
+        ...prev,
+      metrics: {              // Update the nested metrics object
+        ...prev.metrics,      // Keep all other metrics
+        totalListings: newListings.length,  // Update just this one
       }
-    };
-    getDashboardMetrics();
-  }, []);
+      };
+    });  
+  };
+
+  const handleApplicationDelete = async (applicationId: string) => {
+    if (!applicationId) return;
+    const newApplications = removeApplicationById(applicationId);
+    setApplications(newApplications);
+
+    try {
+      await deleteApplication(applicationId);
+      // Refresh dashboard metrics to reflect the change
+      notifications.show({
+        title: 'Success',
+        message: 'Application deleted successfully',
+        color: 'green'
+      });
+    } catch (error : any) {
+      notifications.show({
+        title: 'Error',
+        message: error.response?.data?.message || 'Failed to delete application',
+        color: 'red'
+      });
+    }
+
+    // update applications metrics
+    setDashboardMetrics((prev) => {
+      if (!prev) return prev;
+  
+      return {
+        ...prev,
+        metrics: {
+          ...prev.metrics,
+          totalApplications: newApplications.length,
+          pendingApplications: newApplications.filter(app => app.status === 'pending').length,
+          reviewedApplications: newApplications.filter(app => app.status === 'reviewed').length,
+          rejectedApplications: newApplications.filter(app => app.status === 'rejected').length
+        }
+      }
+    });  
+  };
 
   const handleStatusChange = async (applicationId: string, newStatus: string | null) => {
     if (!newStatus) return;
@@ -127,8 +197,11 @@ export const Dashboard = () => {
   
       return {
         ...prev,
-       updatedMetrics
-      };
+        metrics: {
+          ...prev.metrics,
+          updatedMetrics
+        }
+      }
     });   
   };
 
@@ -140,14 +213,13 @@ export const Dashboard = () => {
         keywords="analytics, dashboard, job applications, manage job applications, manage job listings"
       />
 
-      <div className={styles.pageBackgroundAlt}>
-        {isLoading ? (
-          <Center py={50} h="calc(100vh - 200px)">
-            <Loader size="xl" variant="oval" />
-          </Center>
-        ) : (
-          <Container size="xl" py="xl" w="85%">
-            <Stack gap="xl">
+      {isLoading ? (
+        <Center py={50} h="calc(100vh - 200px)">
+          <Loader size="xl" variant="oval" />
+        </Center>
+      ) : (
+        <Container size="xl" py="xl" w="85%">
+          <Stack gap="xl">
             {/* Header */}
             <div>
               <Title order={1} mb="xs">
@@ -188,6 +260,7 @@ export const Dashboard = () => {
                   updateApplicationStatus={handleStatusChange}
                   newStatus={newStatus}
                   setNewStatus={setNewStatus}
+                  handleApplicationDelete={handleApplicationDelete}
                 />
               </Tabs.Panel>
 
@@ -205,13 +278,14 @@ export const Dashboard = () => {
                   setPage={setPage}
                   industry={industry}
                   setIndustry={setIndustry}
+                  handleDelete={handleListingDelete}
+                  handleEdit={handleEditListing}
                 />
               </Tabs.Panel>
             </Tabs>
           </Stack>
         </Container>
       )}
-      </div>
     </>
   );
 };

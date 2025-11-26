@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TApplication } from '@/Types';
-import { fetchBusinessApplications } from './dashboardApi';
+import { fetchBusinessApplications } from '../utils/dashboardApi';
 import { notifications } from '@mantine/notifications';
 import axios from 'axios';
 
@@ -17,8 +17,11 @@ export const useDashboardApplications = () => {
   const [dateTo, setDateTo] = useState<string | null>('')
   const [sortOption, setSortOption] = useState<string | null>('date-newest');
   const [page, setPage] = useState(1);
-
   const [newStatus, setNewStatus] = useState<string | null>(null);
+
+  const removeApplicationById = (applicationId : string) => {
+    return applications.filter((app) => app._id !== applicationId)
+  }
 
   useEffect(() => {
     const getBusinessApplications = async () => {
@@ -67,6 +70,7 @@ export const useDashboardApplications = () => {
     setPage,
     newStatus,
     setNewStatus,
-    setApplications
+    setApplications,
+    removeApplicationById 
   };
 };

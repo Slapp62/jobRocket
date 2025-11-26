@@ -64,6 +64,10 @@ const applicationSchema = new Schema({
     enum: ['pending', 'reviewed', 'rejected'],
     default: 'pending',
   },
+  hiddenFromBusiness:{
+    type: Boolean,
+    default: false
+  },
   createdAt: {
     type: Date,
     default: Date.now,

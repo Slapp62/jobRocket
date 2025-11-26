@@ -123,7 +123,10 @@ async function getFilteredApplications(businessId, filterParams) {
   const listingIds = listings.map(listing => listing._id);
 
   // Start query for applications with all applications for the listings
-  const query = { listingId: { $in: listingIds } };
+  const query = { 
+    listingId: { $in: listingIds },
+    hiddenFromBusiness: false
+  };
 
   if (filterParams.status && filterParams.status !== 'all') {
     query.status = filterParams.status;

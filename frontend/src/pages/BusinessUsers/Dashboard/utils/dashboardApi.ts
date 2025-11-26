@@ -94,3 +94,16 @@ export const deleteListing = async (listingId: string) => {
 
   return response.data;
 };
+
+export const deleteApplication = async (applicationId: string) => {
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  const response = await axios.delete(
+    `${API_BASE_URL}/api/applications/${applicationId}`,
+    {
+      headers: { 'x-auth-token': token },
+    }
+  );
+
+  return response.data;
+};
+
