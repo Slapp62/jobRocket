@@ -129,6 +129,13 @@ export function ListingDetailsPanel({
                 {listing.industry}
               </Badge>
             </Group>
+
+            <Group>
+              <Button variant="gradient" gradient={{deg: 180, from: 'rocketOrange', to: 'rocketRed' }} onClick={open} mt="md" w="15%">
+                Apply
+              </Button>
+              <ApplicationModal opened={opened} onClose={close} listingID={listing._id} />
+            </Group>
           </Box>
 
           <Divider />
@@ -217,10 +224,6 @@ export function ListingDetailsPanel({
             </Text>
           )}
 
-          <Button variant="outline" color="rocketOrange" onClick={open}>
-            Apply
-          </Button>
-          <ApplicationModal opened={opened} onClose={close} listingID={listing._id} />
         </Stack>
       </Card>
     </motion.div>

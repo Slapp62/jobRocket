@@ -30,7 +30,7 @@
     padding-left: var(--mantine-spacing-md);
     padding-right: var(--mantine-spacing-md);
     text-decoration: none;
-    color: light-dark(var(--mantine-color-gray-9), var(--mantine-color-dark-1));
+    color: white;
     font-weight: 500;
     font-size: var(--mantine-font-size-sm);
     height: 36px;

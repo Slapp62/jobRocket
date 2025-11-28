@@ -14,7 +14,7 @@ import HomePageCards from '@/components/InfoCards/homePageCards';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 import styles from './HomePage.module.css';
-import bgStyles from '@/styles/bg-colors.module.css';
+import bgStyles from '@/styles/bgStyles.module.css';
 
 export function HomePage() {
   const isMobile = useMediaQuery('(max-width: 700px)');
@@ -125,8 +125,8 @@ export function HomePage() {
           <Button
             mx="auto"
             variant="filled"
-            color="white"
-            c="black"
+            color="yellow"
+            c="white"
             size="md"
             w="20%"
             fz={20}

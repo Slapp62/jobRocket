@@ -22,7 +22,7 @@ import { AvatarIcon } from './Avatar';
 import { LightDarkToggle } from './LightDarkToggle';
 import { Logo } from './Logo';
 import classes from '../ComponentStyles/Header.module.css';
-import bgStyles from '@/styles/bg-colors.module.css';
+import bgStyles from '@/styles/bgStyles.module.css';
 
 export function Navbar() {
   const user = useSelector((state: RootState) => state.userSlice.user);
@@ -104,12 +104,12 @@ export function Navbar() {
           <Group>
             <Group visibleFrom="xs">
               {!loggedIn && (
-                <Button component={Link} to="/login" variant="outline" color="rocketOrange">
+                <Button component={Link} to="/login" variant="outline" color="yellow">
                   Login
                 </Button>
               )}
               {!loggedIn && (
-                <Button component={Link} to="/register" color="rocketOrange" variant="filled">
+                <Button component={Link} to="/register" color="yellow" variant="filled">
                   Register
                 </Button>
               )}
@@ -206,7 +206,7 @@ export function Navbar() {
             )}
 
             {!loggedIn && (
-              <Button w="95%" color="rocketOrange" component={Link} to="/register" onClick={closeDrawer}>
+              <Button w="95%" color="yellow" component={Link} to="/register" onClick={closeDrawer}>
                 Register
               </Button>
             )}
