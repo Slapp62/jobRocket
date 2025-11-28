@@ -9,6 +9,7 @@ import { useScrollToTop } from '@/hooks/useScrollToTop.ts';
 import { RootState } from '@/store/store.ts';
 import { Footer } from '../components/Navigation/Footer.tsx';
 import { Navbar } from '../components/Navigation/Header.tsx';
+import styles from '../styles/gradients.module.css';
 
 export function Layout() {
   const isMobile = useMediaQuery('(max-width: 700px)');

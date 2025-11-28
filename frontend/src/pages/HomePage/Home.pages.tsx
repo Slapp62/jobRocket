@@ -14,6 +14,7 @@ import HomePageCards from '@/components/InfoCards/homePageCards';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 import styles from './HomePage.module.css';
+import bgStyles from '@/styles/bg-colors.module.css';
 
 export function HomePage() {
   const isMobile = useMediaQuery('(max-width: 700px)');
@@ -65,19 +66,14 @@ export function HomePage() {
         keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
       />
 
-      <Box mb={-50} h="85%" py={100}>
+      <Box h="85%">
         <Stack
-          w="70%"
+          w="100%"
+          h="100%"
           gap={20}
           px={50}
           py={30}
-          mx="auto"
-          style={{
-            borderRadius: '10px',
-            background: 'linear-gradient(to bottom,rgba(240, 115, 12, 0.88),rgb(199, 10, 10))',
-            border: '1px solid rgba(255, 255, 255, 1)',
-            boxShadow: '0px 5px 100px rgba(0, 0, 0, 0.61)',
-          }}
+          className={bgStyles.primaryBg}
         >
           {/* Conditional Welcome Message */}
           {!user && (
@@ -92,26 +88,16 @@ export function HomePage() {
           )}
 
           {/* Search & Sort */}
-          <Flex gap={10} align="center" direction={isMobile ? 'column' : 'row'}>
+          <Flex gap={10} w="60%" align="center" justify="center" mx="auto" direction={isMobile ? 'column' : 'row'}>
             {/* Search */}
             <SearchText
               value={searchObj.searchWord}
               onChange={(val) => setSearchObj((prev) => ({ ...prev, searchWord: val }))}
-              width={isMobile ? '100%' : '50%'}
+              width={isMobile ? '100%' : '25%'}
             />
-
-            <SearchSort
-              width={isMobile ? '100%' : '50%'}
-              value={searchObj.sortOption}
-              onChange={(value) => {
-                setSearchObj((prev) => ({ ...prev, sortOption: value }));
-              }}
-            />
-          </Flex>
-          <Flex gap={10} align="center" direction={isMobile ? 'column' : 'row'}>
             {/* Sort */}
             <SearchRegion
-              width={isMobile ? '100%' : '50%'}
+              width={isMobile ? '100%' : '25%'}
               value={searchObj.region}
               onChange={(value) => {
                 setSearchObj((prev) => ({ ...prev, region: value }));
@@ -120,7 +106,7 @@ export function HomePage() {
 
             {/* Sort */}
             <SearchCity
-              width={isMobile ? '100%' : '50%'}
+              width={isMobile ? '100%' : '25%'}
               value={searchObj.city}
               onChange={(value) => {
                 setSearchObj((prev) => ({ ...prev, city: value }));
@@ -128,18 +114,10 @@ export function HomePage() {
             />
 
             <SearchIndustry
-              width={isMobile ? '100%' : '50%'}
+              width={isMobile ? '100%' : '25%'}
               value={searchObj.industry}
               onChange={(value) => {
                 setSearchObj((prev) => ({ ...prev, industry: value }));
-              }}
-            />
-
-            <SearchWorkArrangement
-              width={isMobile ? '100%' : '50%'}
-              value={searchObj.workArrangement}
-              onChange={(value) => {
-                setSearchObj((prev) => ({ ...prev, workArrangement: value }));
               }}
             />
           </Flex>
@@ -150,7 +128,7 @@ export function HomePage() {
             color="white"
             c="black"
             size="md"
-            w="40%"
+            w="20%"
             fz={20}
             rightSection={<IconSearch />}
             onClick={searchListing}
@@ -194,25 +172,22 @@ export function HomePage() {
           align="center"
           mt="100px"
           p="50px"
-          style={{
-            background: 'linear-gradient(135deg, #FF6B35 0%, #E63946 100%)'
-          }}
         >
-          <Flex justify="start" align="center" w="80%">
+          <Flex justify="start" align="center" w="80%" style={{border: '1px solid orange', borderRadius: '10px', padding: '10px', height: '400px'}}>
             <HomePageCards
               title="The Best Job Board for English Speakers in Israel"
               description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
-              height="200px"
+              height="100%"
               width="500px"
               fontSize=""
             />
           </Flex>
 
-          <Flex justify="end" align="center" w="80%">
+          <Flex justify="end" align="center" w="80%" style={{border: '1px solid orange', borderRadius: '10px', padding: '10px', height: '400px'}}>
             <HomePageCards
               title="Create a Job Seeker or Employer Account"
               description="As a job seeker, you can search for jobs, apply to them, and manage your applications. As an employer, you can create job listings and manage your company's listings."
-              height="200px"
+              height="100%"
               width="500px"
               fontSize=""
             />

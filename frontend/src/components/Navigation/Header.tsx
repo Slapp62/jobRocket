@@ -22,6 +22,7 @@ import { AvatarIcon } from './Avatar';
 import { LightDarkToggle } from './LightDarkToggle';
 import { Logo } from './Logo';
 import classes from '../ComponentStyles/Header.module.css';
+import bgStyles from '@/styles/bg-colors.module.css';
 
 export function Navbar() {
   const user = useSelector((state: RootState) => state.userSlice.user);
@@ -57,13 +58,8 @@ export function Navbar() {
   }, []);
 
   return (
-    <Box pos="sticky" className={clsx(classes.navbarTop, { [classes.navbarScrolled]: scrolled })}>
-      <header
-        className={clsx(
-          colorScheme === 'light' ? classes.navbarLight : classes.navbarDark,
-          classes.header
-        )}
-      >
+    <Box className={bgStyles.primaryBg} pos="sticky">
+      <header>
         <Flex justify="space-between" align="center" h="100%" px={10}>
           <Logo />
 
