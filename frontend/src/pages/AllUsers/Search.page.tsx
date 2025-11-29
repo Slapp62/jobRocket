@@ -1,5 +1,5 @@
 import { AnimatePresence } from 'framer-motion';
-import { Box, Flex, Skeleton, Stack } from '@mantine/core';
+import { Box, Flex, Loader, Skeleton, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { FilterBar } from '@/components/Filters/FilterBar';
 import DesktopDefaultView from '@/components/ListingComponents/Views/DesktopDefaultView';
@@ -8,6 +8,7 @@ import MobileView from '@/components/ListingComponents/Views/MobileView';
 import { PageMeta } from '@/SEO/PageMeta';
 import { getParamsInfo } from '@/utils/getParamsInfo';
 import styles from '@/styles/gradients.module.css';
+import ListingCardSkeleton from '@/components/ListingComponents/ListingCard/ListingCardSkeleton';
 
 export function SearchPage() {
   const isMobile = useMediaQuery('(max-width: 500px)');
@@ -56,11 +57,10 @@ export function SearchPage() {
                 p="sm"
                 m="sm"
                 key={i}
-                style={{ width: '300px', border: '1px solid #dee2e6', borderRadius: '8px' }}
+                w={300}
+                h={300}
               >
-                <Skeleton height={30} radius="sm" w="80%" />
-                <Skeleton height={10} radius="sm" />
-                <Skeleton height={50} radius="sm" />
+                <ListingCardSkeleton width={300} height={300} />
               </Stack>
             ))}
           </Flex>

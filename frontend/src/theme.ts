@@ -1,6 +1,11 @@
 // theme.ts - Rocket Theme Configuration
-import { createTheme, MantineColorsTuple } from '@mantine/core';
-
+import { 
+  createTheme, 
+  MantineColorsTuple,
+  defaultVariantColorsResolver,
+  VariantColorsResolver,
+  parseThemeColor,
+} from '@mantine/core';
 // Custom Rocket Orange color palette
 const rocketOrange: MantineColorsTuple = [
   '#FFF4E6', // 0 - Lightest (backgrounds, subtle highlights)
@@ -29,12 +34,42 @@ const rocketRed: MantineColorsTuple = [
   '#B6061F', // 9 - Darkest
 ];
 
+// Custom Rocket Yellow palette
+const rocketYellow: MantineColorsTuple = [
+  '#FFFEF0', // 0 - Lightest (subtle backgrounds)
+  '#FFFACD', // 1 - Very light (hover states) - lemon chiffon
+  '#FFF59D', // 2 - Light (disabled states)
+  '#FFF176', // 3 - Light-medium
+  '#FFEE58', // 4 - Medium-light
+  '#FFEB3B', // 5 - Medium (default shade) - true yellow
+  '#FDD835', // 6 - Rocket Yellow (bright, energetic) - vivid yellow
+  '#f9d925ff', // 7 - Golden yellow
+  '#f5c917ff', // 8 - Dark golden
+  '#e6b000ff', // 9 - Darkest (text on light backgrounds)
+];
+
 export const theme = createTheme({
   primaryColor: 'rocketOrange',
 
   colors: {
     rocketOrange,
     rocketRed,
+    rocketYellow,
+  },
+
+  variantColorResolver: (input) => {
+    const defaultResolvedColors = defaultVariantColorsResolver(input);
+    
+    if (input.variant === 'rocketRedFilled') {
+      return {
+        background: input.theme.colors.rocketRed[8],
+        hover: input.theme.colors.rocketRed[9],
+        color: '#ffffffff',
+        border: 'none',
+      };
+    }
+
+    return defaultResolvedColors;
   },
 
   // Typography - Space-inspired, modern and bold
@@ -50,10 +85,10 @@ export const theme = createTheme({
   // Component defaults
   components: {
     Button: {
-      defaultProps: {
-        radius: 'md',
-      },
+    defaultProps: {
+      radius: 'md',
     },
+  },
     Card: {
       defaultProps: {
         radius: 'md',

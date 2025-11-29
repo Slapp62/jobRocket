@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { IconCards, IconSearch } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Button, Flex, Stack, Text, Title } from '@mantine/core';
+import { Box, Button, Flex, Stack, Text, Title, Image } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { SearchCity } from '@/components/Filters/SearchCity';
 import { SearchIndustry } from '@/components/Filters/SearchIndustry';
@@ -71,124 +71,119 @@ export function HomePage() {
           w="100%"
           h="100%"
           gap={20}
-          px={50}
-          py={30}
+          py={20}
           className={bgStyles.primaryBg}
         >
-          {/* Conditional Welcome Message */}
-          {!user && (
-            <Title ta="center" className={styles.lightDark}>
-              Find your next career!
-            </Title>
-          )}
-          {user && (
-            <Text ta="center" className={styles.lightDark} fw="bold" fz={30}>
-              Welcome Back
-            </Text>
-          )}
+          <Stack w="60%" align="start"  mx="auto" >
+            <Box>
+              {/* Conditional Welcome Message */}
+              {!user && (
+                <Title order={2} c="white">
+                  Welcome to a world of possibility
+                </Title>
+              )}
+              {user && (
+                <Text ta="center" className={styles.lightDark} fw="bold" fz={30}>
+                  Welcome Back, {user.jobseekerProfile?.firstName || user.businessProfile?.companyName}!
+                </Text>
+              )}
+            </Box>
 
           {/* Search & Sort */}
-          <Flex gap={10} w="60%" align="center" justify="center" mx="auto" direction={isMobile ? 'column' : 'row'}>
-            {/* Search */}
-            <SearchText
-              value={searchObj.searchWord}
-              onChange={(val) => setSearchObj((prev) => ({ ...prev, searchWord: val }))}
-              width={isMobile ? '100%' : '25%'}
-            />
-            {/* Sort */}
-            <SearchRegion
-              width={isMobile ? '100%' : '25%'}
-              value={searchObj.region}
-              onChange={(value) => {
-                setSearchObj((prev) => ({ ...prev, region: value }));
-              }}
-            />
+            <Flex gap={10} justify="center"direction={isMobile ? 'column' : 'row'}>
+              {/* Search */}
+              <SearchText
+                value={searchObj.searchWord}
+                onChange={(val) => setSearchObj((prev) => ({ ...prev, searchWord: val }))}
+                width={isMobile ? '100%' : '25%'}
+              />
+              {/* Sort */}
+              <SearchRegion
+                width={isMobile ? '100%' : '25%'}
+                value={searchObj.region}
+                onChange={(value) => {
+                  setSearchObj((prev) => ({ ...prev, region: value }));
+                }}
+              />
 
-            {/* Sort */}
-            <SearchCity
-              width={isMobile ? '100%' : '25%'}
-              value={searchObj.city}
-              onChange={(value) => {
-                setSearchObj((prev) => ({ ...prev, city: value }));
-              }}
-            />
+              {/* Sort */}
+              <SearchCity
+                width={isMobile ? '100%' : '25%'}
+                value={searchObj.city}
+                onChange={(value) => {
+                  setSearchObj((prev) => ({ ...prev, city: value }));
+                }}
+              />
 
-            <SearchIndustry
-              width={isMobile ? '100%' : '25%'}
-              value={searchObj.industry}
-              onChange={(value) => {
-                setSearchObj((prev) => ({ ...prev, industry: value }));
-              }}
-            />
-          </Flex>
+              <SearchIndustry
+                width={isMobile ? '100%' : '25%'}
+                value={searchObj.industry}
+                onChange={(value) => {
+                  setSearchObj((prev) => ({ ...prev, industry: value }));
+                }}
+              />
+            </Flex>
+          </Stack>
 
-          <Button
-            mx="auto"
-            variant="filled"
-            color="yellow"
-            c="white"
-            size="md"
-            w="20%"
-            fz={20}
-            rightSection={<IconSearch />}
-            onClick={searchListing}
-            style={{ fontWeight: 700 }}
-          >
-            Search
-          </Button>
-
-          {/* Conditinally Register */}
-          {!user && (
-            <Title order={2} ta="center" className={styles.lightDark}>
-              <Link to="register" style={{ textDecoration: '' }} className={styles.lightDark}>
-                Register
-              </Link>{' '}
-              now and start your journey
-            </Title>
-          )}
-
-          {/* Conditinally Create Listing */}
-          {isBusiness && (
+          <Stack w="60%" mx="auto">
             <Button
-              component={Link}
-              to="create-listing"
-              w="40%"
               mx="auto"
-              variant="filled"
-              color="white"
-              c="black"
+              variant="rocketRedFilled"
+              
               size="md"
+              w="30%"
               fz={20}
-              rightSection={<IconCards />}
+              rightSection={<IconSearch />}
+              onClick={searchListing}
               style={{ fontWeight: 700 }}
             >
-              Create A Listing
+              Search Jobs
             </Button>
-          )}
+
+            {/* Conditinally Create Listing */}
+            {isBusiness && (
+              <Button
+                component={Link}
+                to="create-listing"
+                w="30%"
+                mx="auto"
+                variant="outline"
+                color="white"
+                size="md"
+                fz={20}
+                rightSection={<IconCards />}
+                style={{ fontWeight: 700 }}
+              >
+                Create A Listing
+              </Button>
+            )}
+          </Stack>
         </Stack>
 
         <Stack
           justify="center"
           align="center"
-          mt="100px"
           p="50px"
+          gap={100}
         >
-          <Flex justify="start" align="center" w="80%" style={{border: '1px solid orange', borderRadius: '10px', padding: '10px', height: '400px'}}>
+          <Flex justify="start" align="center" w="80%" gap={10} style={{border: '1px solid orange', borderRadius: '10px', padding: '10px', height: '400px'}}>
             <HomePageCards
               title="The Best Job Board for English Speakers in Israel"
               description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
               height="100%"
-              width="500px"
+              width="50%"
               fontSize=""
             />
+            <Image src="\public\peopleWorking-1.jpg" alt="People working"  h='100%' ml="auto" fit="fill" radius="md"/>
           </Flex>
 
-          <Flex justify="end" align="center" w="80%" style={{border: '1px solid orange', borderRadius: '10px', padding: '10px', height: '400px'}}>
+          <Flex justify="end" align="center" w="80%" gap={10} style={{border: '1px solid orange', borderRadius: '10px', padding: '10px', height: '400px'}}>
+            <Image src="\public\data-analytics.jpg" alt="People working"  h='100%' ml="auto" fit="fill" radius="md"/>
             <HomePageCards
               title="Create a Job Seeker or Employer Account"
               description="As a job seeker, you can search for jobs, apply to them, and manage your applications. As an employer, you can create job listings and manage your company's listings."
               height="100%"
-              width="500px"
+              width="50%"
               fontSize=""
             />
           </Flex>

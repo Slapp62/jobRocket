@@ -49,7 +49,7 @@ export type TJobseekerProfile = {
 };
 
 export type TBusinessProfile = {
-  name: string;
+  companyName: string;
   location: {
     country: string;
     city: string;

@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import {
+  ActionIcon,
   Box,
   Burger,
   Button,
@@ -12,6 +13,7 @@ import {
   Group,
   ScrollArea,
   Text,
+  Tooltip,
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -23,6 +25,7 @@ import { LightDarkToggle } from './LightDarkToggle';
 import { Logo } from './Logo';
 import classes from '../ComponentStyles/Header.module.css';
 import bgStyles from '@/styles/bgStyles.module.css';
+import { IconPlus } from '@tabler/icons-react';
 
 export function Navbar() {
   const user = useSelector((state: RootState) => state.userSlice.user);
@@ -60,7 +63,7 @@ export function Navbar() {
   return (
     <Box className={bgStyles.primaryBg} pos="sticky">
       <header>
-        <Flex justify="space-between" align="center" h="100%" px={10}>
+        <Flex justify="space-between" align="center" h="100%" px="sm">
           <Logo />
 
           <Group visibleFrom="md" gap={5}>
@@ -104,26 +107,34 @@ export function Navbar() {
           <Group>
             <Group visibleFrom="xs">
               {!loggedIn && (
-                <Button component={Link} to="/login" variant="outline" color="yellow">
+                <Button component={Link} to="/login" variant="outline" color="white">
                   Login
                 </Button>
               )}
               {!loggedIn && (
-                <Button component={Link} to="/register" color="yellow" variant="filled">
+                <Button component={Link} to="/register" variant="rocketRedFilled">
                   Register
                 </Button>
               )}
 
+              {isBusinessUser && (
+                <ActionIcon variant="outline" color="white" size="35px" radius="md" onClick={() => jumpTo('/create-listing')}>
+                  <Tooltip label="New listing" py={2} px={8} radius="md" offset={10} fz={12} bg="rocketYellow.1" c="black">
+                    <IconPlus stroke={3} />
+                  </Tooltip>
+                </ActionIcon>
+              )}
+
               {loggedIn && (
-                <Button variant="outline" color="dark" onClick={logoutHandler}>
+                <Button variant="outline" color="white" onClick={logoutHandler}>
                   Logout
                 </Button>
               )}
             </Group>
 
             <Group>
-              {loggedIn && <AvatarIcon />}
-              <LightDarkToggle />
+              {loggedIn && 
+                <AvatarIcon />}
               <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="md" />
             </Group>
           </Group>
@@ -148,7 +159,7 @@ export function Navbar() {
                 <Text fz={15}>
                   {user?.profileType === 'jobseeker'
                     ? `${user?.jobseekerProfile?.firstName} ${user?.jobseekerProfile?.lastName}`
-                    : user?.businessProfile?.name}
+                    : user?.businessProfile?.companyName}
                 </Text>
               </Group>
             )}

@@ -7,17 +7,18 @@ type HomePageCardsProps = {
   height?: string;
   width?: string;
   fontSize?: string;
+  image?: string;
 };
 
-const HomePageCards = ({ title, description, height, width, fontSize }: HomePageCardsProps) => {
+const HomePageCards = ({ title, description, height, width, fontSize, image }: HomePageCardsProps) => {
   return (
     <Stack
-      c="red"
+      c="rocketRed.8"
+      bg='rocketOrange.1'
       h={height}
       w={width}
       p="lg"
       justify="center"
-      className={styles.cardGradientSubtle}
       style={{ borderRadius: '8px' }}
     >
       <Title order={2}>{title}</Title>

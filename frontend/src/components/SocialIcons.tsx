@@ -1,4 +1,4 @@
-import { IconBrandLinkedin, IconBrandTwitter, IconBrandWhatsapp } from '@tabler/icons-react';
+import { IconBrandLinkedin, IconBrandWhatsapp, IconBrandX } from '@tabler/icons-react';
 import { ActionIcon } from '@mantine/core';
 
 const SocialIcons = (props: { listingID: string }) => {
@@ -14,16 +14,16 @@ const SocialIcons = (props: { listingID: string }) => {
 
   return (
     <>
-      <ActionIcon size={40} variant="light" color="rocketOrange">
+      <ActionIcon size={40} variant="light" color="rocketRed">
         <IconBrandLinkedin onClick={() => window.open(linkedInUrl, '_blank')} />
       </ActionIcon>
 
-      <ActionIcon size={40} variant="light" color="rocketOrange">
+      <ActionIcon size={40} variant="light" color="rocketRed">
         <IconBrandWhatsapp onClick={() => window.open(whatsappUrl, '_blank')} />
       </ActionIcon>
 
-      <ActionIcon size={40} variant="light" color="rocketOrange">
-        <IconBrandTwitter onClick={() => window.open(xUrl, '_blank')} />
+      <ActionIcon size={40} variant="light" color="rocketRed">
+        <IconBrandX onClick={() => window.open(xUrl, '_blank')} />
       </ActionIcon>
     </>
   );

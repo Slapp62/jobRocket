@@ -1,6 +1,6 @@
 import { Group } from '@mantine/core';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
-import SocialIcons from '@/components/SocialMedia';
+import SocialIcons from '@/components/SocialIcons';
 import { TListing } from '@/Types';
 
 type SocialShareActionsProps = {

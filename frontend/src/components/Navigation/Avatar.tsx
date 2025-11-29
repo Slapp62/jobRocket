@@ -18,7 +18,8 @@ export function AvatarIcon(props: { closeDrawer?: () => void }) {
   return (
     <ActionIcon
       variant="outline"
-      color="green"
+      color="white"
+      c="white"
       radius={100}
       size={40}
       onClick={() => {
@@ -29,7 +30,7 @@ export function AvatarIcon(props: { closeDrawer?: () => void }) {
         }
       }}
     >
-      <Avatar src={avatarSrc} style={{ cursor: 'pointer' }} size={30} radius="xl">
+      <Avatar src={avatarSrc} style={{ cursor: 'pointer' }} size={30} radius="xl" color="white">
         {fallbackInitial?.toUpperCase()}
       </Avatar>
     </ActionIcon>

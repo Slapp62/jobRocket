@@ -42,7 +42,7 @@
     }
 
     &:hover {
-      background-color: light-dark(var(--mantine-color-rocketOrange-0), var(--mantine-color-dark-6));
+      background-color: var(--mantine-color-rocketRed-6);
       border-radius: 10px;
 
     }

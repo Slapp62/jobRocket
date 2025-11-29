@@ -20,7 +20,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { ApplicationModal } from '@/components/Application/applicationModal';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
-import SocialIcons from '@/components/SocialMedia';
+import SocialIcons from '@/components/SocialIcons';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
 
@@ -130,10 +130,11 @@ export function ListingDetailsPanel({
               </Badge>
             </Group>
 
-            <Group>
-              <Button variant="gradient" gradient={{deg: 180, from: 'rocketOrange', to: 'rocketRed' }} onClick={open} mt="md" w="15%">
+            <Group justify='start' align='center' gap="xs" mt="sm">
+              <Button variant="filled" color="rocketOrange.9" onClick={open} w="20%">
                 Apply
               </Button>
+              <SocialIcons listingID={listing._id} />
               <ApplicationModal opened={opened} onClose={close} listingID={listing._id} />
             </Group>
           </Box>

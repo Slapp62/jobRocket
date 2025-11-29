@@ -11,6 +11,7 @@ import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 import { getParamsInfo } from '@/utils/getParamsInfo';
 import styles from '@/styles/gradients.module.css';
+import ListingCardSkeleton from '@/components/ListingComponents/ListingCard/ListingCardSkeleton';
 
 export function FavoriteListings() {
   const user = useSelector((state: RootState) => state.userSlice.user);
@@ -39,11 +40,8 @@ export function FavoriteListings() {
               p="sm"
               m="sm"
               key={i}
-              style={{ width: '300px', border: '1px solid #dee2e6', borderRadius: '8px' }}
             >
-              <Skeleton height={30} radius="sm" w="80%" />
-              <Skeleton height={10} radius="sm" />
-              <Skeleton height={50} radius="sm" />
+              <ListingCardSkeleton width={300}/>
             </Stack>
           ))}
         </Flex>
@@ -55,7 +53,7 @@ export function FavoriteListings() {
   if (noListings) {
     return (
       <Box className={styles.pageBackground}>
-        <Flex mt={20} direction="column" align="center" gap={20}>
+        <Flex direction="column" align="center" gap={20}>
           <Box mt={20}>
             <IconMoodSad color="gray" size={100} />
           </Box>

@@ -89,7 +89,7 @@ export function MyApplications() {
         </Center>
       ) : (
         <Stack w="100%" gap="md">
-          <Title ta="center" order={2}>
+          <Title ta="center" order={2} my={15} c="rocketRed.9">
             Applications
           </Title>
 

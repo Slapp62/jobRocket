@@ -15,7 +15,7 @@ export function SearchText({ value, onChange, placeholder, width }: SearchTextPr
       w={width}
       variant="default"
       rightSection={<IconSearch />}
-      placeholder={placeholder || 'Search...'}
+      placeholder={placeholder || 'Text...'}
       value={value}
       onChange={(e) => onChange(e.target.value)}
     />
