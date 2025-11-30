@@ -218,7 +218,7 @@ export const Dashboard = () => {
           <Loader size="xl" variant="oval" />
         </Center>
       ) : (
-        <Container size="xl" py="xl" w="85%">
+        <Container size="xl" py="xl" w={{ base: '100%', sm: '95%', md: '85%' }}>
           <Stack gap="xl">
             {/* Header */}
             <div>
@@ -234,8 +234,8 @@ export const Dashboard = () => {
 
             <Tabs color="rocketOrange" variant="outline" defaultValue="applications">
               <Tabs.List mb={20} justify='center' fw={600} >
-                <Tabs.Tab value="applications" fz={30}>Applications</Tabs.Tab>
-                <Tabs.Tab value="listings" fz={30}>Listings</Tabs.Tab>
+                <Tabs.Tab value="applications" fz={{ base: 'lg', md: 30 }}>Applications</Tabs.Tab>
+                <Tabs.Tab value="listings" fz={{ base: 'lg', md: 30 }}>Listings</Tabs.Tab>
               </Tabs.List>
 
               <Tabs.Panel value="applications">

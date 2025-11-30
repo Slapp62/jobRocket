@@ -23,7 +23,7 @@ const normalizeUserResponse = (user) => {
 
   if (user.profileType === 'business' && user.businessProfile) {
     normalizedUserData.businessProfile = {
-      name: user.businessProfile.name,
+      companyName: user.businessProfile.companyName,
       location: {
         country: user.businessProfile.location.country,
         city: user.businessProfile.location.city,

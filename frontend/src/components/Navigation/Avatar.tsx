@@ -13,7 +13,7 @@ export function AvatarIcon(props: { closeDrawer?: () => void }) {
   const fallbackInitial =
     user?.profileType === 'jobseeker'
       ? user.jobseekerProfile?.firstName?.charAt(0)
-      : user?.businessProfile?.name?.charAt(0) || user?.email?.charAt(0) || '?';
+      : user?.businessProfile?.companyName?.charAt(0) || user?.email?.charAt(0) || '?';
 
   return (
     <ActionIcon

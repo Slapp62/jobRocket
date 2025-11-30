@@ -6,7 +6,7 @@ import {
   IconPencil,
   IconTrash,
 } from '@tabler/icons-react';
-import { ActionIcon, Anchor, Center, Group, Select, Stack, Table, Text, TextInput, Title } from '@mantine/core';
+import { ActionIcon, Anchor, Box, Card, Center, Group, Select, Stack, Table, Text, TextInput, Title } from '@mantine/core';
 import { TApplication } from '@/Types';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
@@ -50,8 +50,59 @@ export const DashApplications = (
   return (
     <>
       <Stack>
-      <Group justify='center' align='center'>
-        <Select 
+      {/* Mobile Filters */}
+      <Stack spacing="md" hiddenFrom="md">
+        <Select
+          label="Listing"
+          value={listingId}
+          onChange={(value)=>setListingId(value)}
+          data={listingOptions}
+        />
+        <TextInput
+          type="date"
+          label="From"
+          value={dateFrom || ''}
+          onChange={(e) => setDateFrom(e.target.value)}
+        />
+        <TextInput
+          type="date"
+          label="To"
+          value={dateTo || ''}
+          onChange={(e) => setDateTo(e.target.value)}
+        />
+        <Select
+          label="Status"
+          value={status}
+          onChange={(value)=>setStatus(value)}
+          data={[
+            {value:'all', label: "All Statuses"},
+            {value:'pending', label: "Pending"},
+            {value:'reviewed', label: "Reviewed"},
+            {value:'rejected', label: "Rejected"},
+          ]}
+        />
+        <TextInput
+          label="Search"
+          value={searchText}
+          onChange={(e)=>setSearchText(e.target.value)}
+          placeholder="Search applications..."
+        />
+        <Select
+          label="Sort"
+          value={sortOption}
+          onChange={(value)=>setSortOption(value)}
+          data={[
+            {value:'date-newest', label: "Newest First"},
+            {value:'date-oldest', label: "Oldest First"},
+            {value:'name-asc', label: "Name (A-Z)"},
+            {value:'name-desc', label: "Name (Z-A)"},
+          ]}
+        />
+      </Stack>
+
+      {/* Desktop Filters */}
+      <Group justify='center' align='center' visibleFrom="md">
+        <Select
           label="Listing"
           w='15%'
           value={listingId}
@@ -72,7 +123,7 @@ export const DashApplications = (
           onChange={(e) => setDateTo(e.target.value)}
           w='15%'
         />
-        <Select 
+        <Select
           label="Status"
           w='15%'
           value={status}
@@ -104,99 +155,159 @@ export const DashApplications = (
           ]}
         />
       </Group>
-      {dashApplications?.length === 0 ? 
+      {dashApplications?.length === 0 ? (
         <Center mt={50}>
           <Title order={3} c='red'>No Applications Found</Title>
-        </Center> 
-      : <Table.ScrollContainer minWidth={900}>
-      <Table verticalSpacing="sm" maw="100%" mx="auto">
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th />
-            <Table.Th>Applicant</Table.Th>
-            <Table.Th>Listing</Table.Th>
-            <Table.Th>Phone</Table.Th>
-            <Table.Th>Email</Table.Th>
-            <Table.Th>Submitted</Table.Th>
-            <Table.Th>Resume</Table.Th>
-            <Table.Th>Status</Table.Th>
-            <Table.Th>Actions</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
+        </Center>
+      ) : (
+        <>
+          {/* Mobile Card View */}
+          <Stack hiddenFrom="md" spacing="md">
+            {dashApplications?.map((app) => (
+              <Card key={app._id} withBorder p="md">
+                <Stack gap="xs">
+                  <Group justify="space-between">
+                    <Text fw={600} size="lg">
+                      {app.firstName} {app.lastName}
+                    </Text>
+                    <ActionIcon
+                      size={36}
+                      variant="outline"
+                      color="red"
+                      onClick={()=>{handleDeleteApplication(app._id, `${typeof app.listingId === 'object' && app.listingId.jobTitle}`)}}
+                    >
+                      <IconTrash size={20} />
+                    </ActionIcon>
+                  </Group>
 
-        <Table.Tbody>
-          {dashApplications?.map((app) => (
-            <Table.Tr key={app._id}>
-              <Table.Td
-                styles={{ td: { borderLeft: '1px solid #eee', borderRight: '1px solid #eee' } }}
-              >
-                <Text fz="sm" fw="bold" c="dimmed" ta="center">
-                  {dashApplications.indexOf(app) + 1}
-                </Text>
-              </Table.Td>
+                  <Text size="sm" c="dimmed">
+                    {typeof app.listingId === 'object' && app.listingId.jobTitle}
+                  </Text>
 
-              <Table.Td>
-                <Text fz="sm" fw={500}>
-                  {app.firstName} {app.lastName}
-                </Text>
-              </Table.Td>
+                  <Text size="sm">{app.email}</Text>
+                  {app.phone && <Text size="sm">{app.phone}</Text>}
 
-              <Table.Td>
-                <Text fz="sm" fw={500}>
-                  {typeof app.listingId === 'object' && app.listingId.jobTitle}
-                </Text>
-              </Table.Td>
+                  <Text size="xs" c="dimmed">
+                    Submitted: {app.createdAt && new Date(app.createdAt).toLocaleString()}
+                  </Text>
 
-              <Table.Td>
-                <Text fz="sm" fw={500}>
-                  {app.phone}
-                </Text>
-              </Table.Td>
+                  <Group gap="xs" mt="xs">
+                    <Anchor href={app.resume} target="_blank">
+                      <ActionIcon variant="light" size={36}>
+                        <IconFileDownload size={20} />
+                      </ActionIcon>
+                    </Anchor>
 
-              <Table.Td>
-                <Text fz="sm">
-                  {app.email}
-                </Text>
-              </Table.Td>
-              
-              <Table.Td>
-                {app.createdAt && new Date(app.createdAt).toLocaleString()}
-              </Table.Td>
+                    <Select
+                      flex={1}
+                      value={newStatus || app.status}
+                      onChange={(value) => updateApplicationStatus(app._id, value)}
+                      data={[
+                        { value: 'pending', label: 'Pending' },
+                        { value: 'reviewed', label: 'Reviewed' },
+                        { value: 'rejected', label: 'Rejected' },
+                      ]}
+                    />
+                  </Group>
+                </Stack>
+              </Card>
+            ))}
+          </Stack>
 
-              <Table.Td>
-                <Anchor href={app.resume} target="_blank" ><IconFileDownload size={30} /></Anchor>
-              </Table.Td>
-              
-              <Table.Td>
-                <Select
-                  px={5}
-                  value={newStatus || app.status}
-                  onChange={(value) => updateApplicationStatus(app._id, value)}
-                  data={[
-                    { value: 'pending', label: 'Pending' },
-                    { value: 'reviewed', label: 'Reviewed' },
-                    { value: 'rejected', label: 'Rejected' },
-                  ]}
-                />
-              </Table.Td>
+          {/* Desktop Table View */}
+          <Box visibleFrom="md">
+            <Table.ScrollContainer minWidth={900}>
+              <Table verticalSpacing="sm" maw="100%" mx="auto">
+                <Table.Thead>
+                  <Table.Tr>
+                    <Table.Th />
+                    <Table.Th>Applicant</Table.Th>
+                    <Table.Th>Listing</Table.Th>
+                    <Table.Th>Phone</Table.Th>
+                    <Table.Th>Email</Table.Th>
+                    <Table.Th>Submitted</Table.Th>
+                    <Table.Th>Resume</Table.Th>
+                    <Table.Th>Status</Table.Th>
+                    <Table.Th>Actions</Table.Th>
+                  </Table.Tr>
+                </Table.Thead>
 
-              <Table.Td styles={{ td: { borderRight: '1px solid #eee' } }}>
-                <Group gap="xs">
-                  <ActionIcon
-                    size={30}
-                    variant="outline"
-                    color="red"
-                    onClick={()=>{handleDeleteApplication(app._id, `${typeof app.listingId === 'object' && app.listingId.jobTitle}`)}}
-                  >
-                    <IconTrash size={25} stroke={1.5} />
-                  </ActionIcon>
-                </Group>
-              </Table.Td>
-            </Table.Tr>
-          ))}
-        </Table.Tbody>
-      </Table>
-    </Table.ScrollContainer>}
+                <Table.Tbody>
+                  {dashApplications?.map((app) => (
+                    <Table.Tr key={app._id}>
+                      <Table.Td
+                        styles={{ td: { borderLeft: '1px solid #eee', borderRight: '1px solid #eee' } }}
+                      >
+                        <Text fz="sm" fw="bold" c="dimmed" ta="center">
+                          {dashApplications.indexOf(app) + 1}
+                        </Text>
+                      </Table.Td>
+
+                      <Table.Td>
+                        <Text fz="sm" fw={500}>
+                          {app.firstName} {app.lastName}
+                        </Text>
+                      </Table.Td>
+
+                      <Table.Td>
+                        <Text fz="sm" fw={500}>
+                          {typeof app.listingId === 'object' && app.listingId.jobTitle}
+                        </Text>
+                      </Table.Td>
+
+                      <Table.Td>
+                        <Text fz="sm" fw={500}>
+                          {app.phone}
+                        </Text>
+                      </Table.Td>
+
+                      <Table.Td>
+                        <Text fz="sm">
+                          {app.email}
+                        </Text>
+                      </Table.Td>
+
+                      <Table.Td>
+                        {app.createdAt && new Date(app.createdAt).toLocaleString()}
+                      </Table.Td>
+
+                      <Table.Td>
+                        <Anchor href={app.resume} target="_blank" ><IconFileDownload size={30} /></Anchor>
+                      </Table.Td>
+
+                      <Table.Td>
+                        <Select
+                          px={5}
+                          value={newStatus || app.status}
+                          onChange={(value) => updateApplicationStatus(app._id, value)}
+                          data={[
+                            { value: 'pending', label: 'Pending' },
+                            { value: 'reviewed', label: 'Reviewed' },
+                            { value: 'rejected', label: 'Rejected' },
+                          ]}
+                        />
+                      </Table.Td>
+
+                      <Table.Td styles={{ td: { borderRight: '1px solid #eee' } }}>
+                        <Group gap="xs">
+                          <ActionIcon
+                            size={30}
+                            variant="outline"
+                            color="red"
+                            onClick={()=>{handleDeleteApplication(app._id, `${typeof app.listingId === 'object' && app.listingId.jobTitle}`)}}
+                          >
+                            <IconTrash size={25} stroke={1.5} />
+                          </ActionIcon>
+                        </Group>
+                      </Table.Td>
+                    </Table.Tr>
+                  ))}
+                </Table.Tbody>
+              </Table>
+            </Table.ScrollContainer>
+          </Box>
+        </>
+      )}
       </Stack>
 
       <DeleteApplicationModal 

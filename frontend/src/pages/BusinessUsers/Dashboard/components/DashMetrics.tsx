@@ -1,5 +1,5 @@
 import { IconBriefcase, IconChecks, IconClock, IconUsers, IconX } from '@tabler/icons-react';
-import { Group, Paper, Text, ThemeIcon } from '@mantine/core';
+import { Paper, SimpleGrid, Text, ThemeIcon, Group } from '@mantine/core';
 import { TDashboardMetrics } from '@/Types';
 import styles from '@/styles/gradients.module.css';
 
@@ -9,7 +9,7 @@ interface DashMetricsProps {
 
 export const DashMetrics = ({ dashboardMetrics }: DashMetricsProps) => {
   return (
-    <Group gap="md" grow>
+    <SimpleGrid cols={{ base: 1, xs: 2, sm: 3, md: 5 }} spacing="md">
       <>
         <Paper
           shadow="sm"
@@ -89,6 +89,6 @@ export const DashMetrics = ({ dashboardMetrics }: DashMetricsProps) => {
           </Text>
         </Paper>
       </>
-    </Group>
+    </SimpleGrid>
   );
 };

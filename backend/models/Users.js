@@ -108,7 +108,7 @@ const userSchema = new Schema({
     },
   },
   businessProfile: {
-    name: {
+    companyName: {
       type: String,
       required() {
         return this.profileType === 'business';

@@ -45,8 +45,8 @@ export function BusinessFields({
         placeholder="Enter your company name"
         withAsterisk
         disabled={disabled}
-        {...register('businessProfile.name')}
-        error={errors.businessProfile?.name?.message}
+        {...register('businessProfile.companyName')}
+        error={errors.businessProfile?.companyName?.message}
       />
 
       {/* Required: Location - Region (stored as country in schema) */}

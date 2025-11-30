@@ -19,7 +19,7 @@ export const cleanedUserData = (user: TUsers) => ({
   ...(user.profileType === 'business' &&
     user.businessProfile && {
       businessProfile: {
-        name: user.businessProfile.name,
+        companyName: user.businessProfile.companyName,
         location: {
           country: user.businessProfile.location.country,
           city: user.businessProfile.location.city,

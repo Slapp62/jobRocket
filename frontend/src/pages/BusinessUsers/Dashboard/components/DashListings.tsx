@@ -1,5 +1,5 @@
 import { IconCircle, IconCircleFilled, IconPencil, IconTrash } from '@tabler/icons-react';
-import { ActionIcon, Group, Select, Stack, Table, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Box, Card, Group, Select, Stack, Table, Text, TextInput } from '@mantine/core';
 import { TListing } from '@/Types';
 import INDUSTRIES from '@/data/industries';
 import { DeleteListingModal } from '../modals/DeleteListingModal';
@@ -44,7 +44,8 @@ export const DashListings = ({ listings, handleDelete, handleEdit, searchText, s
   return (
     <>
       <Stack>
-        <Group justify='center'>
+        {/* Mobile Filters */}
+        <Stack spacing="md" hiddenFrom="md">
           <TextInput
             label="Search listings"
             placeholder="Search listings"
@@ -85,92 +86,198 @@ export const DashListings = ({ listings, handleDelete, handleEdit, searchText, s
             data={[
               {value: 'all', label: 'All Industries'},
               ...INDUSTRIES
-              ]}
+            ]}
+          />
+        </Stack>
+
+        {/* Desktop Filters */}
+        <Group justify='center' visibleFrom="md">
+          <TextInput
+            label="Search listings"
+            placeholder="Search listings"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <Select
+            label="Sort by"
+            placeholder="Select sort option"
+            value={sortOption}
+            onChange={(value) => {setSortOption(value)}}
+            data={[
+              { value: 'all', label: 'All Listings' },
+              { value: 'date-created-new', label: 'Newest First' },
+              { value: 'date-created-old', label: 'Oldest First' },
+              { value: 'favorites-most', label: 'Most Favorited' },
+              { value: 'favorites-least', label: 'Least Favorited' },
+              { value: 'title-asc', label: 'Title A-Z' },
+              { value: 'title-desc', label: 'Title Z-A' },
+            ]}
+          />
+          <Select
+            label="Filter by status"
+            placeholder="Select active filter"
+            value={activeFilter}
+            onChange={(value) => {setActiveFilter(value)}}
+            data={[
+              { value: 'all', label: 'All Listings' },
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' },
+            ]}
+          />
+          <Select
+            label="Filter by industry"
+            placeholder="Select industry"
+            value={industry}
+            onChange={(value) => {setIndustry(value)}}
+            data={[
+              {value: 'all', label: 'All Industries'},
+              ...INDUSTRIES
+            ]}
           />
         </Group>
-        <Table.ScrollContainer minWidth={800}>
-          <Table verticalSpacing="sm" maw="100%" mx="auto">
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th />
-                <Table.Th>Job Title</Table.Th>
-                <Table.Th>Industry</Table.Th>
-                <Table.Th>Created At</Table.Th>
-                <Table.Th>Expires At</Table.Th>
-                <Table.Th>Active</Table.Th>
-                <Table.Th>Favorites</Table.Th>
-                <Table.Th>Edit</Table.Th>
-                <Table.Th>Delete</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
 
-            <Table.Tbody>
-              {listings?.map((listing) => (
-                <Table.Tr key={listing._id}>
-                  <Table.Td
-                    styles={{ td: { borderLeft: '1px solid #eee', borderRight: '1px solid #eee' } }}
-                  >
-                    <Text fz="sm" fw="bold" c="dimmed" ta="center">
-                      {listings.indexOf(listing) + 1}
-                    </Text>
-                  </Table.Td>
+        {/* Mobile Card View */}
+        <Stack hiddenFrom="md" spacing="md">
+          {listings?.map((listing) => (
+            <Card key={listing._id} withBorder p="md">
+              <Stack gap="xs">
+                <Group justify="space-between" align="start">
+                  <div>
+                    <Text fw={600} size="lg">{listing.jobTitle}</Text>
+                    <Text size="sm" c="dimmed">{listing.industry}</Text>
+                  </div>
+                  {listing.isActive ? (
+                    <IconCircleFilled size={20} color="green" />
+                  ) : (
+                    <IconCircleFilled size={20} color="red" />
+                  )}
+                </Group>
 
-                  <Table.Td>
-                    <Text fz="sm" fw={500}>
-                      {listing.jobTitle}
-                    </Text>
-                  </Table.Td>
+                <Group gap="xs">
+                  <Text size="xs" c="dimmed">
+                    Created: {listing.createdAt && new Date(listing.createdAt).toLocaleDateString()}
+                  </Text>
+                  <Text size="xs" c="dimmed">•</Text>
+                  <Text size="xs" c="dimmed">
+                    {listing.likes?.length || 0} favorites
+                  </Text>
+                </Group>
 
-                  <Table.Td>
-                    <Text fz="sm" fw={500}>
-                      {listing.industry}
-                    </Text>
-                  </Table.Td>
+                {listing.expiresAt && (
+                  <Text size="xs" c="dimmed">
+                    Expires: {listing.expiresAt}
+                  </Text>
+                )}
 
-                  <Table.Td>
-                    {listing.createdAt && new Date(listing.createdAt).toLocaleString()}
-                  </Table.Td>
-
-                  <Table.Td>
-                    <Text fz="sm">
-                      {listing.expiresAt}
-                    </Text>
-                  </Table.Td>
-
-                  <Table.Td>
-                    {listing.isActive === true ? <IconCircleFilled size={16} color="green" /> : <IconCircleFilled size={16} color="red" />}
-                  </Table.Td>
-                  
-                  <Table.Td>
-                    <Text fz="sm">{listing.likes?.length}</Text>
-                  </Table.Td>
-
-                  <Table.Td>
-                    <ActionIcon
-                      size={30}
-                      variant="outline"
-                      color="yellow"
-                      onClick={() => clickEditListing(listing)}
-                    >
-                      <IconPencil size={25} stroke={1.5} />
-                    </ActionIcon>
-                  </Table.Td>
-
-                  <Table.Td styles={{ td: { borderRight: '1px solid #eee' } }}>
+                <Group gap="xs" mt="xs">
                   <ActionIcon
-                    size={30}
+                    size={36}
+                    variant="outline"
+                    color="yellow"
+                    onClick={() => clickEditListing(listing)}
+                  >
+                    <IconPencil size={20} />
+                  </ActionIcon>
+                  <ActionIcon
+                    size={36}
                     variant="outline"
                     color="red"
                     onClick={() => clickDeleteListing(listing._id, listing.jobTitle)}
                   >
-                    <IconTrash size={25} stroke={1.5} />
+                    <IconTrash size={20} />
                   </ActionIcon>
-                </Table.Td>
+                </Group>
+              </Stack>
+            </Card>
+          ))}
+        </Stack>
+
+        {/* Desktop Table View */}
+        <Box visibleFrom="md">
+          <Table.ScrollContainer minWidth={800}>
+            <Table verticalSpacing="sm" maw="100%" mx="auto">
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th />
+                  <Table.Th>Job Title</Table.Th>
+                  <Table.Th>Industry</Table.Th>
+                  <Table.Th>Created At</Table.Th>
+                  <Table.Th>Expires At</Table.Th>
+                  <Table.Th>Active</Table.Th>
+                  <Table.Th>Favorites</Table.Th>
+                  <Table.Th>Edit</Table.Th>
+                  <Table.Th>Delete</Table.Th>
                 </Table.Tr>
-              ))}
-            </Table.Tbody>
-          </Table>
-        </Table.ScrollContainer>
+              </Table.Thead>
+
+              <Table.Tbody>
+                {listings?.map((listing) => (
+                  <Table.Tr key={listing._id}>
+                    <Table.Td
+                      styles={{ td: { borderLeft: '1px solid #eee', borderRight: '1px solid #eee' } }}
+                    >
+                      <Text fz="sm" fw="bold" c="dimmed" ta="center">
+                        {listings.indexOf(listing) + 1}
+                      </Text>
+                    </Table.Td>
+
+                    <Table.Td>
+                      <Text fz="sm" fw={500}>
+                        {listing.jobTitle}
+                      </Text>
+                    </Table.Td>
+
+                    <Table.Td>
+                      <Text fz="sm" fw={500}>
+                        {listing.industry}
+                      </Text>
+                    </Table.Td>
+
+                    <Table.Td>
+                      {listing.createdAt && new Date(listing.createdAt).toLocaleString()}
+                    </Table.Td>
+
+                    <Table.Td>
+                      <Text fz="sm">
+                        {listing.expiresAt}
+                      </Text>
+                    </Table.Td>
+
+                    <Table.Td>
+                      {listing.isActive === true ? <IconCircleFilled size={16} color="green" /> : <IconCircleFilled size={16} color="red" />}
+                    </Table.Td>
+
+                    <Table.Td>
+                      <Text fz="sm">{listing.likes?.length}</Text>
+                    </Table.Td>
+
+                    <Table.Td>
+                      <ActionIcon
+                        size={30}
+                        variant="outline"
+                        color="yellow"
+                        onClick={() => clickEditListing(listing)}
+                      >
+                        <IconPencil size={25} stroke={1.5} />
+                      </ActionIcon>
+                    </Table.Td>
+
+                    <Table.Td styles={{ td: { borderRight: '1px solid #eee' } }}>
+                      <ActionIcon
+                        size={30}
+                        variant="outline"
+                        color="red"
+                        onClick={() => clickDeleteListing(listing._id, listing.jobTitle)}
+                      >
+                        <IconTrash size={25} stroke={1.5} />
+                      </ActionIcon>
+                    </Table.Td>
+                  </Table.Tr>
+                ))}
+              </Table.Tbody>
+            </Table>
+          </Table.ScrollContainer>
+        </Box>
       </Stack>
 
       <EditListingModal 

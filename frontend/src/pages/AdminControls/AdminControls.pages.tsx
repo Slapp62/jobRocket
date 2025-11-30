@@ -3,10 +3,14 @@ import { IconFilter, IconPencil, IconSearch, IconTrash } from '@tabler/icons-rea
 import {
   ActionIcon,
   Anchor,
+  Box,
+  Card,
   Flex,
+  Group,
   Loader,
   Pagination,
   Select,
+  Stack,
   Table,
   Text,
   TextInput,
@@ -19,7 +23,7 @@ import { useAdminControls } from './useAdminControls';
 
 const AdminControls = () => {
   const [id, setId] = useState('');
-  const isMobile = useMediaQuery('(max-width: 700px)');
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const {
     opened,
@@ -61,7 +65,34 @@ const AdminControls = () => {
         <Title fz={30} w="fit" mx="auto" my="sm">
           Admin Control Table
         </Title>
-        <Flex direction={isMobile ? 'column' : 'row'} gap={5} mx="auto" my="md">
+        {/* Mobile Filters */}
+        <Stack spacing="md" hiddenFrom="md" mx="auto" my="md" w="90%">
+          <Select
+            data={[
+              { value: 'last-name-asc', label: 'Last Name (A-Z)' },
+              { value: 'last-name-desc', label: 'Last Name (Z-A)' },
+              { value: 'account-type', label: 'Account Type' },
+              { value: 'date-created-old', label: 'Date Created (Oldest First)' },
+              { value: 'date-created-new', label: 'Date Created (Latest First)' },
+            ]}
+            placeholder="Sort By"
+            value={sortOption}
+            onChange={(value) => {
+              setSortOption(value || '');
+              setCurrentPage(1);
+            }}
+            rightSection={<IconFilter />}
+          />
+          <TextInput
+            placeholder="Search"
+            rightSection={<IconSearch />}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </Stack>
+
+        {/* Desktop Filters */}
+        <Flex direction="row" gap={5} mx="auto" my="md" visibleFrom="md">
           <Select
             data={[
               { value: 'last-name-asc', label: 'Last Name (A-Z)' },
@@ -88,7 +119,69 @@ const AdminControls = () => {
           />
         </Flex>
 
-        <Table.ScrollContainer minWidth={800}>
+        {/* Mobile Card View */}
+        <Stack hiddenFrom="md" spacing="md" mx="auto" w="90%">
+          {paginatedUsers.map((user) => (
+            <Card key={user._id} withBorder p="md">
+              <Stack gap="xs">
+                <Group justify="space-between">
+                  <div>
+                    <Text fw={600} size="lg">
+                      {user.profileType === 'jobseeker'
+                        ? `${user.jobseekerProfile?.firstName} ${user.jobseekerProfile?.lastName}`
+                        : user.businessProfile?.companyName}
+                    </Text>
+                    <Text size="sm" c="dimmed">
+                      {user.isAdmin
+                        ? 'Admin'
+                        : user.profileType === 'business'
+                          ? 'Business'
+                          : 'Jobseeker'}
+                    </Text>
+                  </div>
+                </Group>
+
+                <Text size="sm">{user.email}</Text>
+
+                <Text size="xs" c="dimmed">
+                  Created: {new Date(user.createdAt).toLocaleDateString()}
+                </Text>
+
+                <Group gap="xs" mt="xs">
+                  <ActionIcon
+                    size={36}
+                    variant="outline"
+                    color="yellow"
+                    onClick={() => {
+                      dispatch(toggleAdminView(true));
+                      jumpTo(`/edit-profile/${user?._id}`);
+                    }}
+                  >
+                    <IconPencil size={20} />
+                  </ActionIcon>
+
+                  {!user.isAdmin && (
+                    <ActionIcon
+                      size={36}
+                      variant="outline"
+                      color="red"
+                      onClick={() => {
+                        open();
+                        setId(user._id);
+                      }}
+                    >
+                      <IconTrash size={20} />
+                    </ActionIcon>
+                  )}
+                </Group>
+              </Stack>
+            </Card>
+          ))}
+        </Stack>
+
+        {/* Desktop Table View */}
+        <Box visibleFrom="md">
+          <Table.ScrollContainer minWidth={800}>
           <Table verticalSpacing="sm" maw="75%" mx="auto">
             <Table.Thead>
               <Table.Tr>
@@ -118,7 +211,7 @@ const AdminControls = () => {
                     <Text fz="sm" fw={500}>
                       {user.profileType === 'jobseeker'
                         ? `${user.jobseekerProfile?.firstName} ${user.jobseekerProfile?.lastName}`
-                        : user.businessProfile?.name}
+                        : user.businessProfile?.companyName}
                     </Text>
                   </Table.Td>
 
@@ -182,6 +275,7 @@ const AdminControls = () => {
             </Table.Tbody>
           </Table>
         </Table.ScrollContainer>
+        </Box>
 
         {allUsers && (
           <Pagination

@@ -17,7 +17,7 @@ import styles from './HomePage.module.css';
 import bgStyles from '@/styles/bgStyles.module.css';
 
 export function HomePage() {
-  const isMobile = useMediaQuery('(max-width: 700px)');
+  const isMobile = useMediaQuery('(max-width: 768px)');
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.userSlice.user);
   const isBusiness = user?.profileType === 'business';
@@ -74,7 +74,7 @@ export function HomePage() {
           py={20}
           className={bgStyles.primaryBg}
         >
-          <Stack w="60%" align="start"  mx="auto" >
+          <Stack w={{ base: '95%', sm: '85%', md: '60%' }} align="start" mx="auto">
             <Box>
               {/* Conditional Welcome Message */}
               {!user && (
@@ -125,13 +125,12 @@ export function HomePage() {
             </Flex>
           </Stack>
 
-          <Stack w="60%" mx="auto">
+          <Stack w={{ base: '95%', sm: '85%', md: '60%' }} mx="auto">
             <Button
               mx="auto"
               variant="rocketRedFilled"
-              
               size="md"
-              w="30%"
+              w={{ base: '90%', sm: '60%', md: '30%' }}
               fz={20}
               rightSection={<IconSearch />}
               onClick={searchListing}
@@ -145,7 +144,7 @@ export function HomePage() {
               <Button
                 component={Link}
                 to="create-listing"
-                w="30%"
+                w={{ base: '90%', sm: '60%', md: '30%' }}
                 mx="auto"
                 variant="outline"
                 color="white"
@@ -166,24 +165,54 @@ export function HomePage() {
           p="50px"
           gap={100}
         >
-          <Flex justify="start" align="center" w="80%" gap={10} style={{border: '1px solid orange', borderRadius: '10px', padding: '10px', height: '400px'}}>
+          <Flex
+            direction={{ base: 'column', md: 'row' }}
+            justify="start"
+            align="center"
+            w={{ base: '95%', md: '80%' }}
+            gap={10}
+            style={{border: '1px solid orange', borderRadius: '10px', padding: '10px', minHeight: '400px'}}
+          >
             <HomePageCards
               title="The Best Job Board for English Speakers in Israel"
               description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
-              height="100%"
-              width="50%"
+              height={isMobile ? '300px' : '100%'}
+              width={isMobile ? '100%' : '50%'}
               fontSize=""
             />
-            <Image src="\public\peopleWorking-1.jpg" alt="People working"  h='100%' ml="auto" fit="fill" radius="md"/>
+            <Image
+              src="\public\peopleWorking-1.jpg"
+              alt="People working"
+              h={{ base: '250px', md: '100%' }}
+              ml="auto"
+              fit="fill"
+              radius="md"
+              visibleFrom="md"
+            />
           </Flex>
 
-          <Flex justify="end" align="center" w="80%" gap={10} style={{border: '1px solid orange', borderRadius: '10px', padding: '10px', height: '400px'}}>
-            <Image src="\public\data-analytics.jpg" alt="People working"  h='100%' ml="auto" fit="fill" radius="md"/>
+          <Flex
+            direction={{ base: 'column-reverse', md: 'row' }}
+            justify="end"
+            align="center"
+            w={{ base: '95%', md: '80%' }}
+            gap={10}
+            style={{border: '1px solid orange', borderRadius: '10px', padding: '10px', minHeight: '400px'}}
+          >
+            <Image
+              src="\public\data-analytics.jpg"
+              alt="People working"
+              h={{ base: '250px', md: '100%' }}
+              ml="auto"
+              fit="fill"
+              radius="md"
+              visibleFrom="md"
+            />
             <HomePageCards
               title="Create a Job Seeker or Employer Account"
               description="As a job seeker, you can search for jobs, apply to them, and manage your applications. As an employer, you can create job listings and manage your company's listings."
-              height="100%"
-              width="50%"
+              height={isMobile ? '300px' : '100%'}
+              width={isMobile ? '100%' : '50%'}
               fontSize=""
             />
           </Flex>

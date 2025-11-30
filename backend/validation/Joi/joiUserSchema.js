@@ -59,7 +59,7 @@ const joiUserSchema = joi.object({
 
   businessProfile: joi
     .object({
-      name: joi.string().min(2).max(256).required(),
+      companyName: joi.string().min(2).max(256).required(),
       location: joi
         .object({
           country: joi.string().min(2).max(256).required(),

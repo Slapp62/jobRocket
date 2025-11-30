@@ -62,7 +62,7 @@ const editProfileSchema = Joi.object({
   businessProfile: Joi.when('profileType', {
     is: 'business',
     then: Joi.object({
-      name: Joi.string().min(2).max(256).required().messages({
+      companyName: Joi.string().min(2).max(256).required().messages({
         'string.min': 'Business name is too short',
         'string.empty': 'Business name is required',
         'any.required': 'Business name is required',
