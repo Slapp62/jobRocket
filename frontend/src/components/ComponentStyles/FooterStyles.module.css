@@ -1,11 +1,7 @@
 .footer {
-  margin-top: 50px;
   padding-top: calc(var(--mantine-spacing-md) * 1.5);
   padding-bottom: calc(var(--mantine-spacing-xs) * 1);
-  background: light-dark(
-    linear-gradient(135deg, #FFF4E6 0%, #FFE8CC 100%),
-    linear-gradient(135deg, #2C1810 0%, #1A0A05 100%)
-  );
+  background: light-dark(var(--mantine-color-white), var(--mantine-color-dark-1));
   border-top: 2px solid light-dark(#FFD8A8, #FF6B35);
 }
 
@@ -42,8 +38,10 @@
 
 .groups {
   display: flex;
+  justify-content: center;
+  align-items: start;
   flex-wrap: wrap;
-
+  width: 75%;
   @media (max-width: $mantine-breakpoint-sm) {
     display: none;
   }

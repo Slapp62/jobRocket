@@ -2,13 +2,14 @@ import { AnimatePresence } from 'framer-motion';
 import { Box, Flex, Loader, Skeleton, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { FilterBar } from '@/components/Filters/FilterBar';
-import DesktopDefaultView from '@/components/ListingComponents/Views/DesktopDefaultView';
+import DesktopDefaultView from '@/components/ListingComponents/Views/ListingsGridView';
 import DesktopSplitView from '@/components/ListingComponents/Views/DesktopSplitView';
 import MobileView from '@/components/ListingComponents/Views/MobileView';
 import { PageMeta } from '@/SEO/PageMeta';
 import { getParamsInfo } from '@/utils/getParamsInfo';
 import styles from '@/styles/gradients.module.css';
 import ListingCardSkeleton from '@/components/ListingComponents/ListingCard/ListingCardSkeleton';
+import ListingDetailsPanel from '@/components/ListingComponents/ListingPanel/ListingDetailsPanel';
 
 export function SearchPage() {
   const isMobile = useMediaQuery('(max-width: 500px)');
@@ -70,48 +71,6 @@ export function SearchPage() {
     );
   }
 
-  // DESKTOP VIEW
-  if (isDesktop) {
-    return (
-      <>
-        <PageMeta
-          title={buildTitle()}
-          description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
-          keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
-        />
-        <Box className={styles.pageBackground}>
-          {/* Filters at top */}
-          <FilterBar
-            searchParams={searchParams}
-            updateSearchParam={updateSearchParam}
-            isMobile={isMobile}
-          />
-
-          <AnimatePresence mode="wait">
-            {selectedId ? (
-              <DesktopSplitView
-                displayListings={displayListings}
-                handleSelectListing={handleSelectListing}
-                handleBackToAll={handleBackToAll}
-                selectedId={selectedId}
-              />
-            ) : (
-              // FULL WIDTH GRID - Default view
-              <DesktopDefaultView
-                isLoading={isLoading}
-                noListings={noListings}
-                displayListings={displayListings}
-                totalCurrentListings={totalCurrentListings}
-                handleSelectListing={handleSelectListing}
-              />
-            )}
-          </AnimatePresence>
-        </Box>
-      </>
-    );
-  }
-
-  // MOBILE/TABLET GRID VIEW
   return (
     <>
       <PageMeta
@@ -120,13 +79,35 @@ export function SearchPage() {
         keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
       />
       <Box className={styles.pageBackground}>
+        {/* Filters at top */}
         <FilterBar
           searchParams={searchParams}
           updateSearchParam={updateSearchParam}
           isMobile={isMobile}
         />
 
-        <MobileView displayListings={displayListings} isLoading={isLoading} />
+        <AnimatePresence mode="wait">
+          {selectedId ? (
+            <DesktopSplitView
+              displayListings={displayListings}
+              handleSelectListing={handleSelectListing}
+              handleBackToAll={handleBackToAll}
+              selectedId={selectedId}
+              isMobile={isMobile}
+            />
+          ) : (selectedId && !isDesktop) ? (
+            <ListingDetailsPanel listingId={selectedId} />
+          ) : (
+            // FULL WIDTH GRID - Default view
+            <DesktopDefaultView
+              isLoading={isLoading}
+              noListings={noListings}
+              displayListings={displayListings}
+              totalCurrentListings={totalCurrentListings}
+              handleSelectListing={handleSelectListing}
+            />
+          )}
+        </AnimatePresence>
       </Box>
     </>
   );

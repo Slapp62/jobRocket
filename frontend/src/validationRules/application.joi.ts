@@ -23,10 +23,6 @@ const applicationSchema = Joi.object({
     .messages({
       'string.pattern.base': 'Phone must be a valid Israeli phone number.',
     }),
-  resume: Joi.string().required().min(10).max(500).messages({
-    'string.empty': 'Resume is required',
-    'string.min': 'Resume must be at least 10 characters',
-  }),
   message: Joi.string().min(10).max(2000).allow('').optional().messages({
     'string.min': 'Message must be at least 10 characters',
   }),

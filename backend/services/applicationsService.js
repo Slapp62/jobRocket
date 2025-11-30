@@ -2,8 +2,10 @@ const Applications = require('../models/Applications.js');
 const Listings = require('../models/Listings.js');
 const { throwError } = require('../utils/functionHandlers.js');
 const { normalizeApplicationResponse } = require('../utils/normalizeResponses');
+const { uploadResumeToCloudinary } = require('../utils/uploadResumeToCloudinary.js');
 
-async function submitApplication(listingId, applicantId, applicationData) {
+async function createApplication(listingId, applicantId, resumeFile, applicationData) {
+  
   // Check if listing exists and is active
   const listing = await Listings.findById(listingId);
   if (!listing) {
@@ -17,6 +19,8 @@ async function submitApplication(listingId, applicantId, applicationData) {
     throw error;
   }
 
+  const resumeUrl = await uploadResumeToCloudinary(resumeFile.buffer, applicationData.email);
+
   // Create application
   const application = new Applications({
     listingId,
@@ -25,12 +29,11 @@ async function submitApplication(listingId, applicantId, applicationData) {
     lastName: applicationData.lastName,
     email: applicationData.email,
     phone: applicationData.phone === '' ? undefined : applicationData.phone,
-    resume: applicationData.resume,
+    resume: resumeUrl,
     message:
       applicationData.message === '' ? undefined : applicationData.message,
     status: 'pending',
   });
-  console.log(application);
   await application.save();
   return application;
 }
@@ -175,7 +178,7 @@ async function deleteApplication(applicationId, listingId, requesterId) {
 
 
 module.exports = {
-  submitApplication,
+  createApplication,
   getDashboardMetrics,
   getApplicantApplications,
   getListingApplications,

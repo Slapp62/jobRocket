@@ -1,6 +1,15 @@
 const jwt = require('jsonwebtoken');
 const { throwError } = require('../../utils/functionHandlers');
 
+// Validate JWT_SECRET on module load
+if (!process.env.JWT_SECRET) {
+  throw new Error('FATAL: JWT_SECRET environment variable is not set');
+}
+
+if (process.env.JWT_SECRET.length < 32) {
+  console.warn('WARNING: JWT_SECRET should be at least 32 characters for security');
+}
+
 const generateAuthToken = (user) => {
   try {
     const { _id, isAdmin, profileType } = user;
@@ -22,7 +31,8 @@ const generateAuthToken = (user) => {
 
 const verifyAuthToken = (token) => {
   try {
-    const userData = jwt.verify(token, process.env.JWT_SECRET || '');
+    // Removed dangerous fallback - JWT_SECRET is now validated on load
+    const userData = jwt.verify(token, process.env.JWT_SECRET);
     return userData;
   } catch (error) {
     throwError(401, error.message);

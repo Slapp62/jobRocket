@@ -192,7 +192,7 @@ export const DashApplications = (
                   </Text>
 
                   <Group gap="xs" mt="xs">
-                    <Anchor href={app.resume} target="_blank">
+                    <Anchor href={app.resumeUrl} target="_blank">
                       <ActionIcon variant="light" size={36}>
                         <IconFileDownload size={20} />
                       </ActionIcon>
@@ -272,7 +272,7 @@ export const DashApplications = (
                       </Table.Td>
 
                       <Table.Td>
-                        <Anchor href={app.resume} target="_blank" ><IconFileDownload size={30} /></Anchor>
+                        <Anchor href={app.resumeUrl} target="_blank" ><IconFileDownload size={30} /></Anchor>
                       </Table.Td>
 
                       <Table.Td>

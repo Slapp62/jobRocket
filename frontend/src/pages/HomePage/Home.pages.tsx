@@ -79,7 +79,7 @@ export function HomePage() {
               {/* Conditional Welcome Message */}
               {!user && (
                 <Title order={2} c="white">
-                  Welcome to a world of possibility
+                  Welcome to a world of possibility.
                 </Title>
               )}
               {user && (
@@ -170,24 +170,24 @@ export function HomePage() {
             justify="start"
             align="center"
             w={{ base: '95%', md: '80%' }}
-            gap={10}
-            style={{border: '1px solid orange', borderRadius: '10px', padding: '10px', minHeight: '400px'}}
+            gap="lg"
+            p="lg"
+            style={{border: '1px solid orange', borderRadius: '10px', minHeight: '400px'}}
           >
             <HomePageCards
               title="The Best Job Board for English Speakers in Israel"
               description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
-              height={isMobile ? '300px' : '100%'}
+              height={isMobile ? '300px' : '400px'}
               width={isMobile ? '100%' : '50%'}
-              fontSize=""
             />
             <Image
-              src="\public\peopleWorking-1.jpg"
+              src="/peopleWorking-1.jpg"
               alt="People working"
-              h={{ base: '250px', md: '100%' }}
+              h={{ base: '250px', md: '400px' }}
+              w={{ base: '100%', md: '50%' }}
               ml="auto"
-              fit="fill"
+              fit="cover"
               radius="md"
-              visibleFrom="md"
             />
           </Flex>
 
@@ -196,22 +196,23 @@ export function HomePage() {
             justify="end"
             align="center"
             w={{ base: '95%', md: '80%' }}
-            gap={10}
-            style={{border: '1px solid orange', borderRadius: '10px', padding: '10px', minHeight: '400px'}}
+            gap='lg'
+            p="lg"
+            style={{border: '1px solid orange', borderRadius: '10px', minHeight: '400px'}}
           >
             <Image
-              src="\public\data-analytics.jpg"
+              src="/data-analytics.jpg"
               alt="People working"
-              h={{ base: '250px', md: '100%' }}
+              h={{ base: '250px', md: '400px' }}
+              w={{ base: '100%', md: '50%' }}
               ml="auto"
-              fit="fill"
+              fit="cover"
               radius="md"
-              visibleFrom="md"
             />
             <HomePageCards
               title="Create a Job Seeker or Employer Account"
               description="As a job seeker, you can search for jobs, apply to them, and manage your applications. As an employer, you can create job listings and manage your company's listings."
-              height={isMobile ? '300px' : '100%'}
+              height={isMobile ? '300px' : '400px'}
               width={isMobile ? '100%' : '50%'}
               fontSize=""
             />

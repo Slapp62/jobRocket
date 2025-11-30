@@ -118,7 +118,7 @@ export type TApplication = {
   phone?: string;
   applicantId: string;
   listingId: TListing | string;
-  resume: string;
+  resumeUrl?: string;
   message?: string;
   createdAt: string;
   status: 'pending' | 'reviewed' | 'rejected';

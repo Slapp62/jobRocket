@@ -66,7 +66,7 @@ export function Footer() {
         </div>
         <div className={classes.groups}>{groups}</div>
 
-        <Flex direction="column" c="dimmed" gap={5}>
+        <Flex direction="column" c="dimmed" gap={5} w="25%">
           <Title className={classes.title}>Contact Me</Title>
           <Group>
             <IconMailFilled /> <Text>slapp62@gmail.com</Text>

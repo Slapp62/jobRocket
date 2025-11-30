@@ -24,6 +24,10 @@ yarn-debug.log*
 .DS_Store
 Thumbs.db
 
+# Windows reserved filenames
+nul
+NUL
+
 # IDE
 .vscode/
 .idea/

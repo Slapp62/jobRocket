@@ -3,7 +3,7 @@ const {authenticateUser, optionalAuthenticateUser, businessAuth} = require('../m
 const {applicationsLimiter} = require('../middleware/rateLimiter');
 const router = require('express').Router();
 const {
-  submitApplication,
+  createApplication,
   getApplicationsByID,
   getListingApplications,
   updateApplicationStatus,
@@ -12,8 +12,9 @@ const {
   getBusinessApplications,
   deleteApplication,
 } = require('../controllers/applicationsController');
+const upload = require('../middleware/multer');
 
-router.post('/:listingId', optionalAuthenticateUser, applicationsLimiter, applicationValidation, submitApplication);
+router.post('/:listingId', optionalAuthenticateUser, applicationsLimiter, applicationValidation, upload.single('resume'), createApplication);
 
 router.get('/my-applications', authenticateUser, getApplicationsByID);
 

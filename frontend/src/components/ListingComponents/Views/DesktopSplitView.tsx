@@ -9,6 +9,7 @@ interface DesktopSplitViewProps {
   handleSelectListing: (listingId: string) => void;
   handleBackToAll: () => void;
   selectedId: string;
+  isMobile: boolean | undefined;
 }
 
 const DesktopSplitView = ({
@@ -16,11 +17,15 @@ const DesktopSplitView = ({
   handleSelectListing,
   handleBackToAll,
   selectedId,
+  isMobile,
 }: DesktopSplitViewProps) => {
   // Find the selected listing from the already-loaded displayListings
   const selectedListing = displayListings.find((listing) => listing._id === selectedId);
 
   return (
+    isMobile ? (
+      <ListingDetailsPanel listingId={selectedId} />
+    ) : (
     // SPLIT VIEW - When listing is selected
     <motion.div
       key="split-view"
@@ -30,7 +35,7 @@ const DesktopSplitView = ({
       transition={{ duration: 0.3 }}
       style={{ width: '80vw', margin: 'auto' }}
     >
-      <Flex h="calc(100vh - 200px)" gap={0}>
+      <Flex h="calc(100vh-200px)" gap={0}>
         {/* LEFT SIDE: Condensed listing cards */}
         <motion.div
           initial={{ width: 0, opacity: 0 }}
@@ -90,6 +95,7 @@ const DesktopSplitView = ({
         </motion.div>
       </Flex>
     </motion.div>
+    )
   );
 };
 

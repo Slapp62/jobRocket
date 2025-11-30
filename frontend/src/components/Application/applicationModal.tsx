@@ -3,7 +3,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { Button, Modal, Stack, Textarea, TextInput } from '@mantine/core';
+import { Button, FileInput, Modal, Stack, Textarea, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { TApplication } from '@/Types';
@@ -17,9 +17,12 @@ interface ApplicationModalProps {
 
 export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+
   const {
     reset,
     register,
+    control,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<TApplication>({
@@ -32,13 +35,25 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
   const onSubmit = async (data: TApplication) => {
     try {
       setIsLoading(true);
+
+      const formData = new FormData();
+      formData.append('firstName', data.firstName);
+      formData.append('lastName', data.lastName);
+      formData.append('email', data.email);
+      if (data.phone) formData.append('phone', data.phone);
+      if (data.message) formData.append('message', data.message);
+      
+      // Add the file
+      if (resumeFile) {
+        formData.append('resume', resumeFile);
+      }
+
       const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
-      await axios.post(`${API_BASE_URL}/api/applications/${listingID}`, data, {
+      await axios.post(`${API_BASE_URL}/api/applications/${listingID}`, formData, {
         headers: {
           'x-auth-token': localStorage.getItem('token') || null,
         },
       });
-      onClose();
       reset();
       notifications.show({
         title: 'Application',
@@ -54,6 +69,7 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
       });
     } finally {
       setIsLoading(false);
+      onClose();
     }
   };
 
@@ -77,14 +93,16 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
           />
           <TextInput label="Email" required {...register('email')} error={errors.email?.message} />
           <TextInput label="Phone" {...register('phone')} error={errors.phone?.message} />
-          <TextInput
-            label="Resume"
+          <FileInput
+            label="Resume/CV"
+            accept="application/pdf"
             required
-            {...register('resume')}
-            error={errors.resume?.message}
+            disabled={!resumeFile || !isValid}
+            onChange={setResumeFile} // Capture file directly
+            error={errors.resumeUrl?.message}
           />
           <Textarea label="Message" {...register('message')} error={errors.message?.message} />
-          <Button type="submit" mx="auto" w={200} disabled={!isValid} loading={isLoading}>
+          <Button type="submit" mx="auto" w={200} disabled={!isValid || !resumeFile} loading={isLoading}>
             Submit
           </Button>
         </Stack>

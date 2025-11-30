@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, Center, Flex, Skeleton, Stack, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { FilterBar } from '@/components/Filters/FilterBar';
-import DesktopDefaultView from '@/components/ListingComponents/Views/DesktopDefaultView';
+import DesktopDefaultView from '@/components/ListingComponents/Views/ListingsGridView';
 import DesktopSplitView from '@/components/ListingComponents/Views/DesktopSplitView';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
