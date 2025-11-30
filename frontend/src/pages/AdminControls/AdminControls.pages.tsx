@@ -66,7 +66,7 @@ const AdminControls = () => {
           Admin Control Table
         </Title>
         {/* Mobile Filters */}
-        <Stack spacing="md" hiddenFrom="md" mx="auto" my="md" w="90%">
+        <Stack gap="md" hiddenFrom="md" mx="auto" my="md" w="90%">
           <Select
             data={[
               { value: 'last-name-asc', label: 'Last Name (A-Z)' },
@@ -120,7 +120,7 @@ const AdminControls = () => {
         </Flex>
 
         {/* Mobile Card View */}
-        <Stack hiddenFrom="md" spacing="md" mx="auto" w="90%">
+        <Stack hiddenFrom="md" gap="md" mx="auto" w="90%">
           {paginatedUsers.map((user) => (
             <Card key={user._id} withBorder p="md">
               <Stack gap="xs">

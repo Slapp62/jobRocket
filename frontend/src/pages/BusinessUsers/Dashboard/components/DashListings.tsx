@@ -45,7 +45,7 @@ export const DashListings = ({ listings, handleDelete, handleEdit, searchText, s
     <>
       <Stack>
         {/* Mobile Filters */}
-        <Stack spacing="md" hiddenFrom="md">
+        <Stack gap="md" hiddenFrom="md">
           <TextInput
             label="Search listings"
             placeholder="Search listings"
@@ -137,7 +137,7 @@ export const DashListings = ({ listings, handleDelete, handleEdit, searchText, s
         </Group>
 
         {/* Mobile Card View */}
-        <Stack hiddenFrom="md" spacing="md">
+        <Stack hiddenFrom="md" gap="md">
           {listings?.map((listing) => (
             <Card key={listing._id} withBorder p="md">
               <Stack gap="xs">

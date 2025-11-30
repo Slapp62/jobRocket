@@ -51,7 +51,7 @@ export const DashApplications = (
     <>
       <Stack>
       {/* Mobile Filters */}
-      <Stack spacing="md" hiddenFrom="md">
+      <Stack gap="md" hiddenFrom="md">
         <Select
           label="Listing"
           value={listingId}
@@ -162,7 +162,7 @@ export const DashApplications = (
       ) : (
         <>
           {/* Mobile Card View */}
-          <Stack hiddenFrom="md" spacing="md">
+          <Stack hiddenFrom="md" gap="md">
             {dashApplications?.map((app) => (
               <Card key={app._id} withBorder p="md">
                 <Stack gap="xs">
