@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { Button, Modal, Stack, Textarea, TextInput } from '@mantine/core';
+import { Button, FileInput, Modal, Stack, Textarea, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { TApplication } from '@/Types';
 import { applicationSchema } from '@/validationRules/application.joi';
@@ -33,6 +33,7 @@ export const EditApplicationModal = ({
     criteriaMode: 'all',
   });
 
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
   // Populate form with existing application data when modal opens
   useEffect(() => {
     if (application && opened) {
@@ -41,7 +42,7 @@ export const EditApplicationModal = ({
         lastName: application.lastName,
         email: application.email,
         phone: application.phone || '',
-        resume: application.resume,
+        resumeUrl: application.resumeUrl,
         message: application.message || '',
       });
     }
@@ -101,11 +102,12 @@ export const EditApplicationModal = ({
           />
           <TextInput label="Email" required {...register('email')} error={errors.email?.message} />
           <TextInput label="Phone" {...register('phone')} error={errors.phone?.message} />
-          <TextInput
-            label="Resume"
+          <FileInput
+            label="Resume/CV"
+            accept="application/pdf"
             required
-            {...register('resume')}
-            error={errors.resume?.message}
+            onChange={setResumeFile} // Capture file directly
+            error={errors.resumeUrl?.message}
           />
           <Textarea label="Message" {...register('message')} error={errors.message?.message} />
           <Button type="submit" mx="auto" w={200} disabled={!isValid} loading={isLoading}>

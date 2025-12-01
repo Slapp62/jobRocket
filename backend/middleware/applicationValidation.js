@@ -6,7 +6,7 @@ const applicationValidation = (req, res, next) => {
     abortEarly: false,
   });
   if (error) {
-    return nextError(next, 400, error.details[0].message);
+    return nextError(next, 400, `applicationValidation: ${error.details[0].message}`);
   }
   next();
 };

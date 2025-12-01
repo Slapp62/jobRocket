@@ -43,21 +43,17 @@ export const cleanedUserData = (user: TUsers) => ({
 });
 
 export const cleanedListingData = (listing: TListing) => ({
-  companyName: listing.companyName || '',
+  companyName: listing.companyName,
   jobTitle: listing.jobTitle,
   jobDescription: listing.jobDescription,
-  requirements: listing.requirements || [],
-  advantages: listing.advantages || [],
-  apply: {
-    method: listing.apply?.method || 'email',
-    contact: listing.apply?.contact || '',
-  },
-  location: {
-    region: listing.location?.region || '',
-    city: listing.location?.city || '',
-  },
-  workArrangement: listing.workArrangement || '',
-  industry: listing.industry || '',
+  requirements: listing.requirements,
+  advantages: listing.advantages,
+  apply: listing.apply,
+  location: listing.location,
+  workArrangement: listing.workArrangement,
+  industry: listing.industry,
   isActive: listing.isActive ?? true,
-  expiresAt: listing.expiresAt ? listing.expiresAt.split('T')[0] : '',
+  expiresAt: listing?.expiresAt
+    ? new Date(listing.expiresAt).toISOString().split('T')[0]
+    : null
 });

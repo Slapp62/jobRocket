@@ -9,7 +9,7 @@ const joiApplicationSchema = joi.object({
     'string.empty': 'Last name is required',
     'string.min': 'Last name must be between 2 and 30 characters',
   }),
-  applicantEmail: joi
+  email: joi
     .string()
     .email({ tlds: { allow: false } })
     .required()
@@ -25,7 +25,7 @@ const joiApplicationSchema = joi.object({
     .messages({
       'string.pattern.base': 'Phone must be a valid Israeli phone number.',
     }),
-  resume: joi.string().required().min(10).max(500).messages({
+  resume: joi.required().messages({
     'any.required': 'Resume is required',
   }),
   message: joi.string().optional().allow('').min(10).max(2000),

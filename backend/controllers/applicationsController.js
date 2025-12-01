@@ -1,27 +1,28 @@
 const applicationsService = require('../services/applicationsService.js');
 const { getFilteredApplications } = require('../services/filterService.js');
-const { handleSuccess, handleError } = require('../utils/functionHandlers.js');
+const { handleSuccess, handleError, throwError } = require('../utils/functionHandlers.js');
 
 async function createApplication(req, res) {
   try {
     if (!req.file) {
-      return res.status(400).json({ message: 'Resume file is required' });
+      throwError(400, 'Resume file is required');
     }
 
     const listingId = req.params.listingId;
     const applicantId = req.user._id;
     const applicationData = req.body;
     const resumeFile = req.file;
-
+    
     const application = await applicationsService.createApplication(
       listingId,
       applicantId,
       applicationData,
       resumeFile
     );
+
     handleSuccess(res, 201, application, 'Application submitted successfully.');
   } catch (error) {
-    handleError(res, error.status, error.message);
+    handleError(res, error.status, `createApplicationController: ${error.message}`);
   }
 }
 

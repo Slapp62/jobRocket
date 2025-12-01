@@ -4,32 +4,27 @@ const { throwError } = require('../utils/functionHandlers.js');
 const { normalizeApplicationResponse } = require('../utils/normalizeResponses');
 const { uploadResumeToCloudinary } = require('../utils/uploadResumeToCloudinary.js');
 
-async function createApplication(listingId, applicantId, resumeFile, applicationData) {
-  
+async function createApplication(listingId, applicantId, applicationData, resumeFile) {
   // Check if listing exists and is active
   const listing = await Listings.findById(listingId);
   if (!listing) {
-    const error = new Error('Listing not found');
-    error.status = 404;
-    throw error;
+    throwError(404, 'Listing not found');
   }
   if (!listing.isActive) {
-    const error = new Error('Cannot apply to inactive listing');
-    error.status = 400;
-    throw error;
+    throwError(400, 'Cannot apply to inactive listing');
   }
 
   const resumeUrl = await uploadResumeToCloudinary(resumeFile.buffer, applicationData.email);
-
+  
   // Create application
   const application = new Applications({
     listingId,
-    applicantId: applicantId,
+    applicantId: applicantId || null,
     firstName: applicationData.firstName,
-    lastName: applicationData.lastName,
+    lastName: applicationData.lastName, 
     email: applicationData.email,
     phone: applicationData.phone === '' ? undefined : applicationData.phone,
-    resume: resumeUrl,
+    resumeUrl: resumeUrl.secure_url,
     message:
       applicationData.message === '' ? undefined : applicationData.message,
     status: 'pending',
@@ -49,9 +44,7 @@ async function getApplicantApplications(applicantId) {
 async function getDashboardMetrics(businessId){
   const listings = await Listings.find({businessId: businessId});
   if (!listings || listings.length === 0) {
-    const error = new Error('No listings found');
-    error.status = 404;
-    throw error;
+    throwError(404, 'No listings found');
   }
 
   const listingIds = listings.map(listing => listing._id);
@@ -124,23 +117,17 @@ async function updateApplicationData(
   const application = await Applications.findById(applicationId);
 
   if (!application) {
-    const error = new Error('Application not found');
-    error.status = 404;
-    throw error;
+    throwError(404, 'Application not found');
   }
 
   // Verify requester is the applicant
   if (application.applicantId.toString() !== requesterId) {
-    const error = new Error('Not authorized to update this application');
-    error.status = 403;
-    throw error;
+    throwError(403, 'Not authorized to update this application');
   }
 
   // Only allow updates if status is pending
   if (application.status !== 'pending') {
-    const error = new Error('Cannot update application that is not pending');
-    error.status = 400;
-    throw error;
+    throwError(400, 'Cannot update application that is not pending');
   }
 
   // Update allowed fields

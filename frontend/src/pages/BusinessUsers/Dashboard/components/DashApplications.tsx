@@ -46,7 +46,9 @@ export const DashApplications = (
     setApplicationDelete({ id, title });
     openDelete();
   };
-    
+  
+  console.log(dashApplications);
+  
   return (
     <>
       <Stack>

@@ -85,7 +85,7 @@ const normalizeApplicationResponse = (application) => {
     lastName: application.lastName,
     email: application.email,
     phone: application.phone,
-    resume: application.resume,
+    resumeUrl: application.resumeUrl,
     message: application.message,
     status: application.status,
     createdAt: application.createdAt,

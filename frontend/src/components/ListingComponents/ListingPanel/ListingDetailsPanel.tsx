@@ -18,7 +18,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { ApplicationModal } from '@/components/Application/applicationModal';
+import { ApplicationModal } from '@/components/Modals/applicationModal';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import SocialIcons from '@/components/SocialIcons';
 import { RootState } from '@/store/store';

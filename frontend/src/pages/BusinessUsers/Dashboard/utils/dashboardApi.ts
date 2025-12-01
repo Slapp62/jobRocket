@@ -13,7 +13,7 @@ export const fetchDashboardMetrics = async (): Promise<TDashboardMetrics> => {
 };
 
 export const fetchBusinessListings = async (filterParams: {
-  searchWord?: string;
+  searchWord?: string | null;
   industry?: string | null;
   sortOption?: string | null;
   page?: number;

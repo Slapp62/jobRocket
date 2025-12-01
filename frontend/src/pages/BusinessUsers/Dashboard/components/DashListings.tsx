@@ -20,11 +20,11 @@ interface DashListingsProps {
   setActiveFilter: (activeFilter: string | null) => void;
   page: number;
   setPage: (page: number) => void;
-  handleEdit: (listingId: string) => Promise<void>;
   handleDelete: (listingId: string) => Promise<void>;
+  setListings: React.Dispatch<React.SetStateAction<TListing[]>>
 }
 
-export const DashListings = ({ listings, handleDelete, handleEdit, searchText, setSearchText, industry, setIndustry, sortOption, setSortOption, activeFilter, setActiveFilter, page, setPage }: DashListingsProps) => {
+export const DashListings = ({ listings, handleDelete, searchText, setSearchText, industry, setIndustry, sortOption, setSortOption, activeFilter, setActiveFilter, page, setPage, setListings }: DashListingsProps) => {
   const [deleteOpened, { open: openDelete, close: closeDelete }] = useDisclosure(false);
   const [listingDelete, setListingDelete] = useState<{id: string, title: string} | null>(null);
   const [editOpened, { open: openEdit, close: closeEdit }] = useDisclosure(false);
@@ -38,8 +38,6 @@ export const DashListings = ({ listings, handleDelete, handleEdit, searchText, s
     setListingEdit(listing);
     openEdit();
   };
-
-  
 
   return (
     <>
@@ -284,7 +282,7 @@ export const DashListings = ({ listings, handleDelete, handleEdit, searchText, s
         opened={editOpened} 
         onClose={closeEdit} 
         listing={listingEdit} 
-        //handleEdit={handleEdit} 
+        setListings={setListings}
       />
 
       <DeleteListingModal 

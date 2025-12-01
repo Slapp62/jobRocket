@@ -44,13 +44,14 @@ const seedDevData = async (users, listings, applications = []) => {
   }
 
   // Seed applications
+  console.log(`Attempting to seed ${applications.length} applications...`);
   for (const application of applications) {
     try {
       const applicant = await Users.findOne({
-        email: application.applicantEmail,
+        email: application.email,
       });
       if (!applicant) {
-        console.error(`Applicant not found: ${application.applicantEmail}`);
+        console.error(`Applicant not found: ${application.email}`);
         continue;
       }
 
@@ -68,6 +69,9 @@ const seedDevData = async (users, listings, applications = []) => {
         applicantId: applicant._id,
       });
       if (existingApplication) {
+        console.log(
+          `Application already exists for ${application.email} on listing ${listing.jobTitle}`
+        );
         continue;
       }
 
@@ -75,15 +79,17 @@ const seedDevData = async (users, listings, applications = []) => {
         listingId: listing._id,
         firstName: application.firstName,
         lastName: application.lastName,
-        applicantEmail: application.applicantEmail,
+        email: application.email,
         phone: application.phone,
         applicantId: applicant._id,
-        resume: application.resume,
-        coverLetter: application.coverLetter,
+        resumeUrl: application.resumeUrl,
         message: application.message,
         status: application.status,
       });
       await newApplication.save();
+      console.log(
+        `✓ Seeded application from ${application.email} for ${listing.jobTitle}`
+      );
     } catch (error) {
       console.error('Error seeding application:', error);
     }
@@ -130,10 +136,10 @@ const seedTestData = async (users, listings, applications = []) => {
   for (const application of applications) {
     try {
       const applicant = await Users.findOne({
-        email: application.applicantEmail,
+        email: application.email,
       });
       if (!applicant) {
-        console.error(`Applicant not found: ${application.applicantEmail}`);
+        console.error(`Applicant not found: ${application.email}`);
         continue;
       }
 
@@ -147,9 +153,12 @@ const seedTestData = async (users, listings, applications = []) => {
 
       const newApplication = new Applications({
         listingId: listing._id,
+        firstName: application.firstName,
+        lastName: application.lastName,
+        email: application.email,
+        phone: application.phone,
         applicantId: applicant._id,
-        resume: application.resume,
-        coverLetter: application.coverLetter,
+        resumeUrl: application.resumeUrl,
         message: application.message,
         status: application.status,
       });

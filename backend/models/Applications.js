@@ -27,7 +27,7 @@ const applicationSchema = new Schema({
     minlength: 2,
     maxlength: 30,
   },
-  applicantEmail: {
+  email: {
     type: String,
     required: true,
     validate: {
@@ -47,7 +47,7 @@ const applicationSchema = new Schema({
       message: (props) => `${props.value} is not a valid Israeli phone number!`,
     },
   },
-  resume: {
+  resumeUrl: {
     type: String,
     required: true,
     minlength: 10,
@@ -75,6 +75,6 @@ const applicationSchema = new Schema({
 });
 
 // Compound index - prevents duplicate applications
-applicationSchema.index({ listingId: 1, applicantId: 1 }, { unique: true });
+applicationSchema.index({ listingId: 1, email: 1 }, { unique: true });
 
 module.exports = model('Applications', applicationSchema);

@@ -59,11 +59,13 @@ const authenticateUser = (req, _res, next) => {
 };
 
 const optionalAuthenticateUser = (req, _res, next) => {
+  console.log(req.body);
+  
   if (tokenGenerator === 'jwt') {
     const token = req.header('x-auth-token');
     if (!token) {
       req.user = { _id: null }; // Create the object first
-      console.log(chalk.yellow('No token provided.'));
+      console.log(chalk.yellow('No token provided. Unregistered user.'));
       return next();
     }
 

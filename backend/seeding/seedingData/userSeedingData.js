@@ -23,7 +23,7 @@ const dummyUsers = [
     phone: '052-9876543',
     profileType: 'business',
     businessProfile: {
-      name: 'Tech Solutions Ltd',
+      companyName: 'Tech Solutions Ltd',
       location: {
         country: 'Israel',
         city: 'Jerusalem',

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Center,
   Container,
@@ -12,15 +12,10 @@ import { notifications } from '@mantine/notifications';
 import {
   deleteApplication,
   deleteListing,
-  fetchBusinessListings,
   fetchDashboardMetrics,
   updateApplicationStatus,
 } from '@/pages/BusinessUsers/Dashboard/utils/dashboardApi';
 import { PageMeta } from '@/SEO/PageMeta';
-import {
-  TApplication,
-  TDashboardMetrics,
-} from '@/Types';
 import { DashApplications } from './components/DashApplications';
 import { DashListings } from './components/DashListings';
 import { DashMetrics } from './components/DashMetrics';
@@ -83,10 +78,6 @@ export const Dashboard = () => {
       label: listing.jobTitle
     })) ?? [])
   ];
-
-  const handleEditListing = async () => {
-    
-  };
 
   const handleListingDelete = async (listingId: string) => {
     if (!listingId) return;
@@ -204,7 +195,7 @@ export const Dashboard = () => {
       }
     });   
   };
-
+  
   return (
     <>
       <PageMeta
@@ -279,7 +270,7 @@ export const Dashboard = () => {
                   industry={industry}
                   setIndustry={setIndustry}
                   handleDelete={handleListingDelete}
-                  handleEdit={handleEditListing}
+                  setListings={setListings}
                 />
               </Tabs.Panel>
             </Tabs>

@@ -1,7 +1,7 @@
 import INDUSTRIES from "@/data/industries";
 import WORK_ARRANGEMENTS from "@/data/workArr";
 import { TListing } from "@/Types";
-import { cleanedListingData } from "@/utils/getCleanedListingData";
+import { cleanedListingData } from "@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData";
 import { listingSchema } from "@/validationRules/listing.joi";
 import { Stack, Flex, Title, Button, Fieldset, TextInput, Textarea, Select, Switch, Group, Modal } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
@@ -16,11 +16,11 @@ interface EditListingModalProps {
   opened: boolean;
   onClose: () => void;
   listing: TListing | undefined;
-  //handleEdit: (applicationId: string) => Promise<void>;
+  setListings: React.Dispatch<React.SetStateAction<TListing[]>>
 }
 
 type ListingFormValues = {
-  companyName: string;
+  companyName: string | undefined;
   jobTitle: string;
   jobDescription: string;
   requirements: string[];
@@ -39,11 +39,9 @@ type ListingFormValues = {
   expiresAt?: string | null;
 };
 
-export const EditListingModal = ({opened, onClose, listing} : EditListingModalProps) => {
+export const EditListingModal = ({opened, onClose, listing, setListings} : EditListingModalProps) => {
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
-  const [listingData, setListingData] = useState<TListing | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   
   const {
     register,
@@ -55,29 +53,14 @@ export const EditListingModal = ({opened, onClose, listing} : EditListingModalPr
     mode: 'all',
     resolver: joiResolver(listingSchema),
   });
-
-  useEffect(() => {
-    const fetchListing = async () => {
-      try {
-        setIsLoading(true);
-        const response = await axios.get(`${API_BASE_URL}/api/listings/${listing?._id}`);
-        setListingData(response.data);
-        const defaults = cleanedListingData(response.data) as ListingFormValues;
-        reset(defaults);
-      } catch (error: any) {
-        notifications.show({
-          title: 'Error',
-          message: 'Failed to load listing data',
-          color: 'red',
-        });
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchListing();
-  }, [listing?._id, reset, API_BASE_URL]);
+ 
+  useEffect(()=>{
+    if (opened && listing) {
+      // need to clean the default listing data before setting it to the form to avoid validation errors
+      const cleanedListing = cleanedListingData(listing);
+      reset(cleanedListing);
+    }
+  }, [opened])
 
   const selectedRegion = useWatch({
     control,
@@ -96,9 +79,9 @@ export const EditListingModal = ({opened, onClose, listing} : EditListingModalPr
 
   const onSubmit = async (data: ListingFormValues) => {
     try {
-      setIsSaving(true);
+      setIsLoading(true);
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      await axios.put(
+      const updatedListing = await axios.put(
         `${API_BASE_URL}/api/listings/${listing?._id}`,
         {
           ...data,
@@ -108,6 +91,14 @@ export const EditListingModal = ({opened, onClose, listing} : EditListingModalPr
           headers: { 'x-auth-token': token },
         }
       );
+      
+      // set the updated listing in the listings state so its seen in UI immediatley
+      setListings((prevListings:TListing[]) =>
+        prevListings.map((listing:TListing) =>
+          listing._id === updatedListing.data._id ? updatedListing.data : listing
+        )
+      );
+
       notifications.show({
         title: 'Success',
         message: 'Listing updated successfully!',
@@ -122,7 +113,7 @@ export const EditListingModal = ({opened, onClose, listing} : EditListingModalPr
         color: 'red',
       });
     } finally {
-      setIsSaving(false);
+      setIsLoading(false);
     }
   };
 
@@ -335,7 +326,7 @@ export const EditListingModal = ({opened, onClose, listing} : EditListingModalPr
               color="green"
               leftSection={<IconDeviceFloppy size={16} />}
               disabled={!isValid || !isDirty}
-              loading={isSaving}
+              loading={isLoading}
             >
               Save Changes
             </Button>

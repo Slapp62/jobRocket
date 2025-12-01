@@ -9,7 +9,7 @@ import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { clearUser, setUser, updateUser } from '@/store/userSlice';
 import { TUsers } from '@/Types';
-import { cleanedUserData } from '@/utils/getCleanedListingData';
+import { cleanedUserData } from '@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData';
 import { editProfileSchema } from '@/validationRules/editProfile.joi';
 
 export const useEditProfile = () => {
