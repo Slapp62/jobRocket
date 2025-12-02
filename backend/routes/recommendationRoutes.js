@@ -1,6 +1,6 @@
 const express = require('express');
 const { getMatchScore } = require('../controllers/recommendationController.js');
-const { authenticateUser } = require('../middleware/authService.js');
+const { authenticateUser } = require('../middleware/authMiddleware.js');
 
 const router = express.Router();
 

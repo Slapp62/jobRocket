@@ -2,11 +2,13 @@ const express = require('express');
 const {
   registerUser,
   loginUser,
+  logoutUser,
   getAllUsers,
   getUserById,
   updateUserProfile,
   toggleUserRole,
   deleteUser,
+  getCurrentUser,
 } = require('../controllers/userController.js');
 const {
   profileValidation,
@@ -18,7 +20,7 @@ const {
   userAdminAuth,
   lockoutCheck,
   verifyCredentials,
-} = require('../middleware/authService.js');
+} = require('../middleware/authMiddleware.js');
 const {
   loginLimiter,
   registrationLimiter,
@@ -38,6 +40,11 @@ router.post(
   verifyCredentials,
   loginUser
 );
+
+// Get current user
+router.get('/current', authenticateUser, getCurrentUser);
+
+router.post('/logout', logoutUser);
 
 // Get all users (admin only)
 router.get('/', authenticateUser, adminAuth, getAllUsers);

@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
-
+const session = require('express-session');
+const sessionConfig = require('./config/sessionConfig');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 });
 app.use(express.static('public'));
 app.use(errorLogger);
+app.use(session(sessionConfig));
 
 app.use(router);
 

@@ -1,11 +1,6 @@
-const config = require('config');
 const { throwError, nextError } = require('../utils/functionHandlers');
-const { verifyAuthToken } = require('../auth/providers/jwt');
 const Listing = require('../models/Listings');
 const authService = require('../services/authService');
-const chalk = require('chalk');
-
-const tokenGenerator = config.get('TOKEN_GENERATOR') || 'jwt';
 
 const lockoutCheck = async (req, _res, next) => {
   const { email } = req.body;
@@ -37,50 +32,63 @@ const verifyCredentials = async (req, _res, next) => {
   }
 };
 
-const authenticateUser = (req, _res, next) => {
-  if (tokenGenerator === 'jwt') {
-    const token = req.header('x-auth-token');
-    if (!token) {
-      return throwError(401, 'Access denied. No token provided.');
-    }
-
-    try {
-      const userData = verifyAuthToken(token);
-      if (!userData) {
-        throwError(401, 'Access denied. Invalid token.');
-      }
-
-      req.user = userData;
-      next();
-    } catch (error) {
-      next(error);
-    }
+const authenticateUser = (req, res, next) => {
+  // Check if user has a session
+  if (!req.session.userId) {
+    return nextError(next, 401, 'Access denied. Please log in.');
   }
+
+  // Check inactivity timeout (1 hour)
+  const ONE_HOUR = 60 * 60 * 1000;
+  const timeSinceActivity = Date.now() - (req.session.lastActivity || 0);
+  
+  if (timeSinceActivity > ONE_HOUR) {
+    return req.session.destroy((err) => {
+      return nextError(next, 401, 'Session expired due to inactivity.');
+    });
+  }
+
+  // Update last activity time (sliding window)
+  req.session.lastActivity = Date.now();
+
+  // Attach user data to request (so your existing routes don't break)
+  req.user = {
+    _id: req.session.userId,
+    isAdmin: req.session.isAdmin,
+    profileType: req.session.profileType,
+  };
+
+  next();
 };
 
-const optionalAuthenticateUser = (req, _res, next) => {
-  console.log(req.body);
-  
-  if (tokenGenerator === 'jwt') {
-    const token = req.header('x-auth-token');
-    if (!token) {
-      req.user = { _id: null }; // Create the object first
-      console.log(chalk.yellow('No token provided. Unregistered user.'));
-      return next();
-    }
-
-    try {
-      const userData = verifyAuthToken(token);
-      if (!userData) {
-        throwError(401, 'Access denied. Invalid token.');
-      }
-
-      req.user = userData;
-      next();
-    } catch (error) {
-      next(error);
-    }
+const optionalAuthenticateUser = (req, res, next) => {
+  // If no session, set null user and continue
+  if (!req.session.userId) {
+    req.user = { _id: null };
+    return next();
   }
+
+  // Check inactivity timeout
+  const ONE_HOUR = 60 * 60 * 1000;
+  const timeSinceActivity = Date.now() - (req.session.lastActivity || 0);
+  
+   if (timeSinceActivity > ONE_HOUR) {
+    return req.session.destroy((err) => {
+      return nextError(next, 401, 'Session expired due to inactivity.');
+    });
+  }
+
+  // Update last activity time
+  req.session.lastActivity = Date.now();
+
+  // Attach user data
+  req.user = {
+    _id: req.session.userId,
+    isAdmin: req.session.isAdmin,
+    profileType: req.session.profileType,
+  };
+
+  next();
 };
 
 const adminAuth = (req, _res, next) => {

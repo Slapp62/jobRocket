@@ -1,6 +1,5 @@
 const userService = require('../services/userService.js');
 const { handleSuccess, handleError } = require('../utils/functionHandlers.js');
-const { generateAuthToken } = require('../auth/providers/jwt.js');
 
 async function registerUser(req, res) {
   try {
@@ -14,11 +13,47 @@ async function registerUser(req, res) {
 
 async function loginUser(req, res) {
   try {
-    const token = generateAuthToken(req.user);
-    handleSuccess(res, 200, token, 'Login successful');
+    const user = req.user; // This comes from verifyCredentials middleware
+    // Create session
+    req.session.userId = user._id.toString();
+    req.session.isAdmin = user.isAdmin;
+    req.session.profileType = user.profileType;
+    req.session.lastActivity = Date.now();
+
+    const sessionObject = {
+      userId: user._id.toString(),
+      firstName: user.profileType === 'jobseeker' ? user.jobseekerProfile.firstName : null,
+      lastName: user.profileType === 'jobseeker' ? user.jobseekerProfile.lastName : null,
+      companyName: user.profileType === 'business' ? user.businessProfile.companyName : null,
+      isAdmin: user.isAdmin,
+      profileType: user.profileType,
+    };
+    
+    handleSuccess(res, 200, sessionObject, 'Login successful');
   } catch (error) {
     handleError(res, error.status, error.message);
   }
+}
+
+async function getCurrentUser(req, res) {
+  try {
+    const userId = req.user._id;
+    const user = await userService.getUserById(userId);
+    handleSuccess(res, 200, user, 'User data fetched successfully.');
+  } catch (error) {
+    handleError(res, error.status, error.message);
+  }
+}
+
+async function logoutUser(req, res) {
+  req.session.destroy((err) => {
+    if (err) {
+      return handleError(res, 500, 'Could not log out');
+    }
+    
+    res.clearCookie('sessionId'); // Must match the name in sessionConfig
+    handleSuccess(res, 200, null, 'Logged out successfully');
+  });
 }
 
 async function getAllUsers(req, res) {
@@ -74,6 +109,8 @@ async function deleteUser(req, res) {
 module.exports = {
   registerUser,
   loginUser,
+  getCurrentUser,
+  logoutUser,
   getAllUsers,
   getUserById,
   updateUserProfile,

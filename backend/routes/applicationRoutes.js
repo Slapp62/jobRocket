@@ -1,5 +1,5 @@
 const applicationValidation = require('../middleware/applicationValidation');
-const {authenticateUser, optionalAuthenticateUser, businessAuth} = require('../middleware/authService');
+const {authenticateUser, optionalAuthenticateUser, businessAuth} = require('../middleware/authMiddleware');
 const {applicationsLimiter} = require('../middleware/rateLimiter');
 const router = require('express').Router();
 const {

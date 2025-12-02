@@ -17,7 +17,6 @@ export function FavoriteListings() {
   const user = useSelector((state: RootState) => state.userSlice.user);
   const navigate = useNavigate();
   const isMobile = useMediaQuery('(max-width: 500px)');
-  const isDesktop = useMediaQuery('(min-width: 1024px)');
   const {
     searchParams,
     updateSearchParam,
@@ -91,6 +90,7 @@ export function FavoriteListings() {
               handleSelectListing={handleSelectListing}
               handleBackToAll={handleBackToAll}
               selectedId={selectedId}
+              isMobile={isMobile}
             />
           ) : (
             // FULL WIDTH GRID - Default view

@@ -1,15 +1,16 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { Flex } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { MobileBottomNav } from '@/components/Navigation/MobileNav.tsx';
 import { useAuthInit } from '@/hooks/UseAuthInit.ts';
 import { useScrollToTop } from '@/hooks/useScrollToTop.ts';
-import { RootState } from '@/store/store.ts';
+import { AppDispatch, RootState } from '@/store/store.ts';
 import { Footer } from '../components/Navigation/Footer.tsx';
 import { Navbar } from '../components/Navigation/Header.tsx';
 import styles from '../styles/gradients.module.css';
+import { setupAxiosInterceptors } from '@/utils/axiosConfig.ts';
 
 export function Layout() {
   const isMobile = useMediaQuery('(max-width: 700px)');
@@ -17,6 +18,14 @@ export function Layout() {
     (state: RootState) => state.userSlice.user?.profileType === 'business'
   );
 
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  // Setup axios interceptors once on mount
+  useEffect(() => {
+    setupAxiosInterceptors(dispatch, navigate);
+  }, [dispatch, navigate]);
+  
   // persist log in between sessions
   useAuthInit();
 

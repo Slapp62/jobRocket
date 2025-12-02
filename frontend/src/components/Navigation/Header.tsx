@@ -26,9 +26,11 @@ import { Logo } from './Logo';
 import classes from '../ComponentStyles/Header.module.css';
 import bgStyles from '@/styles/bgStyles.module.css';
 import { IconPlus } from '@tabler/icons-react';
+import axios from 'axios';
 
 export function Navbar() {
   const user = useSelector((state: RootState) => state.userSlice.user);
+  
   const loggedIn = useSelector((state: RootState) => state.userSlice.isLoggedIn);
   const isBusinessUser = user?.profileType === 'business';
   const dispatch = useDispatch<AppDispatch>();
@@ -37,17 +39,26 @@ export function Navbar() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const { colorScheme } = useMantineColorScheme();
 
-  const logoutHandler = () => {
-    jumpTo('/');
+  const logoutHandler = async () => {
+  try {
+    await axios.post('/api/users/logout');
     dispatch(clearUser());
-    sessionStorage.removeItem('token');
-    localStorage.removeItem('token');
+    jumpTo('/');
     notifications.show({
       title: 'Success',
       message: 'Logged out successfully!',
       color: 'green',
     });
-  };
+  } catch (error) {
+    // Even if logout fails, clear local state
+    dispatch(clearUser());
+    notifications.show({
+      title: 'Warning',
+      message: 'Logged out locally',
+      color: 'yellow',
+    });
+  }
+};
 
   const [scrolled, setScrolled] = useState(false);
 

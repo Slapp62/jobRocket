@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -20,7 +19,6 @@ import { notifications } from '@mantine/notifications';
 import { PageMeta } from '@/SEO/PageMeta';
 import { AppDispatch } from '@/store/store';
 import { setUser } from '@/store/userSlice';
-import { TdecodedToken } from '@/Types';
 import { loginSchema } from '@/validationRules/login.joi';
 import classes from './Login.module.css';
 import styles from '@/styles/gradients.module.css';
@@ -51,22 +49,14 @@ export function LoginPage() {
   const onSubmit = async (data: FieldValues) => {
     setIsLoading(true);
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL;
-      const response = await axios.post(`${API_BASE_URL}/api/users/login`, {
+      const response = await axios.post(`/api/users/login`, {
         email: data.email,
         password: data.password,
       });
 
-      const token = response.data;
-      localStorage.setItem('rememberMe', rememberMe ? 'true' : 'false');
-      localStorage.setItem('token', token);
+      const userData = response.data; // Note: wrapped in .data.data because of backend handleSuccess format
+      dispatch(setUser(userData));
 
-      axios.defaults.headers.common['x-auth-token'] = token;
-
-      const { _id } = jwtDecode<TdecodedToken>(token);
-      const userResponse = await axios.get(`${API_BASE_URL}/api/users/${_id}`);
-
-      dispatch(setUser(userResponse.data));
       notifications.show({
         title: 'Success',
         message: 'Logged In!',

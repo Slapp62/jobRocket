@@ -44,7 +44,6 @@ const seedDevData = async (users, listings, applications = []) => {
   }
 
   // Seed applications
-  console.log(`Attempting to seed ${applications.length} applications...`);
   for (const application of applications) {
     try {
       const applicant = await Users.findOne({
@@ -69,9 +68,6 @@ const seedDevData = async (users, listings, applications = []) => {
         applicantId: applicant._id,
       });
       if (existingApplication) {
-        console.log(
-          `Application already exists for ${application.email} on listing ${listing.jobTitle}`
-        );
         continue;
       }
 
@@ -87,9 +83,6 @@ const seedDevData = async (users, listings, applications = []) => {
         status: application.status,
       });
       await newApplication.save();
-      console.log(
-        `✓ Seeded application from ${application.email} for ${listing.jobTitle}`
-      );
     } catch (error) {
       console.error('Error seeding application:', error);
     }
