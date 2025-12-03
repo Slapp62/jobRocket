@@ -24,7 +24,6 @@ const data = [
   {
     title: 'Project',
     links: [
-      { label: 'GitHub', link: 'https://github.com/Slapp62/reactMantineProject.git' },
       { label: 'MantineUI', link: 'https://mantine.dev' },
       { label: 'React', link: 'https://react.dev' },
       { label: 'Vite', link: 'https://vitejs.dev' },
@@ -35,7 +34,7 @@ const data = [
     title: 'About Me',
     links: [
       { label: 'LinkedIn', link: 'https://www.linkedin.com/in/simcha-lapp-0b4081106/' },
-      { label: 'Portfolio Website', link: 'https://slapp62.github.io/portfolio_site/' },
+      { label: 'Portfolio Website', link: 'https://simchalapp.com' },
     ],
   },
 ];

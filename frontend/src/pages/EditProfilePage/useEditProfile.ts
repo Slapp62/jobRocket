@@ -16,7 +16,6 @@ export const useEditProfile = () => {
   const jumpTo = useNavigate();
   const { id } = useParams();
   const isMobile = useMediaQuery('(max-width: 700px)');
-  const [isDisabled, setDisabled] = useState(true);
   const dispatch = useDispatch();
   const [isSubmitting, setSubmitting] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
@@ -27,8 +26,7 @@ export const useEditProfile = () => {
   const paramsUser = allUsers?.find((account) => account._id === id);
 
   const userData = isAdminView ? paramsUser : currentUser;
-  const API_BASE_URL = import.meta.env.VITE_API_URL;
-
+  
   const {
     register,
     handleSubmit,
@@ -64,7 +62,7 @@ export const useEditProfile = () => {
     }
 
     try {
-      const response = await axios.put(`${API_BASE_URL}/api/users/${userData?._id}`, payload);
+      const response = await axios.put(`/api/users/${userData?._id}`, payload);
 
       if (response.status === 200) {
         const updatedUser = response.data;
@@ -79,7 +77,6 @@ export const useEditProfile = () => {
           dispatch(updateUser(updatedUser));
         }
         reset(cleanedUserData(updatedUser));
-        setDisabled(true);
         notifications.show({
           title: 'Success',
           message: 'Profile Updated Successfully!',
@@ -99,7 +96,7 @@ export const useEditProfile = () => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     axios.defaults.headers.common['x-auth-token'] = token;
     try {
-      const response = await axios.patch(`${API_BASE_URL}/api/users/${userData?._id}`);
+      const response = await axios.patch(`/api/users/${userData?._id}`);
       if (response.status === 200) {
         const updatedUser = response.data;
         setSubmitting(true);
@@ -134,7 +131,7 @@ export const useEditProfile = () => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     axios.defaults.headers.common['x-auth-token'] = token;
     try {
-      const response = await axios.delete(`${API_BASE_URL}/api/users/${userData?._id}`);
+      const response = await axios.delete(`/api/users/${userData?._id}`);
       if (response.status === 200) {
         !isAdminView ? dispatch(clearUser()) : jumpTo('/admin');
         notifications.show({
@@ -163,8 +160,6 @@ export const useEditProfile = () => {
     errors,
     isDirty,
     isValid,
-    isDisabled,
-    setDisabled,
     updateBusinessStatus,
     isMobile,
     opened,

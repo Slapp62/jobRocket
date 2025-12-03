@@ -18,8 +18,6 @@ export function EditProfile() {
     errors,
     isDirty,
     isValid,
-    isDisabled,
-    setDisabled,
     updateBusinessStatus,
     isMobile,
     opened,
@@ -44,14 +42,14 @@ export function EditProfile() {
       <Flex mt={20} direction="column" align="center" gap={20}>
         <Title>Edit Profile</Title>
 
-        <Flex justify="center" direction="column" style={{ width: isMobile ? '90%' : '50%' }}>
+        <Flex my={10} justify="center" direction="column" w={isMobile ? '90%' : '50%'}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Flex gap={10} direction="column" m="auto">
               <Fieldset legend="Contact">
                 <TextInput
                   rightSection={<IconPhone />}
                   label="Phone"
-                  disabled={isDisabled}
+                  
                   required
                   {...register('phone', {
                     onChange: (e) => {
@@ -68,7 +66,7 @@ export function EditProfile() {
                     register={register}
                     errors={errors}
                     control={control}
-                    disabled={isDisabled}
+                    
                   />
                 </Fieldset>
               )}
@@ -79,7 +77,7 @@ export function EditProfile() {
                     register={register}
                     errors={errors}
                     control={control}
-                    disabled={isDisabled}
+                    
                   />
                 </Fieldset>
               )}
@@ -93,7 +91,7 @@ export function EditProfile() {
                   {!userData?.isAdmin && (
                     <Button
                       size="xs"
-                      disabled={isDisabled}
+                      
                       loading={isSubmitting}
                       onClick={() => updateBusinessStatus()}
                     >
@@ -115,7 +113,7 @@ export function EditProfile() {
                     <Text fw="bold" c="red">
                       All data will be lost and you will be logged out.
                     </Text>
-                    <Button color="red" disabled={isDisabled} onClick={open}>
+                    <Button color="red"  onClick={open}>
                       Delete Account
                     </Button>
                   </Flex>
@@ -123,21 +121,7 @@ export function EditProfile() {
               )}
 
               <Flex direction="column" gap={5} w="50%" mx="auto">
-                {isDisabled && (
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      setDisabled(false);
-                      trigger();
-                    }}
-                  >
-                    {' '}
-                    Edit Profile
-                  </Button>
-                )}
-
-                <Button disabled={isDisabled || !isValid || !isDirty} type="submit">
-                  {' '}
+                <Button disabled={!isValid || !isDirty} type="submit">
                   Update Info
                 </Button>
               </Flex>

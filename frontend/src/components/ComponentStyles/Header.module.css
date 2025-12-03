@@ -44,7 +44,32 @@
     &:hover {
       background-color: var(--mantine-color-rocketRed-6);
       border-radius: 10px;
+      color: white
+    }
+  }
 
+  .drawerLink {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: var(--mantine-spacing-md);
+    padding-right: var(--mantine-spacing-md);
+    text-decoration: none;
+    color: var(--mantine-color-rocketRed-6);
+    font-weight: 500;
+    font-size: var(--mantine-font-size-sm);
+    height: 36px;
+    transition: all 0.2s ease;
+
+    @media (max-width: $mantine-breakpoint-sm) {
+      height: 42px;
+      width: 100%;
+    }
+
+    &:hover {
+      background-color: var(--mantine-color-rocketRed-6);
+      border-radius: 10px;
+      color: white
     }
   }
   

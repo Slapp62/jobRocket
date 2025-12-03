@@ -10,6 +10,7 @@ export function useAuthInit() {
     const checkSession = async () => {
       try {
         const response = await axios.get('/api/users/current');
+        
         // If this succeeds, user has valid session
         dispatch(setUser(response.data));
       } catch (error) {

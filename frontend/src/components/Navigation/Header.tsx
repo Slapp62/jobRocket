@@ -16,7 +16,7 @@ import {
   Tooltip,
   useMantineColorScheme,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { AppDispatch, RootState } from '@/store/store';
 import { clearUser } from '@/store/userSlice';
@@ -29,7 +29,7 @@ import axios from 'axios';
 
 export function Navbar() {
   const user = useSelector((state: RootState) => state.userSlice.user);
-  
+  const isMobile = useMediaQuery('(max-width: 726px)');
   const loggedIn = useSelector((state: RootState) => state.userSlice.isLoggedIn);
   const isBusinessUser = user?.profileType === 'business';
   const dispatch = useDispatch<AppDispatch>();
@@ -142,8 +142,7 @@ export function Navbar() {
             </Group>
 
             <Group>
-              {loggedIn && 
-                <AvatarIcon />}
+              {loggedIn && !isMobile && <AvatarIcon />}
               <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="md" />
             </Group>
           </Group>
@@ -169,9 +168,9 @@ export function Navbar() {
           <Divider />
           <Flex direction="column" my={20}>
             {loggedIn && (
-              <Group my="md" pl="md" align="self-end">
+              <Group my="md" gap={5} align='center' justify='center'>
                 <AvatarIcon closeDrawer={closeDrawer} />
-                <Text fz={15}>
+                <Text fz={15} fw={600}>
                   {user?.profileType === 'jobseeker'
                     ? `${user?.jobseekerProfile?.firstName} ${user?.jobseekerProfile?.lastName}`
                     : user?.businessProfile?.companyName}
@@ -179,29 +178,37 @@ export function Navbar() {
               </Group>
             )}
 
-            <Link to="/" className={classes.link} onClick={closeDrawer}>
-              <Text fz={15} c="rocketRed" fw={700}>
+            <Link to="/" className={classes.drawerLink} onClick={closeDrawer}>
+              <Text fz={15} fw={700}>
                 Home
               </Text>
             </Link>
 
-            <Link to="/about" className={classes.link} onClick={closeDrawer}>
-              <Text fz={15} c="rocketRed" fw={700}>
+            <Link to="/about" className={classes.drawerLink} onClick={closeDrawer}>
+              <Text fz={15} fw={700}>
                 About
               </Text>
             </Link>
 
             {loggedIn && (
-              <Link to="/favorites" className={classes.link} onClick={closeDrawer}>
-                <Text fz={15} c="rocketRed" fw={700}>
+              <Link to="/favorites" className={classes.drawerLink} onClick={closeDrawer}>
+                <Text fz={15} fw={700}>
                   Favorites
+                </Text>
+              </Link>
+            )}
+
+            {loggedIn && user?.profileType === 'jobseeker' && (
+              <Link to="/my-applications" className={classes.drawerLink} onClick={closeDrawer} >
+                <Text fz={15} fw={700}>
+                  My Applications
                 </Text>
               </Link>
             )}
 
             {user?.profileType === 'business' && (
               <Link to="/dashboard" className={classes.link} onClick={closeDrawer}>
-                <Text fz={15} c="rocketRed" fw={700}>
+                <Text fz={15} fw={700}>
                   Dashboard
                 </Text>
               </Link>
@@ -209,7 +216,7 @@ export function Navbar() {
 
             {user?.isAdmin && (
               <Link to="/admin" className={classes.link} onClick={closeDrawer}>
-                <Text fz={15} c="rocketOrange" fw={700}>
+                <Text fz={15} fw={700}>
                   Admin Controls
                 </Text>
               </Link>

@@ -22,6 +22,7 @@ import { setUser } from '@/store/userSlice';
 import { loginSchema } from '@/validationRules/login.joi';
 import classes from './Login.module.css';
 import styles from '@/styles/gradients.module.css';
+import { useAuthInit } from '@/hooks/UseAuthInit';
 
 export function LoginPage() {
   const jumpTo = useNavigate();
@@ -49,11 +50,11 @@ export function LoginPage() {
   const onSubmit = async (data: FieldValues) => {
     setIsLoading(true);
     try {
-      const response = await axios.post(`/api/users/login`, {
+      await axios.post(`/api/users/login`, {
         email: data.email,
         password: data.password,
       });
-
+      const response = await axios.get('/api/users/current');
       const userData = response.data; // Note: wrapped in .data.data because of backend handleSuccess format
       dispatch(setUser(userData));
 

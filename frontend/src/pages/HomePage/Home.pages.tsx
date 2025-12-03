@@ -57,7 +57,6 @@ export function HomePage() {
     // Navigate to search page with query params
     navigate(`/search?${params.toString()}`);
   };
-  console.log(user);
   
   return (
     <>
@@ -85,7 +84,7 @@ export function HomePage() {
               )}
               {user && (
                 <Text ta="center" className={styles.lightDark} fw="bold" fz={30}>
-                  Welcome Back, {user.firstName || user.companyName}!
+                  Welcome Back, {user.jobseekerProfile?.firstName || user.businessProfile?.companyName}!
                 </Text>
               )}
             </Box>
