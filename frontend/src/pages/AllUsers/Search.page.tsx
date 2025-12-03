@@ -51,6 +51,11 @@ export function SearchPage() {
           keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
         />
         <Box className={styles.pageBackground}>
+          <FilterBar
+            searchParams={searchParams}
+            updateSearchParam={updateSearchParam}
+            isMobile={isMobile}
+          />
           <Flex direction="column" align="center" mx="auto" gap={20} py="md" w="90vw">
           <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="90%" mx="auto">
             {Array.from({ length: 12 }).map((_, i) => (

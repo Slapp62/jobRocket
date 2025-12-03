@@ -57,7 +57,8 @@ export function HomePage() {
     // Navigate to search page with query params
     navigate(`/search?${params.toString()}`);
   };
-
+  console.log(user);
+  
   return (
     <>
       <PageMeta
@@ -66,7 +67,7 @@ export function HomePage() {
         keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
       />
 
-      <Box h="85%">
+      <Box h="85%" w="100%">
         <Stack
           w="100%"
           h="100%"
@@ -84,13 +85,13 @@ export function HomePage() {
               )}
               {user && (
                 <Text ta="center" className={styles.lightDark} fw="bold" fz={30}>
-                  Welcome Back, {user.jobseekerProfile?.firstName || user.businessProfile?.companyName}!
+                  Welcome Back, {user.firstName || user.companyName}!
                 </Text>
               )}
             </Box>
 
           {/* Search & Sort */}
-            <Flex gap={10} justify="center"direction={isMobile ? 'column' : 'row'}>
+            <Flex gap={10} justify="center" direction={isMobile ? 'column' : 'row'} mx="auto">
               {/* Search */}
               <SearchText
                 value={searchObj.searchWord}
@@ -162,8 +163,9 @@ export function HomePage() {
         <Stack
           justify="center"
           align="center"
-          p="50px"
+          my="50px"
           gap={100}
+          w="100%"
         >
           <Flex
             direction={{ base: 'column', md: 'row' }}
@@ -179,6 +181,8 @@ export function HomePage() {
               description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
               height={isMobile ? '300px' : '400px'}
               width={isMobile ? '100%' : '50%'}
+              fontSize={isMobile ? '18px' : '20px'}
+              titleOrder={isMobile ? 3 : 2}
             />
             <Image
               src="/peopleWorking-1.jpg"
@@ -214,7 +218,8 @@ export function HomePage() {
               description="As a job seeker, you can search for jobs, apply to them, and manage your applications. As an employer, you can create job listings and manage your company's listings."
               height={isMobile ? '300px' : '400px'}
               width={isMobile ? '100%' : '50%'}
-              fontSize=""
+              fontSize={isMobile ? '18px' : '20px'}
+              titleOrder={isMobile ? 3 : 2}
             />
           </Flex>
         </Stack>

@@ -7,8 +7,10 @@
 
 .logo {
   max-width: 200px;
-
-  @media (max-width: $mantine-breakpoint-sm) {
+  background-color:  rgb(255, 99, 3);
+  border-radius: 10px;
+  padding: 5px;
+  @media (max-width: 726px) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,19 +18,15 @@
 }
 
 .description {
-  margin-top: 5px;
-
-  @media (max-width: $mantine-breakpoint-sm) {
-    margin-top: var(--mantine-spacing-xs);
-    text-align: center;
-  }
+  color: white;
 }
 
 .inner {
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: $mantine-breakpoint-sm) {
+  @media (max-width: 726px) {
+    width: 100%;
     flex-direction: column;
     gap: 15px;
     align-items: center;
@@ -38,22 +36,18 @@
 
 .groups {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: start;
-  flex-wrap: wrap;
-  width: 75%;
+  flex-wrap: nowrap;
+  width: 100%;
   @media (max-width: $mantine-breakpoint-sm) {
     display: none;
   }
 }
 
-.wrapper {
-  width: 160px;
-}
-
 .link {
   display: block;
-  color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-1));
+  color: var(--mantine-color-gray-6);
   font-size: var(--mantine-font-size-sm);
   padding-top: 3px;
   padding-bottom: 3px;

@@ -64,7 +64,10 @@ const DesktopSplitView = ({
               {displayListings.map((listing) => (
                 <Box
                   key={listing._id}
-                  onClick={() => handleSelectListing(listing._id)}
+                  onClick={() => {
+                    handleSelectListing(listing._id);
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                  }}
                   style={{
                     cursor: 'pointer',
                     outline: selectedId === listing._id ? '2px solid #228be6' : 'none',

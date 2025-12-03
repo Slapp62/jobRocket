@@ -61,7 +61,7 @@ const DesktopDefaultView = ({
           </Center>
         ) : (
           <Flex direction="column" align="center" mx="auto" gap={20} py="md" w="90vw">
-            <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="90%" mx="auto">
+            <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="95%" mx="auto">
               {displayListings.map((listing, index) => (
                 <motion.div
                   key={listing._id}
@@ -72,7 +72,10 @@ const DesktopDefaultView = ({
                     delay: index * 0.03,
                     ease: 'easeOut',
                   }}
-                  onClick={() => handleSelectListing(listing._id)}
+                  onClick={() => {
+                    handleSelectListing(listing._id);
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                  }}
                   style={{ cursor: 'pointer' }}
                 >
                   <ListingCard

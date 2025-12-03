@@ -3,6 +3,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import {
+  ActionIcon,
   Anchor,
   Badge,
   Box,
@@ -16,13 +17,14 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { ApplicationModal } from '@/components/Modals/applicationModal';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import SocialIcons from '@/components/SocialIcons';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
+import { IconArrowBack, IconBackspace } from '@tabler/icons-react';
 
 type ListingDetailPanelProps = {
   listingId: string;
@@ -38,6 +40,7 @@ export function ListingDetailsPanel({
   const [showLoader, setShowLoader] = useState(false);
   const user = useSelector((state: RootState) => state.userSlice.user);
   const [opened, { open, close }] = useDisclosure(false);
+  const isMobile = useMediaQuery('(max-width: 768px)'); 
 
   useEffect(() => {
     // If listing is already provided, skip API call
@@ -113,6 +116,11 @@ export function ListingDetailsPanel({
     >
       <Card shadow="sm" radius="md" withBorder p="lg" h="100%">
         <Stack gap="md">
+          {isMobile && (
+            <Button variant='outline' leftSection={<IconArrowBack />} onClick={() => window.history.back()}>
+              Go Back
+            </Button>
+          )}
           {/* Header */}
           <Box>
             <Text fw={700} size="lg" c="dimmed" mb={5}>
@@ -131,7 +139,7 @@ export function ListingDetailsPanel({
             </Group>
 
             <Group justify='start' align='center' gap="xs" mt="sm">
-              <Button variant="filled" color="rocketOrange.9" onClick={open} w="20%">
+              <Button variant="filled" color="rocketRed.6" onClick={open} w={{base: '100%', md: '30%'}}>
                 Apply
               </Button>
               <SocialIcons listingID={listing._id} />
@@ -194,7 +202,7 @@ export function ListingDetailsPanel({
           {/* Application */}
           <Box>
             <Text fw={600} size="sm" mb={5}>
-              How to Apply
+              External Application Link
             </Text>
             <Text size="sm" mb={5}>
               Apply via {listing.apply.method === 'email' ? 'email' : 'external link'}:

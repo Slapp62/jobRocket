@@ -1,7 +1,8 @@
 import { IconMailFilled, IconMapPinFilled, IconPhoneFilled } from '@tabler/icons-react';
-import { Container, Flex, Group, Text, Title } from '@mantine/core';
+import { Container, Flex, Group, Stack, Text, Title } from '@mantine/core';
 import { Logo } from './Logo';
 import classes from '../ComponentStyles/FooterStyles.module.css';
+import { useMediaQuery } from '@mantine/hooks';
 
 const data = [
   {
@@ -40,6 +41,7 @@ const data = [
 ];
 
 export function Footer() {
+  const isMobile = useMediaQuery('(max-width: 768px)');
   const groups = data.map((group) => {
     const links = group.links.map((link, index) => (
       <Text<'a'> key={index} className={classes.link} component="a" href={link.link}>
@@ -58,25 +60,27 @@ export function Footer() {
   return (
     <footer className={classes.footer}>
       <Container className={classes.inner}>
-        <div className={classes.logo}>
+        <Stack className={classes.logo} bg='rocketRed.7'>
           <Logo />
-          <Text size="xs" c="dimmed" className={classes.description}>
+          <Text size="xs" ta='center' className={classes.description}>
             Creating opportunities and careers with simplicity in mind.
           </Text>
-        </div>
+        </Stack>
         <div className={classes.groups}>{groups}</div>
 
-        <Flex direction="column" c="dimmed" gap={5} w="25%">
+        <Flex direction="column" c="dimmed" gap={5} w={isMobile ? "100%" : "35%"}  ta='center'>
           <Title className={classes.title}>Contact Me</Title>
-          <Group>
-            <IconMailFilled /> <Text>slapp62@gmail.com</Text>
-          </Group>
-          <Group>
-            <IconPhoneFilled /> <Text>+972-58-434-5797</Text>
-          </Group>
-          <Group>
-            <IconMapPinFilled /> <Text>Beit Shemesh, IL</Text>
-          </Group>
+          <Stack mx='auto' gap={4}>
+            <Group>
+              <IconMailFilled /> <Text>slapp62@gmail.com</Text>
+            </Group>
+            <Group>
+              <IconPhoneFilled /> <Text>+972-58-434-5797</Text>
+            </Group>
+            <Group>
+              <IconMapPinFilled /> <Text>Beit Shemesh, IL</Text>
+            </Group>
+          </Stack>
         </Flex>
       </Container>
       <Container className={classes.afterFooter}>

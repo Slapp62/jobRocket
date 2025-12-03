@@ -72,9 +72,9 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
   const user = useSelector((state: RootState) => state.userSlice.user);
 
   return (
-    <Modal opened={opened} onClose={onClose} title="Application" size="lg" zIndex={1000}>
+    <Modal opened={opened} onClose={onClose} title="Application" zIndex={1000}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack p="lg">
+        <Stack w={{base: '100%', md: '80%'}} mx='auto'>
           <TextInput
             label="First Name"
             required

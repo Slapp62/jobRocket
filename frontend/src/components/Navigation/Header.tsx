@@ -21,7 +21,6 @@ import { notifications } from '@mantine/notifications';
 import { AppDispatch, RootState } from '@/store/store';
 import { clearUser } from '@/store/userSlice';
 import { AvatarIcon } from './Avatar';
-import { LightDarkToggle } from './LightDarkToggle';
 import { Logo } from './Logo';
 import classes from '../ComponentStyles/Header.module.css';
 import bgStyles from '@/styles/bgStyles.module.css';
@@ -37,7 +36,6 @@ export function Navbar() {
 
   const jumpTo = useNavigate();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-  const { colorScheme } = useMantineColorScheme();
 
   const logoutHandler = async () => {
   try {
@@ -152,12 +150,18 @@ export function Navbar() {
         </Flex>
       </header>
 
+      {/* MobileView */}
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
         size="60%"
         padding="md"
-        title="IsraJobs"
+        title={
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+            <img src="/flavicon-color.png" height={30} alt="JobRocket Logo" />
+            JobRocket
+          </div>
+        }
         hiddenFrom="md"
         zIndex={1000000}
       >
@@ -176,20 +180,20 @@ export function Navbar() {
             )}
 
             <Link to="/" className={classes.link} onClick={closeDrawer}>
-              <Text fz={15} c="rocketOrange" fw={700}>
+              <Text fz={15} c="rocketRed" fw={700}>
                 Home
               </Text>
             </Link>
 
             <Link to="/about" className={classes.link} onClick={closeDrawer}>
-              <Text fz={15} c="rocketOrange" fw={700}>
+              <Text fz={15} c="rocketRed" fw={700}>
                 About
               </Text>
             </Link>
 
             {loggedIn && (
               <Link to="/favorites" className={classes.link} onClick={closeDrawer}>
-                <Text fz={15} c="rocketOrange" fw={700}>
+                <Text fz={15} c="rocketRed" fw={700}>
                   Favorites
                 </Text>
               </Link>
@@ -197,7 +201,7 @@ export function Navbar() {
 
             {user?.profileType === 'business' && (
               <Link to="/dashboard" className={classes.link} onClick={closeDrawer}>
-                <Text fz={15} c="rocketOrange" fw={700}>
+                <Text fz={15} c="rocketRed" fw={700}>
                   Dashboard
                 </Text>
               </Link>
@@ -228,7 +232,7 @@ export function Navbar() {
             )}
 
             {!loggedIn && (
-              <Button w="95%" color="yellow" component={Link} to="/register" onClick={closeDrawer}>
+              <Button w="95%" variant='rocketRedFilled' component={Link} to="/register" onClick={closeDrawer}>
                 Register
               </Button>
             )}
