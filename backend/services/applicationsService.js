@@ -149,13 +149,13 @@ async function updateApplicationData(
 
 
 async function deleteApplication(applicationId, listingId, requesterId) {
-  const application = await Applications.findById(applicationId);
+  const application =
+    await Applications.findById(applicationId).populate('listingId');
   if (!application) {
     throwError(404, 'Application not found');
   }
 
-  const listing = await Listings.find({listingId});
-  if (listing.businessId !== requesterId) {
+  if (application.listingId.businessId.toString() !== requesterId || application.applicantId.toString() !== requesterId) {
     throwError(403, 'Not authorized to delete this application');
   }
 

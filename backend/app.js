@@ -23,7 +23,7 @@ app.use(
     origin:
       process.env.NODE_ENV === 'production'
         ? 'https://jobrocket-site.onrender.com'
-        : ['http://localhost:5173' || 'http://localhost:5174'], // Vite's default port
+        : ['http://localhost:5173', 'http://localhost:5174'], // Vite's default port
     credentials: true,
   })
 );
