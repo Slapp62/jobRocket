@@ -54,7 +54,7 @@ export function LoginPage() {
         email: data.email,
         password: data.password,
       });
-      const response = await axios.get('/api/users/current');
+      const response = await axios.get('/api/users/current');      
       const userData = response.data; // Note: wrapped in .data.data because of backend handleSuccess format
       dispatch(setUser(userData));
 

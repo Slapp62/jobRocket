@@ -13,23 +13,15 @@ async function registerUser(req, res) {
 
 async function loginUser(req, res) {
   try {
-    const user = req.user; // This comes from verifyCredentials middleware
+    const userId = req.user._id;
+    const user = await userService.getUserById(userId);
     // Create session
     req.session.userId = user._id.toString();
     req.session.isAdmin = user.isAdmin;
     req.session.profileType = user.profileType;
     req.session.lastActivity = Date.now();
 
-    const sessionObject = {
-      userId: user._id.toString(),
-      firstName: user.profileType === 'jobseeker' ? user.jobseekerProfile.firstName : null,
-      lastName: user.profileType === 'jobseeker' ? user.jobseekerProfile.lastName : null,
-      companyName: user.profileType === 'business' ? user.businessProfile.companyName : null,
-      isAdmin: user.isAdmin,
-      profileType: user.profileType,
-    };
-    
-    handleSuccess(res, 200, sessionObject, 'Login successful');
+    handleSuccess(res, 200, user, 'Login successful.');
   } catch (error) {
     handleError(res, error.status, error.message);
   }
