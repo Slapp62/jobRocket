@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
+const path = require('path');
 const session = require('express-session');
 const sessionConfig = require('./config/sessionConfig');
 const express = require('express');
@@ -22,15 +23,14 @@ if (process.env.NODE_ENV === 'production') {
 }
 // global middleware
 // Configure CORS
-app.use(
-  cors({
-    origin:
-      process.env.NODE_ENV === 'production'
-        ? 'https://jobrocket-site.onrender.com'
-        : ['http://localhost:5173', 'http://localhost:5174'], // Vite's default port
-    credentials: true,
-  })
-);
+if (process.env.NODE_ENV === 'development') {
+  app.use(
+    cors({
+      origin: ['http://localhost:5173', 'http://localhost:5174'],
+      credentials: true,
+    })
+  );
+}
 
 app.use(
   morgan('Server Log: [:localtime] :method :url :status :response-time ms')
@@ -41,11 +41,22 @@ app.use((req, res, next) => {
   req.body = mongoSanitize.sanitize(req.body);
   next();
 });
-app.use(express.static('public'));
+
 app.use(errorLogger);
 app.use(session(sessionConfig));
 
 app.use(router);
+
+// Serve static frontend files (IN PRODUCTION ONLY)
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the public folder
+  app.use(express.static(path.join(__dirname, 'public')));
+  // Catch-all route: serve index.html for any non-API routes
+  // This allows React Router to handle client-side routing
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  });
+}
 
 // error handler
 app.use((error, _req, res, _next) => {
