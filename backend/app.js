@@ -16,6 +16,10 @@ const app = express();
 // Apply helmet (sets secure HTTP headers)
 app.use(helmet());
 
+// Trust first proxy in production (required for Render)
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
 // global middleware
 // Configure CORS
 app.use(
