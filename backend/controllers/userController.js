@@ -13,15 +13,20 @@ async function registerUser(req, res) {
 
 async function loginUser(req, res) {
   try {
-    const userId = req.user._id;
-    const user = await userService.getUserById(userId);
+    const user = req.user;
     // Create session
     req.session.userId = user._id.toString();
     req.session.isAdmin = user.isAdmin;
     req.session.profileType = user.profileType;
     req.session.lastActivity = Date.now();
 
-    handleSuccess(res, 200, user, 'Login successful.');
+    // Save session to MongoDB BEFORE responding
+    req.session.save((err) => {
+      if (err) {
+        return handleError(res, 500, 'Failed to create session');
+      }
+      handleSuccess(res, 200, user, 'Login successful.');
+    });
   } catch (error) {
     handleError(res, error.status, error.message);
   }
