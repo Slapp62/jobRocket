@@ -1,4 +1,4 @@
-const fs = require('fs-extra');
+const fs = require('fs');
 const path = require('path');
 
 const source = path.join(__dirname, '../../frontend/dist');
@@ -9,12 +9,14 @@ console.log(`   Source: ${source}`);
 console.log(`   Destination: ${destination}`);
 
 try {
-  // Empty the destination directory first
-  fs.emptyDirSync(destination);
-  console.log('✅ Cleaned destination directory');
+  // Remove destination directory if it exists
+  if (fs.existsSync(destination)) {
+    fs.rmSync(destination, { recursive: true, force: true });
+    console.log('✅ Cleaned destination directory');
+  }
 
-  // Copy all files from source to destination
-  fs.copySync(source, destination);
+  // Copy all files from source to destination recursively
+  fs.cpSync(source, destination, { recursive: true });
   console.log('✅ Frontend build copied to backend/public');
 } catch (error) {
   console.error('❌ Error copying build files:', error.message);
