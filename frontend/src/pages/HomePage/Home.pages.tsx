@@ -179,7 +179,7 @@ export function HomePage() {
               title="The Best Job Board for English Speakers in Israel"
               description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
               height={isMobile ? '300px' : '400px'}
-              width={isMobile ? '100%' : '50%'}
+              width={{base: '100%', xs: '50%'}}
               fontSize={isMobile ? '18px' : '20px'}
               titleOrder={isMobile ? 3 : 2}
             />

@@ -13,6 +13,7 @@ const sessionConfig = {
     maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
+    domain: '.onrender.com',
     sameSite: 'none',
   },
   name: 'sessionId', // Cookie name (defaults to 'connect.sid')

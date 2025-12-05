@@ -1,4 +1,4 @@
-import { Stack, Text, Title, TitleOrder } from '@mantine/core';
+import { MantineStyleProps, Stack, StyleProp, Text, Title, TitleOrder } from '@mantine/core';
 import styles from '@/styles/gradients.module.css';
 
 type HomePageCardsProps = {
@@ -6,7 +6,7 @@ type HomePageCardsProps = {
   titleOrder?: TitleOrder | undefined;
   description: string;
   height?: string;
-  width?: string;
+  width?: StyleProp<Property.Width<string | number> | undefined> ;
   fontSize?: string;
   image?: string;
 };
