@@ -22,6 +22,8 @@ const startServer = async () => {
     
     // 3. THEN start server 
     const PORT = process.env.PORT || config.get('PORT') || 3000;
+    
+    // calling app.listen loads app.js module
     const server = app.listen(PORT, () => {
       console.log(chalk.green.bold(`Server running on port ${PORT}`));
     });
