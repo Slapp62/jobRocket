@@ -53,7 +53,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'public')));
   // Catch-all route: serve index.html for any non-API routes
   // This allows React Router to handle client-side routing
-  app.get('*', (req, res) => {
+  app.get('/*path', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
 }
