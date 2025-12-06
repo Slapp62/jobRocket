@@ -11,9 +11,5 @@ router.use('/api/users', userRouter);
 router.use('/api/listings', listingRouter);
 router.use('/api/recommendations', recommendationRouter);
 router.use('/api/applications', applicationRouter);
-// 404 handler
-router.use((_req, res) => {
-  handleError(res, 404, 'Route not found');
-});
 
 module.exports = router;
