@@ -10,17 +10,25 @@ const dummyApplications = require('./seeding/seedingData/applicationSeedingData'
 // Function-based startup for explicit control
 const startServer = async () => {
   try {
+    // 1. Connect to database FIRST 
+    console.log(chalk.blue('Connecting to database...'));
+    await connectToDB();
+    console.log(chalk.green('Database connected!'));
+    
+    // 2. Seed dev data if needed 
+    if (process.env.NODE_ENV === 'development') {
+      await seedDevData(dummyUsers, dummyListings, dummyApplications);
+    }
+    
+    // 3. THEN start server 
     const PORT = process.env.PORT || config.get('PORT') || 3000;
-    const server = app.listen(PORT, async () => {
-      console.log(chalk.green.bold(`server running on port ${PORT}`));
-      await connectToDB();
-      if (process.env.NODE_ENV === 'development') {
-        await seedDevData(dummyUsers, dummyListings, dummyApplications);
-      }
+    const server = app.listen(PORT, () => {
+      console.log(chalk.green.bold(`Server running on port ${PORT}`));
     });
-    return server; // Return server instance for potential cleanup
+    
+    return server;
   } catch (error) {
-    console.error('Failed to start server:', error);
+    console.error(chalk.red('Failed to start server:'), error);
     process.exit(1);
   }
 };
