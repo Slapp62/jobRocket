@@ -10,7 +10,7 @@
     "test:my-cards": "cross-env NODE_ENV=test jest tests/cards/getMyCards.test.js --detectOpenHandles",
     "test:create-card": "cross-env NODE_ENV=test jest tests/cards/createCard.test.js --detectOpenHandles",
     "test:watch": "cross-env NODE_ENV=test jest --watch --detectOpenHandles",
-    "build": "cd ../frontend && npm install && npm run build && node ../backend/scripts/copy-build.js",
+    "build": "npm install && cd ../frontend && npm install && npm run build && cd ../backend && node scripts/copy-build.js",
     "start": "node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "lint": "eslint . --ext .js",
