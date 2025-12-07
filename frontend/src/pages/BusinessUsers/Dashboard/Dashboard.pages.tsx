@@ -80,7 +80,7 @@ export const Dashboard = () => {
   ];
 
   const handleListingDelete = async (listingId: string) => {
-    if (!listingId) return;
+    if (!listingId) {return;}
     const newListings = removeListingById(listingId);
     setListings(newListings);
 
@@ -103,7 +103,7 @@ export const Dashboard = () => {
     // update listings metrics
     //TODO: add option to delete associated applications
     setDashboardMetrics((prev) => {
-      if (!prev) return prev;
+      if (!prev) {return prev;}
   
       return {
         ...prev,
@@ -116,7 +116,7 @@ export const Dashboard = () => {
   };
 
   const handleApplicationDelete = async (applicationId: string) => {
-    if (!applicationId) return;
+    if (!applicationId) {return;}
     const newApplications = removeApplicationById(applicationId);
     setApplications(newApplications);
 
@@ -138,7 +138,7 @@ export const Dashboard = () => {
 
     // update applications metrics
     setDashboardMetrics((prev) => {
-      if (!prev) return prev;
+      if (!prev) {return prev;}
   
       return {
         ...prev,
@@ -154,7 +154,7 @@ export const Dashboard = () => {
   };
 
   const handleStatusChange = async (applicationId: string, newStatus: string | null) => {
-    if (!newStatus) return;
+    if (!newStatus) {return;}
     const validStatus = newStatus as 'pending' | 'reviewed' | 'rejected';
 
     try {
@@ -171,7 +171,7 @@ export const Dashboard = () => {
     }
 
     setApplications(prev => {
-      if (!prev) return prev;
+      if (!prev) {return prev;}
 
       return prev.map(app => 
         app._id === applicationId ? { ...app, status: validStatus } : app
@@ -179,7 +179,7 @@ export const Dashboard = () => {
     });
 
     setDashboardMetrics((prev) => {
-      if (!prev) return prev;
+      if (!prev) {return prev;}
       const updatedMetrics = {
         pendingApplications: applications.filter(app => app.status === 'pending').length,
         reviewedApplications: applications.filter(app => app.status === 'reviewed').length,

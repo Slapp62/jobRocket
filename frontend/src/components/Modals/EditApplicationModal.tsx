@@ -49,7 +49,7 @@ export const EditApplicationModal = ({
   }, [application, opened, reset]);
 
   const onSubmit = async (data: TApplication) => {
-    if (!application) return;
+    if (!application) {return;}
 
     try {
       setIsLoading(true);
@@ -69,7 +69,7 @@ export const EditApplicationModal = ({
       });
 
       onClose();
-      if (onSuccess) onSuccess();
+      if (onSuccess) {onSuccess();}
     } catch (error: any) {
       console.error(error);
       notifications.show({
@@ -82,7 +82,7 @@ export const EditApplicationModal = ({
     }
   };
 
-  if (!application) return null;
+  if (!application) {return null;}
 
   return (
     <Modal opened={opened} onClose={onClose} title="Edit Application" size="lg" zIndex={1000}>

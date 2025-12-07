@@ -3,7 +3,6 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import {
-  ActionIcon,
   Anchor,
   Badge,
   Box,
@@ -24,7 +23,7 @@ import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import SocialIcons from '@/components/SocialIcons';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
-import { IconArrowBack, IconBackspace } from '@tabler/icons-react';
+import { IconArrowBack } from '@tabler/icons-react';
 
 type ListingDetailPanelProps = {
   listingId: string;

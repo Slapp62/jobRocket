@@ -46,9 +46,9 @@ export const useDashboardListings = () => {
   }, [searchText, sortOption, industry, page])
 
   const activeFilteredListings = listings.filter((listing) => {
-    if (activeFilter === 'all') return true;
-    if (activeFilter === 'active') return listing.isActive === true;
-    if (activeFilter === 'inactive') return listing.isActive === false;
+    if (activeFilter === 'all') {return true;}
+    if (activeFilter === 'active') {return listing.isActive === true;}
+    if (activeFilter === 'inactive') {return listing.isActive === false;}
   })
 
   const sortFavorites = sortOption?.startsWith('favorites') ? 

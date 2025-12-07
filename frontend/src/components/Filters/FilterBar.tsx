@@ -1,4 +1,4 @@
-import { Flex, Group } from '@mantine/core';
+import { Flex } from '@mantine/core';
 import { SearchCity } from './SearchCity';
 import { SearchIndustry } from './SearchIndustry';
 import { SearchRegion } from './SearchRegion';

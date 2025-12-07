@@ -1,9 +1,5 @@
 import {
-  IconDashboard,
-  IconDownload,
   IconFileDownload,
-  IconPdf,
-  IconPencil,
   IconTrash,
 } from '@tabler/icons-react';
 import { ActionIcon, Anchor, Box, Card, Center, Group, Select, Stack, Table, Text, TextInput, Title } from '@mantine/core';
@@ -46,9 +42,7 @@ export const DashApplications = (
     setApplicationDelete({ id, title });
     openDelete();
   };
-  
-  console.log(dashApplications);
-  
+
   return (
     <>
       <Stack>

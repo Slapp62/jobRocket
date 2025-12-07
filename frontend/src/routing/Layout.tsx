@@ -9,7 +9,6 @@ import { useScrollToTop } from '@/hooks/useScrollToTop.ts';
 import { AppDispatch, RootState } from '@/store/store.ts';
 import { Footer } from '../components/Navigation/Footer.tsx';
 import { Navbar } from '../components/Navigation/Header.tsx';
-import styles from '../styles/gradients.module.css';
 import { setupAxiosInterceptors } from '@/utils/axiosConfig.ts';
 
 export function Layout() {

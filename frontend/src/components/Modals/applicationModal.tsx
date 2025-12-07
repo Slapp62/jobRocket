@@ -40,9 +40,9 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
       formData.append('firstName', data.firstName);
       formData.append('lastName', data.lastName);
       formData.append('email', data.email);
-      if (data.phone) formData.append('phone', data.phone);
-      if (data.message) formData.append('message', data.message);
-      if (resumeFile) formData.append('resume', resumeFile);
+      if (data.phone) {formData.append('phone', data.phone);}
+      if (data.message) {formData.append('message', data.message);}
+      if (resumeFile) {formData.append('resume', resumeFile);}
             
       const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
       await axios.post(`${API_BASE_URL}/api/applications/${listingID}`, formData, {

@@ -1,5 +1,5 @@
 import { useRouteError } from 'react-router-dom';
-import { Button, Center, Container, Flex, Paper, Stack, Text, Title } from '@mantine/core';
+import { Button, Flex, Paper, Stack, Text, Title } from '@mantine/core';
 
 export default function ErrorFallback() {
   const error = useRouteError() as Error;

@@ -1,5 +1,4 @@
 import { Stack, StyleProp, Text, Title, TitleOrder } from '@mantine/core';
-import styles from '@/styles/gradients.module.css';
 
 type HomePageCardsProps = {
   title: string;
@@ -11,7 +10,7 @@ type HomePageCardsProps = {
   image?: string;
 };
 
-const HomePageCards = ({ title, description, height, width, fontSize, image, titleOrder  }: HomePageCardsProps) => {
+const HomePageCards = ({ title, description, height, width, fontSize, titleOrder  }: HomePageCardsProps) => {
   return (
     <Stack
       c="rocketRed.8"

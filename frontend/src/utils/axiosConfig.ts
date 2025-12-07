@@ -1,5 +1,6 @@
-import { AppDispatch } from '@/store/store';
+import { AppDispatch, store } from '@/store/store';
 import { clearUser } from '@/store/userSlice';
+import { notifications } from '@mantine/notifications';
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;
@@ -10,9 +11,13 @@ export const setupAxiosInterceptors = (dispatch: AppDispatch, navigate: (path: s
     (response) => response, // Pass successful responses through unchanged
     (error) => {
       if (error.response?.status === 401) {
-        // Session expired - clean up and redirect
         dispatch(clearUser());
         navigate('/', { state: { message: 'Session expired. Please log in again.' } });
+        notifications.show({
+          title: 'Session Expired',
+          message: 'Session expired. Please login again',
+          color: 'yellow',
+        });
       }
       return Promise.reject(error); // Re-throw so original catch blocks still work
     }

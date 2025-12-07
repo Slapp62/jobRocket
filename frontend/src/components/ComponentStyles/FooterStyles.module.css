@@ -7,7 +7,6 @@
 
 .logo {
   max-width: 200px;
-  background-color:  rgb(255, 99, 3);
   border-radius: 10px;
   padding: 5px;
   @media (max-width: 726px) {

@@ -59,28 +59,13 @@ export function Footer() {
   return (
     <footer className={classes.footer}>
       <Container className={classes.inner}>
-        <Stack className={classes.logo} bg='rocketRed.7'>
+        <Stack className={classes.logo} bg='rocketOrange.9'>
           <Logo />
           <Text size="xs" ta='center' className={classes.description}>
             Creating opportunities and careers with simplicity in mind.
           </Text>
         </Stack>
         <div className={classes.groups}>{groups}</div>
-
-        <Flex direction="column" c="dimmed" gap={5} w={isMobile ? "100%" : "35%"}  ta='center'>
-          <Title className={classes.title}>Contact Me</Title>
-          <Stack mx='auto' gap={4}>
-            <Group>
-              <IconMailFilled /> <Text>slapp62@gmail.com</Text>
-            </Group>
-            <Group>
-              <IconPhoneFilled /> <Text>+972-58-434-5797</Text>
-            </Group>
-            <Group>
-              <IconMapPinFilled /> <Text>Beit Shemesh, IL</Text>
-            </Group>
-          </Stack>
-        </Flex>
       </Container>
       <Container className={classes.afterFooter}>
         <Text c="dimmed" size="sm">

@@ -1,10 +1,9 @@
 // theme.ts - Rocket Theme Configuration
-import { 
-  createTheme, 
+import {
+  createTheme,
   MantineColorsTuple,
   defaultVariantColorsResolver,
-  VariantColorsResolver,
-  parseThemeColor,
+  Title,
 } from '@mantine/core';
 // Custom Rocket Orange color palette
 const rocketOrange: MantineColorsTuple = [
@@ -73,10 +72,12 @@ export const theme = createTheme({
   },
 
   // Typography - Space-inspired, modern and bold
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+  fontFamily: 'Poppins, Inter, Roboto, sans-serif',
+  fontSizes: {xs: '12px', md: '16px'},
+  // font weight set in global css
   headings: {
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-    fontWeight: '700',
+    fontFamily: 'Poppins, sans-serif',
+    fontWeight: '400',
   },
 
   // Border radius - Sleek and modern
@@ -84,25 +85,39 @@ export const theme = createTheme({
 
   // Component defaults
   components: {
-    Button: {
-    defaultProps: {
-      radius: 'md',
+    Badge: {
+      defaultProps: {
+        radius: 'sm',
+        fw: 400,
+      },
     },
-  },
+    Button: {
+      defaultProps: {
+        radius: 'md',
+        fw: 400,
+      },
+    },
     Card: {
       defaultProps: {
         radius: 'md',
         shadow: 'sm',
+        fw: 400,
       },
     },
-    Badge: {
+    Text: {
       defaultProps: {
-        radius: 'sm',
-      },
+        fw: 400,
+      }
+    },
+    Title: {
+      defaultProps:{
+        fw: 400
+      }
     },
     ThemeIcon: {
       defaultProps: {
         radius: 'md',
+        fw: 400,
       },
     },
   },

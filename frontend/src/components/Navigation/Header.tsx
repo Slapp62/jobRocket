@@ -70,46 +70,31 @@ export function Navbar() {
   }, []);
 
   return (
-    <Box className={bgStyles.primaryBg} pos="sticky">
+    <Box bg='rocketOrange.9' pos="sticky">
       <header>
         <Flex justify="space-between" align="center" h="100%" px="sm">
           <Logo />
 
           <Group visibleFrom="md" gap={5}>
-            <Link to="/" className={classes.link}>
-              <Text fw={700}>Home</Text>
-            </Link>
-
-            <Link to="/search" className={classes.link}>
-              <Text fw={700}>Job Board</Text>
-            </Link>
-
+            <Button fz='md' variant='subtle' c='white' component={Link} to='/'>Home</Button>
+            <Button fz='md' variant='subtle' c='white' component={Link} to='/search'>Job Board</Button>
+            
             {loggedIn && user?.profileType === 'jobseeker' && (
-              <Link to="/favorites" className={classes.link}>
-                <Text fw={700}>Favorites</Text>
-              </Link>
+              <Button fz='md' variant='subtle' c='white' component={Link} to='/favorites'>Favorites</Button>
             )}
 
             {loggedIn && user?.profileType === 'jobseeker' && (
-              <Link to="/my-applications" className={classes.link}>
-                <Text fw={700}>My Applications</Text>
-              </Link>
+              <Button fz='md' variant='subtle' c='white' component={Link} to='/my-applications'>Applications</Button>
             )}
 
             {loggedIn && user?.profileType === 'business' && (
-              <Link to="/dashboard" className={classes.link}>
-                <Text fw={700}>Dashboard</Text>
-              </Link>
+             <Button fz='md' variant='subtle' c='white' component={Link} to='/dashboard'>Dashboard</Button>
             )}
 
-            <Link to="/about" className={classes.link}>
-              <Text fw={700}>About</Text>
-            </Link>
+           <Button fz='md' variant='subtle' c='white' component={Link} to='/about'>About Us</Button>
 
             {user?.isAdmin && (
-              <Link to="/admin" className={classes.link}>
-                <Text fw={700}>Admin Controls</Text>
-              </Link>
+             <Button fz='md' variant='subtle' c='white' component={Link} to='/admin'>Admin Controls</Button>
             )}
           </Group>
 
@@ -179,20 +164,20 @@ export function Navbar() {
             )}
 
             <Link to="/" className={classes.drawerLink} onClick={closeDrawer}>
-              <Text fz={15} fw={700}>
+              <Text fz={15}>
                 Home
               </Text>
             </Link>
 
             <Link to="/about" className={classes.drawerLink} onClick={closeDrawer}>
-              <Text fz={15} fw={700}>
+              <Text fz={15}>
                 About
               </Text>
             </Link>
 
             {loggedIn && (
               <Link to="/favorites" className={classes.drawerLink} onClick={closeDrawer}>
-                <Text fz={15} fw={700}>
+                <Text fz={15}>
                   Favorites
                 </Text>
               </Link>
@@ -200,7 +185,7 @@ export function Navbar() {
 
             {loggedIn && user?.profileType === 'jobseeker' && (
               <Link to="/my-applications" className={classes.drawerLink} onClick={closeDrawer} >
-                <Text fz={15} fw={700}>
+                <Text fz={15}>
                   My Applications
                 </Text>
               </Link>
@@ -208,7 +193,7 @@ export function Navbar() {
 
             {user?.profileType === 'business' && (
               <Link to="/dashboard" className={classes.link} onClick={closeDrawer}>
-                <Text fz={15} fw={700}>
+                <Text fz={15}>
                   Dashboard
                 </Text>
               </Link>
@@ -216,7 +201,7 @@ export function Navbar() {
 
             {user?.isAdmin && (
               <Link to="/admin" className={classes.link} onClick={closeDrawer}>
-                <Text fz={15} fw={700}>
+                <Text fz={15}>
                   Admin Controls
                 </Text>
               </Link>

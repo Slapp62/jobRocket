@@ -5,7 +5,7 @@ import { cleanedListingData } from "@/pages/BusinessUsers/Dashboard/utils/getCle
 import { listingSchema } from "@/validationRules/listing.joi";
 import { Stack, Flex, Title, Button, Fieldset, TextInput, Textarea, Select, Switch, Group, Modal } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconX, IconTrash, IconDeviceFloppy } from "@tabler/icons-react";
+import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { joiResolver } from '@hookform/resolvers/joi';

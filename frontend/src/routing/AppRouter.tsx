@@ -1,21 +1,36 @@
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { SearchPage } from '@/pages/AllUsers/Search.page';
-import { Dashboard } from '@/pages/BusinessUsers/Dashboard/Dashboard.pages';
-import { MyApplications } from '@/pages/Jobseekers/MyApplications.page';
+import { Center, Loader } from '@mantine/core';
 import ErrorFallback from '../components/ErrorCatching/ErrorFallback';
-import AdminControls from '../pages/AdminControls/AdminControls.pages';
-import { RegisterForm } from '../pages/AllUsers/Register.pages';
-import { CreateListing } from '../pages/BusinessUsers/CreateListing.pages';
-import { EditProfile } from '../pages/EditProfilePage/EditProfile.pages';
-import { HomePage } from '../pages/HomePage/Home.pages';
-import { FavoriteListings } from '../pages/Jobseekers/Favorites.pages';
-import { LoginPage } from '../pages/AllUsers/LoginPage/Login.pages';
-import Error404 from '../pages/Static/404.pages';
-import About from '../pages/Static/About.pages';
-import PrivacyPolicy from '../pages/Static/PrivacyPolicy.pages';
-import TermsOfService from '../pages/Static/TermsOfService.pages';
 import { Layout } from './Layout';
 import RouteGuard from './RouteGuard';
+
+// Eager loaded routes (frequently accessed, small)
+import { HomePage } from '../pages/HomePage/Home.pages';
+import { SearchPage } from '@/pages/AllUsers/Search.page';
+import { LoginPage } from '../pages/AllUsers/LoginPage/Login.pages';
+import { RegisterForm } from '../pages/AllUsers/Register.pages';
+
+// Lazy loaded routes (large pages, less frequently accessed)
+const Dashboard = lazy(() => import('@/pages/BusinessUsers/Dashboard/Dashboard.pages').then(m => ({ default: m.Dashboard })));
+const MyApplications = lazy(() => import('@/pages/Jobseekers/MyApplications.page').then(m => ({ default: m.MyApplications })));
+const FavoriteListings = lazy(() => import('@/pages/Jobseekers/Favorites.pages').then(m => ({ default: m.FavoriteListings })));
+const CreateListing = lazy(() => import('@/pages/BusinessUsers/CreateListing.pages').then(m => ({ default: m.CreateListing })));
+const EditProfile = lazy(() => import('@/pages/EditProfilePage/EditProfile.pages').then(m => ({ default: m.EditProfile })));
+const AdminControls = lazy(() => import('@/pages/AdminControls/AdminControls.pages'));
+
+// Static pages (rarely accessed, can be lazy loaded)
+const About = lazy(() => import('@/pages/Static/About.pages'));
+const PrivacyPolicy = lazy(() => import('@/pages/Static/PrivacyPolicy.pages'));
+const TermsOfService = lazy(() => import('@/pages/Static/TermsOfService.pages'));
+const Error404 = lazy(() => import('@/pages/Static/404.pages'));
+
+// Loading fallback component
+const PageLoader = () => (
+  <Center h="100vh">
+    <Loader size="lg" />
+  </Center>
+);
 
 const router = createBrowserRouter(
   [
@@ -27,15 +42,38 @@ const router = createBrowserRouter(
         { index: true, element: <HomePage /> },
         { path: 'search', element: <SearchPage /> },
         { path: 'login', element: <LoginPage /> },
-        { path: 'about', element: <About /> },
+        {
+          path: 'about',
+          element: (
+            <Suspense fallback={<PageLoader />}>
+              <About />
+            </Suspense>
+          )
+        },
         { path: 'register', element: <RegisterForm /> },
-        { path: 'privacy-policy', element: <PrivacyPolicy /> },
-        { path: 'terms-of-service', element: <TermsOfService /> },
+        {
+          path: 'privacy-policy',
+          element: (
+            <Suspense fallback={<PageLoader />}>
+              <PrivacyPolicy />
+            </Suspense>
+          )
+        },
+        {
+          path: 'terms-of-service',
+          element: (
+            <Suspense fallback={<PageLoader />}>
+              <TermsOfService />
+            </Suspense>
+          )
+        },
         {
           path: 'my-applications',
           element: (
             <RouteGuard profileType="jobseeker">
-              <MyApplications />
+              <Suspense fallback={<PageLoader />}>
+                <MyApplications />
+              </Suspense>
             </RouteGuard>
           ),
         },
@@ -43,7 +81,9 @@ const router = createBrowserRouter(
           path: 'favorites',
           element: (
             <RouteGuard>
-              <FavoriteListings />
+              <Suspense fallback={<PageLoader />}>
+                <FavoriteListings />
+              </Suspense>
             </RouteGuard>
           ),
         },
@@ -51,7 +91,9 @@ const router = createBrowserRouter(
           path: 'create-listing',
           element: (
             <RouteGuard>
-              <CreateListing />
+              <Suspense fallback={<PageLoader />}>
+                <CreateListing />
+              </Suspense>
             </RouteGuard>
           ),
         },
@@ -59,7 +101,9 @@ const router = createBrowserRouter(
           path: 'edit-profile/:id',
           element: (
             <RouteGuard>
-              <EditProfile />
+              <Suspense fallback={<PageLoader />}>
+                <EditProfile />
+              </Suspense>
             </RouteGuard>
           ),
         },
@@ -67,7 +111,9 @@ const router = createBrowserRouter(
           path: 'dashboard',
           element: (
             <RouteGuard profileType="business">
-              <Dashboard />
+              <Suspense fallback={<PageLoader />}>
+                <Dashboard />
+              </Suspense>
             </RouteGuard>
           ),
         },
@@ -75,11 +121,20 @@ const router = createBrowserRouter(
           path: 'admin',
           element: (
             <RouteGuard isAdmin>
-              <AdminControls />
+              <Suspense fallback={<PageLoader />}>
+                <AdminControls />
+              </Suspense>
             </RouteGuard>
           ),
         },
-        { path: '*', element: <Error404 /> },
+        {
+          path: '*',
+          element: (
+            <Suspense fallback={<PageLoader />}>
+              <Error404 />
+            </Suspense>
+          )
+        },
       ],
     },
   ],

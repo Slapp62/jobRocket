@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { IconCards, IconSearch } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Button, Flex, Stack, Text, Title, Image } from '@mantine/core';
+import { Box, Button, Flex, Stack, Text, Title, Image, Paper, List, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { SearchCity } from '@/components/Filters/SearchCity';
 import { SearchIndustry } from '@/components/Filters/SearchIndustry';
@@ -72,7 +72,7 @@ export function HomePage() {
           h="100%"
           gap={20}
           py={20}
-          className={bgStyles.primaryBg}
+          bg='rocketOrange.9'
         >
           <Stack w={{ base: '95%', sm: '85%', md: '60%' }} align="start" mx="auto">
             <Box>
@@ -83,7 +83,7 @@ export function HomePage() {
                 </Title>
               )}
               {user && (
-                <Text ta="center" className={styles.lightDark} fw="bold" fz={30}>
+                <Text ta="center" c="white" fz={30}>
                   Welcome Back, {user.jobseekerProfile?.firstName || user.businessProfile?.companyName}!
                 </Text>
               )}
@@ -163,64 +163,35 @@ export function HomePage() {
           justify="center"
           align="center"
           my="50px"
-          gap={100}
+          gap={25}
           w="100%"
         >
-          <Flex
-            direction={{ base: 'column', md: 'row' }}
-            justify="start"
-            align="center"
-            w={{ base: '95%', md: '80%' }}
-            gap="lg"
-            p="lg"
-            style={{border: '1px solid orange', borderRadius: '10px', minHeight: '400px'}}
-          >
-            <HomePageCards
-              title="The Best Job Board for English Speakers in Israel"
-              description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
-              height={isMobile ? '300px' : '400px'}
-              width={{base: '100%', xs: '50%'}}
-              fontSize={isMobile ? '18px' : '20px'}
-              titleOrder={isMobile ? 3 : 2}
-            />
-            <Image
-              src="/peopleWorking-1.jpg"
-              alt="People working"
-              h={{ base: '250px', md: '400px' }}
-              w={{ base: '100%', md: '50%' }}
-              ml="auto"
-              fit="cover"
-              radius="md"
-            />
-          </Flex>
+          <Stack w={{base:'95%', md: '60%'}} align='center' justify='center'>
+            <Flex gap={10} direction={isMobile ? 'column' : 'row'} align='center' justify='center'>
+              <Stack c='rocketOrange.9' w='100%' p='xl' style={{border: '1px solid orange', borderRadius: '10px'}}>
+                <Title order={1}>Looking for a job?</Title>
+                <Text td='underline'>At JobRocket you can:</Text>
+                <List>
+                  <List.Item>Search and apply to jobs easily</List.Item>
+                  <List.Item>Save your favorite listings</List.Item>
+                  <List.Item>Track your application status</List.Item>
+                  <List.Item>Get job recommendations based on your profile</List.Item>
+                </List>
+              </Stack>
 
-          <Flex
-            direction={{ base: 'column-reverse', md: 'row' }}
-            justify="end"
-            align="center"
-            w={{ base: '95%', md: '80%' }}
-            gap='lg'
-            p="lg"
-            style={{border: '1px solid orange', borderRadius: '10px', minHeight: '400px'}}
-          >
-            <Image
-              src="/data-analytics.jpg"
-              alt="People working"
-              h={{ base: '250px', md: '400px' }}
-              w={{ base: '100%', md: '50%' }}
-              ml="auto"
-              fit="cover"
-              radius="md"
-            />
-            <HomePageCards
-              title="Create a Job Seeker or Employer Account"
-              description="As a job seeker, you can search for jobs, apply to them, and manage your applications. As an employer, you can create job listings and manage your company's listings."
-              height={isMobile ? '300px' : '400px'}
-              width={isMobile ? '100%' : '50%'}
-              fontSize={isMobile ? '18px' : '20px'}
-              titleOrder={isMobile ? 3 : 2}
-            />
-          </Flex>
+              <Stack c='rocketOrange.9' w='100%' p='xl' style={{border: '1px solid orange', borderRadius: '10px'}}>
+                <Title order={1}>Looking to recruit?</Title>
+                <Text td='underline'>At JobRocket you can:</Text>
+                <List>
+                  <List.Item>Post and update listings</List.Item>
+                  <List.Item>View and manage incoming applications</List.Item>
+                  <List.Item>View realtime analytics for listings and applications</List.Item>
+                </List>
+              </Stack>
+            </Flex>
+            
+            <Button variant='outline' component={Link} to='/register' fullWidth h={40} fz={20}>Register now to get started</Button>
+          </Stack>
         </Stack>
       </Box>
     </>

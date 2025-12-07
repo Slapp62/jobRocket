@@ -72,7 +72,6 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
     };
 
     fetchSearchResults();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParamsKey, currentPage, endpoint, isDesktop]);
 
   // Listings are already sorted and paginated by backend
@@ -81,7 +80,6 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
   // Using searchParamsKey ensures 'selected' changes don't reset page
   useEffect(() => {
     setCurrentPage(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParamsKey]);
 
   // Handle listing selection (for desktop split-panel)

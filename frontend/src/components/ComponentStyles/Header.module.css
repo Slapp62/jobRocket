@@ -31,7 +31,7 @@
     padding-right: var(--mantine-spacing-md);
     text-decoration: none;
     color: white;
-    font-weight: 500;
+    font-weight: 400;
     font-size: var(--mantine-font-size-sm);
     height: 36px;
     transition: all 0.2s ease;

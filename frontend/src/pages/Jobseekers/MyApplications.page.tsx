@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import { Badge, Button, Card, Center, Flex, Loader, Stack, Text, Title } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { EditApplicationModal } from '@/components/Modals/EditApplicationModal';
 import { ListingDetailsModal } from '@/components/Modals/ListingDetailsModal';
 import { PageMeta } from '@/SEO/PageMeta';
-import { RootState } from '@/store/store';
 import { TApplication, TListing } from '@/Types';
 
 export function MyApplications() {
-  const user = useSelector((state: RootState) => state.userSlice.user);
-  const isMobile = useMediaQuery('(max-width: 500px)');
   const [isLoading, setIsLoading] = useState(false);
   const [applications, setApplications] = useState<TApplication[]>([]);
   const [noListings, setNoListings] = useState(false);
@@ -69,7 +65,11 @@ export function MyApplications() {
         });
         setApplications(response.data);
       } catch (error: any) {
-        console.error('Failed to refresh applications:', error);
+        notifications.show({
+          title: 'Error',
+          message: 'Failed to refresh applications',
+          color: 'red',
+        });
       }
     };
     fetchApplications();
