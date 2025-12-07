@@ -2,7 +2,7 @@
 
 **JobRocket** is a modern, AI-powered job matching platform that connects jobseekers with employers through intelligent matching algorithms and an intuitive user experience. Built with React, TypeScript, Node.js, and MongoDB, JobRocket leverages OpenAI embeddings to provide smart job recommendations.
 
-[![Live Site](https://img.shields.io/badge/Live-jobrocket--site.onrender.com-blue)](https://jobrocket-site.onrender.com)
+[![Live Site](https://img.shields.io/badge/Live-jobrocket.onrender.com-blue)](https://jobrocket-site.onrender.com)
 [![Frontend](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb)](https://reactjs.org/)
 [![Backend](https://img.shields.io/badge/Backend-Node.js%20%2B%20Express-339933)](https://nodejs.org/)
 [![Database](https://img.shields.io/badge/Database-MongoDB-47a248)](https://www.mongodb.com/)
