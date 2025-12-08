@@ -159,40 +159,33 @@ export function HomePage() {
           </Stack>
         </Stack>
 
-        <Stack
-          justify="center"
-          align="center"
-          my="50px"
-          gap={25}
-          w="100%"
-        >
-          <Stack w={{base:'95%', md: '60%'}} align='center' justify='center'>
-            <Flex gap={10} direction={isMobile ? 'column' : 'row'} align='center' justify='center'>
-              <Stack c='rocketOrange.9' w='100%' p='xl' style={{border: '1px solid orange', borderRadius: '10px'}}>
-                <Title order={1}>Looking for a job?</Title>
-                <Text td='underline'>At JobRocket you can:</Text>
-                <List>
-                  <List.Item>Search and apply to jobs easily</List.Item>
-                  <List.Item>Save your favorite listings</List.Item>
-                  <List.Item>Track your application status</List.Item>
-                  <List.Item>Get job recommendations based on your profile</List.Item>
-                </List>
-              </Stack>
+        <Box my="50px" w="100%">
+          <Flex gap={30} direction={isMobile ? 'column' : 'row'} mx='auto' align='center' justify='center' w={{base: '95%', md:'60%'}}>
+            <Stack c='rocketOrange.9' h='400px' w='100%' p='xl' style={{border: '1px solid orange', borderRadius: '10px'}}>
+              <Title order={1}>Looking for a job?</Title>
+              <Text td='underline'>At JobRocket you can:</Text>
+              <List>
+                <List.Item>Search and apply to jobs easily</List.Item>
+                <List.Item>Save your favorite listings</List.Item>
+                <List.Item>Track your application status</List.Item>
+                <List.Item>Get job recommendations based on your profile</List.Item>
+              </List>
+              <Button variant='rocketRedFilled' component={Link} to='/register' mx='auto' mt='auto' fullWidth h={40} fz={{base: 'md', md:'lg'}}>Register now to get started</Button>
+            </Stack>
 
-              <Stack c='rocketOrange.9' w='100%' p='xl' style={{border: '1px solid orange', borderRadius: '10px'}}>
-                <Title order={1}>Looking to recruit?</Title>
-                <Text td='underline'>At JobRocket you can:</Text>
-                <List>
-                  <List.Item>Post and update listings</List.Item>
-                  <List.Item>View and manage incoming applications</List.Item>
-                  <List.Item>View realtime analytics for listings and applications</List.Item>
-                </List>
-              </Stack>
-            </Flex>
-            
-            <Button variant='outline' component={Link} to='/register' fullWidth h={40} fz={20}>Register now to get started</Button>
-          </Stack>
-        </Stack>
+            <Stack c='rocketOrange.9' w='100%' h='400px' p='xl' style={{border: '1px solid orange', borderRadius: '10px'}}>
+              <Title order={1}>Looking to recruit?</Title>
+              <Text td='underline'>At JobRocket you can:</Text>
+              <List>
+                <List.Item>Post and update listings</List.Item>
+                <List.Item>View and manage incoming applications</List.Item>
+                <List.Item>View realtime analytics for listings and applications</List.Item>
+              </List>
+              <Button variant='rocketRedFilled' component={Link} to='/register' mx='auto' mt='auto' fullWidth h={40} fz={{base: 'md', md:'lg'}}>Register now to get started</Button>
+            </Stack>
+          </Flex>
+
+        </Box>
       </Box>
     </>
   );

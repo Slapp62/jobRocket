@@ -87,8 +87,9 @@ export const theme = createTheme({
   components: {
     Badge: {
       defaultProps: {
-        radius: 'sm',
-        fw: 400,
+        radius: 'md',
+        fw: 600,
+        c: 'black'
       },
     },
     Button: {

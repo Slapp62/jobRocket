@@ -14,37 +14,32 @@ type FilterBarProps = {
 
 export function FilterBar({ searchParams, updateSearchParam, isMobile }: FilterBarProps) {
   return (
-    <Flex direction={isMobile ? 'column' : 'row'} gap={10} w="90%" mx="auto" p="md">
-      <SearchText
-        value={searchParams.get('searchWord') || ''}
-        onChange={(val) => updateSearchParam('searchWord', val)}
-        width={isMobile ? '100%' : '15%'}
+    <Flex direction='row' w={{base:'100%', md: '100%'}} wrap={isMobile ? 'wrap' : 'nowrap'} gap={isMobile ? 5 : 10 } mx="auto" align='center' justify='center'>
+      <SearchSort
+        value={searchParams.get('sortOption') || ''}
+        onChange={(val) => updateSearchParam('sortOption', val)}
+        width={{base:'30%', md: '100%'}}
       />
       <SearchRegion
         value={searchParams.get('region') || ''}
         onChange={(val) => updateSearchParam('region', val)}
-        width={isMobile ? '100%' : '15%'}
+        width={{base:'30%', md: '100%'}}
       />
       <SearchCity
         value={searchParams.get('city') || ''}
         onChange={(val) => updateSearchParam('city', val)}
-        width={isMobile ? '100%' : '15%'}
+        width={{base:'30%', md: '100%'}}
       />
       <SearchIndustry
         value={searchParams.get('industry') || ''}
         onChange={(val) => updateSearchParam('industry', val)}
-        width={isMobile ? '100%' : '15%'}
+        width={{base:'30%', md: '100%'}}
       />
       <SearchWorkArrangement
         value={searchParams.get('workArrangement') || ''}
         onChange={(val) => updateSearchParam('workArrangement', val)}
-        width={isMobile ? '100%' : '15%'}
-      />
-      <SearchSort
-        value={searchParams.get('sortOption') || ''}
-        onChange={(val) => updateSearchParam('sortOption', val)}
-        width={isMobile ? '100%' : '15%'}
-      />
+        width={{base:'30%', md: '100%'}}
+      /> 
     </Flex>
   );
 }

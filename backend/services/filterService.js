@@ -39,10 +39,10 @@ const getFilteredListings = async (filterParams, businessId = null) => {
   }
 
   // Text search (searches in jobTitle AND jobDescription)
-  if (filterParams.searchText && filterParams.searchText.trim() !== '') {
+  if (filterParams.searchWord && filterParams.searchWord.trim() !== '') {
     query.$or = [
-      { jobTitle: { $regex: filterParams.searchText, $options: 'i' } },
-      { jobDescription: { $regex: filterParams.searchText, $options: 'i' } },
+      { jobTitle: { $regex: filterParams.searchWord, $options: 'i' } },
+      { jobDescription: { $regex: filterParams.searchWord, $options: 'i' } },
     ];
   }
 
@@ -132,11 +132,11 @@ async function getFilteredApplications(businessId, filterParams) {
     query.status = filterParams.status;
   }
 
-  if (filterParams.searchText) {
+  if (filterParams.searchWord) {
     query.$or = [
-      { firstName: { $regex: filterParams.searchText, $options: 'i' } },
-      { lastName: { $regex: filterParams.searchText, $options: 'i' } },
-      { email: { $regex: filterParams.searchText, $options: 'i' } }
+      { firstName: { $regex: filterParams.searchWord, $options: 'i' } },
+      { lastName: { $regex: filterParams.searchWord, $options: 'i' } },
+      { email: { $regex: filterParams.searchWord, $options: 'i' } }
     ];
   }
 

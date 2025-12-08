@@ -1,5 +1,5 @@
 import { IconFilter2 } from '@tabler/icons-react';
-import { Select } from '@mantine/core';
+import { Select, StyleProp } from '@mantine/core';
 
 const SORT_OPTIONS = [
   { value: 'title-asc', label: 'Title (A-Z)' },
@@ -14,15 +14,16 @@ type SearchSortProps = {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  width?: string | number;
+  width?: StyleProp<string | number>;
 };
 
 export function SearchSort({ value, onChange, placeholder, width }: SearchSortProps) {
   return (
     <Select
+      radius={0}
       w={width}
-      placeholder={placeholder || 'Filter'}
-      rightSection={<IconFilter2 />}
+      placeholder={placeholder || 'Sort By'}
+      rightSection={<IconFilter2 size={15}/>}
       data={SORT_OPTIONS}
       value={value}
       onChange={(val) => onChange(val || '')}

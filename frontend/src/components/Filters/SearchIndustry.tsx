@@ -1,12 +1,12 @@
 import { IconFilter2 } from '@tabler/icons-react';
-import { Select } from '@mantine/core';
+import { Select, StyleProp } from '@mantine/core';
 import INDUSTRIES from '@/data/industries';
 
 type SearchIndustryProps = {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  width?: string | number;
+  width?: StyleProp<string | number>;
 };
 
 export function SearchIndustry({ value, onChange, placeholder, width }: SearchIndustryProps) {
@@ -14,9 +14,10 @@ export function SearchIndustry({ value, onChange, placeholder, width }: SearchIn
 
   return (
     <Select
+      radius={0}
       w={width}
       placeholder={placeholder || 'Industry'}
-      rightSection={<IconFilter2 />}
+      rightSection={<IconFilter2 size={15}/>}
       data={data}
       searchable
       nothingFoundMessage="No industry found"

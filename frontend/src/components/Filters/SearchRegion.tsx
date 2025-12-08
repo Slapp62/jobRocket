@@ -1,8 +1,8 @@
 import { IconFilter2 } from '@tabler/icons-react';
-import { Select } from '@mantine/core';
+import { Select, StyleProp } from '@mantine/core';
 
 const REGION_OPTIONS = [
-  { value: '', label: 'All' },
+  {value: '', label: 'All'},
   { value: 'Galilee', label: 'Galilee' },
   { value: 'Golan', label: 'Golan' },
   { value: 'Center', label: 'Center' },
@@ -14,15 +14,16 @@ type SearchRegionProps = {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  width?: string | number;
+  width?: StyleProp<string | number>;
 };
 
 export function SearchRegion({ value, onChange, placeholder, width }: SearchRegionProps) {
   return (
     <Select
+      radius={0}
       w={width}
-      placeholder={placeholder || 'Region'}
-      rightSection={<IconFilter2 />}
+      placeholder='Region'
+      rightSection={<IconFilter2 size={15}/>}
       data={REGION_OPTIONS}
       value={value}
       onChange={(val) => onChange(val || '')}

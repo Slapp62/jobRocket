@@ -1,5 +1,5 @@
 const WORK_ARRANGEMENTS: string[] = [
-  'All',
+  'All Work Arrangements',
   'Remote',
   'Hybrid',
   'On-site',

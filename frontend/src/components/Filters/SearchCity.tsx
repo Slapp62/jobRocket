@@ -1,5 +1,5 @@
 import { IconFilter2 } from '@tabler/icons-react';
-import { Select } from '@mantine/core';
+import { Select, StyleProp } from '@mantine/core';
 import { CITIES } from '@/data/israelCities';
 
 type SearchCityProps = {
@@ -7,7 +7,7 @@ type SearchCityProps = {
   onChange: (value: string) => void;
   cities?: string[];
   placeholder?: string;
-  width?: string | number;
+  width?: StyleProp<string | number>;
 };
 
 export function SearchCity({
@@ -21,9 +21,10 @@ export function SearchCity({
 
   return (
     <Select
+      radius={0}
       w={width}
       placeholder={placeholder || 'City'}
-      rightSection={<IconFilter2 />}
+      rightSection={<IconFilter2 size={15}/>}
       data={data}
       searchable
       nothingFoundMessage="No city found"
