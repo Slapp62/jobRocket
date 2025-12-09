@@ -13,10 +13,9 @@ export function MatchScore({ listingId, size = 'md' }: MatchScoreProps) {
 
   useEffect(() => {
     async function fetchScore() {
-      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
       try {
         const response = await axios.get(
-          `${API_BASE_URL}/api/recommendations/match-score/${listingId}`
+          `/api/recommendations/match-score/${listingId}`
         );
         setScore(response.data.matchScore);
       } catch (error) {

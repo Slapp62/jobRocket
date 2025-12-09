@@ -31,14 +31,7 @@ export function FavoritesButton({ listing, width }: FavoritesButtonProps) {
     setIsLiked(!isLiked);
 
     try {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      const API_BASE_URL = import.meta.env.VITE_API_URL;
-
-      await axios.post(
-        `${API_BASE_URL}/api/listings/${listing._id}/like`,
-        {},
-        { headers: { 'x-auth-token': token } }
-      );
+      await axios.post(`/api/listings/${listing._id}/like`);
       notifications.show({
         title: 'Success',
         message: 'Favorite updated successfully',

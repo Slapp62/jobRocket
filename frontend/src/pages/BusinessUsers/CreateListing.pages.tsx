@@ -45,7 +45,6 @@ type ListingFormValues = {
 export function CreateListing() {
   const jumpTo = useNavigate();
   const isMobile = useMediaQuery('(max-width: 700px)');
-  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -85,9 +84,6 @@ export function CreateListing() {
   }, [selectedRegion]);
 
   const onSubmit = async (data: ListingFormValues) => {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    axios.defaults.headers.common['x-auth-token'] = token;
-    const url = `${API_BASE_URL}/api/listings/`;
     const payload = {
       ...data,
       expiresAt: data.expiresAt ? new Date(data.expiresAt).toISOString() : null,
@@ -95,7 +91,7 @@ export function CreateListing() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post(url, payload);
+      const response = await axios.post('/api/listings/', payload);
 
       if (response.status === 201) {
         notifications.show({

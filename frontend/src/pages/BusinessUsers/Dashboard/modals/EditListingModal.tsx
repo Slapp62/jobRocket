@@ -40,7 +40,6 @@ type ListingFormValues = {
 };
 
 export const EditListingModal = ({opened, onClose, listing, setListings} : EditListingModalProps) => {
-  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
   const [isLoading, setIsLoading] = useState(false);
   
   const {
@@ -80,15 +79,11 @@ export const EditListingModal = ({opened, onClose, listing, setListings} : EditL
   const onSubmit = async (data: ListingFormValues) => {
     try {
       setIsLoading(true);
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
       const updatedListing = await axios.put(
-        `${API_BASE_URL}/api/listings/${listing?._id}`,
+        `/api/listings/${listing?._id}`,
         {
           ...data,
           expiresAt: data.expiresAt ? new Date(data.expiresAt).toISOString() : null,
-        },
-        {
-          headers: { 'x-auth-token': token },
         }
       );
       

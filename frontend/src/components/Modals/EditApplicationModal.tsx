@@ -53,14 +53,8 @@ export const EditApplicationModal = ({
 
     try {
       setIsLoading(true);
-      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 
-      await axios.put(`${API_BASE_URL}/api/applications/${application._id}`, data, {
-        headers: {
-          'x-auth-token': token,
-        },
-      });
+      await axios.put(`/api/applications/${application._id}`, data);
 
       notifications.show({
         title: 'Success',

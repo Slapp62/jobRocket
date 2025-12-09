@@ -16,10 +16,7 @@ export function useGetAllUsers() {
     } else {
       const loadUsers = async () => {
         try {
-          const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
-          const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-          axios.defaults.headers.common['x-auth-token'] = token;
-          const response = await axios.get(`${API_BASE_URL}/api/users`);
+          const response = await axios.get('/api/users');
           dispatch(setAllUsers(response.data));
         } catch (error: any) {
           notifications.show({

@@ -93,8 +93,6 @@ export const useEditProfile = () => {
   };
 
   const updateBusinessStatus = async () => {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    axios.defaults.headers.common['x-auth-token'] = token;
     try {
       const response = await axios.patch(`/api/users/${userData?._id}`);
       if (response.status === 200) {
@@ -128,8 +126,6 @@ export const useEditProfile = () => {
   };
 
   const deleteUser = async () => {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    axios.defaults.headers.common['x-auth-token'] = token;
     try {
       const response = await axios.delete(`/api/users/${userData?._id}`);
       if (response.status === 200) {

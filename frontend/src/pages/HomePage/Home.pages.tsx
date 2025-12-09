@@ -10,7 +10,6 @@ import { SearchRegion } from '@/components/Filters/SearchRegion';
 import { SearchSort } from '@/components/Filters/SearchSort';
 import { SearchText } from '@/components/Filters/SearchText.tsx';
 import { SearchWorkArrangement } from '@/components/Filters/SearchWorkArrangement';
-import HomePageCards from '@/components/InfoCards/homePageCards';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 import styles from './HomePage.module.css';

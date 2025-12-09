@@ -60,8 +60,7 @@ export function ListingDetailsPanel({
       }, 300);
 
       try {
-        const API_BASE_URL = import.meta.env.VITE_API_URL;
-        const response = await axios.get(`${API_BASE_URL}/api/listings/${listingId}`);
+        const response = await axios.get(`/api/listings/${listingId}`);
         setListing(response.data);
         clearTimeout(loaderTimer);
       } catch (error: any) {

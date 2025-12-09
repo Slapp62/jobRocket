@@ -21,12 +21,7 @@ export function MyApplications() {
     const fetchApplications = async () => {
       setIsLoading(true);
       try {
-        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-        const API_BASE_URL = import.meta.env.VITE_API_URL;
-
-        const response = await axios.get(`${API_BASE_URL}/api/applications/my-applications`, {
-          headers: { 'x-auth-token': token },
-        });
+        const response = await axios.get('/api/applications/my-applications');
 
         response.data.length > 0 ? setApplications(response.data) : setNoListings(true);
       } catch (error: any) {

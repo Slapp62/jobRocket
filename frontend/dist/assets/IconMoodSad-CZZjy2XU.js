@@ -1,1 +1,0 @@
-import{c as o}from"./index-B5BLoL-k.js";const a=[["path",{d:"M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0",key:"svg-0"}],["path",{d:"M9 10l.01 0",key:"svg-1"}],["path",{d:"M15 10l.01 0",key:"svg-2"}],["path",{d:"M9.5 15.25a3.5 3.5 0 0 1 5 0",key:"svg-3"}]],d=o("outline","mood-sad","MoodSad",a);export{d as I};

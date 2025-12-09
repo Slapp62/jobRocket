@@ -16,7 +16,6 @@ export const useAdminControls = () => {
   const { allUsers, isLoading } = useGetAllUsers();
   const [sortOption, setSortOption] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   // delete user
   const deleteUser = async (id?: string) => {
@@ -27,10 +26,8 @@ export const useAdminControls = () => {
         color: 'red',
       });
     }
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    axios.defaults.headers.common['x-auth-token'] = token;
     try {
-      const response = await axios.delete(`${API_BASE_URL}/api/users/${id}`);
+      const response = await axios.delete(`/api/users/${id}`);
       if (response.status === 200) {
         notifications.show({
           title: 'Warning',

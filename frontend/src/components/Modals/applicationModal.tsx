@@ -44,12 +44,8 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
       if (data.message) {formData.append('message', data.message);}
       if (resumeFile) {formData.append('resume', resumeFile);}
             
-      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8181';
-      await axios.post(`${API_BASE_URL}/api/applications/${listingID}`, formData, {
-        headers: {
-          'x-auth-token': localStorage.getItem('token') || null,
-        },
-      });
+      
+      await axios.post(`/api/applications/${listingID}`, formData);
       reset();
       notifications.show({
         title: 'Application',

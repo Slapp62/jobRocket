@@ -37,8 +37,6 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
     const fetchSearchResults = async () => {
       setIsLoading(true);
       try {
-        const API_BASE_URL = import.meta.env.VITE_API_URL;
-
         // Build params object (exclude 'selected' from backend query)
         const params: Record<string, string | number> = {};
         searchParams.forEach((value, key) => {
@@ -52,7 +50,7 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
         // Set limit for desktop (selectedId doesn't affect fetching)
         params.limit = isDesktop ? 100 : paginationInfo.perPage;
 
-        const response = await axios.get(`${API_BASE_URL}/api/listings/${endpoint}`, { params });
+        const response = await axios.get(`/api/listings/${endpoint}`, { params });
 
         // NEW: Response now has { listings, pagination }
         setListings(response.data.listings);
