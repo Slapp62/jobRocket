@@ -1,10 +1,18 @@
 const { Schema, model } = require('mongoose');
 const { WORK_ARRANGEMENTS } = require('../data/workArr');
-const { INDUSTRIES } = require('../data/industries');
+const { CITIES, REGIONS } = require('../data/israelCities.js');
 const {
   generateEmbedding,
   jobseekerToText,
 } = require('../services/embeddingService.js');
+
+// Industries for business profiles (not job listings)
+const INDUSTRIES = [
+  'Technology', 'Healthcare', 'Finance', 'Education', 'Retail', 'Manufacturing',
+  'Construction', 'Transportation', 'Hospitality', 'Real Estate', 'Media',
+  'Telecommunications', 'Energy', 'Agriculture', 'Professional Services',
+  'Government', 'Non-Profit', 'Other',
+];
 
 const userSchema = new Schema({
   email: {
@@ -125,13 +133,19 @@ const userSchema = new Schema({
         minLength: 2,
         maxLength: 256,
       },
+      region: {
+        type: String,
+        required() {
+          return this.profileType === 'business';
+        },
+        enum: REGIONS,
+      },
       city: {
         type: String,
         required() {
           return this.profileType === 'business';
         },
-        minLength: 2,
-        maxLength: 256,
+        enum: CITIES,
       },
       _id: {
         type: Schema.Types.ObjectId,

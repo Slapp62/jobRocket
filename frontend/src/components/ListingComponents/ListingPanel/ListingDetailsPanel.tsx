@@ -131,9 +131,6 @@ export function ListingDetailsPanel({
               <Badge variant="filled" color="rocketOrange">
                 {listing.workArrangement}
               </Badge>
-              <Badge variant="filled" color="rocketRed">
-                {listing.industry}
-              </Badge>
             </Group>
 
             <Group justify='start' align='center' gap="xs" mt="sm">

@@ -26,7 +26,6 @@ const dummyListings = [
       city: 'Tel Aviv',
     },
     workArrangement: 'Full-time Hybrid',
-    industry: 'Software Development',
   },
   {
     companyName: 'Sarah Art Studio',
@@ -54,7 +53,6 @@ const dummyListings = [
       city: 'Tel Aviv',
     },
     workArrangement: 'Full-time On-site',
-    industry: 'Marketing & PR',
   },
   {
     companyName: 'BioTech Innovations',
@@ -83,7 +81,6 @@ const dummyListings = [
       city: 'Jerusalem',
     },
     workArrangement: 'Full-time Hybrid',
-    industry: 'AI & Machine Learning',
   },
   {
     companyName: 'Customer First',
@@ -111,7 +108,6 @@ const dummyListings = [
       city: 'Haifa',
     },
     workArrangement: 'Remote',
-    industry: 'Software Development',
   },
   {
     companyName: 'CloudTech',
@@ -140,7 +136,6 @@ const dummyListings = [
       city: 'Petah Tikva',
     },
     workArrangement: 'Full-time Hybrid',
-    industry: 'Cloud Computing',
   },
   {
     companyName: 'Creative Labs',
@@ -169,7 +164,6 @@ const dummyListings = [
       city: 'Herzliya',
     },
     workArrangement: 'Full-time On-site',
-    industry: 'Design & Creative Services',
   },
   {
     companyName: 'SecureTech',
@@ -198,7 +192,6 @@ const dummyListings = [
       city: 'Beer Sheva',
     },
     workArrangement: 'Full-time Remote',
-    industry: 'Cybersecurity',
   },
   {
     companyName: 'App Innovate',
@@ -227,7 +220,6 @@ const dummyListings = [
       city: 'Ramat Gan',
     },
     workArrangement: 'Hybrid',
-    industry: 'Mobile App Development',
   },
   {
     companyName: 'Content Creators',
@@ -256,7 +248,6 @@ const dummyListings = [
       city: 'Jerusalem',
     },
     workArrangement: 'Part-time Remote',
-    industry: 'Marketing & PR',
   },
   {
     companyName: 'FinTech Pro',
@@ -285,7 +276,6 @@ const dummyListings = [
       city: 'Rishon LeZion',
     },
     workArrangement: 'Full-time On-site',
-    industry: 'Financial Technology (FinTech)',
   },
   {
     companyName: 'QualitySoft',
@@ -314,7 +304,6 @@ const dummyListings = [
       city: 'Yokneam',
     },
     workArrangement: 'Contract On-site',
-    industry: 'Software Development',
   },
   {
     companyName: 'Green Energy Solutions',
@@ -343,7 +332,6 @@ const dummyListings = [
       city: 'Beer Sheva',
     },
     workArrangement: 'Full-time Hybrid',
-    industry: 'Solar Energy',
   },
   {
     companyName: 'EduTech Academy',
@@ -372,7 +360,6 @@ const dummyListings = [
       city: "Modi'in-Maccabim-Re'ut",
     },
     workArrangement: 'Remote',
-    industry: 'Educational Technology (EdTech)',
   },
   {
     companyName: 'MediCare Plus',
@@ -401,7 +388,6 @@ const dummyListings = [
       city: 'Jerusalem',
     },
     workArrangement: 'Full-time On-site',
-    industry: 'Healthcare & Medical Services',
   },
   {
     companyName: 'TravelWise Israel',
@@ -430,7 +416,6 @@ const dummyListings = [
       city: 'Jerusalem',
     },
     workArrangement: 'Seasonal',
-    industry: 'Tourism & Travel',
   },
   {
     companyName: 'Kosher Delight Restaurant Group',
@@ -459,7 +444,6 @@ const dummyListings = [
       city: 'Tel Aviv',
     },
     workArrangement: 'Full-time On-site',
-    industry: 'Restaurants & Food Service',
   },
 ];
 

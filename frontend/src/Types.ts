@@ -15,7 +15,6 @@ export type TListing = {
     city: string;
   };
   workArrangement: string;
-  industry: string;
   likes?: string[];
   isActive?: boolean;
   createdAt?: string;
@@ -52,6 +51,7 @@ export type TBusinessProfile = {
   companyName: string;
   location: {
     country: string;
+    region: string;
     city: string;
     _id?: string;
   };

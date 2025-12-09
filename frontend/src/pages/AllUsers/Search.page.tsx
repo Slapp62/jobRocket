@@ -28,7 +28,6 @@ export function SearchPage() {
     handleSelectListing,
     handleBackToAll,
   } = getParamsInfo('search', isDesktop);
-  const industry = searchParams.get('industry');
   const city = searchParams.get('city');
   const [searchText, setSearchText] = useState(searchParams.get('searchWord') || '');
 
@@ -43,13 +42,7 @@ export function SearchPage() {
   };
   
   const buildTitle = () => {
-    if (industry && city) {
-      return `${industry} Jobs in ${city} | JobRocket`;
-    }
-    if (industry && !city) {
-      return `${industry} Jobs | JobRocket`;
-    }
-    if (!industry && city) {
+    if (city) {
       return `Jobs in ${city} | JobRocket`;
     }
     return 'Job Search Results | JobRocket';

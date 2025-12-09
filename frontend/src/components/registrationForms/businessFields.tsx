@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { Control, Controller, FieldErrors, UseFormRegister, useWatch } from 'react-hook-form';
 import { Select, Textarea, TextInput } from '@mantine/core';
 import { TUsers } from '@/Types';
-import INDUSTRIES from '../../data/industries.ts';
 import { getCitiesByRegion, REGIONS } from '../../data/israelCities.ts';
 
 type BusinessFieldsProps = {
@@ -14,6 +13,13 @@ type BusinessFieldsProps = {
 
 const EMPLOYEE_COUNTS = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
 
+const INDUSTRIES = [
+  'Technology', 'Healthcare', 'Finance', 'Education', 'Retail', 'Manufacturing',
+  'Construction', 'Transportation', 'Hospitality', 'Real Estate', 'Media',
+  'Telecommunications', 'Energy', 'Agriculture', 'Professional Services',
+  'Government', 'Non-Profit', 'Other'
+];
+
 export function BusinessFields({
   register,
   errors,
@@ -23,7 +29,7 @@ export function BusinessFields({
   // Watch the selected region to filter cities
   const selectedRegion = useWatch({
     control,
-    name: 'businessProfile.location.country',
+    name: 'businessProfile.location.region',
   });
 
   // Get cities for the selected region
@@ -49,9 +55,19 @@ export function BusinessFields({
         error={errors.businessProfile?.companyName?.message}
       />
 
-      {/* Required: Location - Region (stored as country in schema) */}
+      {/* Required: Location - Country */}
+      <TextInput
+        label="Country"
+        placeholder="Israel"
+        withAsterisk
+        disabled={disabled}
+        {...register('businessProfile.location.country')}
+        error={errors.businessProfile?.location?.country?.message}
+      />
+
+      {/* Required: Location - Region */}
       <Controller
-        name="businessProfile.location.country"
+        name="businessProfile.location.region"
         control={control}
         render={({ field }) => (
           <Select
@@ -65,7 +81,7 @@ export function BusinessFields({
             searchable
             disabled={disabled}
             {...field}
-            error={errors.businessProfile?.location?.country?.message}
+            error={errors.businessProfile?.location?.region?.message}
           />
         )}
       />
@@ -95,12 +111,9 @@ export function BusinessFields({
         render={({ field }) => (
           <Select
             label="Industry"
-            placeholder="Select your industry"
+            placeholder="Select industry"
             withAsterisk
-            data={INDUSTRIES.map((industry: string) => ({
-              value: industry,
-              label: industry,
-            }))}
+            data={INDUSTRIES}
             searchable
             disabled={disabled}
             {...field}

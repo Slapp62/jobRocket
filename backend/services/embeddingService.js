@@ -42,7 +42,6 @@ function listingToText(listing) {
     listing.jobTitle,
     listing.jobDescription,
     `Requirements: ${requirements}`,
-    `Industry: ${listing.industry || ''}`,
   ];
 
   return parts

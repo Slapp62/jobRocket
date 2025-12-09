@@ -1,4 +1,3 @@
-import INDUSTRIES from "@/data/industries";
 import WORK_ARRANGEMENTS from "@/data/workArr";
 import { TListing } from "@/Types";
 import { cleanedListingData } from "@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData";
@@ -34,7 +33,6 @@ type ListingFormValues = {
     city: string;
   };
   workArrangement: string;
-  industry: string;
   isActive: boolean;
   expiresAt?: string | null;
 };
@@ -271,24 +269,6 @@ export const EditListingModal = ({opened, onClose, listing, setListings} : EditL
                     }))}
                     {...field}
                     error={errors.workArrangement?.message}
-                  />
-                )}
-              />
-
-              <Controller
-                name="industry"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    label="Industry"
-                    required
-                    searchable
-                    data={INDUSTRIES.map((industry: string) => ({
-                      value: industry,
-                      label: industry,
-                    }))}
-                    {...field}
-                    error={errors.industry?.message}
                   />
                 )}
               />

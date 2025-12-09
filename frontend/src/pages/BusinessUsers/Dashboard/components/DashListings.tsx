@@ -1,7 +1,6 @@
 import { IconCircle, IconCircleFilled, IconPencil, IconTrash } from '@tabler/icons-react';
 import { ActionIcon, Box, Card, Group, Select, Stack, Table, Text, TextInput } from '@mantine/core';
 import { TListing } from '@/Types';
-import INDUSTRIES from '@/data/industries';
 import { DeleteListingModal } from '../modals/DeleteListingModal';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
@@ -12,8 +11,6 @@ interface DashListingsProps {
   isLoading: boolean;
   searchText: string;
   setSearchText: (text: string) => void;
-  industry: string | null;
-  setIndustry: (industry: string | null) => void;
   sortOption: string | null;
   setSortOption: (sortOption: string | null) => void;
   activeFilter: string | null;
@@ -24,7 +21,7 @@ interface DashListingsProps {
   setListings: React.Dispatch<React.SetStateAction<TListing[]>>
 }
 
-export const DashListings = ({ listings, handleDelete, searchText, setSearchText, industry, setIndustry, sortOption, setSortOption, activeFilter, setActiveFilter, page, setPage, setListings }: DashListingsProps) => {
+export const DashListings = ({ listings, handleDelete, searchText, setSearchText, sortOption, setSortOption, activeFilter, setActiveFilter, page, setPage, setListings }: DashListingsProps) => {
   const [deleteOpened, { open: openDelete, close: closeDelete }] = useDisclosure(false);
   const [listingDelete, setListingDelete] = useState<{id: string, title: string} | null>(null);
   const [editOpened, { open: openEdit, close: closeEdit }] = useDisclosure(false);
@@ -76,16 +73,6 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
               { value: 'inactive', label: 'Inactive' },
             ]}
           />
-          <Select
-            label="Filter by industry"
-            placeholder="Select industry"
-            value={industry}
-            onChange={(value) => {setIndustry(value)}}
-            data={[
-              {value: 'all', label: 'All Industries'},
-              ...INDUSTRIES
-            ]}
-          />
         </Stack>
 
         {/* Desktop Filters */}
@@ -122,16 +109,6 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
               { value: 'inactive', label: 'Inactive' },
             ]}
           />
-          <Select
-            label="Filter by industry"
-            placeholder="Select industry"
-            value={industry}
-            onChange={(value) => {setIndustry(value)}}
-            data={[
-              {value: 'all', label: 'All Industries'},
-              ...INDUSTRIES
-            ]}
-          />
         </Group>
 
         {/* Mobile Card View */}
@@ -142,7 +119,6 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
                 <Group justify="space-between" align="start">
                   <div>
                     <Text fw={600} size="lg">{listing.jobTitle}</Text>
-                    <Text size="sm" c="dimmed">{listing.industry}</Text>
                   </div>
                   {listing.isActive ? (
                     <IconCircleFilled size={20} color="green" />
@@ -198,7 +174,6 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
                 <Table.Tr>
                   <Table.Th />
                   <Table.Th>Job Title</Table.Th>
-                  <Table.Th>Industry</Table.Th>
                   <Table.Th>Created At</Table.Th>
                   <Table.Th>Expires At</Table.Th>
                   <Table.Th>Active</Table.Th>
@@ -222,12 +197,6 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
                     <Table.Td>
                       <Text fz="sm" fw={500}>
                         {listing.jobTitle}
-                      </Text>
-                    </Table.Td>
-
-                    <Table.Td>
-                      <Text fz="sm" fw={500}>
-                        {listing.industry}
                       </Text>
                     </Table.Td>
 

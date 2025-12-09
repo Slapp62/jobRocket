@@ -26,13 +26,14 @@ const dummyUsers = [
       companyName: 'Tech Solutions Ltd',
       location: {
         country: 'Israel',
+        region: 'Jerusalem_District',
         city: 'Jerusalem',
       },
       logo: {
         url: 'https://cdn.pixabay.com/photo/2016/11/18/19/07/company-logo.jpg',
         alt: 'Tech Solutions Ltd logo',
       },
-      industry: 'Software Development',
+      industry: 'Technology',
       numberOfEmployees: '51-200',
       website: 'https://www.techsolutions.co.il',
       contactEmail: 'hr@techsolutions.co.il',

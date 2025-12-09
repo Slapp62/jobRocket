@@ -37,8 +37,6 @@ export const Dashboard = () => {
     isLoading: listingsLoading,
     searchText,
     setSearchText,
-    industry,
-    setIndustry,
     sortOption,
     setSortOption,
     activeFilter,
@@ -256,7 +254,7 @@ export const Dashboard = () => {
               </Tabs.Panel>
 
               <Tabs.Panel value="listings">
-                <DashListings 
+                <DashListings
                   listings={listings}
                   isLoading={listingsLoading}
                   searchText={searchText}
@@ -267,8 +265,6 @@ export const Dashboard = () => {
                   setActiveFilter={setActiveFilter}
                   page={page}
                   setPage={setPage}
-                  industry={industry}
-                  setIndustry={setIndustry}
                   handleDelete={handleListingDelete}
                   setListings={setListings}
                 />

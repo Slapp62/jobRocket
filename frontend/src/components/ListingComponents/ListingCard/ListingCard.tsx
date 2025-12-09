@@ -69,9 +69,6 @@ function ListingCard({
             <Badge variant="filled" color="rocketOrange.5" mr="xs" size="sm">
               {listing.workArrangement}
             </Badge>
-            <Badge variant="filled" color="rocketRed.5" size="sm">
-              {listing.industry}
-            </Badge>
           </Box>
 
           {/* Details */}

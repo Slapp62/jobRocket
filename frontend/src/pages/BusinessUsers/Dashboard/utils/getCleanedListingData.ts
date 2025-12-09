@@ -22,6 +22,7 @@ export const cleanedUserData = (user: TUsers) => ({
         companyName: user.businessProfile.companyName,
         location: {
           country: user.businessProfile.location.country,
+          region: user.businessProfile.location.region,
           city: user.businessProfile.location.city,
         },
         logo: {
@@ -51,7 +52,6 @@ export const cleanedListingData = (listing: TListing) => ({
   apply: listing.apply,
   location: listing.location,
   workArrangement: listing.workArrangement,
-  industry: listing.industry,
   isActive: listing.isActive ?? true,
   expiresAt: listing?.expiresAt
     ? new Date(listing.expiresAt).toISOString().split('T')[0]

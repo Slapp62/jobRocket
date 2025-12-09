@@ -42,7 +42,6 @@ export const EditApplicationModal = ({
         lastName: application.lastName,
         email: application.email,
         phone: application.phone || '',
-        resumeUrl: application.resumeUrl,
         message: application.message || '',
       });
     }
@@ -54,7 +53,15 @@ export const EditApplicationModal = ({
     try {
       setIsLoading(true);
 
-      await axios.put(`/api/applications/${application._id}`, data);
+      const formData = new FormData();
+      formData.append('firstName', data.firstName);
+      formData.append('lastName', data.lastName);
+      formData.append('email', data.email);
+      if (data.phone) {formData.append('phone', data.phone);}
+      if (data.message) {formData.append('message', data.message);}
+      if (resumeFile) {formData.append('resume', resumeFile);}
+
+      await axios.put(`/api/applications/${application._id}`, formData);
 
       notifications.show({
         title: 'Success',

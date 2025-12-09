@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { Button, FileInput, Modal, Stack, Textarea, TextInput } from '@mantine/core';
+import { Button, FileInput, Modal, Stack, Textarea, TextInput, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { TApplication } from '@/Types';
@@ -18,11 +18,11 @@ interface ApplicationModalProps {
 export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const user = useSelector((state: RootState) => state.userSlice.user);
 
   const {
     reset,
     register,
-    control,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<TApplication>({
@@ -32,6 +32,17 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
     criteriaMode: 'all',
   });
 
+  useEffect(() => {
+    if (user && opened) {
+      reset({
+        firstName: user.jobseekerProfile?.firstName,
+        lastName: user.jobseekerProfile?.lastName,
+        email: user.email,
+        phone: user.phone || '',
+      });
+    }
+  }, [user, opened, reset]);
+  
   const onSubmit = async (data: TApplication) => {
     try {
       setIsLoading(true);
@@ -64,8 +75,6 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
       onClose();
     }
   };
-
-  const user = useSelector((state: RootState) => state.userSlice.user);
 
   return (
     <Modal opened={opened} onClose={onClose} title="Application" zIndex={1000}>

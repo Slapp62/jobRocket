@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { Controller, useForm, useWatch } from 'react-hook-form';
@@ -16,11 +16,12 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import INDUSTRIES from '@/data/industries.ts';
 import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
 import WORK_ARRANGEMENTS from '@/data/workArr.ts';
 import { PageMeta } from '@/SEO/PageMeta';
 import { listingSchema } from '@/validationRules/listing.joi';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 type ListingFormValues = {
   companyName: string;
@@ -37,7 +38,6 @@ type ListingFormValues = {
     city: string;
   };
   workArrangement: string;
-  industry: string;
   isActive: boolean;
   expiresAt?: string | null;
 };
@@ -46,8 +46,10 @@ export function CreateListing() {
   const jumpTo = useNavigate();
   const isMobile = useMediaQuery('(max-width: 700px)');
   const [isLoading, setIsLoading] = useState(false);
-
+  const user = useSelector((state: RootState) => state.userSlice.user);
+  
   const {
+    reset,
     register,
     handleSubmit,
     control,
@@ -62,11 +64,22 @@ export function CreateListing() {
       apply: { method: 'email', contact: '' },
       location: { region: '', city: '' },
       workArrangement: '',
-      industry: '',
       isActive: true,
       expiresAt: '',
     },
   });
+
+  useEffect(() => {
+    if (user) {
+      reset({
+        companyName: user.businessProfile?.companyName,
+        location: {
+          region: user.businessProfile?.location.region,
+          city: user.businessProfile?.location.city,
+        },
+      });
+    }
+  }, [user, reset]);
 
   const selectedRegion = useWatch({
     control,
@@ -99,7 +112,7 @@ export function CreateListing() {
           message: 'Listing created!',
           color: 'green',
         });
-        jumpTo('/my-listings');
+        jumpTo('/dashboard');
       }
     } catch (error: any) {
       notifications.show({
@@ -275,24 +288,6 @@ export function CreateListing() {
                     }))}
                     {...field}
                     error={errors.workArrangement?.message}
-                  />
-                )}
-              />
-
-              <Controller
-                name="industry"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    label="Industry"
-                    required
-                    searchable
-                    data={INDUSTRIES.map((industry: string) => ({
-                      value: industry,
-                      label: industry,
-                    }))}
-                    {...field}
-                    error={errors.industry?.message}
                   />
                 )}
               />

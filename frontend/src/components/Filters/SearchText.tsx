@@ -1,5 +1,5 @@
 import { IconSearch } from '@tabler/icons-react';
-import { TextInput, StyleProp } from '@mantine/core';
+import { TextInput, StyleProp, MantineSize } from '@mantine/core';
 
 // SearchInput.tsx
 type SearchTextProps = {
@@ -7,12 +7,15 @@ type SearchTextProps = {
   onChange: (value: string) => void;
   placeholder?: string;
   width?: StyleProp<string | number>;
+  radius?: number | string;
+  size?: MantineSize;
 };
 
-export function SearchText({ value, onChange, placeholder, width }: SearchTextProps) {
+export function SearchText({ value, onChange, placeholder, width, radius, size }: SearchTextProps) {
   return (
     <TextInput
-      radius={0}
+      radius={radius || 0}
+      size={size}
       w={width}
       variant="default"
       rightSection={<IconSearch size={15}/>}

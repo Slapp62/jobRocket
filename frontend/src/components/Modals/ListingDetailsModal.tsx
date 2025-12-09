@@ -41,9 +41,6 @@ export const ListingDetailsModal = ({ opened, onClose, listing }: ListingDetails
               <Badge variant="filled" color="rocketOrange">
                 {listing.workArrangement}
               </Badge>
-              <Badge variant="filled" color="rocketRed">
-                {listing.industry}
-              </Badge>
             </Group>
           </Box>
 

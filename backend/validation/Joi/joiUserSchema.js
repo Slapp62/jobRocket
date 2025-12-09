@@ -1,6 +1,14 @@
 const joi = require('joi');
 const { WORK_ARRANGEMENTS } = require('../../data/workArr');
-const { INDUSTRIES } = require('../../data/industries');
+const { CITIES, REGIONS } = require('../../data/israelCities.js');
+
+// Industries for business profiles (not job listings)
+const INDUSTRIES = [
+  'Technology', 'Healthcare', 'Finance', 'Education', 'Retail', 'Manufacturing',
+  'Construction', 'Transportation', 'Hospitality', 'Real Estate', 'Media',
+  'Telecommunications', 'Energy', 'Agriculture', 'Professional Services',
+  'Government', 'Non-Profit', 'Other',
+];
 
 const joiUserSchema = joi.object({
   email: joi
@@ -63,7 +71,8 @@ const joiUserSchema = joi.object({
       location: joi
         .object({
           country: joi.string().min(2).max(256).required(),
-          city: joi.string().min(2).max(256).required(),
+          region: joi.string().valid(...REGIONS).required(),
+          city: joi.string().valid(...CITIES).required(),
         })
         .required(),
       logo: joi

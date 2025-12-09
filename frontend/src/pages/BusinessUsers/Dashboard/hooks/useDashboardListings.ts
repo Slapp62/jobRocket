@@ -10,7 +10,6 @@ export const useDashboardListings = () => {
   
   // Filters
   const [searchText, setSearchText] = useState('');
-  const [industry, setIndustry] = useState<string | null>('all');
   const [activeFilter, setActiveFilter] = useState<string | null>('all'); // 'all', 'active', 'inactive'
   const [sortOption, setSortOption] = useState<string | null>('date-created-new');
   const [page, setPage] = useState(1);
@@ -20,7 +19,6 @@ export const useDashboardListings = () => {
     try {
       const data = await fetchBusinessListings({
         searchWord: searchText || undefined,
-        industry,
         sortOption,
         page,
         limit: 20
@@ -41,9 +39,9 @@ export const useDashboardListings = () => {
     return listings.filter((listing) => listing._id !== listingId)
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     getBusinessListings();
-  }, [searchText, sortOption, industry, page])
+  }, [searchText, sortOption, page])
 
   const activeFilteredListings = listings.filter((listing) => {
     if (activeFilter === 'all') {return true;}
@@ -62,11 +60,9 @@ export const useDashboardListings = () => {
     setListings,
     isLoading,
     searchText,
-    industry,
     activeFilter,
     sortOption,
     page,
-    setIndustry,  
     setSearchText,
     setActiveFilter,
     setSortOption,

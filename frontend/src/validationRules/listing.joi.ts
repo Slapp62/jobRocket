@@ -1,5 +1,4 @@
 import Joi from 'joi';
-import INDUSTRIES from '../data/industries.ts';
 import { CITIES, REGIONS } from '../data/israelCities.ts';
 import WORK_ARRANGEMENTS from '../data/workArr.ts';
 
@@ -54,13 +53,6 @@ export const listingSchema = Joi.object({
     .messages({
       'any.only': 'Work arrangement must be a valid option',
       'any.required': 'Work arrangement is required',
-    }),
-  industry: Joi.string()
-    .valid(...INDUSTRIES)
-    .required()
-    .messages({
-      'any.only': 'Industry must be a valid option',
-      'any.required': 'Industry is required',
     }),
   isActive: Joi.boolean().default(true),
   expiresAt: Joi.string().allow('', null),

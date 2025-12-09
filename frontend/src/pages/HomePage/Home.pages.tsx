@@ -1,56 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IconCards, IconSearch } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Button, Flex, Stack, Text, Title, Image, Paper, List, Group } from '@mantine/core';
+import { Box, Button, Flex, Stack, Text, Title, List } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { SearchCity } from '@/components/Filters/SearchCity';
-import { SearchIndustry } from '@/components/Filters/SearchIndustry';
 import { SearchRegion } from '@/components/Filters/SearchRegion';
-import { SearchSort } from '@/components/Filters/SearchSort';
 import { SearchText } from '@/components/Filters/SearchText.tsx';
-import { SearchWorkArrangement } from '@/components/Filters/SearchWorkArrangement';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
-import styles from './HomePage.module.css';
-import bgStyles from '@/styles/bgStyles.module.css';
 
 export function HomePage() {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.userSlice.user);
   const isBusiness = user?.profileType === 'business';
-  const [searchObj, setSearchObj] = useState({
-    searchWord: '',
-    sortOption: '',
-    region: '',
-    city: '',
-    industry: '',
-    workArrangement: '',
-  });
+  const [searchWord, setSearchWord] = useState('');
+
+  const kofi = (window as any).kofiWidgetOverlay;
+  useEffect(() => {
+    if (kofi) {
+      kofi.draw('simchalapp', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support me',
+        'floating-chat.donateButton.background-color': '#fcbf47',
+        'floating-chat.donateButton.text-color': '#323842'
+      });
+    }
+  }, []);
 
   const searchListing = () => {
     // Build URL query params from searchObj
     const params = new URLSearchParams();
 
     // Only add params that have values
-    if (searchObj.searchWord?.trim()) {
-      params.append('searchWord', searchObj.searchWord.trim());
-    }
-    if (searchObj.sortOption?.trim()) {
-      params.append('sortOption', searchObj.sortOption.trim());
-    }
-    if (searchObj.region?.trim()) {
-      params.append('region', searchObj.region.trim());
-    }
-    if (searchObj.city?.trim()) {
-      params.append('city', searchObj.city.trim());
-    }
-    if (searchObj.industry?.trim()) {
-      params.append('industry', searchObj.industry.trim());
-    }
-    if (searchObj.workArrangement?.trim()) {
-      params.append('workArrangement', searchObj.workArrangement.trim());
+    if (searchWord?.trim()) {
+      params.append('searchWord', searchWord.trim());
     }
 
     // Navigate to search page with query params
@@ -73,69 +58,44 @@ export function HomePage() {
           py={20}
           bg='rocketOrange.9'
         >
-          <Stack w={{ base: '95%', sm: '85%', md: '60%' }} align="start" mx="auto">
-            <Box>
-              {/* Conditional Welcome Message */}
-              {!user && (
-                <Title order={2} c="white">
-                  Welcome to a world of possibility.
-                </Title>
-              )}
-              {user && (
-                <Text ta="center" c="white" fz={30}>
-                  Welcome Back, {user.jobseekerProfile?.firstName || user.businessProfile?.companyName}!
-                </Text>
-              )}
-            </Box>
+          <Stack w={{ base: '95%', sm: '85%', md: '40%' }} align="center" mx="auto">
+          
+            {/* Conditional Welcome Message */}
+            {!user && (
+              <Title order={2} c="white">
+                Welcome to a world of possibility.
+              </Title>
+            )}
+            {user && (
+              <Text ta="center" c="white" fz={30}>
+                Welcome Back, {user.jobseekerProfile?.firstName || user.businessProfile?.companyName}!
+              </Text>
+            )}
+           
 
           {/* Search & Sort */}
-            <Flex gap={10} justify="center" direction={isMobile ? 'column' : 'row'} mx="auto">
-              {/* Search */}
-              <SearchText
-                value={searchObj.searchWord}
-                onChange={(val) => setSearchObj((prev) => ({ ...prev, searchWord: val }))}
-                width={isMobile ? '100%' : '25%'}
-              />
-              {/* Sort */}
-              <SearchRegion
-                width={isMobile ? '100%' : '25%'}
-                value={searchObj.region}
-                onChange={(value) => {
-                  setSearchObj((prev) => ({ ...prev, region: value }));
-                }}
-              />
-
-              {/* Sort */}
-              <SearchCity
-                width={isMobile ? '100%' : '25%'}
-                value={searchObj.city}
-                onChange={(value) => {
-                  setSearchObj((prev) => ({ ...prev, city: value }));
-                }}
-              />
-
-              <SearchIndustry
-                width={isMobile ? '100%' : '25%'}
-                value={searchObj.industry}
-                onChange={(value) => {
-                  setSearchObj((prev) => ({ ...prev, industry: value }));
-                }}
-              />
-            </Flex>
-          </Stack>
-
-          <Stack w={{ base: '95%', sm: '85%', md: '60%' }} mx="auto">
+            
+            {/* Search */}
+            <SearchText
+              value={searchWord}
+              onChange={(val) => setSearchWord(val)}
+              width='60%'
+              radius='sm'
+              size='md'
+            />
+            
             <Button
               mx="auto"
-              variant="rocketRedFilled"
+              variant="outline"
+              color='white'
+              w='40%'
               size="md"
-              w={{ base: '90%', sm: '60%', md: '30%' }}
               fz={20}
               rightSection={<IconSearch />}
               onClick={searchListing}
               style={{ fontWeight: 700 }}
             >
-              Search Jobs
+              Search
             </Button>
 
             {/* Conditinally Create Listing */}
@@ -143,23 +103,22 @@ export function HomePage() {
               <Button
                 component={Link}
                 to="create-listing"
-                w={{ base: '90%', sm: '60%', md: '30%' }}
+                w='40%'
                 mx="auto"
                 variant="outline"
                 color="white"
                 size="md"
                 fz={20}
-                rightSection={<IconCards />}
                 style={{ fontWeight: 700 }}
               >
-                Create A Listing
+                New Listing
               </Button>
             )}
           </Stack>
         </Stack>
 
-        <Box my="50px" w="100%">
-          <Flex gap={30} direction={isMobile ? 'column' : 'row'} mx='auto' align='center' justify='center' w={{base: '95%', md:'60%'}}>
+        <Box my="50px" w={{base: '95%', md:'70%'}} mx='auto'>
+          <Flex gap={30} direction={isMobile ? 'column' : 'row'} mx='auto' align='center' justify='center' w='100%'>
             <Stack c='rocketOrange.9' h='400px' w='100%' p='xl' style={{border: '1px solid orange', borderRadius: '10px'}}>
               <Title order={1}>Looking for a job?</Title>
               <Text td='underline'>At JobRocket you can:</Text>
@@ -169,7 +128,7 @@ export function HomePage() {
                 <List.Item>Track your application status</List.Item>
                 <List.Item>Get job recommendations based on your profile</List.Item>
               </List>
-              <Button variant='rocketRedFilled' component={Link} to='/register' mx='auto' mt='auto' fullWidth h={40} fz={{base: 'md', md:'lg'}}>Register now to get started</Button>
+              <Button variant='rocketRedFilled' component={Link} to='/register' mx='auto' mt='auto' w='80%' h={40} fz={{base: 'md', md:'lg'}}>Register now</Button>
             </Stack>
 
             <Stack c='rocketOrange.9' w='100%' h='400px' p='xl' style={{border: '1px solid orange', borderRadius: '10px'}}>
@@ -180,10 +139,14 @@ export function HomePage() {
                 <List.Item>View and manage incoming applications</List.Item>
                 <List.Item>View realtime analytics for listings and applications</List.Item>
               </List>
-              <Button variant='rocketRedFilled' component={Link} to='/register' mx='auto' mt='auto' fullWidth h={40} fz={{base: 'md', md:'lg'}}>Register now to get started</Button>
+              <Button variant='rocketRedFilled' component={Link} to='/register' mx='auto' mt='auto' w='80%' h={40} fz={{base: 'md', md:'lg'}}>Register now</Button>
             </Stack>
           </Flex>
 
+          <Flex direction='column' mt='xl' gap={20}  mx='auto'>
+            <Title order={1} fw={500} ta='center'>Support JobRocket</Title>
+            <Text w='90%' mx='auto' ta='center'>This site was not built by a team. It isn't owned by a big company. It was built by one person in order to help other English speaking people in Israel find a job and support their families. My goal was, and still is, to create a platform that is user-friendly and efficient. It takes a serious amount of time and effort in order to maintain such a platform. As of now, the entire site is free to use, which means I am funding it out of my own pocket. Any donations made help me maintain, improve, and expand the platform.</Text>
+          </Flex>
         </Box>
       </Box>
     </>

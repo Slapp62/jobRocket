@@ -11,9 +11,6 @@ const normalizeSearch = (query) => {
   if (query.region === 'all') {
     query.region = '';
   }
-  if (query.industry === 'all') {
-    query.industry = '';
-  }
   if (query.workArrangement === 'all') {
     query.workArrangement = '';
   }
@@ -21,7 +18,6 @@ const normalizeSearch = (query) => {
     searchWord: query.searchWord || '',
     region: query.region || '',
     city: query.city || '',
-    industry: query.industry || '',
     workArrangement: query.workArrangement || '',
     sortOption: query.sortOption || '',
     page: query.page || '1',
@@ -61,14 +57,6 @@ const getFilteredListings = async (filterParams, businessId = null) => {
     filterParams.city !== 'All Cities'
   ) {
     query['location.city'] = filterParams.city;
-  }
-
-  if (
-    filterParams.industry &&
-    filterParams.industry.trim() !== '' &&
-    filterParams.industry !== 'All Industries'
-  ) {
-    query.industry = filterParams.industry;
   }
 
   if (

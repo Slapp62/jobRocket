@@ -1,5 +1,4 @@
 const joi = require('joi');
-const { INDUSTRIES } = require('../../data/industries.js');
 const { WORK_ARRANGEMENTS } = require('../../data/workArr.js');
 const { CITIES, REGIONS } = require('../../data/israelCities.js');
 
@@ -66,14 +65,6 @@ const joiListingSchema = joi.object({
     .messages({
       'any.only': 'Work arrangement must be a valid option',
       'any.required': 'Work arrangement is required',
-    }),
-  industry: joi
-    .string()
-    .valid(...INDUSTRIES)
-    .required()
-    .messages({
-      'any.only': 'Industry must be a valid option',
-      'any.required': 'Industry is required',
     }),
   isActive: joi.boolean().optional(),
   expiresAt: joi.date().optional().allow(null),

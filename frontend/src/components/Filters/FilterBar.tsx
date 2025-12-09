@@ -1,6 +1,5 @@
 import { Flex } from '@mantine/core';
 import { SearchCity } from './SearchCity';
-import { SearchIndustry } from './SearchIndustry';
 import { SearchRegion } from './SearchRegion';
 import { SearchSort } from './SearchSort';
 import { SearchText } from './SearchText';
@@ -28,11 +27,6 @@ export function FilterBar({ searchParams, updateSearchParam, isMobile }: FilterB
       <SearchCity
         value={searchParams.get('city') || ''}
         onChange={(val) => updateSearchParam('city', val)}
-        width={{base:'30%', md: '100%'}}
-      />
-      <SearchIndustry
-        value={searchParams.get('industry') || ''}
-        onChange={(val) => updateSearchParam('industry', val)}
         width={{base:'30%', md: '100%'}}
       />
       <SearchWorkArrangement

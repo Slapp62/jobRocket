@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const { INDUSTRIES } = require('../data/industries.js');
 const { WORK_ARRANGEMENTS } = require('../data/workArr.js');
 const { CITIES, REGIONS } = require('../data/israelCities.js');
 const {
@@ -63,12 +62,6 @@ const jobListingSchema = new Schema({
     required: true,
     index: true,
   },
-  industry: {
-    type: String,
-    enum: INDUSTRIES,
-    required: true,
-    index: true,
-  },
   likes: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
   isActive: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
@@ -80,8 +73,7 @@ jobListingSchema.pre('save', async function (next) {
   if (
     this.isModified('jobTitle') ||
     this.isModified('jobDescription') ||
-    this.isModified('requirements') ||
-    this.isModified('industry')
+    this.isModified('requirements')
   ) {
     try {
       const listingText = listingToText(this);

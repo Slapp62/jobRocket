@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { CITIES, REGIONS } from '../data/israelCities';
 
 const registrationSchema = Joi.object({
   email: Joi.string()
@@ -92,8 +93,13 @@ const registrationSchema = Joi.object({
           'string.empty': 'Country is required',
           'any.required': 'Country is required',
         }),
-        city: Joi.string().min(2).max(256).required().messages({
-          'string.min': 'City is too short',
+        region: Joi.string().valid(...REGIONS).required().messages({
+          'any.only': 'Please select a valid region',
+          'string.empty': 'Region is required',
+          'any.required': 'Region is required',
+        }),
+        city: Joi.string().valid(...CITIES).required().messages({
+          'any.only': 'Please select a valid city',
           'string.empty': 'City is required',
           'any.required': 'City is required',
         }),
