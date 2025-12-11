@@ -42,6 +42,14 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com; frame-src https://ko-fi.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline';"
+  );
+  next();
+});
+
 app.use(errorLogger);
 app.use(session(sessionConfig));
 
