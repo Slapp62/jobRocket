@@ -45,7 +45,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.setHeader(
     'Content-Security-Policy',
-    "default-src 'self'; script-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com; frame-src https://ko-fi.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline';"
+    "default-src 'self'; script-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com; frame-src https://ko-fi.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://storage.ko-fi.com; font-src 'self' https://fonts.gstatic.com;"
   );
   next();
 });
