@@ -85,8 +85,19 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
 
     // Fetch user to get their embedding
     const user = await User.findById(userId);
-    if (!user || !user.embedding || user.embedding.length === 0) {
-      throwError(400, 'User profile incomplete - cannot calculate match scores');
+
+    // Validate user exists and is a jobseeker
+    if (!user) {
+      throwError(404, 'User not found');
+    }
+
+    if (user.profileType !== 'jobseeker') {
+      throwError(403, 'Match score sorting is only available for jobseekers');
+    }
+
+    // Check if jobseeker has an embedding
+    if (!user.jobseekerProfile?.embedding || user.jobseekerProfile.embedding.length === 0) {
+      throwError(400, 'User profile incomplete - cannot calculate match scores. Please complete your profile.');
     }
 
     // Fetch ALL listings matching the filters (before pagination)
@@ -100,7 +111,7 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
     const sortOrder = filterParams.sortOption === 'match-score' ? 'desc' : 'asc';
     const sortedListings = sortListingsByMatchScore(
       allListings,
-      user.embedding,
+      user.jobseekerProfile.embedding,
       sortOrder,
     );
 
