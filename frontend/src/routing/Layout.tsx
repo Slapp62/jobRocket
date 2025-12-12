@@ -20,6 +20,18 @@ export function Layout() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
+  const kofi = (window as any).kofiWidgetOverlay;
+  useEffect(() => {
+    if (kofi) {
+      kofi.draw('simchalapp', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support Us',
+        'floating-chat.donateButton.background-color': '#fcbf47',
+        'floating-chat.donateButton.text-color': '#323842'
+      });
+    }
+  }, []);
+  
   // Setup axios interceptors once on mount
   useEffect(() => {
     setupAxiosInterceptors(dispatch, navigate);

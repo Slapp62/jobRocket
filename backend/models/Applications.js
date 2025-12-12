@@ -68,6 +68,10 @@ const applicationSchema = new Schema({
     type: Boolean,
     default: false
   },
+  matchScore: {
+    type: Number,
+    default: null,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

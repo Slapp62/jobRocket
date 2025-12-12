@@ -15,12 +15,13 @@ type SearchRegionProps = {
   onChange: (value: string) => void;
   placeholder?: string;
   width?: StyleProp<string | number>;
+  radius?: number;
 };
 
-export function SearchRegion({ value, onChange, placeholder, width }: SearchRegionProps) {
+export function SearchRegion({ value, onChange, placeholder, width, radius }: SearchRegionProps) {
   return (
     <Select
-      radius={0}
+      radius={radius || 100}
       w={width}
       placeholder='Region'
       rightSection={<IconFilter2 size={15}/>}

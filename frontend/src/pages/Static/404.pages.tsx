@@ -1,22 +1,27 @@
-import { IconMoodSad } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Center, Flex } from '@mantine/core';
+import { useSelector } from 'react-redux';
+import { EmptyState } from '@/components/EmptyState';
+import { RootState } from '@/store/store';
 
 const Error404 = () => {
   const nav = useNavigate();
+  const user = useSelector((state: RootState) => state.userSlice.user);
 
   const goHome = () => {
     nav('/');
   };
 
   return (
-    <Center>
-      <Flex direction="column" align="center" justify="center" mt={100}>
-        <IconMoodSad size={100} />
-        <h1 className="text-3xl font-bold">404: Page Not Found</h1>
-        <Button onClick={goHome}>Return to Homepage</Button>
-      </Flex>
-    </Center>
+    <EmptyState
+      title="404: Page Not Found"
+      description="The page you're looking for doesn't exist or has been moved."
+      action={{
+        label: 'Return to Homepage',
+        onClick: goHome,
+        showOnlyWhenLoggedOut: true,
+      }}
+      isLoggedIn={user !== null}
+    />
   );
 };
 

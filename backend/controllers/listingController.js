@@ -17,7 +17,8 @@ async function getSearchedListings(req, res) {
     // remove search filters in case of "All" selection
     const normalizedSearchParams = filterService.normalizeSearch(req.query);
     const result = await filterService.getFilteredListings(
-      normalizedSearchParams
+      normalizedSearchParams,
+      req.user._id
     );
     res.json(result);
   } catch (error) {

@@ -18,21 +18,25 @@ export function FilterBar({ searchParams, updateSearchParam, isMobile }: FilterB
         value={searchParams.get('sortOption') || ''}
         onChange={(val) => updateSearchParam('sortOption', val)}
         width={{base:'30%', md: '100%'}}
+        radius={100}
       />
       <SearchRegion
         value={searchParams.get('region') || ''}
         onChange={(val) => updateSearchParam('region', val)}
         width={{base:'30%', md: '100%'}}
+        radius={100}
       />
       <SearchCity
         value={searchParams.get('city') || ''}
         onChange={(val) => updateSearchParam('city', val)}
         width={{base:'30%', md: '100%'}}
+        radius={100}
       />
       <SearchWorkArrangement
         value={searchParams.get('workArrangement') || ''}
         onChange={(val) => updateSearchParam('workArrangement', val)}
         width={{base:'30%', md: '100%'}}
+        radius={100}
       /> 
     </Flex>
   );

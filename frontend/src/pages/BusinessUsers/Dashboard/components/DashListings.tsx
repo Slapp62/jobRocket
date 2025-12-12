@@ -5,6 +5,8 @@ import { DeleteListingModal } from '../modals/DeleteListingModal';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { EditListingModal } from '../modals/EditListingModal';
+import { EmptyState } from '@/components/EmptyState';
+import { useNavigate } from 'react-router';
 
 interface DashListingsProps {
   listings: TListing[];
@@ -26,6 +28,7 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
   const [listingDelete, setListingDelete] = useState<{id: string, title: string} | null>(null);
   const [editOpened, { open: openEdit, close: closeEdit }] = useDisclosure(false);
   const [listingEdit, setListingEdit] = useState<TListing>();
+  const navigate = useNavigate();
 
   const clickDeleteListing = (id: string, title: string) => {
     setListingDelete({ id, title });
@@ -35,6 +38,20 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
     setListingEdit(listing);
     openEdit();
   };
+
+  // If no listings, show empty state
+  if (listings.length === 0) {
+    return (
+      <EmptyState
+        title="No Listings Found"
+        description="You haven't created any job listings yet. Start attracting top talent by creating your first listing!"
+        action={{
+          label: 'Create Your First Listing',
+          onClick: () => navigate('/create-listing'),
+        }}
+      />
+    );
+  }
 
   return (
     <>

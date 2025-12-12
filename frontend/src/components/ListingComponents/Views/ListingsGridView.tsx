@@ -1,11 +1,11 @@
-import { IconMoodSad2 } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
-import { Box, Center, Flex, Group, Skeleton, Stack, Text } from '@mantine/core';
-import { MatchScore } from '@/components/AI_Components/MatchScore';
+import { Box, Flex, Group, Skeleton, Stack, Text } from '@mantine/core';
+import { MatchScore } from '@/components/AI_Components/ListingMatchScore';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import { RootState } from '@/store/store';
 import ListingCard from '../ListingCard/ListingCard';
+import { EmptyState } from '@/components/EmptyState';
 
 interface DesktopDefaultViewProps {
   isLoading: boolean;
@@ -50,15 +50,10 @@ const DesktopDefaultView = ({
             </Flex>
           </Flex>
         ) : noListings ? (
-          <Center py={50} h="calc(100vh - 200px)">
-            <Stack align="center" gap="sm">
-              <IconMoodSad2 size={60} />
-              <Text size="lg" fw={500}>
-                No listings found
-              </Text>
-              <Text c="dimmed">Try adjusting your search filters</Text>
-            </Stack>
-          </Center>
+          <EmptyState
+            title="No Listings Found"
+            description="Try adjusting your search filters or browse all available job opportunities"
+          />
         ) : (
           <Flex direction="column" align="center" mx="auto" gap={20} py="md" w="90vw">
             <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w="95%" mx="auto">
@@ -82,8 +77,11 @@ const DesktopDefaultView = ({
                     listing={listing}
                     actions={
                       <Group gap={10} w="100%">
-                        <FavoritesButton listing={listing} />
-                        {user && <MatchScore listingId={listing._id} />}
+                        {user?.profileType === 'jobseeker' && 
+                          <FavoritesButton listing={listing} />}
+
+                        {user?.profileType !== 'business' && 
+                        <MatchScore listingId={listing._id} />}
                       </Group>
                     }
                     width="300px"

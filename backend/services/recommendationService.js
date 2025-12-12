@@ -30,4 +30,5 @@ async function getMatchScoreForListing(userId, listingId) {
   return score;
 }
 
+
 module.exports = { getMatchScoreForListing };

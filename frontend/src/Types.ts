@@ -121,6 +121,7 @@ export type TApplication = {
   resumeUrl?: string;
   message?: string;
   createdAt: string;
+  matchScore?: number | null;
   status: 'pending' | 'reviewed' | 'rejected';
 };
 

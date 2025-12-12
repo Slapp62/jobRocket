@@ -1,8 +1,11 @@
 const Applications = require('../models/Applications.js');
 const Listings = require('../models/Listings.js');
+const User = require('../models/Users.js');
 const { throwError } = require('../utils/functionHandlers.js');
 const { normalizeApplicationResponse } = require('../utils/normalizeResponses');
 const { uploadResumeToCloudinary } = require('../utils/uploadResumeToCloudinary.js');
+const matchingService = require('./matchingService.js');
+
 
 async function createApplication(listingId, applicantId, applicationData, resumeFile) {
   // Check if listing exists and is active
@@ -12,6 +15,21 @@ async function createApplication(listingId, applicantId, applicationData, resume
   }
   if (!listing.isActive) {
     throwError(400, 'Cannot apply to inactive listing');
+  }
+
+  if (applicantId){
+    const user = await User.findById(applicantId);
+    if (!user) {
+      throwError(404, 'User not found');
+    }
+    if (!user.jobseekerProfile.embedding) {
+      throwError(400, 'User has no jobseeker profile');
+    }
+    const matchScore = matchingService.calculateMatchScore(
+      user.jobseekerProfile.embedding,
+      listing.embedding
+    );
+    applicationData.matchScore = matchScore;
   }
 
   const resumeUrl = await uploadResumeToCloudinary(resumeFile.buffer, applicationData.email);
@@ -28,6 +46,7 @@ async function createApplication(listingId, applicantId, applicationData, resume
     message:
       applicationData.message === '' ? undefined : applicationData.message,
     status: 'pending',
+    matchScore: applicationData.matchScore || null,
   });
   await application.save();
   return application;

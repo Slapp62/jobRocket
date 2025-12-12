@@ -88,6 +88,7 @@ const normalizeApplicationResponse = (application) => {
     resumeUrl: application.resumeUrl,
     message: application.message,
     status: application.status,
+    matchScore: application.matchScore,
     createdAt: application.createdAt,
   };
 

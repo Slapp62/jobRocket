@@ -12,8 +12,9 @@ function calculateMatchScore(embedding1, embedding2) {
   const similarity =
     dotProduct / (Math.sqrt(magnitude1) * Math.sqrt(magnitude2));
 
-  // Convert from -1 to 1 range into 0 to 1 range
-  return (similarity + 1) / 2;
+  // Cosine similarity with OpenAI embeddings naturally ranges from 0 to 1
+  // Clamp to ensure we stay within valid bounds (handles any floating-point edge cases)
+  return Math.max(0, Math.min(1, similarity));
 }
 
 module.exports = { calculateMatchScore };

@@ -44,7 +44,7 @@ const authenticateUser = (req, res, next) => {
   
   if (timeSinceActivity > ONE_HOUR) {
     return req.session.destroy((err) => {
-      return nextError(next, 401, 'Session expired due to inactivity.');
+      return nextError(next, 410, 'Session expired due to inactivity.');
     });
   }
 
@@ -74,7 +74,7 @@ const optionalAuthenticateUser = (req, res, next) => {
   
    if (timeSinceActivity > ONE_HOUR) {
     return req.session.destroy((err) => {
-      return nextError(next, 401, 'Session expired due to inactivity.');
+      return nextError(next, 410, 'Session expired due to inactivity.');
     });
   }
 

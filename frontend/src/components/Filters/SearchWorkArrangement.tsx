@@ -7,6 +7,7 @@ type SearchWorkArrangementProps = {
   onChange: (value: string) => void;
   placeholder?: string;
   width?: StyleProp<string | number>;
+  radius?: number;
 };
 
 export function SearchWorkArrangement({
@@ -14,6 +15,7 @@ export function SearchWorkArrangement({
   onChange,
   placeholder,
   width,
+  radius,
 }: SearchWorkArrangementProps) {
   const data = WORK_ARRANGEMENTS.map((arrangement) => ({
     value: arrangement,
@@ -22,7 +24,7 @@ export function SearchWorkArrangement({
 
   return (
     <Select
-      radius={0}
+      radius={radius || 100}
       w={width}
       placeholder={placeholder || 'Work Type'}
       rightSection={<IconFilter2 size={15}/>}

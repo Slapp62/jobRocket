@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { IconArrowUp, IconMoodSad2 } from '@tabler/icons-react';
+import { IconArrowUp } from '@tabler/icons-react';
 import { Box, Button, Flex, Group, Pagination, Skeleton, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import { ViewDetailsAction } from '@/components/ListingActions/ViewDetailsAction';
 import ListingCard from '../ListingCard/ListingCard';
+import { EmptyState } from '@/components/EmptyState';
 
 interface MobileViewProps {
   displayListings: any[];
@@ -52,13 +53,10 @@ const MobileView = ({ displayListings, isLoading = false }: MobileViewProps) => 
       </Flex>
 
       {noListings && (
-        <Flex direction="column" align="center" gap={10} mt={50}>
-          <IconMoodSad2 size={80} />
-          <Text size="xl" fw={500}>
-            No listings found
-          </Text>
-          <Text c="dimmed">Try adjusting your search filters</Text>
-        </Flex>
+        <EmptyState
+          title="No Listings Found"
+          description="Try adjusting your search filters or browse all available job opportunities"
+        />
       )}
 
       {!noListings && (

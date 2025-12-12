@@ -70,7 +70,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <Box bg='rocketOrange.9' pos="sticky">
+    <Box bg='rocketRed.9' pos="sticky">
       <header>
         <Flex justify="space-between" align="center" h="100%" px="sm">
           <Logo />
@@ -106,7 +106,7 @@ export function Navbar() {
                 </Button>
               )}
               {!loggedIn && (
-                <Button component={Link} to="/register" variant="rocketRedFilled">
+                <Button component={Link} to="/register" variant="rocketOrangeFilled">
                   Register
                 </Button>
               )}

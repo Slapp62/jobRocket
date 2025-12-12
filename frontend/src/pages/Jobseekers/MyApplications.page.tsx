@@ -7,6 +7,8 @@ import { EditApplicationModal } from '@/components/Modals/EditApplicationModal';
 import { ListingDetailsModal } from '@/components/Modals/ListingDetailsModal';
 import { PageMeta } from '@/SEO/PageMeta';
 import { TApplication, TListing } from '@/Types';
+import { EmptyState } from '@/components/EmptyState';
+import { useNavigate } from 'react-router';
 
 export function MyApplications() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +18,7 @@ export function MyApplications() {
   const [selectedListing, setSelectedListing] = useState<TListing | null>(null);
   const [editOpened, { open: openEdit, close: closeEdit }] = useDisclosure(false);
   const [selectedApplication, setSelectedApplication] = useState<TApplication | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -88,7 +91,16 @@ export function MyApplications() {
             Applications
           </Title>
 
-          {noListings ? <Text>No applications found</Text> : null}
+          {noListings ? (
+            <EmptyState
+              title="No Applications Found"
+              description="You haven't applied to any jobs yet. Start exploring opportunities and apply to your dream job!"
+              action={{
+                label: 'Browse Jobs',
+                onClick: () => navigate('/search'),
+              }}
+            />
+          ) : null}
 
           <Flex w="100%" gap="md" wrap="wrap" align="stretch" justify="center">
             {applications.map((application, index) => (

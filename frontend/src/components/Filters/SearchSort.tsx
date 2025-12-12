@@ -15,12 +15,13 @@ type SearchSortProps = {
   onChange: (value: string) => void;
   placeholder?: string;
   width?: StyleProp<string | number>;
+  radius?: number;
 };
 
-export function SearchSort({ value, onChange, placeholder, width }: SearchSortProps) {
+export function SearchSort({ value, onChange, placeholder, width, radius }: SearchSortProps) {
   return (
     <Select
-      radius={0}
+      radius={radius || 100}
       w={width}
       placeholder={placeholder || 'Sort By'}
       rightSection={<IconFilter2 size={15}/>}

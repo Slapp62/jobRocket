@@ -17,18 +17,6 @@ export function HomePage() {
   const isBusiness = user?.profileType === 'business';
   const [searchWord, setSearchWord] = useState('');
 
-  const kofi = (window as any).kofiWidgetOverlay;
-  useEffect(() => {
-    if (kofi) {
-      kofi.draw('simchalapp', {
-        'type': 'floating-chat',
-        'floating-chat.donateButton.text': 'Support me',
-        'floating-chat.donateButton.background-color': '#fcbf47',
-        'floating-chat.donateButton.text-color': '#323842'
-      });
-    }
-  }, []);
-
   const searchListing = () => {
     // Build URL query params from searchObj
     const params = new URLSearchParams();
@@ -56,7 +44,7 @@ export function HomePage() {
           h="100%"
           gap={20}
           py={20}
-          bg='rocketOrange.9'
+          bg='rocketRed.9'
         >
           <Stack w={{ base: '95%', sm: '85%', md: '40%' }} align="center" mx="auto">
           
@@ -79,7 +67,7 @@ export function HomePage() {
             <SearchText
               value={searchWord}
               onChange={(val) => setSearchWord(val)}
-              width='60%'
+              width={{base: '95%', md: '60%'}}
               radius='sm'
               size='md'
             />
@@ -88,7 +76,7 @@ export function HomePage() {
               mx="auto"
               variant="outline"
               color='white'
-              w='40%'
+              w={{base: '95%', md: '40%'}}
               size="md"
               fz={20}
               rightSection={<IconSearch />}
@@ -119,7 +107,7 @@ export function HomePage() {
 
         <Box my="50px" w={{base: '95%', md:'70%'}} mx='auto'>
           <Flex gap={30} direction={isMobile ? 'column' : 'row'} mx='auto' align='center' justify='center' w='100%'>
-            <Stack c='rocketOrange.9' h='400px' w='100%' p='xl' style={{border: '1px solid orange', borderRadius: '10px'}}>
+            <Stack c='rocketRed.9' h='400px' w='100%' p='xl' style={{border: '1px solid orange', borderRadius: '10px'}}>
               <Title order={1}>Looking for a job?</Title>
               <Text td='underline'>At JobRocket you can:</Text>
               <List>
@@ -131,7 +119,7 @@ export function HomePage() {
               <Button variant='rocketRedFilled' component={Link} to='/register' mx='auto' mt='auto' w='80%' h={40} fz={{base: 'md', md:'lg'}}>Register now</Button>
             </Stack>
 
-            <Stack c='rocketOrange.9' w='100%' h='400px' p='xl' style={{border: '1px solid orange', borderRadius: '10px'}}>
+            <Stack c='rocketRed.9' w='100%' h='400px' p='xl' style={{border: '1px solid orange', borderRadius: '10px'}}>
               <Title order={1}>Looking to recruit?</Title>
               <Text td='underline'>At JobRocket you can:</Text>
               <List>
@@ -143,9 +131,9 @@ export function HomePage() {
             </Stack>
           </Flex>
 
-          <Flex direction='column' mt='xl' gap={20}  mx='auto'>
-            <Title order={1} fw={500} ta='center'>Support JobRocket</Title>
-            <Text w='90%' mx='auto' ta='center'>This site was not built by a team. It isn't owned by a big company. It was built by one person in order to help other English speaking people in Israel find a job and support their families. My goal was, and still is, to create a platform that is user-friendly and efficient. It takes a serious amount of time and effort in order to maintain such a platform. As of now, the entire site is free to use, which means I am funding it out of my own pocket. Any donations made help me maintain, improve, and expand the platform.</Text>
+          <Flex direction='column' mt='xl' gap={20} p='xl'  mx='auto' style={{border: '1px solid orange', borderRadius: '10px'}}>
+            <Title order={1} fw={600} ta='center' c='rocketRed.9'>Support JobRocket</Title>
+            <Text w='90%' mx='auto' ta='center' c='rocketRed.9'>This site was not built by a team. It isn't owned by a big company. It was built by one person in order to help other English speaking people in Israel find a job and support their families. My goal was, and still is, to create a platform that is user-friendly and efficient. It takes a serious amount of time and effort in order to maintain such a platform. As of now, the entire site is free to use, which means I am funding it out of my own pocket. Any donations made help me maintain, improve, and expand the platform.</Text>
           </Flex>
         </Box>
       </Box>

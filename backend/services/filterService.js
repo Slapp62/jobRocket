@@ -1,8 +1,10 @@
 const Listing = require('../models/Listings.js');
 const Applications = require('../models/Applications.js');
+const User = require('../models/Users.js');
 const { normalizeListingResponse } = require('../utils/normalizeResponses');
 const { normalizeApplicationResponse } = require('../utils/normalizeResponses');
 const { throwError } = require('../utils/functionHandlers');
+const { sortListingsByMatchScore } = require('../utils/matchScoreSorting.js');
 
 const normalizeSearch = (query) => {
   if (query.city === 'all') {
@@ -25,7 +27,7 @@ const normalizeSearch = (query) => {
   };
 };
 
-const getFilteredListings = async (filterParams, businessId = null) => {
+const getFilteredListings = async (filterParams, userId, businessId = null) => {
   // Build filter object dynamically
   const query = {};
 
@@ -71,13 +73,61 @@ const getFilteredListings = async (filterParams, businessId = null) => {
   const limit = parseInt(filterParams.limit) || 20;
   const skip = (page - 1) * limit;
 
+  // Handle match-score sorting separately (requires calculating scores for all listings)
+  if (
+    filterParams.sortOption === 'match-score' ||
+    filterParams.sortOption === 'match-score-desc'
+  ) {
+    // Validate user is logged in
+    if (!userId) {
+      throwError(401, 'Must be logged in to use match score sorting');
+    }
+
+    // Fetch user to get their embedding
+    const user = await User.findById(userId);
+    if (!user || !user.embedding || user.embedding.length === 0) {
+      throwError(400, 'User profile incomplete - cannot calculate match scores');
+    }
+
+    // Fetch ALL listings matching the filters (before pagination)
+    const allListings = await Listing.find(query).lean();
+
+    if (allListings.length === 0) {
+      throwError(404, 'No jobs match your search. Try adjusting your filters.');
+    }
+
+    // Use utility function to calculate match scores and sort
+    const sortOrder = filterParams.sortOption === 'match-score' ? 'desc' : 'asc';
+    const sortedListings = sortListingsByMatchScore(
+      allListings,
+      user.embedding,
+      sortOrder,
+    );
+
+    // Apply pagination AFTER sorting
+    const paginatedListings = sortedListings.slice(skip, skip + limit);
+    const total = sortedListings.length;
+
+    // Return early for match-score sorting
+    return {
+      listings: paginatedListings.map(normalizeListingResponse),
+      pagination: {
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        totalResults: total,
+        perPage: limit,
+        hasNextPage: page < Math.ceil(total / limit),
+        hasPrevPage: page > 1,
+      },
+    };
+  }
+
+  // Sort options for MongoDB (match-score is handled separately above)
   const sortOptions = {
     'title-asc': { jobTitle: 1 },
     'title-desc': { jobTitle: -1 },
     'date-created-old': { createdAt: 1 },
     'date-created-new': { createdAt: -1 },
-    'match-score': { matchScore: -1 },
-    'match-score-desc': { matchScore: 1 },
   };
   const sortBy = sortOptions[filterParams.sortOption] || { createdAt: -1 };
 
@@ -149,6 +199,8 @@ async function getFilteredApplications(businessId, filterParams) {
     'date-oldest': { createdAt: 1 },
     'name-asc': { firstName: 1, lastName: 1 },
     'name-desc': { firstName: -1, lastName: -1 },
+    'match-desc': { matchScore: -1 },
+    'match-asc': { matchScore: 1 },
   };
 
   const page = parseInt(filterParams.page) || 1;

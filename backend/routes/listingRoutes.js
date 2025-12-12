@@ -18,6 +18,7 @@ const {
   businessAuth,
   listingCreatorAuth,
   listingCreatorAdminAuth,
+  optionalAuthenticateUser,
 } = require('../middleware/authMiddleware.js');
 const listingValidation = require('../middleware/listingValidation.js');
 const { listingsLimiter } = require('../middleware/rateLimiter.js');
@@ -28,7 +29,7 @@ const router = express.Router();
 router.get('/', getAllListings);
 
 // Search listings
-router.get('/search', getSearchedListings);
+router.get('/search', optionalAuthenticateUser, getSearchedListings);
 
 // Get user's own listings (authenticated)
 router.get('/business-listings', authenticateUser, getBusinessListings);

@@ -34,6 +34,7 @@ export function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -63,13 +64,15 @@ export function LoginPage() {
         color: 'green',
       });
 
-      jumpTo('/');
+      jumpTo('/search');
     } catch (error: any) {
       notifications.show({
         title: 'Error',
         message: error.response.data.message,
         color: 'red',
       });
+      reset();
+
     } finally {
       setIsLoading(false);
     }

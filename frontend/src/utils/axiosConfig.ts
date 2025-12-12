@@ -10,9 +10,9 @@ export const setupAxiosInterceptors = (dispatch: AppDispatch, navigate: (path: s
   axios.interceptors.response.use(
     (response) => response, // Pass successful responses through unchanged
     (error) => {
-      if (error.response?.status === 401) {
+      if (error.response?.status === 410) {
         dispatch(clearUser());
-        navigate('/', { state: { message: 'Session expired. Please log in again.' } });
+        navigate('/login');
         notifications.show({
           title: 'Session Expired',
           message: 'Session expired. Please login again',

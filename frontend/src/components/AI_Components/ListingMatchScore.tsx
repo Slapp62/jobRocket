@@ -1,13 +1,23 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Badge, Loader } from '@mantine/core';
+import { TListing } from '@/Types';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 interface MatchScoreProps {
-  listingId: string;
+  listingId: string | TListing;
   size?: 'sm' | 'md' | 'lg';
 }
 
 export function MatchScore({ listingId, size = 'md' }: MatchScoreProps) {
+  const user = useSelector((state: RootState) => state.userSlice.user);
+  if (!user) return (
+    <Badge style={{borderColor:'gray'}} c='gray' size="lg" variant="outline" radius="md" h="100%">
+      AI MatchScore N/A
+    </Badge>
+  );
+
   const [score, setScore] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -37,10 +47,10 @@ export function MatchScore({ listingId, size = 'md' }: MatchScoreProps) {
   }
 
   const percentage = Math.round(score * 100);
-  const color = percentage >= 80 ? 'green' : percentage >= 60 ? 'blue' : 'red';
+  const color = percentage >= 80 ? 'green' : percentage >= 60 ? 'blue' : 'darkRed';
 
   return (
-    <Badge color={color} size="lg" variant="outline" radius="md" h="100%">
+    <Badge style={{borderColor:color}} c={color} size="lg" variant="outline" radius="md" h="100%">
       {percentage}% Match
     </Badge>
   );

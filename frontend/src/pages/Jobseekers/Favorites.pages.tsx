@@ -1,8 +1,7 @@
-import { IconMoodSad } from '@tabler/icons-react';
 import { AnimatePresence } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Flex, Stack, Title } from '@mantine/core';
+import { Box, Flex, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { FilterBar } from '@/components/Filters/FilterBar';
 import DesktopDefaultView from '@/components/ListingComponents/Views/ListingsGridView';
@@ -12,6 +11,7 @@ import { RootState } from '@/store/store';
 import { getParamsInfo } from '@/utils/getParamsInfo';
 import styles from '@/styles/gradients.module.css';
 import ListingCardSkeleton from '@/components/ListingComponents/ListingCard/ListingCardSkeleton';
+import { EmptyState } from '@/components/EmptyState';
 
 export function FavoriteListings() {
   const user = useSelector((state: RootState) => state.userSlice.user);
@@ -52,17 +52,14 @@ export function FavoriteListings() {
   if (noListings) {
     return (
       <Box className={styles.pageBackground}>
-        <Flex direction="column" align="center" gap={20}>
-          <Box mt={20}>
-            <IconMoodSad color="gray" size={100} />
-          </Box>
-          <Title my={10} c="gray">
-            No Favorites Found
-          </Title>
-          <Button onClick={() => navigate('/search')} variant="filled" color="rocketOrange" size="lg" fz={20}>
-            Find Some Favorites
-          </Button>
-        </Flex>
+        <EmptyState
+          title="No Favorites Found"
+          description="You haven't saved any job listings yet. Start exploring and save jobs you're interested in!"
+          action={{
+            label: 'Find Some Favorites',
+            onClick: () => navigate('/search'),
+          }}
+        />
       </Box>
     );
   }

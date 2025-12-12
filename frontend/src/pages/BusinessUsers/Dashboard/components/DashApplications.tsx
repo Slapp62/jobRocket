@@ -7,6 +7,9 @@ import { TApplication } from '@/Types';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { DeleteApplicationModal } from '../modals/DeleteApplicationModal';
+import { EmptyState } from '@/components/EmptyState';
+import { MatchScore } from '@/components/AI_Components/ListingMatchScore';
+import { ApplicationMatchScore } from '@/components/AI_Components/ApplicationMatchScore';
 
 interface DashApplicationsProps {
   dashApplications?: TApplication[];
@@ -41,7 +44,7 @@ export const DashApplications = (
   const handleDeleteApplication = (id: string, title: string) => {
     setApplicationDelete({ id, title });
     openDelete();
-  };
+  };    
 
   return (
     <>
@@ -92,6 +95,8 @@ export const DashApplications = (
             {value:'date-oldest', label: "Oldest First"},
             {value:'name-asc', label: "Name (A-Z)"},
             {value:'name-desc', label: "Name (Z-A)"},
+            {value:'match-desc', label: "Match (High to Low)"},
+            {value:'match-asc', label: "Match (Low to High)"},
           ]}
         />
       </Stack>
@@ -148,13 +153,16 @@ export const DashApplications = (
             {value:'date-oldest', label: "Oldest First"},
             {value:'name-asc', label: "Name (A-Z)"},
             {value:'name-desc', label: "Name (Z-A)"},
+            {value:'match-desc', label: "Match (High to Low)"},
+            {value:'match-asc', label: "Match (Low to High)"},
           ]}
         />
       </Group>
       {dashApplications?.length === 0 ? (
-        <Center mt={50}>
-          <Title order={3} c='red'>No Applications Found</Title>
-        </Center>
+        <EmptyState
+          title="No Applications Found"
+          description="You haven't received any applications yet. Make sure your job listings are active and visible to attract candidates."
+        />
       ) : (
         <>
           {/* Mobile Card View */}
@@ -223,6 +231,7 @@ export const DashApplications = (
                     <Table.Th>Email</Table.Th>
                     <Table.Th>Submitted</Table.Th>
                     <Table.Th>Resume</Table.Th>
+                    <Table.Th>Match</Table.Th>
                     <Table.Th>Status</Table.Th>
                     <Table.Th>Actions</Table.Th>
                   </Table.Tr>
@@ -269,6 +278,10 @@ export const DashApplications = (
 
                       <Table.Td>
                         <Anchor href={app.resumeUrl} target="_blank" ><IconFileDownload size={30} /></Anchor>
+                      </Table.Td>
+
+                      <Table.Td w={75}>
+                        <ApplicationMatchScore matchScore={app.matchScore} />
                       </Table.Td>
 
                       <Table.Td>

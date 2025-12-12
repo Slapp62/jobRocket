@@ -8,6 +8,7 @@ type SearchCityProps = {
   cities?: string[];
   placeholder?: string;
   width?: StyleProp<string | number>;
+  radius?: number;
 };
 
 export function SearchCity({
@@ -16,12 +17,13 @@ export function SearchCity({
   cities = CITIES,
   placeholder,
   width,
+  radius,
 }: SearchCityProps) {
   const data = cities.map((city) => ({ value: city, label: city }));
 
   return (
     <Select
-      radius={0}
+      radius={radius || 100}
       w={width}
       placeholder={placeholder || 'City'}
       rightSection={<IconFilter2 size={15}/>}
