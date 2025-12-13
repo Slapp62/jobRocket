@@ -15,10 +15,12 @@ export type TListing = {
     city: string;
   };
   workArrangement: string;
+  industry: string;
   likes?: string[];
   isActive?: boolean;
   createdAt?: string;
   expiresAt?: string | null;
+  matchScore?: number | null;
 };
 
 export type TListingsArray = TListing[];

@@ -77,11 +77,11 @@ const DesktopDefaultView = ({
                     listing={listing}
                     actions={
                       <Group gap={10} w="100%">
-                        {user?.profileType === 'jobseeker' && 
+                        {user?.profileType === 'jobseeker' &&
                           <FavoritesButton listing={listing} />}
 
-                        {user?.profileType !== 'business' && 
-                        <MatchScore listingId={listing._id} />}
+                        {user?.profileType !== 'business' &&
+                        <MatchScore listing={listing} />}
                       </Group>
                     }
                     width="300px"

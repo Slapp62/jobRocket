@@ -1,6 +1,8 @@
 const Listing = require('../models/Listings.js');
+const User = require('../models/Users.js');
 const { throwError } = require('../utils/functionHandlers.js');
 const { normalizeListingResponse } = require('../utils/normalizeResponses');
+const { calculateMatchScore } = require('./matchingService.js');
 
 const getAllListings = async () => {
   const listings = await Listing.find({});
@@ -8,7 +10,7 @@ const getAllListings = async () => {
     throwError(404, 'No job listings available at the moment.');
   }
   const normalizedListings = listings.map((listing) =>
-    normalizeListingResponse(listing)
+    normalizeListingResponse(listing),
   );
   return normalizedListings;
 };
@@ -30,12 +32,42 @@ const getListingById = async (id) => {
 };
 
 const getLikedListings = async (userId) => {
-  const likedListings = await Listing.find({ likes: { $in: userId } });
+  const likedListings = await Listing.find({ likes: { $in: userId } }).lean();
   if (likedListings.length === 0) {
     throwError(404, "You haven't saved any job listings yet.");
   }
-  const normalizedLikedListings = likedListings.map((listing) =>
-    normalizeListingResponse(listing)
+
+  // Get user embedding to calculate match scores for favorites
+  let userEmbedding = null;
+  const user = await User.findById(userId);
+  if (user?.profileType === 'jobseeker' && user.jobseekerProfile?.embedding) {
+    userEmbedding = user.jobseekerProfile.embedding;
+  }
+
+  // Add match scores to favorited listings if user is a jobseeker with embedding
+  let listingsWithScores = likedListings;
+  if (userEmbedding) {
+    listingsWithScores = likedListings.map((listing) => {
+      // Check if this listing has a valid embedding
+      const hasValidEmbedding =
+        listing.embedding &&
+        Array.isArray(listing.embedding) &&
+        listing.embedding.length > 0;
+
+      // Calculate match score or set to null
+      const matchScore = hasValidEmbedding
+        ? calculateMatchScore(userEmbedding, listing.embedding)
+        : null;
+
+      return {
+        ...listing,
+        matchScore,
+      };
+    });
+  }
+
+  const normalizedLikedListings = listingsWithScores.map((listing) =>
+    normalizeListingResponse(listing),
   );
   return normalizedLikedListings;
 };
@@ -46,12 +78,12 @@ const editListingById = async (listingId, updateData) => {
     updateData,
     {
       new: true,
-    }
+    },
   );
   if (!updatedListing) {
     throwError(
       404,
-      "This job listing couldn't be updated. It may have been removed."
+      "This job listing couldn't be updated. It may have been removed.",
     );
   }
 
@@ -64,7 +96,7 @@ const deleteListingById = async (listingId) => {
   if (!deletedListing) {
     throwError(
       404,
-      "This job listing couldn't be deleted. It may have already been removed."
+      "This job listing couldn't be deleted. It may have already been removed.",
     );
   }
   const normalizedDeletedListing = normalizeListingResponse(deletedListing);

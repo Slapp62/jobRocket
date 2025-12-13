@@ -1,17 +1,13 @@
 import { AnimatePresence } from 'framer-motion';
-import { Box, Button, Center, Divider, Flex, Group, Loader, Skeleton, Stack, TextInput } from '@mantine/core';
+import { Box, Button, Center, Divider, Flex, Loader, Stack, TextInput } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { FilterBar } from '@/components/Filters/FilterBar';
 import DesktopDefaultView from '@/components/ListingComponents/Views/ListingsGridView';
 import DesktopSplitView from '@/components/ListingComponents/Views/DesktopSplitView';
-import MobileView from '@/components/ListingComponents/Views/MobileView';
 import { PageMeta } from '@/SEO/PageMeta';
 import { getParamsInfo } from '@/utils/getParamsInfo';
 import styles from '@/styles/gradients.module.css';
-import ListingCardSkeleton from '@/components/ListingComponents/ListingCard/ListingCardSkeleton';
 import ListingDetailsPanel from '@/components/ListingComponents/ListingPanel/ListingDetailsPanel';
-import { SearchText } from '@/components/Filters/SearchText';
-import { IconSearch } from '@tabler/icons-react';
 import { KeyboardEvent, useEffect, useState } from 'react';
 
 export function SearchPage() {
@@ -48,22 +44,6 @@ export function SearchPage() {
     return 'Job Search Results | JobRocket';
   };
 
-  // Show loading skeleton before anything else
-  if (isLoading) {
-    return (
-      <>
-        <PageMeta
-          title={buildTitle()}
-          description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
-          keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
-        />
-        <Center className={styles.pageBackground}>
-          <Loader size='xl'/>
-        </Center>
-      </>
-    );
-  }
-
   return (
     <>
       <PageMeta
@@ -71,9 +51,9 @@ export function SearchPage() {
         description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
         keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
       />
-      <Box pt='md' className={styles.pageBackground}>
-        {/* Filters at top */}
-        <Stack w={{base:'100%', md: '60%'}} mx='auto' p='md' justify='center' align='center'>
+      <Box className={styles.pageBackground}>
+        <Box bg='rocketRed.9'>
+        <Stack w={{base:'100%', md: '70%'}} mx='auto' p='md' justify='center' align='center' >
           <Flex w={{base:'100%', md: '70%'}} direction={isMobile ? 'column' : 'row'} gap={0} justify='center'>
             <TextInput
               w={{base:'100%', md: '70%'}}
@@ -86,6 +66,7 @@ export function SearchPage() {
               onKeyDown={handleSearchKeyDown}
             />
             <Button w={{base:'100%', md: '30%'}} size='lg' radius={0} onClick={(e) => updateSearchParam('searchWord', searchText)}>Search</Button>
+            
           </Flex>
 
           <FilterBar
@@ -94,9 +75,11 @@ export function SearchPage() {
             isMobile={isMobile}
           />
         </Stack>
-        
+        </Box>
         <Divider size='xs' color='rocketRed.3'/>
 
+        {isLoading ? 
+         <Center mt={100}><Loader size='xl' /></Center> : 
         <AnimatePresence mode="wait">
           {selectedId ? (
             <DesktopSplitView
@@ -118,7 +101,7 @@ export function SearchPage() {
               handleSelectListing={handleSelectListing}
             />
           )}
-        </AnimatePresence>
+        </AnimatePresence>}
       </Box>
     </>
   );

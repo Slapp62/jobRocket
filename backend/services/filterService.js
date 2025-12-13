@@ -5,6 +5,7 @@ const { normalizeListingResponse } = require('../utils/normalizeResponses');
 const { normalizeApplicationResponse } = require('../utils/normalizeResponses');
 const { throwError } = require('../utils/functionHandlers');
 const { sortListingsByMatchScore } = require('../utils/matchScoreSorting.js');
+const { calculateMatchScore } = require('./matchingService.js');
 
 const normalizeSearch = (query) => {
   if (query.city === 'all') {
@@ -142,6 +143,16 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
   };
   const sortBy = sortOptions[filterParams.sortOption] || { createdAt: -1 };
 
+  // Check if requester is a logged-in jobseeker with an embedding
+  // We'll use this to add match scores to ALL listing responses
+  let userEmbedding = null;
+  if (userId) {
+    const user = await User.findById(userId);
+    if (user?.profileType === 'jobseeker' && user.jobseekerProfile?.embedding) {
+      userEmbedding = user.jobseekerProfile.embedding;
+    }
+  }
+
   // Execute search
   const [listings, total] = await Promise.all([
     Listing.find(query).sort(sortBy).skip(skip).limit(limit).lean(), // Returns plain objects (faster)
@@ -152,8 +163,30 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
     throwError(404, 'No jobs match your search. Try adjusting your filters.');
   }
 
+  // Add match scores to listings if user is a jobseeker with embedding
+  let listingsWithScores = listings;
+  if (userEmbedding) {
+    listingsWithScores = listings.map((listing) => {
+      // Check if this listing has a valid embedding
+      const hasValidEmbedding =
+        listing.embedding &&
+        Array.isArray(listing.embedding) &&
+        listing.embedding.length > 0;
+
+      // Calculate match score or set to null
+      const matchScore = hasValidEmbedding
+        ? calculateMatchScore(userEmbedding, listing.embedding)
+        : null;
+
+      return {
+        ...listing,
+        matchScore,
+      };
+    });
+  }
+
   return {
-    listings: listings.map(normalizeListingResponse),
+    listings: listingsWithScores.map(normalizeListingResponse),
     pagination: {
       currentPage: page,
       totalPages: Math.ceil(total / limit),

@@ -71,6 +71,7 @@ const normalizeListingResponse = (listing) => {
     isActive: listing.isActive,
     createdAt: listing.createdAt,
     expiresAt: listing.expiresAt,
+    matchScore: listing.matchScore ?? null,
   };
 
   return normalizedListingData;
