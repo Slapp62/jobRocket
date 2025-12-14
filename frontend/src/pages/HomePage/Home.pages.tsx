@@ -106,29 +106,29 @@ export function HomePage() {
         </Stack>
 
         <Box my="50px" w={{base: '95%', md:'70%'}} mx='auto'>
-          <Flex gap={30} direction={isMobile ? 'column' : 'row'} mx='auto' align='center' justify='center' w='100%'>
-            <Stack c='rocketRed.9' h='450px' w='100%' p='xl' style={{border: '2px solid orange', borderRadius: '10px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>
-              <Title order={1}>For Job Seekers</Title>
-              <Text fw={500} size="md" c='rocketRed.8'>Find your perfect match with AI-powered job recommendations</Text>
-              <List spacing="sm">
-                <List.Item><Text fw={500}>AI Match Scores</Text> - See compatibility percentage for every job listing</List.Item>
-                <List.Item><Text fw={500}>Smart Recommendations</Text> - Get personalized job suggestions based on your skills</List.Item>
-                <List.Item><Text fw={500}>One-Click Applications</Text> - Apply instantly with your saved profile</List.Item>
-                <List.Item><Text fw={500}>Favorites & Tracking</Text> - Save listings and monitor application progress</List.Item>
+          <Flex gap={30} direction={isMobile ? 'column' : 'row'} mx='auto' align='stretch' justify='center' w='100%'>
+            <Stack c='rocketRed.9' h={{base: 'auto', md: '450px'}} w='100%' p={{base: 'md', sm: 'lg', md: 'xl'}} style={{border: '2px solid orange', borderRadius: '10px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>
+              <Title order={isMobile ? 2 : 1}>For Job Seekers</Title>
+              <Text fw={500} size={isMobile ? 'sm' : 'md'} c='rocketRed.8' style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}>Find your perfect match with AI-powered job recommendations</Text>
+              <List spacing="sm" size={isMobile ? 'sm' : 'md'}>
+                <List.Item style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}><Text component="span" fw={500}>AI Match Scores</Text> - See compatibility percentage for every job listing</List.Item>
+                <List.Item style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}><Text component="span" fw={500}>Smart Recommendations</Text> - Get personalized job suggestions based on your skills</List.Item>
+                <List.Item style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}><Text component="span" fw={500}>One-Click Applications</Text> - Apply instantly with your saved profile</List.Item>
+                <List.Item style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}><Text component="span" fw={500}>Favorites & Tracking</Text> - Save listings and monitor application progress</List.Item>
               </List>
-              <Button variant='rocketRedFilled' component={Link} to='/register' mx='auto' mt='auto' w='80%' h={45} fz={{base: 'md', md:'lg'}} fw={600}>Start Finding Jobs</Button>
+              <Button variant='rocketRedFilled' component={Link} to='/register' mx='auto' mt='auto' w={{base: '90%', md: '80%'}} h={45} fz={{base: 'sm', md:'lg'}} fw={600}>Start Finding Jobs</Button>
             </Stack>
 
-            <Stack c='rocketRed.9' w='100%' h='450px' p='xl' style={{border: '2px solid orange', borderRadius: '10px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>
-              <Title order={1}>For Employers</Title>
-              <Text fw={500} size="md" c='rocketRed.8'>Connect with qualified candidates using intelligent matching</Text>
-              <List spacing="sm">
-                <List.Item><Text fw={500}>AI-Powered Matching</Text> - See match scores for every applicant automatically</List.Item>
-                <List.Item><Text fw={500}>Smart Filtering</Text> - Find the best candidates faster with intelligent sorting</List.Item>
-                <List.Item><Text fw={500}>Real-Time Analytics</Text> - Track listing performance and application metrics</List.Item>
-                <List.Item><Text fw={500}>Streamlined Management</Text> - Review, update, and manage applications effortlessly</List.Item>
+            <Stack c='rocketRed.9' w='100%' h={{base: 'auto', md: '450px'}} p={{base: 'md', sm: 'lg', md: 'xl'}} style={{border: '2px solid orange', borderRadius: '10px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>
+              <Title order={isMobile ? 2 : 1}>For Employers</Title>
+              <Text fw={500} size={isMobile ? 'sm' : 'md'} c='rocketRed.8' style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}>Connect with qualified candidates using intelligent matching</Text>
+              <List spacing="sm" size={isMobile ? 'sm' : 'md'}>
+                <List.Item style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}><Text component="span" fw={500}>AI-Powered Matching</Text> - See match scores for every applicant automatically</List.Item>
+                <List.Item style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}><Text component="span" fw={500}>Smart Filtering</Text> - Find the best candidates faster with intelligent sorting</List.Item>
+                <List.Item style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}><Text component="span" fw={500}>Real-Time Analytics</Text> - Track listing performance and application metrics</List.Item>
+                <List.Item style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}><Text component="span" fw={500}>Streamlined Management</Text> - Review, update, and manage applications effortlessly</List.Item>
               </List>
-              <Button variant='rocketRedFilled' component={Link} to='/register' mx='auto' mt='auto' w='80%' h={45} fz={{base: 'md', md:'lg'}} fw={600}>Start Hiring Smarter</Button>
+              <Button variant='rocketRedFilled' component={Link} to='/register' mx='auto' mt='auto' w={{base: '90%', md: '80%'}} h={45} fz={{base: 'sm', md:'lg'}} fw={600}>Start Hiring Smarter</Button>
             </Stack>
           </Flex>
 
