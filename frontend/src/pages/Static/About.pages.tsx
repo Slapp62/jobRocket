@@ -73,16 +73,19 @@ const AboutPage: FC = () => {
           About Us
         </Title>
       <Text size="lg" mb="xl">
-        At <strong>IsraJobs</strong>, we connect motivated professionals in Israel with companies
-        seeking great talent. Whether you're hiring or job-hunting, our goal is to make the process
-        faster, fairer, and more effective.
+        At <strong>JobRocket</strong>, we connect job seekers with employers through intelligent AI-powered
+        matching. Our platform uses advanced OpenAI embeddings to analyze your skills, experience, and
+        preferences to find the perfect job matches tailored to you.
       </Text>
       <Grid gutter="xl" mb="xl">
         <Grid.Col span={{ base: 12, md: 6 }}>
           <Image
             radius="md"
-            src="https://images.unsplash.com/photo-1537511446984-935f663eb1f4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="People collaborating"
+            src="/office-hero.jpg"
+            alt="Professional office environment"
+            loading="lazy"
+            fit="cover"
+            h={300}
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
@@ -94,17 +97,17 @@ const AboutPage: FC = () => {
           >
             <Title order={4}>Our Mission</Title>
             <Text mt="sm">
-              We're building the go-to platform for job seekers and employers to connect with
-              purpose. From transparent listings to smart matching tools, we're reshaping the future
-              of work.
+              We leverage cutting-edge AI technology to transform job searching and hiring.
+              Our intelligent matching system analyzes compatibility between job seekers and positions,
+              ensuring better fits and more successful placements for everyone involved.
             </Text>
           </Paper>
         </Grid.Col>
       </Grid>
       <Group grow>
-        <Stat icon={<IconBriefcase size={24} />} label="Jobs Posted" value="12.5m+" />
-        <Stat icon={<IconUsers size={24} />} label="Employers" value="3.2b+" />
-        <Stat icon={<IconWorld size={24} />} label="Countries Served" value="All" />
+        <Stat icon={<IconBriefcase size={24} />} label="AI-Powered Matching" value="Smart" />
+        <Stat icon={<IconUsers size={24} />} label="Job Seekers & Employers" value="Connected" />
+        <Stat icon={<IconWorld size={24} />} label="Match Score Technology" value="OpenAI" />
       </Group>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         `

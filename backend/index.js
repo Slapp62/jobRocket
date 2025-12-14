@@ -16,9 +16,8 @@ const startServer = async () => {
     console.log(chalk.green('Database connected!'));
     
     // 2. Seed dev data if needed 
-    if (process.env.NODE_ENV === 'development') {
-      await seedDevData(dummyUsers, dummyListings, dummyApplications);
-    }
+    
+    await seedDevData(dummyUsers, dummyListings, dummyApplications);
     
     // 3. THEN start server 
     const PORT = process.env.PORT || config.get('PORT') || 3000;
