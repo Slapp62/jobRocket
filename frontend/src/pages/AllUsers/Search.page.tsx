@@ -52,9 +52,9 @@ export function SearchPage() {
         keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
       />
       <Box className={styles.pageBackground}>
-        <Box bg='rocketRed.9'>
+        <Box bg='rocketRed.7'>
         <Stack w={{base:'100%', md: '70%'}} mx='auto' p='md' justify='center' align='center' >
-          <Flex w={{base:'100%', md: '70%'}} direction={isMobile ? 'column' : 'row'} gap={0} justify='center'>
+          <Flex w={{base:'100%', md: '70%'}} direction={isMobile ? 'column' : 'row'} gap={0} justify='center' align='stretch'>
             <TextInput
               w={{base:'100%', md: '70%'}}
               radius={0}
@@ -66,7 +66,6 @@ export function SearchPage() {
               onKeyDown={handleSearchKeyDown}
             />
             <Button w={{base:'100%', md: '30%'}} size='lg' radius={0} onClick={(e) => updateSearchParam('searchWord', searchText)}>Search</Button>
-            
           </Flex>
 
           <FilterBar

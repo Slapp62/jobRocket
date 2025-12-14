@@ -46,8 +46,9 @@ export function SearchSort({ value, onChange, sortType = 'all', placeholder, wid
       placeholder={placeholder || 'Sort By'}
       rightSection={<IconFilter2 size={15}/>}
       data={filteredOptions}
-      value={value}
+      value={value || null}
       onChange={(val) => onChange(val || '')}
+      clearable
       disabled={disabled}
     />
   );

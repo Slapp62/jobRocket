@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { IconCards, IconSearch } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Button, Flex, Stack, Text, Title, List } from '@mantine/core';
+import { Box, Button, Flex, Stack, Text, Title, List, TextInput } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { SearchCity } from '@/components/Filters/SearchCity';
 import { SearchRegion } from '@/components/Filters/SearchRegion';
@@ -44,7 +44,7 @@ export function HomePage() {
           h="100%"
           gap={20}
           py={20}
-          bg='rocketRed.9'
+          bg='rocketRed.7'
         >
           <Stack w={{ base: '95%', sm: '85%', md: '40%' }} align="center" mx="auto">
           
@@ -62,22 +62,22 @@ export function HomePage() {
            
 
           {/* Search & Sort */}
-            
-            {/* Search */}
-            <SearchText
+          <Flex w='100%' direction={isMobile ? 'column' : 'row'} gap={0} justify='center' align='stretch'>
+            <TextInput
+              w={{base:'100%', md: '70%'}}
+              radius={0}
+              size='lg'
+              variant="default"
+              placeholder={'Start finding jobs...'}
               value={searchWord}
-              onChange={(val) => setSearchWord(val)}
-              width={{base: '95%', md: '60%'}}
-              radius='sm'
-              size='md'
+              onChange={(event) => setSearchWord(event.currentTarget.value)} 
             />
-            
             <Button
               mx="auto"
-              variant="outline"
-              color='white'
-              w={{base: '95%', md: '40%'}}
-              size="md"
+              variant='rocketOrangeFilled'
+              radius={0}
+              w={{base: '100%', md: '40%'}}
+              size="lg"
               fz={20}
               rightSection={<IconSearch />}
               onClick={searchListing}
@@ -85,7 +85,8 @@ export function HomePage() {
             >
               Search
             </Button>
-
+            
+          </Flex>
             {/* Conditinally Create Listing */}
             {isBusiness && (
               <Button
@@ -107,7 +108,7 @@ export function HomePage() {
 
         <Box my="50px" w={{base: '95%', md:'70%'}} mx='auto'>
           <Flex gap={30} direction={isMobile ? 'column' : 'row'} mx='auto' align='stretch' justify='center' w='100%'>
-            <Stack c='rocketRed.9' h={{base: 'auto', md: '450px'}} w='100%' p={{base: 'md', sm: 'lg', md: 'xl'}} style={{border: '2px solid orange', borderRadius: '10px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>
+            <Stack c='rocketRed.9' h='auto' w='100%' p={{base: 'md', sm: 'lg', md: 'xl'}} style={{border: '2px solid orange', borderRadius: '10px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>
               <Title order={isMobile ? 2 : 1}>For Job Seekers</Title>
               <Text fw={500} size={isMobile ? 'sm' : 'md'} c='rocketRed.8' style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}>Find your perfect match with AI-powered job recommendations</Text>
               <List spacing="sm" size={isMobile ? 'sm' : 'md'}>
@@ -119,7 +120,7 @@ export function HomePage() {
               <Button variant='rocketRedFilled' component={Link} to='/register' mx='auto' mt='auto' w={{base: '90%', md: '80%'}} h={45} fz={{base: 'sm', md:'lg'}} fw={600}>Start Finding Jobs</Button>
             </Stack>
 
-            <Stack c='rocketRed.9' w='100%' h={{base: 'auto', md: '450px'}} p={{base: 'md', sm: 'lg', md: 'xl'}} style={{border: '2px solid orange', borderRadius: '10px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>
+            <Stack c='rocketRed.9' w='100%' h='auto' p={{base: 'md', sm: 'lg', md: 'xl'}} style={{border: '2px solid orange', borderRadius: '10px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>
               <Title order={isMobile ? 2 : 1}>For Employers</Title>
               <Text fw={500} size={isMobile ? 'sm' : 'md'} c='rocketRed.8' style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}>Connect with qualified candidates using intelligent matching</Text>
               <List spacing="sm" size={isMobile ? 'sm' : 'md'}>

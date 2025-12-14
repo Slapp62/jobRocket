@@ -30,8 +30,9 @@ export function SearchCity({
       data={data}
       searchable
       nothingFoundMessage="No city found"
-      value={value}
+      value={value || null}
       onChange={(val) => onChange(val || '')}
+      clearable
     />
   );
 }

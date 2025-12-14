@@ -70,7 +70,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <Box bg='rocketRed.9' pos="sticky">
+    <Box bg='rocketRed.7' pos="sticky">
       <header>
         <Flex justify="space-between" align="center" h="100%" px="sm">
           <Logo />
