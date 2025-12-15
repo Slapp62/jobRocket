@@ -15,6 +15,7 @@ import {
   Switch,
   TagsInput,
   Textarea,
+  Text,
   TextInput,
   Title,
 } from '@mantine/core';
@@ -221,53 +222,48 @@ export function CreateListing() {
             </Fieldset>
 
             <Fieldset legend="Application">
-               <Checkbox.Group
-                  defaultValue={['react']}
-                  label="Application Method"
-                  description="Choose how you want to manage incoming applications. At least one must be selected."
-                  withAsterisk
-                >
-                  <Stack p={10}>
-                    <Controller
-                      name="apply.method.jobRocketSystem"
-                      control={control}
-                      render={({ field }) => (
-                        <Checkbox
-                          radius={0}
-                          label="Use JobRocket's internal system"
-                          checked={field.value}
-                          onChange={(event) => field.onChange(event.currentTarget.checked)}
-                        />
-                      )}
+              <Text size="sm" c='dimmed'>Choose how to manage applications.</Text>
+              <Text size="sm" c='red'>At least one option must be selected.</Text>
+              <Stack p={10}>
+                <Controller
+                  name="apply.method.jobRocketSystem"
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      radius={0}
+                      label="Use JobRocket's internal system"
+                      checked={field.value}
+                      onChange={(event) => field.onChange(event.currentTarget.checked)}
                     />
+                  )}
+                />
 
-                    <Controller
-                      name="apply.method.companySystem"
-                      control={control}
-                      render={({ field }) => (
-                        <Checkbox
-                          radius={0}
-                          label="External company system"
-                          checked={field.value}
-                          onChange={(event) => field.onChange(event.currentTarget.checked)}
-                        />
-                      )}
+                <Controller
+                  name="apply.method.companySystem"
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      radius={0}
+                      label="External company system"
+                      checked={field.value}
+                      onChange={(event) => field.onChange(event.currentTarget.checked)}
                     />
-                    
-                    <Controller
-                      name="apply.method.email"
-                      control={control}
-                      render={({ field }) => (
-                        <Checkbox
-                          radius={0}
-                          label="Email"
-                          checked={field.value}
-                          onChange={(event) => field.onChange(event.currentTarget.checked)}
-                        />
-                      )}
+                  )}
+                />
+                
+                <Controller
+                  name="apply.method.email"
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      radius={0}
+                      label="Email"
+                      checked={field.value}
+                      onChange={(event) => field.onChange(event.currentTarget.checked)}
                     />
-                  </Stack>
-              </Checkbox.Group>
+                  )}
+                />
+              </Stack>
 
               <TextInput
                 label="Link to external application"
