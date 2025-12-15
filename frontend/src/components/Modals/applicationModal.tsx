@@ -8,6 +8,7 @@ import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { TApplication } from '@/Types';
 import { applicationSchema } from '@/validationRules/application.joi';
+import { validateRequiredPdfFile } from '@/utils/fileValidation';
 
 interface ApplicationModalProps {
   opened: boolean;
@@ -18,6 +19,7 @@ interface ApplicationModalProps {
 export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [resumeError, setResumeError] = useState<string | null>(null);
   const user = useSelector((state: RootState) => state.userSlice.user);
 
   const {
@@ -42,6 +44,16 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
       });
     }
   }, [user, opened, reset]);
+
+  /**
+   * Handle resume file selection with validation
+   * Validates the file and sets error state if validation fails
+   */
+  const handleResumeChange = (file: File | null) => {
+    const error = validateRequiredPdfFile(file);
+    setResumeError(error);
+    setResumeFile(error ? null : file);
+  };
   
   const onSubmit = async (data: TApplication) => {
     try {
@@ -98,11 +110,11 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
             label="Resume/CV"
             accept="application/pdf"
             required
-            onChange={setResumeFile} // Capture file directly
-            error={errors.resumeUrl?.message}
+            onChange={handleResumeChange}
+            error={resumeError}
           />
           <Textarea label="Message" {...register('message')} error={errors.message?.message} />
-          <Button type="submit" mx="auto" w={200} disabled={!isValid || !resumeFile} loading={isLoading}>
+          <Button type="submit" mx="auto" w={200} disabled={!isValid || !resumeFile || !!resumeError} loading={isLoading}>
             Submit
           </Button>
         </Stack>

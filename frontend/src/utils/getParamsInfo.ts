@@ -56,11 +56,14 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
         setListings(response.data.listings);
         setPaginationInfo(response.data.pagination);
       } catch (error: any) {
-        notifications.show({
-          title: 'Error',
-          message: error.response?.data?.message || error.message,
-          color: 'red',
-        });
+        // Skip showing notification if the error was already handled (e.g., 410 session expired)
+        if (!error.handled) {
+          notifications.show({
+            title: 'Error',
+            message: error.response?.data?.message || error.message,
+            color: 'red',
+          });
+        }
         setListings([]);
       } finally {
         setTimeout(() => {

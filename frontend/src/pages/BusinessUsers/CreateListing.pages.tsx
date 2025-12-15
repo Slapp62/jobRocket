@@ -5,11 +5,15 @@ import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
+  Checkbox,
   Fieldset,
   Flex,
+  Group,
   Paper,
   Select,
+  Stack,
   Switch,
+  TagsInput,
   Textarea,
   TextInput,
   Title,
@@ -30,8 +34,15 @@ type ListingFormValues = {
   requirements: string[];
   advantages: string[];
   apply: {
-    method: 'email' | 'link';
-    contact: string;
+    method: {
+      jobRocketSystem: boolean;
+      companySystem: boolean;
+      email: boolean;
+    };
+    contact: {
+      email?: string;
+      link?: string;
+    };
   };
   location: {
     region: string;
@@ -61,7 +72,17 @@ export function CreateListing() {
       companyName: '',
       requirements: [],
       advantages: [],
-      apply: { method: 'email', contact: '' },
+      apply: { 
+        method: { 
+          jobRocketSystem: false, 
+          companySystem: false, 
+          email: false 
+        }, 
+        contact: { 
+          email: '', 
+          link: '' 
+        } 
+      },
       location: { region: '', city: '' },
       workArrangement: '',
       isActive: true,
@@ -172,18 +193,12 @@ export function CreateListing() {
                 name="requirements"
                 control={control}
                 render={({ field }) => (
-                  <Textarea
+                  <TagsInput
                     label="Requirements"
-                    placeholder="Add one requirement per line"
-                    minRows={3}
-                    value={(field.value || []).join('\n')}
-                    onChange={(event) => {
-                      const next = event.currentTarget.value
-                        .split('\n')
-                        .map((line) => line.trim())
-                        .filter(Boolean);
-                      field.onChange(next);
-                    }}
+                    placeholder="Type a requirement and press Enter"
+                    description="Add job requirements (max 20)"
+                    maxTags={20}
+                    {...field}
                     error={errors.requirements?.message as string}
                   />
                 )}
@@ -193,18 +208,12 @@ export function CreateListing() {
                 name="advantages"
                 control={control}
                 render={({ field }) => (
-                  <Textarea
+                  <TagsInput
                     label="Nice to Have"
-                    placeholder="Add one advantage per line"
-                    minRows={3}
-                    value={(field.value || []).join('\n')}
-                    onChange={(event) => {
-                      const next = event.currentTarget.value
-                        .split('\n')
-                        .map((line) => line.trim())
-                        .filter(Boolean);
-                      field.onChange(next);
-                    }}
+                    placeholder="Type an advantage and press Enter"
+                    description="Add nice-to-have qualifications (max 20)"
+                    maxTags={20}
+                    {...field}
                     error={errors.advantages?.message as string}
                   />
                 )}
@@ -212,28 +221,63 @@ export function CreateListing() {
             </Fieldset>
 
             <Fieldset legend="Application">
-              <Controller
-                name="apply.method"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    label="Application Method"
-                    required
-                    data={[
-                      { value: 'email', label: 'Email' },
-                      { value: 'link', label: 'External Link' },
-                    ]}
-                    {...field}
-                    error={errors.apply?.method?.message}
-                  />
-                )}
-              />
+               <Checkbox.Group
+                  defaultValue={['react']}
+                  label="Application Method"
+                  description="Choose how you want to manage incoming applications. At least one must be selected."
+                  withAsterisk
+                >
+                  <Stack p={10}>
+                    <Controller
+                      name="apply.method.jobRocketSystem"
+                      control={control}
+                      render={({ field }) => (
+                        <Checkbox
+                          radius={0}
+                          label="Use JobRocket's internal system"
+                          checked={field.value}
+                          onChange={(event) => field.onChange(event.currentTarget.checked)}
+                        />
+                      )}
+                    />
+
+                    <Controller
+                      name="apply.method.companySystem"
+                      control={control}
+                      render={({ field }) => (
+                        <Checkbox
+                          radius={0}
+                          label="External company system"
+                          checked={field.value}
+                          onChange={(event) => field.onChange(event.currentTarget.checked)}
+                        />
+                      )}
+                    />
+                    
+                    <Controller
+                      name="apply.method.email"
+                      control={control}
+                      render={({ field }) => (
+                        <Checkbox
+                          radius={0}
+                          label="Email"
+                          checked={field.value}
+                          onChange={(event) => field.onChange(event.currentTarget.checked)}
+                        />
+                      )}
+                    />
+                  </Stack>
+              </Checkbox.Group>
 
               <TextInput
-                label="Application Contact / URL"
-                required
-                {...register('apply.contact')}
-                error={errors.apply?.contact?.message}
+                label="Link to external application"
+                {...register('apply.contact.link')}
+                error={errors.apply?.contact?.link?.message}
+              />
+              <TextInput
+                label="Email for applications"
+                {...register('apply.contact.email')}
+                error={errors.apply?.contact?.email?.message}
               />
             </Fieldset>
 

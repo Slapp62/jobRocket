@@ -25,9 +25,7 @@ const joiApplicationSchema = joi.object({
     .messages({
       'string.pattern.base': 'Phone must be a valid Israeli phone number.',
     }),
-  resume: joi.required().messages({
-    'any.required': 'Resume is required',
-  }),
+  resume: joi.string().max(1024).optional().allow(''),
   message: joi.string().optional().allow('').min(10).max(2000),
 });
 

@@ -14,22 +14,47 @@ export const listingSchema = Joi.object({
     .pattern(/^[a-zA-Z\s.,;:!?'"()\-&/]+$/)
     .required()
     .messages({
+      'string.empty': 'Job title is required',
       'string.pattern.base': 'Job title can only contain letters, spaces, and basic punctuation',
       'string.min': 'Job title must be at least 5 characters long',
       'string.max': 'Job title cannot exceed 100 characters',
       'any.required': 'Job title is required',
     }),
   jobDescription: Joi.string().min(10).required().messages({
+    'string.empty': 'Job description is required',
     'string.min': 'Job description must be at least 10 characters long',
     'any.required': 'Job description is required',
   }),
-  requirements: Joi.array().items(Joi.string().trim()).default([]),
-  advantages: Joi.array().items(Joi.string().trim()).default([]),
-  apply: Joi.object({
-    method: Joi.string().valid('email', 'link').required(),
-    contact: Joi.string().required().messages({
-      'any.required': 'Application contact is required',
+  requirements: Joi.array()
+    .items(Joi.string().trim().max(100).messages({
+      'string.max': 'Each requirement must be 100 characters or less',
+    }))
+    .max(20)
+    .default([])
+    .messages({
+      'array.max': 'Maximum 20 requirements allowed',
     }),
+  advantages: Joi.array()
+    .items(Joi.string().trim().max(100).messages({
+      'string.max': 'Each advantage must be 100 characters or less',
+    }))
+    .max(20)
+    .default([])
+    .messages({
+      'array.max': 'Maximum 20 advantages allowed',
+    }),
+  apply: Joi.object({
+    method: Joi.object({
+      jobRocketSystem: Joi.boolean().optional(),
+      companySystem: Joi.boolean().optional(),
+      email: Joi.boolean().optional(),
+    }).required().min(1).messages({
+      'object.min': 'At least one application method must be selected',
+    }),
+    contact: Joi.object({    
+      email: Joi.string().optional(),
+      link: Joi.string().optional(),
+    })
   }).required(),
   location: Joi.object({
     region: Joi.string()

@@ -77,10 +77,10 @@ const normalizeListingResponse = (listing) => {
   return normalizedListingData;
 };
 
-const normalizeApplicationResponse = (application) => {
+const normalizeApplicationResponse = (application, listingId) => {
   const normalizedApplicationData = {
     _id: application._id,
-    listingId: application.listingId,
+    listingId: listingId,
     applicantId: application.applicantId,
     firstName: application.firstName,
     lastName: application.lastName,

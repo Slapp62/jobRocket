@@ -35,6 +35,14 @@ const registrationSchema = Joi.object({
     'any.required': 'Profile type is required',
   }),
 
+  terms: Joi.boolean()
+    .valid(true)
+    .required()
+    .messages({
+      'any.only': 'You must agree to the terms and conditions to register.',
+      'any.required': 'The terms and conditions checkbox is required.',
+  }),
+
   jobseekerProfile: Joi.when('profileType', {
     is: 'jobseeker',
     then: Joi.object({
@@ -70,8 +78,16 @@ const registrationSchema = Joi.object({
       linkedinPage: Joi.string().uri().allow('').optional().messages({
         'string.uri': 'Please enter a valid LinkedIn URL',
       }),
-      resume: Joi.string().max(1024).allow('').optional(),
-      skills: Joi.array().items(Joi.string()).optional().default([]),
+      skills: Joi.array()
+        .items(Joi.string().max(50).messages({
+          'string.max': 'Each skill must be 50 characters or less',
+        }))
+        .max(25)
+        .optional()
+        .default([])
+        .messages({
+          'array.max': 'Maximum 25 skills allowed',
+        }),
       description: Joi.string().max(2000).allow('').optional().messages({
         'string.max': 'Description cannot exceed 2000 characters',
       }),

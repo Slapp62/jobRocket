@@ -648,7 +648,7 @@ const TermsOfService: FC = () => {
         <Text size="sm">© {new Date().getFullYear()} JobRocket. All rights reserved.</Text>
         <Text size="sm">
           For questions about these Terms, contact{' '}
-          <Anchor href="mailto:admin@jobrocket.co.il">admin@jobrocket.co.il</Anchor>
+          <Anchor href="mailto:admin@jobrocket.work">admin@jobrocket.work</Anchor>
         </Text>
       </Box>
     </Container>

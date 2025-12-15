@@ -2,7 +2,7 @@ import WORK_ARRANGEMENTS from "@/data/workArr";
 import { TListing } from "@/Types";
 import { cleanedListingData } from "@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData";
 import { listingSchema } from "@/validationRules/listing.joi";
-import { Stack, Flex, Title, Button, Fieldset, TextInput, Textarea, Select, Switch, Group, Modal } from "@mantine/core";
+import { Stack, Flex, Title, Button, Fieldset, TextInput, Textarea, TagsInput, Select, Switch, Group, Modal } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
@@ -147,18 +147,12 @@ export const EditListingModal = ({opened, onClose, listing, setListings} : EditL
                 name="requirements"
                 control={control}
                 render={({ field }) => (
-                  <Textarea
+                  <TagsInput
                     label="Requirements"
-                    placeholder="Add one requirement per line"
-                    minRows={3}
-                    value={(field.value || []).join('\n')}
-                    onChange={(event) => {
-                      const next = event.currentTarget.value
-                        .split('\n')
-                        .map((line) => line.trim())
-                        .filter(Boolean);
-                      field.onChange(next);
-                    }}
+                    placeholder="Type a requirement and press Enter"
+                    description="Add job requirements (max 20)"
+                    maxTags={20}
+                    {...field}
                     error={errors.requirements?.message as string}
                   />
                 )}
@@ -168,18 +162,12 @@ export const EditListingModal = ({opened, onClose, listing, setListings} : EditL
                 name="advantages"
                 control={control}
                 render={({ field }) => (
-                  <Textarea
+                  <TagsInput
                     label="Nice to Have"
-                    placeholder="Add one advantage per line"
-                    minRows={3}
-                    value={(field.value || []).join('\n')}
-                    onChange={(event) => {
-                      const next = event.currentTarget.value
-                        .split('\n')
-                        .map((line) => line.trim())
-                        .filter(Boolean);
-                      field.onChange(next);
-                    }}
+                    placeholder="Type an advantage and press Enter"
+                    description="Add nice-to-have qualifications (max 20)"
+                    maxTags={20}
+                    {...field}
                     error={errors.advantages?.message as string}
                   />
                 )}

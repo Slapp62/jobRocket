@@ -5,9 +5,10 @@ type DeleteUserModalProps = {
   close: () => void;
   deleteUser: (id?: string) => void;
   id?: string;
+  isDeleting?: boolean;
 };
 
-export const DeleteUserModal = ({ opened, close, deleteUser, id }: DeleteUserModalProps) => {
+export const DeleteUserModal = ({ opened, close, deleteUser, id, isDeleting }: DeleteUserModalProps) => {
   const handleDelete = () => {
     deleteUser(id);
     close();
@@ -17,7 +18,7 @@ export const DeleteUserModal = ({ opened, close, deleteUser, id }: DeleteUserMod
     <Modal centered opened={opened} onClose={close} title="Confirmation">
       <Text>Are you sure you want to delete this account?</Text>
       <Group mt={20} justify="center">
-        <Button color="red" onClick={handleDelete}>
+        <Button color="red" onClick={handleDelete} loading={isDeleting}>
           Yes, Delete It
         </Button>
         <Button variant="outline" onClick={close}>

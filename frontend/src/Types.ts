@@ -7,8 +7,15 @@ export type TListing = {
   requirements: string[];
   advantages: string[];
   apply: {
-    method: 'email' | 'link';
-    contact: string;
+    method: {
+      jobRocketSystem: boolean;
+      companySystem: boolean;
+      email: boolean;
+    };
+    contact: {
+      email?: string;
+      link?: string;
+    };
   };
   location: {
     region: string;
@@ -81,6 +88,7 @@ export type TUsers = {
   email: string;
   password?: string;
   phone: string;
+  terms: boolean;
   profileType: 'jobseeker' | 'business';
   name?: {
     first: string;

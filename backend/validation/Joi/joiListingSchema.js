@@ -25,8 +25,16 @@ const joiListingSchema = joi.object({
     'string.min': 'Job description must be at least 10 characters long',
     'any.required': 'Job description is required',
   }),
-  requirements: joi.array().items(joi.string()).optional(),
-  advantages: joi.array().items(joi.string()).optional(),
+  requirements: joi
+    .array()
+    .items(joi.string().max(100))
+    .max(20)
+    .optional(),
+  advantages: joi
+    .array()
+    .items(joi.string().max(100))
+    .max(20)
+    .optional(),
   apply: joi
     .object({
       method: joi.string().valid('email', 'link').required().messages({

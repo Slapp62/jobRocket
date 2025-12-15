@@ -133,6 +133,7 @@ export function MyApplications() {
                   >
                     View Listing
                   </Button>
+
                   <Button
                     variant="outline"
                     onClick={() => handleEditApplication(application)}

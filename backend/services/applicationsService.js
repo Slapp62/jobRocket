@@ -131,7 +131,8 @@ async function updateApplicationStatus(applicationId, newStatus, requesterId) {
 async function updateApplicationData(
   applicationId,
   applicationData,
-  requesterId
+  requesterId,
+  resumeFile
 ) {
   const application = await Applications.findById(applicationId);
 
@@ -149,6 +150,21 @@ async function updateApplicationData(
     throwError(400, 'Cannot update application that is not pending');
   }
 
+  // Handle resume file upload if provided
+  if (resumeFile) {
+    try {
+      const resumeUrl = await uploadResumeToCloudinary(resumeFile.buffer, applicationData.email || application.email);
+      application.resumeUrl = resumeUrl.secure_url;
+    } catch (error) {
+      // Detect network-related errors
+      if (error.code === 'EAI_AGAIN' || error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
+        throwError(503, 'Failed to upload resume due to a network issue. Please try again in a moment.');
+      }
+      // Re-throw other errors to preserve original error handling
+      throw error;
+    }
+  }
+
   // Update allowed fields
   if (applicationData.firstName)
     application.firstName = applicationData.firstName;
@@ -157,7 +173,6 @@ async function updateApplicationData(
   if (applicationData.phone !== undefined)
     application.phone =
       applicationData.phone === '' ? undefined : applicationData.phone;
-  if (applicationData.resume) application.resume = applicationData.resume;
   if (applicationData.message !== undefined)
     application.message =
       applicationData.message === '' ? undefined : applicationData.message;
@@ -167,7 +182,7 @@ async function updateApplicationData(
 }
 
 
-async function deleteApplication(applicationId, listingId, requesterId) {
+async function deleteApplication(applicationId, requesterId) {
   const application =
     await Applications.findById(applicationId).populate('listingId');
   if (!application) {

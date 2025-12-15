@@ -33,6 +33,7 @@ router.patch(
 router.put(
   '/:id',
   authenticateUser,
+  upload.single('resume'),
   applicationValidation,
   updateApplicationData
 );

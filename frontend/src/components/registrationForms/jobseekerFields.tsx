@@ -1,13 +1,19 @@
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Select, Textarea, TextInput } from '@mantine/core';
+import { Anchor, FileInput, Text, Flex, Group, Select, TagsInput, Textarea, TextInput } from '@mantine/core';
 import { TUsers } from '@/Types';
 import WORK_ARRANGEMENTS from '../../data/workArr.ts';
+import { validatePdfFile } from '@/utils/fileValidation';
 
 type JobseekerFieldsProps = {
   register: UseFormRegister<TUsers>;
   errors: FieldErrors<TUsers>;
   control: Control<TUsers>;
   disabled?: boolean;
+  resumeFile?: File | null;
+  setResumeFile?: (file: File | null) => void;
+  currentResumeUrl?: string | null;
+  resumeError?: string | null;
+  setResumeError?: (error: string | null) => void;
 };
 
 const EDUCATION_LEVELS = [
@@ -24,9 +30,28 @@ export function JobseekerFields({
   errors,
   control,
   disabled = false,
+  resumeFile,
+  setResumeFile,
+  currentResumeUrl,
+  resumeError,
+  setResumeError,
 }: JobseekerFieldsProps) {
+  /**
+   * Handle resume file change with validation
+   * Validates the file and updates error state
+   */
+  const handleResumeChange = (file: File | null) => {
+    const error = validatePdfFile(file);
+    if (setResumeError) {
+      setResumeError(error);
+    }
+    if (setResumeFile) {
+      setResumeFile(error ? null : file);
+    }
+  };
+
   return (
-    <>
+    <Flex gap="sm" direction="column">
       {/* Required: First Name */}
       <TextInput
         label="First Name"
@@ -82,6 +107,26 @@ export function JobseekerFields({
         )}
       />
 
+      
+      {/* Optional: Resume URL/Path */}
+      
+      <FileInput
+        label="Resume URL"
+        description='Your resume will pre-fill in application forms.'
+        placeholder="Upload your resume (PDF only)"
+        disabled={disabled}
+        value={resumeFile}
+        onChange={handleResumeChange}
+        error={resumeError}
+        clearable
+        accept="application/pdf"
+      />
+      {currentResumeUrl && (
+          <Anchor href={currentResumeUrl} target="_blank" size="sm">
+            View Current Resume
+          </Anchor>
+      )}
+
       {/* Optional: LinkedIn Page */}
       <TextInput
         label="LinkedIn Profile"
@@ -91,33 +136,18 @@ export function JobseekerFields({
         error={errors.jobseekerProfile?.linkedinPage?.message}
       />
 
-      {/* Optional: Resume URL/Path */}
-      <TextInput
-        label="Resume URL"
-        placeholder="Link to your resume (max 1024 characters)"
-        disabled={disabled}
-        {...register('jobseekerProfile.resume')}
-        error={errors.jobseekerProfile?.resume?.message}
-      />
-
       {/* Optional: Skills */}
       <Controller
         name="jobseekerProfile.skills"
         control={control}
         render={({ field }) => (
-          <Textarea
+          <TagsInput
             label="Skills"
-            placeholder="Enter one skill per line"
-            minRows={3}
-            value={(field.value || []).join('\n')}
-            onChange={(event) => {
-              const next = event.currentTarget.value
-                .split('\n')
-                .map((line) => line.trim())
-                .filter(Boolean);
-              field.onChange(next);
-            }}
+            placeholder="Type a skill and press Enter"
+            description="Add your professional skills (max 25)"
             disabled={disabled}
+            maxTags={25}
+            {...field}
             error={errors.jobseekerProfile?.skills?.message}
           />
         )}
@@ -133,6 +163,6 @@ export function JobseekerFields({
         {...register('jobseekerProfile.description')}
         error={errors.jobseekerProfile?.description?.message}
       />
-    </>
+    </Flex>
   );
 }

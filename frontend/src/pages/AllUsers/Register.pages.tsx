@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
-import { FieldValues, useForm } from 'react-hook-form';
+import { Controller, FieldValues, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Anchor, Box, Button, Fieldset, Flex, FloatingIndicator, Tabs, Text } from '@mantine/core';
+import { Anchor, Box, Button, Checkbox, Fieldset, Flex, FloatingIndicator, Group, Stack, Tabs, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { BusinessFields } from '@/components/registrationForms/businessFields';
@@ -20,10 +20,14 @@ export function RegisterForm() {
   const [tabValue, setTabValue] = useState<string | null>('jobseeker');
   const [controlsRefs, setControlsRefs] = useState<Record<string, HTMLButtonElement | null>>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [resumeError, setResumeError] = useState<string | null>(null);
+  
   const setControlRef = (val: string) => (node: HTMLButtonElement) => {
     controlsRefs[val] = node;
     setControlsRefs(controlsRefs);
   };
+
   const jumpTo = useNavigate();
   const registerRef = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery('(max-width: 700px)');
@@ -41,11 +45,20 @@ export function RegisterForm() {
     shouldUnregister: false, // Keep data when switching tabs
     defaultValues: {
       profileType: 'jobseeker', // Default to jobseeker
+      terms: false,
     },
     criteriaMode: 'all', // Show all errors
   });
 
   const onSubmit = async (data: FieldValues) => {
+    if (resumeError){
+      notifications.show({
+        title: 'Error',
+        message: resumeError,
+        color: 'red',
+      })
+      return;
+    }
     // Build the request payload - profileType is already set by tab change
     const payload: any = {
       email: data.email,
@@ -66,7 +79,48 @@ export function RegisterForm() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post('/api/users/', payload);
+      let response;
+      // If there's a resume file, use FormData
+      if (resumeFile) {
+        const formData = new FormData();
+        
+        // Add all the regular data
+        formData.append('email', payload.email);
+        formData.append('password', payload.password);
+        formData.append('phone', payload.phone || '');
+        formData.append('profileType', payload.profileType);
+        
+        if (payload.jobseekerProfile) {
+          // Flatten jobseekerProfile fields
+          Object.keys(payload.jobseekerProfile).forEach((key) => {
+            const value = payload.jobseekerProfile[key];
+            if (value !== undefined && value !== null) {
+              if (Array.isArray(value)) {
+                formData.append(`jobseekerProfile[${key}]`, JSON.stringify(value));
+              } else {
+                formData.append(`jobseekerProfile[${key}]`, String(value));
+              }
+            }
+          });
+        }
+        
+        if (payload.businessProfile) {
+          Object.keys(payload.businessProfile).forEach((key) => {
+            const value = payload.businessProfile[key];
+            if (value !== undefined && value !== null) {
+              formData.append(`businessProfile[${key}]`, String(value));
+            }
+          });
+        }
+        
+        // Add the resume file
+        formData.append('resume', resumeFile);
+        
+        response = await axios.post('/api/users/', formData);
+      } else {
+        // No file, use regular JSON
+        response = await axios.post('/api/users/', payload);
+      }
 
       if (response.status === 201) {
         jumpTo('/login');
@@ -148,51 +202,80 @@ export function RegisterForm() {
                 </Tabs.List>
 
                 <Tabs.Panel value="jobseeker">
-                  <JobseekerFields register={register} errors={errors} control={control} />
+                  <JobseekerFields 
+                    register={register} 
+                    errors={errors} 
+                    control={control}
+                    resumeFile={resumeFile}
+                    setResumeFile={setResumeFile}
+                    resumeError={resumeError}
+                    setResumeError={setResumeError}
+                  />
                 </Tabs.Panel>
                 <Tabs.Panel value="business">
-                  <BusinessFields register={register} errors={errors} control={control} />
+                  <BusinessFields 
+                    register={register} 
+                    errors={errors} 
+                    control={control} 
+                  />
                 </Tabs.Panel>
               </Tabs>
             </Fieldset>
-          </Flex>
 
-          <Flex
-            gap={10}
-            align="center"
-            w="95%"
-            mx="auto"
-            my={20}
-            style={{ flexDirection: isMobile ? 'row' : 'column' }}
-          >
-            <Button
-              variant="outline"
-              type="reset"
-              w={200}
-              disabled={!isDirty}
-              onClick={() => {
-                reset();
-                registerRef.current?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              Reset Form
-            </Button>
-            <Button type="submit" mx="auto" w={200} disabled={!isValid} loading={isLoading}>
-              Submit
-            </Button>
-
-            <Text c="dimmed" size="sm" ta="center" mt={5}>
-              Already have an account?{' '}
-              <Anchor
-                size="sm"
-                component="button"
-                onClick={() => jumpTo('/login')}
-                underline="hover"
+            <Fieldset legend="Terms and Conditions">
+              <Controller
+                name="terms"
+                control={control}
+                render={({ field }) => (
+                  <Checkbox
+                    label="I agree to the terms and conditions"
+                    checked={field.value}
+                    onChange={(event) => field.onChange(event.currentTarget.checked)}
+                  />
+                )}
+              />
+            </Fieldset>
+            <Stack my="md" gap="md">
+              <Button
+                variant="outline"
+                type="reset"
+                fullWidth
+                disabled={!isDirty}
+                onClick={() => {
+                  reset();
+                  registerRef.current?.scrollIntoView({ behavior: 'smooth' });
+                }}
               >
-                Login
-              </Anchor>
-            </Text>
+                Reset Form
+              </Button>
+
+              <Button 
+                type="submit" 
+                mx="auto" 
+                fullWidth 
+                disabled={!isValid || (!isDirty && !resumeFile) || !!resumeError} 
+                loading={isLoading}
+              >
+                Submit
+              </Button>
+
+              <Group justify="center" align="center">
+                <Text c="dimmed" size="md">
+                  Already have an account?
+                </Text>
+
+                <Anchor
+                  size="md"
+                  component="button"
+                  onClick={() => jumpTo('/login')}
+                  underline="hover"
+                >
+                  Login
+                </Anchor>
+              </Group>
+            </Stack>
           </Flex>
+
         </form>
       </Flex>
     </>

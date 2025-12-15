@@ -25,11 +25,12 @@ const {
   loginLimiter,
   registrationLimiter,
 } = require('../middleware/rateLimiter.js');
+const upload = require('../middleware/multer.js');
 
 const router = express.Router();
 
 // Register a new user
-router.post('/', registrationLimiter, profileValidation, registerUser);
+router.post('/', registrationLimiter, upload.single('resume'), profileValidation, registerUser);
 
 // User login
 router.post(
@@ -53,7 +54,7 @@ router.get('/', authenticateUser, adminAuth, getAllUsers);
 router.get('/:id', authenticateUser, userAdminAuth, getUserById);
 
 // Update user profile
-router.put('/:id', authenticateUser, userAdminAuth, updateUserProfile);
+router.put('/:id', authenticateUser, userAdminAuth, upload.single('resume'), updateUserProfile);
 
 // Toggle user role
 router.patch('/:id', authenticateUser, userAdminAuth, toggleUserRole);

@@ -56,7 +56,12 @@ const joiUserSchema = joi.object({
         .required(),
       linkedinPage: joi.string().uri().max(512).optional().allow(''),
       resume: joi.string().max(1024).optional().allow(''),
-      skills: joi.array().items(joi.string()).optional().default([]),
+      skills: joi
+        .array()
+        .items(joi.string().max(50))
+        .max(25)
+        .optional()
+        .default([]),
       description: joi.string().max(2000).optional().allow(''),
     })
     .when('profileType', {

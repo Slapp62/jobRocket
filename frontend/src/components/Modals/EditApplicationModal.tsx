@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { Button, FileInput, Modal, Stack, Textarea, TextInput } from '@mantine/core';
+import { Anchor, Button, Text, FileInput, Modal, Stack, Textarea, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { TApplication } from '@/Types';
 import { applicationSchema } from '@/validationRules/application.joi';
+import { validatePdfFile } from '@/utils/fileValidation';
 
 interface EditApplicationModalProps {
   opened: boolean;
@@ -34,6 +35,8 @@ export const EditApplicationModal = ({
   });
 
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [resumeError, setResumeError] = useState<string | null>(null);
+
   // Populate form with existing application data when modal opens
   useEffect(() => {
     if (application && opened) {
@@ -44,8 +47,16 @@ export const EditApplicationModal = ({
         phone: application.phone || '',
         message: application.message || '',
       });
+      setResumeFile(null);
+      setResumeError(null);
     }
   }, [application, opened, reset]);
+
+  const handleResumeChange = (file: File | null) => {
+    const error = validatePdfFile(file);
+    setResumeError(error);
+    setResumeFile(error ? null : file);
+  };
 
   const onSubmit = async (data: TApplication) => {
     if (!application) {return;}
@@ -69,7 +80,6 @@ export const EditApplicationModal = ({
         color: 'green',
       });
 
-      onClose();
       if (onSuccess) {onSuccess();}
     } catch (error: any) {
       console.error(error);
@@ -79,6 +89,7 @@ export const EditApplicationModal = ({
         color: 'red',
       });
     } finally {
+      onClose();
       setIsLoading(false);
     }
   };
@@ -89,6 +100,7 @@ export const EditApplicationModal = ({
     <Modal opened={opened} onClose={onClose} title="Edit Application" size="lg" zIndex={1000}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack p="lg">
+          <Text c="dimmed" fz="xs">*If the employer already reviewed your application, they may not see your changes.</Text>
           <TextInput
             label="First Name"
             required
@@ -103,15 +115,24 @@ export const EditApplicationModal = ({
           />
           <TextInput label="Email" required {...register('email')} error={errors.email?.message} />
           <TextInput label="Phone" {...register('phone')} error={errors.phone?.message} />
+
           <FileInput
             label="Resume/CV"
+            description="Upload a new resume to replace the current one"
             accept="application/pdf"
-            required
-            onChange={setResumeFile} // Capture file directly
-            error={errors.resumeUrl?.message}
+            value={resumeFile}
+            onChange={handleResumeChange}
+            error={resumeError}
+            clearable
           />
+          {application.resumeUrl && (
+            <Anchor href={application.resumeUrl} target="_blank" size="sm">
+              View Current Resume
+            </Anchor>
+          )}
+
           <Textarea label="Message" {...register('message')} error={errors.message?.message} />
-          <Button type="submit" mx="auto" w={200} disabled={!isValid} loading={isLoading}>
+          <Button type="submit" mx="auto" w={200} disabled={!isValid || !!resumeError} loading={isLoading}>
             Update Application
           </Button>
         </Stack>

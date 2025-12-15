@@ -18,8 +18,8 @@ export const setupAxiosInterceptors = (dispatch: AppDispatch, navigate: (path: s
           message: 'Session expired. Please login again',
           color: 'yellow',
         });
-        // Don't re-throw 410 errors - they're fully handled here
-        // This prevents duplicate notifications in component catch blocks
+        // Return a rejected promise with a flag so catch blocks know this error is already handled
+        return Promise.reject({ handled: true, status: 410 });
       } else {
         return Promise.reject(error); // Re-throw all other errors to component catch blocks
       }

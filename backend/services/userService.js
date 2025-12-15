@@ -2,6 +2,7 @@ const { encryptPassword } = require('../utils/bcrypt');
 const { throwError } = require('../utils/functionHandlers');
 const Users = require('../models/Users.js');
 const { normalizeUserResponse } = require('../utils/normalizeResponses.js');
+const { uploadResumeToCloudinary } = require('../utils/uploadResumeToCloudinary.js');
 
 const getAllUsers = async () => {
   const users = await Users.find().select('-password').lean();
@@ -12,7 +13,7 @@ const getAllUsers = async () => {
   return normalizedUsers;
 };
 
-const registerUser = async (userData) => {
+const registerUser = async (userData, resumeFile) => {
   const existingUser = await Users.findOne({ email: userData.email });
   if (existingUser) {
     const error = new Error('User already exists');
@@ -20,6 +21,23 @@ const registerUser = async (userData) => {
     throw error;
   }
 
+  if (resumeFile){
+    try {
+      const resumeUrl = await uploadResumeToCloudinary(resumeFile.buffer, userData.email);
+      if (!userData.jobseekerProfile) {
+        userData.jobseekerProfile = {};
+      }
+      userData.jobseekerProfile.resume = resumeUrl.secure_url;
+    } catch (error) {
+      // Detect network-related errors
+      if (error.code === 'EAI_AGAIN' || error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
+        throwError(503, 'Failed to upload resume due to a network issue. Please try again in a moment.');
+      }
+      // Re-throw other errors to preserve original error handling
+      throw error;
+    }
+  }
+  
   const encryptedPassword = await encryptPassword(userData.password);
   userData.password = encryptedPassword;
 
@@ -38,7 +56,30 @@ const getUserById = async (userId) => {
   return normalizedUser;
 };
 
-const updateProfile = async (userId, updateData) => {
+const updateProfile = async (userId, updateData, resumeFile) => {
+  if (resumeFile){
+    const user = await Users.findById(userId);
+    if (!user) {
+      throwError(404, 'User not found');
+    }
+
+    try {
+      const resumeUrl = await uploadResumeToCloudinary(resumeFile.buffer, user.email);
+
+      // Add the Cloudinary URL to the update data
+      if (!updateData.jobseekerProfile) {
+        updateData.jobseekerProfile = {};
+      }
+      updateData.jobseekerProfile.resume = resumeUrl.secure_url;
+    } catch (error) {
+      // Detect network-related errors
+      if (error.code === 'EAI_AGAIN' || error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
+        throwError(503, 'Failed to upload resume due to a network issue. Please try again in a moment.');
+      }
+      // Re-throw other errors to preserve original error handling
+      throw error;
+    }
+  }
   const updatedUser = await Users.findByIdAndUpdate(userId, updateData, {
     new: true,
   });

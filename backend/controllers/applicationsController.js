@@ -94,11 +94,13 @@ async function updateApplicationData(req, res) {
     const { id } = req.params;
     const applicationData = req.body;
     const requesterId = req.user._id;
+    const resumeFile = req.file;
 
     const application = await applicationsService.updateApplicationData(
       id,
       applicationData,
-      requesterId
+      requesterId,
+      resumeFile
     );
     handleSuccess(res, 200, application, 'Application updated successfully');
   } catch (error) {

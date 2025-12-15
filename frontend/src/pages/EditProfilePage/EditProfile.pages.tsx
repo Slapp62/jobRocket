@@ -14,7 +14,6 @@ export function EditProfile() {
     register,
     handleSubmit,
     onSubmit,
-    trigger,
     errors,
     isDirty,
     isValid,
@@ -25,11 +24,15 @@ export function EditProfile() {
     close,
     deleteUser,
     control,
+    resumeFile,
+    setResumeFile,
+    isDeleting,
+    resumeError,
   } = useEditProfile();
 
   const isJobseeker = userData?.profileType === 'jobseeker';
   const isBusiness = userData?.profileType === 'business';
-  const accountLabel = userData?.isAdmin ? 'Admin' : isBusiness ? 'Business' : 'Jobseeker';
+  const accountLabel = userData?.isAdmin ? 'Admin' : isBusiness ? 'Business' : 'Jobseeker';  
 
   return (
     <>
@@ -66,7 +69,11 @@ export function EditProfile() {
                     register={register}
                     errors={errors}
                     control={control}
-                    
+                    resumeFile={resumeFile}
+                    setResumeFile={setResumeFile}
+                    currentResumeUrl={userData.jobseekerProfile?.resume}
+                    resumeError={resumeError}
+                    setResumeError={undefined}
                   />
                 </Fieldset>
               )}
@@ -82,55 +89,54 @@ export function EditProfile() {
                 </Fieldset>
               )}
 
-              <Fieldset legend="Change Account Type">
-                <Flex align="center" direction="column" justify="center" gap={10}>
-                  <Text>
-                    Account Type: <strong>{accountLabel} User</strong>
-                  </Text>
+              <Flex direction={isMobile ? 'column' : 'row'} gap={10}>
+                {!userData?.isAdmin &&
+                <Fieldset legend="Change Account Type" w={isMobile ? '100%' : '50%'}>
+                  <Flex direction="column" h="100%" justify="space-between">
+                    <Text>
+                      Account Type: <strong>{accountLabel} User</strong>
+                    </Text>
 
-                  {!userData?.isAdmin && (
                     <Button
-                      size="xs"
-                      
-                      loading={isSubmitting}
                       onClick={() => updateBusinessStatus()}
+                      variant="outline"
                     >
-                      <Text fz="sm">Toggle Jobseeker / Business</Text>
-                    </Button>
-                  )}
-
-                  {userData?.isAdmin && (
-                    <Text size="xs" c="red">
-                      Cannot change or delete an admin user
-                    </Text>
-                  )}
-                </Flex>
-              </Fieldset>
-
-              {userData?.isAdmin === false && isAdminView === false && (
-                <Fieldset legend="Delete Account">
-                  <Flex align="center" direction="column" gap={5}>
-                    <Text fw="bold" c="red">
-                      All data will be lost and you will be logged out.
-                    </Text>
-                    <Button color="red"  onClick={open}>
-                      Delete Account
+                      Toggle Jobseeker / Business
                     </Button>
                   </Flex>
-                </Fieldset>
-              )}
+                </Fieldset>}
 
-              <Flex direction="column" gap={5} w="50%" mx="auto">
-                <Button disabled={!isValid || !isDirty} type="submit">
-                  Update Info
-                </Button>
+                {userData?.isAdmin === false && isAdminView === false && (
+                  <Fieldset legend="Delete Account" w={isMobile ? '100%' : '50%'}>
+                    <Flex h="100%" justify='space-between' direction="column" gap={5}>
+                      <Text fw="bold" c="red" fz="sm">
+                        All data will be lost and you will be logged out.
+                      </Text>
+                      <Button color="red"  onClick={open} >
+                        Delete Account
+                      </Button>
+                    </Flex>
+                  </Fieldset>
+                )}
               </Flex>
+
+              <Button 
+                disabled={!isValid || (!isDirty && !resumeFile) || !!resumeError} 
+                type="submit" 
+                loading={isSubmitting}
+                fullWidth
+                size='lg'
+                mt={10}
+              >
+                Update Info
+              </Button>
+
             </Flex>
           </form>
         </Flex>
       </Flex>
 
-      <DeleteUserModal opened={opened} close={close} deleteUser={deleteUser} />
+      <DeleteUserModal opened={opened} close={close} deleteUser={deleteUser} isDeleting={isDeleting} />
     </>
   );
 }

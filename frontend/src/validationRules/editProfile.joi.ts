@@ -51,8 +51,19 @@ const editProfileSchema = Joi.object({
       linkedinPage: Joi.string().uri().allow('').optional().messages({
         'string.uri': 'Please enter a valid LinkedIn URL',
       }),
-      resume: Joi.string().max(1024).allow('').optional(),
-      skills: Joi.array().items(Joi.string()).optional().default([]),
+      resume: Joi.string().max(1024).allow('').optional().messages({
+        'string.max': 'Resume URL cannot exceed 1024 characters',
+      }),
+      skills: Joi.array()
+        .items(Joi.string().max(50).messages({
+          'string.max': 'Each skill must be 50 characters or less',
+        }))
+        .max(25)
+        .optional()
+        .default([])
+        .messages({
+          'array.max': 'Maximum 25 skills allowed',
+        }),
       description: Joi.string().max(2000).allow('').optional().messages({
         'string.max': 'Description cannot exceed 2000 characters',
       }),

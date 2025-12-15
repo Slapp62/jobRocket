@@ -4,7 +4,8 @@ const { handleSuccess, handleError } = require('../utils/functionHandlers.js');
 async function registerUser(req, res) {
   try {
     const userData = req.body;
-    const user = await userService.registerUser(userData);
+    const resumeFile = req.file;
+    const user = await userService.registerUser(userData, resumeFile);
     handleSuccess(res, 201, user, 'User registered successfully.');
   } catch (error) {
     handleError(res, error.status, error.message);
@@ -76,7 +77,8 @@ async function updateUserProfile(req, res) {
   try {
     const userId = req.params.id;
     const updateData = req.body;
-    const updatedUser = await userService.updateProfile(userId, updateData);
+    const resumeFile = req.file;
+    const updatedUser = await userService.updateProfile(userId, updateData, resumeFile);
     handleSuccess(res, 200, updatedUser, 'Profile updated successfully.');
   } catch (error) {
     handleError(res, error.status, error.message);

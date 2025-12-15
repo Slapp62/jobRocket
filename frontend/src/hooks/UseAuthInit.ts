@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '@/store/userSlice';
 import { RootState } from '@/store/store';
-import { notifications } from '@mantine/notifications';
 
 export function useAuthInit() {
   const dispatch = useDispatch();
@@ -21,7 +20,8 @@ export function useAuthInit() {
         // If this succeeds, user has valid session
         dispatch(setUser(response.data));
       } catch (error : any) {
-        
+        // Empty catch - errors are already handled by axios interceptor
+        // 410 errors show "Session Expired" notification and redirect to login
       }
     };
 

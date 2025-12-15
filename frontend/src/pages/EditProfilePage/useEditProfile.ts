@@ -11,6 +11,7 @@ import { clearUser, setUser, updateUser } from '@/store/userSlice';
 import { TUsers } from '@/Types';
 import { cleanedUserData } from '@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData';
 import { editProfileSchema } from '@/validationRules/editProfile.joi';
+import { validatePdfFile } from '@/utils/fileValidation';
 
 export const useEditProfile = () => {
   const jumpTo = useNavigate();
@@ -18,12 +19,16 @@ export const useEditProfile = () => {
   const isMobile = useMediaQuery('(max-width: 700px)');
   const dispatch = useDispatch();
   const [isSubmitting, setSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
   const isAdminView = useSelector((state: RootState) => state.userSlice.isAdminView);
   const currentUser = useSelector((state: RootState) => state.userSlice.user);
   const allUsers = useSelector((state: RootState) => state.userSlice.allUsers);
   const paramsUser = allUsers?.find((account) => account._id === id);
+
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [resumeError, setResumeError] = useState<string | null>(null);
 
   const userData = isAdminView ? paramsUser : currentUser;
   
@@ -47,7 +52,26 @@ export const useEditProfile = () => {
     }
   }, [reset, userData]);
 
+  /**
+   * Handle resume file change with validation
+   * Validates the file and updates error state
+   */
+  const handleResumeChange = (file: File | null) => {
+    const error = validatePdfFile(file);
+    setResumeError(error);
+    setResumeFile(error ? null : file);
+  };
+
   const onSubmit = async (data: FieldValues) => {
+    // Prevent submission if there's a file validation error
+    if (resumeError) {
+      notifications.show({
+        title: 'Validation Error',
+        message: resumeError,
+        color: 'red',
+      });
+      return;
+    }
     const payload: Partial<TUsers> = {
       phone: data.phone,
       profileType: data.profileType,
@@ -62,7 +86,48 @@ export const useEditProfile = () => {
     }
 
     try {
-      const response = await axios.put(`/api/users/${userData?._id}`, payload);
+      setSubmitting(true);
+      let response;
+      
+      // If there's a resume file, use FormData
+      if (resumeFile) {
+        const formData = new FormData();
+        
+        // Add all the regular data as JSON string
+        formData.append('phone', payload.phone || '');
+        formData.append('profileType', payload.profileType || '');
+        
+        if (payload.jobseekerProfile) {
+          // Flatten jobseekerProfile fields
+          Object.keys(payload.jobseekerProfile).forEach((key) => {
+            const value = payload.jobseekerProfile![key as keyof typeof payload.jobseekerProfile];
+            if (value !== undefined && value !== null) {
+              if (Array.isArray(value)) {
+                formData.append(`jobseekerProfile[${key}]`, JSON.stringify(value));
+              } else {
+                formData.append(`jobseekerProfile[${key}]`, String(value));
+              }
+            }
+          });
+        }
+        
+        if (payload.businessProfile) {
+          Object.keys(payload.businessProfile).forEach((key) => {
+            const value = payload.businessProfile![key as keyof typeof payload.businessProfile];
+            if (value !== undefined && value !== null) {
+              formData.append(`businessProfile[${key}]`, String(value));
+            }
+          });
+        }
+        
+        // Add the resume file
+        formData.append('resume', resumeFile);
+        
+        response = await axios.put(`/api/users/${userData?._id}`, formData);
+      } else {
+        // No file, use regular JSON
+        response = await axios.put(`/api/users/${userData?._id}`, payload);
+      }
 
       if (response.status === 200) {
         const updatedUser = response.data;
@@ -77,6 +142,8 @@ export const useEditProfile = () => {
           dispatch(updateUser(updatedUser));
         }
         reset(cleanedUserData(updatedUser));
+        setResumeFile(null);
+
         notifications.show({
           title: 'Success',
           message: 'Profile Updated Successfully!',
@@ -84,20 +151,24 @@ export const useEditProfile = () => {
         });
       }
     } catch (error: any) {
+      const errorMessage = error?.response?.data?.message || error?.response?.data || error.message || 'An unexpected error occurred';
       notifications.show({
         title: 'Error',
-        message: `Update Failed! ${error?.response?.data || error.message}`,
+        message: errorMessage,
         color: 'red',
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const updateBusinessStatus = async () => {
     try {
+      setSubmitting(true);
       const response = await axios.patch(`/api/users/${userData?._id}`);
       if (response.status === 200) {
         const updatedUser = response.data;
-        setSubmitting(true);
+        
         setTimeout(() => {
           // if not admin view, update the current user information
           if (!isAdminView) {
@@ -113,7 +184,6 @@ export const useEditProfile = () => {
             message: 'Account Status Updated',
             color: 'green',
           });
-          setSubmitting(false);
         }, 1000);
       }
     } catch (error: any) {
@@ -122,11 +192,14 @@ export const useEditProfile = () => {
         message: error.response.data.message,
         color: 'red',
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const deleteUser = async () => {
     try {
+      setIsDeleting(true);
       const response = await axios.delete(`/api/users/${userData?._id}`);
       if (response.status === 200) {
         !isAdminView ? dispatch(clearUser()) : jumpTo('/admin');
@@ -142,11 +215,14 @@ export const useEditProfile = () => {
         message: error.response.data.message,
         color: 'red',
       });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
   return {
     isSubmitting,
+    isDeleting,
     isAdminView,
     userData,
     register,
@@ -163,5 +239,9 @@ export const useEditProfile = () => {
     close,
     deleteUser,
     control,
+    resumeFile,
+    setResumeFile,
+    resumeError,
+    handleResumeChange,
   };
 };
