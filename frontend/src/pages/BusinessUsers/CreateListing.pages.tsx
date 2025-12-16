@@ -5,11 +5,11 @@ import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
-  Checkbox,
   Fieldset,
   Flex,
   Group,
   Paper,
+  Radio,
   Select,
   Stack,
   Switch,
@@ -65,6 +65,7 @@ export function CreateListing() {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors, isValid },
   } = useForm<ListingFormValues>({
     mode: 'all',
@@ -106,6 +107,11 @@ export function CreateListing() {
   const selectedRegion = useWatch({
     control,
     name: 'location.region',
+  });
+
+  const selectedMethod = useWatch({
+    control,
+    name: 'apply.method',
   });
 
   const availableCities = useMemo(() => {
@@ -222,59 +228,97 @@ export function CreateListing() {
             </Fieldset>
 
             <Fieldset legend="Application">
-              <Text size="sm" c='dimmed'>Choose how to manage applications.</Text>
-              <Text size="sm" c='red'>At least one option must be selected.</Text>
-              <Stack p={10}>
-                <Controller
-                  name="apply.method.jobRocketSystem"
-                  control={control}
-                  render={({ field }) => (
-                    <Checkbox
-                      radius={0}
-                      label="Use JobRocket's internal system"
-                      checked={field.value}
-                      onChange={(event) => field.onChange(event.currentTarget.checked)}
-                    />
-                  )}
-                />
+              <Text size="sm" c="dimmed" mb="xs">
+                Choose how candidates can apply to this position.
+              </Text>
 
-                <Controller
-                  name="apply.method.companySystem"
-                  control={control}
-                  render={({ field }) => (
-                    <Checkbox
-                      radius={0}
-                      label="External company system"
-                      checked={field.value}
-                      onChange={(event) => field.onChange(event.currentTarget.checked)}
-                    />
-                  )}
-                />
-                
-                <Controller
-                  name="apply.method.email"
-                  control={control}
-                  render={({ field }) => (
-                    <Checkbox
-                      radius={0}
-                      label="Email"
-                      checked={field.value}
-                      onChange={(event) => field.onChange(event.currentTarget.checked)}
-                    />
-                  )}
-                />
-              </Stack>
+              <Radio.Group
+                label="Application Method"
+                description="Select one method for receiving applications"
+                required
+              >
+                <Stack mt="xs">
+                  <Controller
+                    name="apply.method.jobRocketSystem"
+                    control={control}
+                    render={({ field }) => (
+                      <Radio
+                        label="JobRocket Internal System"
+                        description="Candidates apply through JobRocket and you manage applications in your dashboard"
+                        value="jobRocketSystem"
+                        checked={field.value}
+                        onChange={() => {
+                          setValue('apply.method.jobRocketSystem', true);
+                          setValue('apply.method.companySystem', false);
+                          setValue('apply.method.email', false);
+                          setValue('apply.contact.email', '');
+                          setValue('apply.contact.link', '');
+                        }}
+                      />
+                    )}
+                  />
 
-              <TextInput
-                label="Link to external application"
-                {...register('apply.contact.link')}
-                error={errors.apply?.contact?.link?.message}
-              />
-              <TextInput
-                label="Email for applications"
-                {...register('apply.contact.email')}
-                error={errors.apply?.contact?.email?.message}
-              />
+                  <Controller
+                    name="apply.method.email"
+                    control={control}
+                    render={({ field }) => (
+                      <Radio
+                        label="Email Applications"
+                        description="Candidates send applications to a specified email address"
+                        value="email"
+                        checked={field.value}
+                        onChange={() => {
+                          setValue('apply.method.jobRocketSystem', false);
+                          setValue('apply.method.companySystem', false);
+                          setValue('apply.method.email', true);
+                          setValue('apply.contact.link', '');
+                        }}
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    name="apply.method.companySystem"
+                    control={control}
+                    render={({ field }) => (
+                      <Radio
+                        label="External Company System"
+                        description="Candidates are redirected to your company's application system"
+                        value="companySystem"
+                        checked={field.value}
+                        onChange={() => {
+                          setValue('apply.method.jobRocketSystem', false);
+                          setValue('apply.method.companySystem', true);
+                          setValue('apply.method.email', false);
+                          setValue('apply.contact.email', '');
+                        }}
+                      />
+                    )}
+                  />
+                </Stack>
+              </Radio.Group>
+
+              {selectedMethod?.email && (
+                <TextInput
+                  label="Email for Applications"
+                  placeholder="careers@company.com"
+                  required
+                  mt="md"
+                  {...register('apply.contact.email')}
+                  error={errors.apply?.contact?.email?.message}
+                />
+              )}
+
+              {selectedMethod?.companySystem && (
+                <TextInput
+                  label="External Application Link"
+                  placeholder="https://company.com/careers/apply"
+                  required
+                  mt="md"
+                  {...register('apply.contact.link')}
+                  error={errors.apply?.contact?.link?.message}
+                />
+              )}
             </Fieldset>
 
             <Fieldset legend="Location">

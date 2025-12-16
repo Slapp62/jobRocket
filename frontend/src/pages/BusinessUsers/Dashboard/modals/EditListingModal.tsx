@@ -2,7 +2,7 @@ import WORK_ARRANGEMENTS from "@/data/workArr";
 import { TListing } from "@/Types";
 import { cleanedListingData } from "@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData";
 import { listingSchema } from "@/validationRules/listing.joi";
-import { Stack, Flex, Title, Button, Fieldset, TextInput, Textarea, TagsInput, Select, Switch, Group, Modal } from "@mantine/core";
+import { Stack, Flex, Title, Button, Fieldset, TextInput, Textarea, TagsInput, Select, Switch, Group, Modal, Radio, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
@@ -25,8 +25,15 @@ type ListingFormValues = {
   requirements: string[];
   advantages: string[];
   apply: {
-    method: 'email' | 'link';
-    contact: string;
+    method: {
+      jobRocketSystem: boolean;
+      companySystem: boolean;
+      email: boolean;
+    };
+    contact: {
+      email?: string;
+      link?: string;
+    };
   };
   location: {
     region: string;
@@ -46,11 +53,12 @@ export const EditListingModal = ({opened, onClose, listing, setListings} : EditL
     reset,
     formState: { errors, isValid, isDirty },
     control,
+    setValue,
   } = useForm<ListingFormValues>({
     mode: 'all',
     resolver: joiResolver(listingSchema),
   });
- 
+
   useEffect(()=>{
     if (opened && listing) {
       // need to clean the default listing data before setting it to the form to avoid validation errors
@@ -62,6 +70,11 @@ export const EditListingModal = ({opened, onClose, listing, setListings} : EditL
   const selectedRegion = useWatch({
     control,
     name: 'location.region',
+  });
+
+  const selectedMethod = useWatch({
+    control,
+    name: 'apply.method',
   });
 
   const availableCities = useMemo(() => {
@@ -177,29 +190,95 @@ export const EditListingModal = ({opened, onClose, listing, setListings} : EditL
 
           <Fieldset legend="Application">
             <Stack gap="sm">
-              <Controller
-                name="apply.method"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    label="Application Method"
-                    required
-                    data={[
-                      { value: 'email', label: 'Email' },
-                      { value: 'link', label: 'External Link' },
-                    ]}
-                    {...field}
-                    error={errors.apply?.method?.message}
-                  />
-                )}
-              />
+              <Text size="sm" c="dimmed">
+                Choose how candidates can apply to this position.
+              </Text>
 
-              <TextInput
-                label="Application Contact / URL"
+              <Radio.Group
+                label="Application Method"
+                description="Select one method for receiving applications"
                 required
-                {...register('apply.contact')}
-                error={errors.apply?.contact?.message}
-              />
+              >
+                <Stack mt="xs">
+                  <Controller
+                    name="apply.method.jobRocketSystem"
+                    control={control}
+                    render={({ field }) => (
+                      <Radio
+                        label="JobRocket Internal System"
+                        description="Candidates apply through JobRocket"
+                        value="jobRocketSystem"
+                        checked={field.value}
+                        onChange={() => {
+                          setValue('apply.method.jobRocketSystem', true);
+                          setValue('apply.method.companySystem', false);
+                          setValue('apply.method.email', false);
+                          setValue('apply.contact.email', '');
+                          setValue('apply.contact.link', '');
+                        }}
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    name="apply.method.email"
+                    control={control}
+                    render={({ field }) => (
+                      <Radio
+                        label="Email Applications"
+                        description="Candidates send applications via email"
+                        value="email"
+                        checked={field.value}
+                        onChange={() => {
+                          setValue('apply.method.jobRocketSystem', false);
+                          setValue('apply.method.companySystem', false);
+                          setValue('apply.method.email', true);
+                          setValue('apply.contact.link', '');
+                        }}
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    name="apply.method.companySystem"
+                    control={control}
+                    render={({ field }) => (
+                      <Radio
+                        label="External Company System"
+                        description="Candidates apply through external link"
+                        value="companySystem"
+                        checked={field.value}
+                        onChange={() => {
+                          setValue('apply.method.jobRocketSystem', false);
+                          setValue('apply.method.companySystem', true);
+                          setValue('apply.method.email', false);
+                          setValue('apply.contact.email', '');
+                        }}
+                      />
+                    )}
+                  />
+                </Stack>
+              </Radio.Group>
+
+              {selectedMethod?.email && (
+                <TextInput
+                  label="Email for Applications"
+                  placeholder="careers@company.com"
+                  required
+                  {...register('apply.contact.email')}
+                  error={errors.apply?.contact?.email?.message}
+                />
+              )}
+
+              {selectedMethod?.companySystem && (
+                <TextInput
+                  label="External Application Link"
+                  placeholder="https://company.com/careers/apply"
+                  required
+                  {...register('apply.contact.link')}
+                  error={errors.apply?.contact?.link?.message}
+                />
+              )}
             </Stack>
           </Fieldset>
 

@@ -45,16 +45,50 @@ export const listingSchema = Joi.object({
     }),
   apply: Joi.object({
     method: Joi.object({
-      jobRocketSystem: Joi.boolean().optional(),
-      companySystem: Joi.boolean().optional(),
-      email: Joi.boolean().optional(),
-    }).required().min(1).messages({
-      'object.min': 'At least one application method must be selected',
-    }),
-    contact: Joi.object({    
-      email: Joi.string().optional(),
-      link: Joi.string().optional(),
+      jobRocketSystem: Joi.boolean().default(false),
+      companySystem: Joi.boolean().default(false),
+      email: Joi.boolean().default(false),
     })
+      .required()
+      .custom((value, helpers) => {
+        const count =
+          (value.jobRocketSystem ? 1 : 0) +
+          (value.companySystem ? 1 : 0) +
+          (value.email ? 1 : 0);
+
+        if (count !== 1) {
+          return helpers.error('apply.method.exactly_one');
+        }
+
+        return value;
+      })
+      .messages({
+        'apply.method.exactly_one': 'Exactly one application method must be selected',
+      }),
+    contact: Joi.object({
+      email: Joi.string()
+        .email({ tlds: { allow: false } })
+        .when('$apply.method.email', {
+          is: true,
+          then: Joi.required(),
+          otherwise: Joi.optional().allow(''),
+        })
+        .messages({
+          'string.email': 'Please provide a valid email address',
+          'any.required': 'Email address is required when email method is selected',
+        }),
+      link: Joi.string()
+        .uri()
+        .when('$apply.method.companySystem', {
+          is: true,
+          then: Joi.required(),
+          otherwise: Joi.optional().allow(''),
+        })
+        .messages({
+          'string.uri': 'Please provide a valid URL',
+          'any.required': 'External link is required when company system is selected',
+        }),
+    }).optional(),
   }).required(),
   location: Joi.object({
     region: Joi.string()

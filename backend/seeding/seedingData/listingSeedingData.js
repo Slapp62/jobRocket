@@ -18,8 +18,15 @@ const dummyListings = [
       'Contributions to open-source projects',
     ],
     apply: {
-      method: 'email',
-      contact: 'jobs@levitechsolutions.com',
+      method: {
+        jobRocketSystem: true,
+        companySystem: false,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: '',
+      },
     },
     location: {
       region: 'Center',
@@ -45,8 +52,15 @@ const dummyListings = [
       'Experience in the tech industry',
     ],
     apply: {
-      method: 'link',
-      contact: 'https://www.sarahartstudio.com/careers',
+      method: {
+        jobRocketSystem: false,
+        companySystem: false,
+        email: true,
+      },
+      contact: {
+        email: 'careers@sarahartstudio.com',
+        link: '',
+      },
     },
     location: {
       region: 'Center',
@@ -73,8 +87,15 @@ const dummyListings = [
       'Experience in healthcare or biotech industry',
     ],
     apply: {
-      method: 'email',
-      contact: 'careers@biotech-innovations.co.il',
+      method: {
+        jobRocketSystem: false,
+        companySystem: true,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: 'https://www.biotech-innovations.co.il/careers',
+      },
     },
     location: {
       region: 'Jerusalem_District',
@@ -100,8 +121,15 @@ const dummyListings = [
       'Experience in training and onboarding',
     ],
     apply: {
-      method: 'email',
-      contact: 'hr@customer-first.co.il',
+      method: {
+        jobRocketSystem: true,
+        companySystem: false,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: '',
+      },
     },
     location: {
       region: 'North',
@@ -128,8 +156,15 @@ const dummyListings = [
       'Certifications in cloud platforms',
     ],
     apply: {
-      method: 'link',
-      contact: 'https://jobs.cloudtech.co.il/devops',
+      method: {
+        jobRocketSystem: false,
+        companySystem: false,
+        email: true,
+      },
+      contact: {
+        email: 'devops@cloudtech.co.il',
+        link: '',
+      },
     },
     location: {
       region: 'Center',
@@ -156,8 +191,15 @@ const dummyListings = [
       'Experience in mobile app design',
     ],
     apply: {
-      method: 'email',
-      contact: 'design@creative-labs.co.il',
+      method: {
+        jobRocketSystem: false,
+        companySystem: true,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: 'https://www.creative-labs.co.il/careers/designer',
+      },
     },
     location: {
       region: 'Center',
@@ -184,8 +226,15 @@ const dummyListings = [
       'Incident response experience',
     ],
     apply: {
-      method: 'link',
-      contact: 'https://www.securetech.co.il/careers/analyst',
+      method: {
+        jobRocketSystem: true,
+        companySystem: false,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: '',
+      },
     },
     location: {
       region: 'South',
@@ -212,8 +261,15 @@ const dummyListings = [
       'Experience in consumer apps with high user base',
     ],
     apply: {
-      method: 'email',
-      contact: 'product@appinnovate.co.il',
+      method: {
+        jobRocketSystem: false,
+        companySystem: false,
+        email: true,
+      },
+      contact: {
+        email: 'product@appinnovate.co.il',
+        link: '',
+      },
     },
     location: {
       region: 'Center',
@@ -240,8 +296,15 @@ const dummyListings = [
       'Knowledge of content management systems',
     ],
     apply: {
-      method: 'link',
-      contact: 'https://careers.contentcreators.co.il/writer',
+      method: {
+        jobRocketSystem: false,
+        companySystem: true,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: 'https://careers.contentcreators.co.il/writer',
+      },
     },
     location: {
       region: 'Jerusalem_District',
@@ -268,8 +331,15 @@ const dummyListings = [
       'Experience in the fintech sector',
     ],
     apply: {
-      method: 'email',
-      contact: 'finance@fintechpro.co.il',
+      method: {
+        jobRocketSystem: true,
+        companySystem: false,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: '',
+      },
     },
     location: {
       region: 'Center',
@@ -296,8 +366,15 @@ const dummyListings = [
       'ISTQB certification',
     ],
     apply: {
-      method: 'email',
-      contact: 'qa@qualitysoft.co.il',
+      method: {
+        jobRocketSystem: false,
+        companySystem: false,
+        email: true,
+      },
+      contact: {
+        email: 'qa@qualitysoft.co.il',
+        link: '',
+      },
     },
     location: {
       region: 'North',
@@ -324,8 +401,15 @@ const dummyListings = [
       'Sales experience in B2B environment',
     ],
     apply: {
-      method: 'email',
-      contact: 'careers@greenenergy.co.il',
+      method: {
+        jobRocketSystem: false,
+        companySystem: true,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: 'https://www.greenenergy.co.il/apply',
+      },
     },
     location: {
       region: 'South',
@@ -352,8 +436,15 @@ const dummyListings = [
       'Mobile app development experience',
     ],
     apply: {
-      method: 'link',
-      contact: 'https://jobs.edutech-academy.co.il/developer',
+      method: {
+        jobRocketSystem: true,
+        companySystem: false,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: '',
+      },
     },
     location: {
       region: 'Center',
@@ -380,8 +471,15 @@ const dummyListings = [
       'Experience with clinical trials data',
     ],
     apply: {
-      method: 'email',
-      contact: 'hr@medicare-plus.co.il',
+      method: {
+        jobRocketSystem: false,
+        companySystem: false,
+        email: true,
+      },
+      contact: {
+        email: 'hr@medicare-plus.co.il',
+        link: '',
+      },
     },
     location: {
       region: 'Jerusalem_District',
@@ -408,8 +506,15 @@ const dummyListings = [
       'Photography or videography skills',
     ],
     apply: {
-      method: 'link',
-      contact: 'https://www.travelwise-israel.com/careers/guide',
+      method: {
+        jobRocketSystem: false,
+        companySystem: true,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: 'https://www.travelwise-israel.com/careers/guide',
+      },
     },
     location: {
       region: 'Jerusalem_District',
@@ -436,8 +541,15 @@ const dummyListings = [
       'Fluency in French or Italian',
     ],
     apply: {
-      method: 'email',
-      contact: 'chef@kosherdelight.co.il',
+      method: {
+        jobRocketSystem: false,
+        companySystem: false,
+        email: true,
+      },
+      contact: {
+        email: 'chef@kosherdelight.co.il',
+        link: '',
+      },
     },
     location: {
       region: 'Center',

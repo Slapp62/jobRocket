@@ -37,13 +37,59 @@ const joiListingSchema = joi.object({
     .optional(),
   apply: joi
     .object({
-      method: joi.string().valid('email', 'link').required().messages({
-        'any.only': "Application method must be either 'email' or 'link'",
-        'any.required': 'Application method is required',
-      }),
-      contact: joi.string().required().messages({
-        'any.required': 'Contact information is required',
-      }),
+      method: joi
+        .object({
+          jobRocketSystem: joi.boolean().default(false),
+          companySystem: joi.boolean().default(false),
+          email: joi.boolean().default(false),
+        })
+        .required()
+        .custom((value, helpers) => {
+          const count =
+            (value.jobRocketSystem ? 1 : 0) +
+            (value.companySystem ? 1 : 0) +
+            (value.email ? 1 : 0);
+
+          if (count !== 1) {
+            return helpers.error('apply.method.exactly_one');
+          }
+
+          return value;
+        })
+        .messages({
+          'apply.method.exactly_one':
+            'Exactly one application method must be selected',
+        }),
+      contact: joi
+        .object({
+          email: joi
+            .string()
+            .email()
+            .when('...method.email', {
+              is: true,
+              then: joi.required(),
+              otherwise: joi.optional().allow(''),
+            })
+            .messages({
+              'string.email': 'Please provide a valid email address',
+              'any.required':
+                'Email address is required when email method is selected',
+            }),
+          link: joi
+            .string()
+            .uri()
+            .when('...method.companySystem', {
+              is: true,
+              then: joi.required(),
+              otherwise: joi.optional().allow(''),
+            })
+            .messages({
+              'string.uri': 'Please provide a valid URL',
+              'any.required':
+                'External link is required when company system is selected',
+            }),
+        })
+        .optional(),
     })
     .required(),
   location: joi

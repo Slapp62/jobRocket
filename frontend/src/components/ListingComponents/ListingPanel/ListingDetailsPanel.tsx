@@ -134,9 +134,48 @@ export function ListingDetailsPanel({
             </Group>
 
             <Group justify='start' align='center' gap="xs" mt="sm">
-              <Button variant="filled" color="rocketRed.6" onClick={open} w={{base: '100%', md: '30%'}}>
-                Apply
-              </Button>
+              {listing.apply.method.jobRocketSystem && (
+                <Button 
+                  variant="filled" 
+                  color="rocketRed.6" 
+                  onClick={open} 
+                  w={{base: '100%', md: '30%'}}
+                >
+                  Apply
+                </Button>
+              )}
+
+              {listing.apply.method.email && (
+                <Anchor
+                  href={`mailto:${listing.apply.contact.email}`}
+                  style={{ textDecoration: 'none', width: isMobile ? '100%' : '30%' }}
+                >
+                  <Button
+                    variant="filled"
+                    color="rocketRed.6"
+                    fullWidth
+                  >
+                    Email
+                  </Button>
+                </Anchor>
+              )}
+
+              {listing.apply.method.companySystem && (
+                <Anchor
+                  href={listing.apply.contact.link}
+                  target="_blank"
+                  style={{ textDecoration: 'none', width: isMobile ? '100%' : '30%' }}
+                >
+                  <Button
+                    variant="filled"
+                    color="rocketRed.6"
+                    fullWidth
+                  >
+                    Apply Externally
+                  </Button>
+                </Anchor>
+              )}
+              
               <SocialIcons listingID={listing._id} />
               <ApplicationModal opened={opened} onClose={close} listingID={listing._id} />
             </Group>
@@ -193,25 +232,6 @@ export function ListingDetailsPanel({
           )}
 
           <Divider />
-
-          {/* Application */}
-          <Box>
-            <Text fw={600} size="sm" mb={5}>
-              External Application Link
-            </Text>
-            <Text size="sm" mb={5}>
-              Apply via {listing.apply.method === 'email' ? 'email' : 'external link'}:
-            </Text>
-            {listing.apply.method === 'email' ? (
-              <Anchor href={`mailto:${listing.apply.contact}`} target="_blank">
-                {listing.apply.contact}
-              </Anchor>
-            ) : (
-              <Anchor href={listing.apply.contact} target="_blank">
-                {listing.apply.contact}
-              </Anchor>
-            )}
-          </Box>
 
           {/* Actions */}
           {user && (

@@ -104,17 +104,28 @@ export const ListingDetailsModal = ({ opened, onClose, listing }: ListingDetails
               <Text fw={600} size="sm" mb={5}>
                 How to Apply
               </Text>
-              <Text size="sm" mb={5}>
-                Apply via {listing.apply.method === 'email' ? 'email' : 'external link'}:
-              </Text>
-              {listing.apply.method === 'email' ? (
-                <Anchor href={`mailto:${listing.apply.contact}`} target="_blank">
-                  {listing.apply.contact}
-                </Anchor>
-              ) : (
-                <Anchor href={listing.apply.contact} target="_blank">
-                  {listing.apply.contact}
-                </Anchor>
+              {listing.apply.method.jobRocketSystem && (
+                <Text size="sm">Apply through JobRocket's internal system</Text>
+              )}
+              {listing.apply.method.email && (
+                <>
+                  <Text size="sm" mb={5}>
+                    Apply via email:
+                  </Text>
+                  <Anchor href={`mailto:${listing.apply.contact.email}`} target="_blank">
+                    {listing.apply.contact.email}
+                  </Anchor>
+                </>
+              )}
+              {listing.apply.method.companySystem && (
+                <>
+                  <Text size="sm" mb={5}>
+                    Apply via external link:
+                  </Text>
+                  <Anchor href={listing.apply.contact.link} target="_blank">
+                    {listing.apply.contact.link}
+                  </Anchor>
+                </>
               )}
             </Box>
           )}

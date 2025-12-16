@@ -83,7 +83,7 @@ function ListingCard({
               <Text span fw={500}>
                 Apply via:
               </Text>{' '}
-              {listing.apply.method === 'email' ? 'Email' : 'External Link'}
+              {listing.apply.method.jobRocketSystem ? 'JobRocket' : listing.apply.method.companySystem ? 'External Link' : 'Email'}
             </Text>
             {listing.createdAt && (
               <Text size="xs" c="dimmed">

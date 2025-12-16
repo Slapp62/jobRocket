@@ -39,8 +39,15 @@ const jobListingSchema = new Schema({
   requirements: [String],
   advantages: [String],
   apply: {
-    method: { type: String, enum: ['email', 'link'], required: true },
-    contact: { type: String, required: true }, // email address or URL
+    method: {
+      jobRocketSystem: { type: Boolean, default: false },
+      companySystem: { type: Boolean, default: false },
+      email: { type: Boolean, default: false },
+    },
+    contact: {
+      email: { type: String },
+      link: { type: String },
+    },
   },
   location: {
     region: {
@@ -66,6 +73,21 @@ const jobListingSchema = new Schema({
   isActive: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
   expiresAt: Date,
+});
+
+// Validation: Exactly one application method must be selected
+jobListingSchema.pre('validate', function (next) {
+  if (this.apply && this.apply.method) {
+    const count =
+      (this.apply.method.jobRocketSystem ? 1 : 0) +
+      (this.apply.method.companySystem ? 1 : 0) +
+      (this.apply.method.email ? 1 : 0);
+
+    if (count !== 1) {
+      this.invalidate('apply.method', 'Exactly one application method must be selected');
+    }
+  }
+  next();
 });
 
 jobListingSchema.pre('save', async function (next) {
