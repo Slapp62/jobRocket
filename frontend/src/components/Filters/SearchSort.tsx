@@ -2,6 +2,7 @@ import { IconFilter2 } from '@tabler/icons-react';
 import { Select, StyleProp } from '@mantine/core';
 
 const SORT_OPTIONS = [
+  { value: 'relevance', label: 'Relevance (AI)' },
   { value: 'title-asc', label: 'Title (A-Z)' },
   { value: 'title-desc', label: 'Title (Z-A)' },
   { value: 'date-created-old', label: 'Date Created (Oldest First)' },
@@ -12,16 +13,19 @@ const SORT_OPTIONS = [
 
 // Define which sort options belong to each sort type
 const SORT_GROUPS = {
+  relevance: ['relevance'],
   title: ['title-asc', 'title-desc'],
   date: ['date-created-old', 'date-created-new'],
   matchScore: ['match-score', 'match-score-desc'],
 };
 
-type SortType = 'title' | 'date' | 'matchScore' | 'all';
+type SortType = 'relevance' | 'title' | 'date' | 'matchScore' | 'all';
 
 // Filter options based on sort type
-function getOptionsForType(sortType: SortType) {
-  if (sortType === 'all') return SORT_OPTIONS;
+function getOptionsForType(sortType: SortType, includeRelevance: boolean = false) {
+  if (sortType === 'all') {
+    return includeRelevance ? SORT_OPTIONS : SORT_OPTIONS.filter(opt => opt.value !== 'relevance');
+  }
   const allowedValues = SORT_GROUPS[sortType];
   return SORT_OPTIONS.filter(opt => allowedValues.includes(opt.value));
 }
@@ -34,10 +38,20 @@ type SearchSortProps = {
   width?: StyleProp<string | number>;
   radius?: number;
   disabled?: boolean;
+  includeRelevance?: boolean;
 };
 
-export function SearchSort({ value, onChange, sortType = 'all', placeholder, width, radius, disabled = false }: SearchSortProps) {
-  const filteredOptions = getOptionsForType(sortType);
+export function SearchSort({
+  value,
+  onChange,
+  sortType = 'all',
+  placeholder,
+  width,
+  radius,
+  disabled = false,
+  includeRelevance = false
+}: SearchSortProps) {
+  const filteredOptions = getOptionsForType(sortType, includeRelevance);
 
   return (
     <Select

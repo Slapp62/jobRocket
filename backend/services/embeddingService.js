@@ -41,6 +41,8 @@ function listingToText(listing) {
   const parts = [
     listing.jobTitle,
     listing.jobDescription,
+    listing.WorkArrangement,
+    listing.location.city,
     `Requirements: ${requirements}`,
   ];
 

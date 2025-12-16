@@ -38,24 +38,41 @@ app.use(
 );
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com; " +
+    "frame-src https://ko-fi.com; " +
+    "img-src 'self' data: https:; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://storage.ko-fi.com; " +
+    "font-src 'self' https://fonts.gstatic.com; " +
+    "connect-src 'self' https://accounts.google.com; " + // Add this
+    "form-action 'self' https://accounts.google.com;"    // Add this
+  );
+  next();
+});
+
+
+app.use(session(sessionConfig));
+
+const passport = require('passport');
+require('./config/passport')(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use((req, res, next) => {
   req.body = mongoSanitize.sanitize(req.body);
   next();
 });
 
-app.use((req, res, next) => {
-  res.setHeader(
-    'Content-Security-Policy',
-    "default-src 'self'; script-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com; frame-src https://ko-fi.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://storage.ko-fi.com; font-src 'self' https://fonts.gstatic.com;"
-  );
-  next();
-});
-
-app.use(errorLogger);
-app.use(session(sessionConfig));
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/auth', authRoutes);
 
 app.use(router);
 
+app.use(errorLogger);
 // Serve static frontend files (IN PRODUCTION ONLY)
 if (process.env.NODE_ENV === 'production') {
   // Serve static files from the public folder

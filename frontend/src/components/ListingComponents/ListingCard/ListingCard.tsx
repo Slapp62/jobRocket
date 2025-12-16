@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Badge, Box, Card, Stack, Text } from '@mantine/core';
+import { Badge, Box, Button, Card, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { TListing } from '@/Types';
 import styles from './ListingCard.module.css';
@@ -14,6 +14,7 @@ type ListingCardProps = {
   height?: string | number;
   mobileHeight?: string | number;
   disableHoverEffect?: boolean;
+  handleSelectListing: (listingId: string) => void;
 };
 
 function ListingCard({
@@ -25,6 +26,7 @@ function ListingCard({
   height,
   mobileHeight,
   disableHoverEffect,
+  handleSelectListing
 }: ListingCardProps) {
   const isMobile = useMediaQuery('(max-width: 500px)');
 
@@ -95,6 +97,17 @@ function ListingCard({
           {/* Actions - parent decides what goes here */}
           {actions && (
             <Box mt="auto" pt="md">
+              <Button 
+                onClick={() => {
+                  handleSelectListing(listing._id);
+                  window.scrollTo({ top: 0, behavior: 'instant' });
+                }} 
+                color='rocketRed' 
+                fullWidth 
+                size='sm'
+              >
+                Learn More
+              </Button>
               {actions}
             </Box>
           )}

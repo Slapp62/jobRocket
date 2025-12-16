@@ -67,13 +67,10 @@ const DesktopDefaultView = ({
                     delay: index * 0.03,
                     ease: 'easeOut',
                   }}
-                  onClick={() => {
-                    handleSelectListing(listing._id);
-                    window.scrollTo({ top: 0, behavior: 'instant' });
-                  }}
                   style={{ cursor: 'pointer' }}
                 >
                   <ListingCard
+                    handleSelectListing={handleSelectListing}
                     listing={listing}
                     actions={
                       <Group gap={10} w="100%">

@@ -8,6 +8,7 @@ import {
   Button,
   Checkbox,
   Container,
+  Divider,
   Group,
   Paper,
   PasswordInput,
@@ -23,6 +24,7 @@ import { loginSchema } from '@/validationRules/login.joi';
 import classes from './Login.module.css';
 import styles from '@/styles/gradients.module.css';
 import { useAuthInit } from '@/hooks/UseAuthInit';
+import { IconBrandGoogle } from '@tabler/icons-react';
 
 export function LoginPage() {
   const jumpTo = useNavigate();
@@ -107,6 +109,21 @@ export function LoginPage() {
           className={styles.cardGradientSubtle}
         >
           <form onSubmit={handleSubmit(onSubmit)}>
+            <Button
+              fullWidth
+              variant="filled"
+              fz='md'
+              onClick={() => {
+                window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`;
+              }}
+              mb="md"
+              leftSection={<IconBrandGoogle size={20} />}
+            >
+              Sign in with Google
+            </Button>
+
+            <Divider label="Or continue with email" my="md" />
+
             <TextInput
               label="Email"
               placeholder="you@email.com"

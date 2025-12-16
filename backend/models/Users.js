@@ -26,6 +26,11 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
   loginAttempts: {
     type: Number,
     required: true,
