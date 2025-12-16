@@ -14,7 +14,7 @@ type ListingCardProps = {
   height?: string | number;
   mobileHeight?: string | number;
   disableHoverEffect?: boolean;
-  handleSelectListing: (listingId: string) => void;
+  handleSelectListing?: (listingId: string) => void;
 };
 
 function ListingCard({
@@ -99,6 +99,7 @@ function ListingCard({
             <Box mt="auto" pt="md">
               <Button 
                 onClick={() => {
+                  if (!handleSelectListing) return null;
                   handleSelectListing(listing._id);
                   window.scrollTo({ top: 0, behavior: 'instant' });
                 }} 
