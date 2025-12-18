@@ -20,13 +20,12 @@ export function FilterBar({ searchParams, updateSearchParam, isMobile }: FilterB
     <Flex direction='row' w={{base:'100%', md: '100%'}} wrap={isMobile ? 'wrap' : 'nowrap'} gap={isMobile ? 5 : 10 } mx="auto" align='center' justify='center'>
       {isSearchActive && (
         <SearchSort
-          sortType="relevance"
+          sortType="all"
           value={searchParams.get('sortOption') || ''}
           onChange={(val) => updateSearchParam('sortOption', val)}
-          placeholder="Relevance"
+          placeholder="Sort By"
           width={{base:'30%', md: '100%'}}
           radius={100}
-          includeRelevance={true}
         />
       )}
       <SearchSort

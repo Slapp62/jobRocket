@@ -29,7 +29,6 @@ export const cleanedUserData = (user: TUsers) => ({
           url: user.businessProfile.logo?.url || '',
           alt: user.businessProfile.logo?.alt || '',
         },
-        industry: user.businessProfile.industry,
         numberOfEmployees: user.businessProfile.numberOfEmployees,
         website: user.businessProfile.website || '',
         contactEmail: user.businessProfile.contactEmail || '',
