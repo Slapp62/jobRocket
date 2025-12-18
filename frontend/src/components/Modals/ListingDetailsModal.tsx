@@ -1,5 +1,6 @@
 import { Anchor, Badge, Box, Divider, Group, List, Modal, Stack, Text, Title } from '@mantine/core';
 import { TListing } from '@/Types';
+import { formatRegionForDisplay } from '@/utils/formatters';
 import styles from '@/styles/gradients.module.css';
 
 type ListingDetailsModalProps = {
@@ -53,7 +54,7 @@ export const ListingDetailsModal = ({ opened, onClose, listing }: ListingDetails
                 Location
               </Text>
               <Text size="sm">
-                {listing.location.city}, {listing.location.region}
+                {listing.location.city}, {formatRegionForDisplay(listing.location.region)}
               </Text>
             </Box>
           )}

@@ -6,13 +6,7 @@ const {
   jobseekerToText,
 } = require('../services/embeddingService.js');
 
-// Industries for business profiles (not job listings)
-const INDUSTRIES = [
-  'Technology', 'Healthcare', 'Finance', 'Education', 'Retail', 'Manufacturing',
-  'Construction', 'Transportation', 'Hospitality', 'Real Estate', 'Media',
-  'Telecommunications', 'Energy', 'Agriculture', 'Professional Services',
-  'Government', 'Non-Profit', 'Other',
-];
+// Industries removed - no longer used in business profiles
 
 const userSchema = new Schema({
   email: {
@@ -24,12 +18,14 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false,
+    trim: true,
   },
   googleId: {
     type: String,
     unique: true,
-    sparse: true
+    sparse: true,
+    trim: true,
   },
   loginAttempts: {
     type: Number,
@@ -172,13 +168,6 @@ const userSchema = new Schema({
         auto: true,
       },
     },
-    industry: {
-      type: String,
-      required() {
-        return this.profileType === 'business';
-      },
-      enum: INDUSTRIES,
-    },
     numberOfEmployees: {
       type: String,
       required() {
@@ -249,6 +238,15 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+// Custom validator: Either password OR googleId must exist
+userSchema.pre('validate', function(next) {
+  if (!this.password && !this.googleId) {
+    next(new Error('User must have either a password or Google account'));
+  } else {
+    next();
+  }
 });
 
 userSchema.pre('save', async function (next) {

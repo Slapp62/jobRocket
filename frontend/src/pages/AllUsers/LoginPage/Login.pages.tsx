@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Button,
-  Checkbox,
   Container,
   Divider,
   Group,
@@ -23,7 +22,6 @@ import { setUser } from '@/store/userSlice';
 import { loginSchema } from '@/validationRules/login.joi';
 import classes from './Login.module.css';
 import styles from '@/styles/gradients.module.css';
-import { useAuthInit } from '@/hooks/UseAuthInit';
 import { IconBrandGoogle } from '@tabler/icons-react';
 
 export function LoginPage() {
@@ -32,8 +30,9 @@ export function LoginPage() {
   const message = location.state?.message;
 
   const dispatch = useDispatch<AppDispatch>();
-  const [rememberMe, setRemember] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [searchParams] = useSearchParams();
 
   const {
     reset,
@@ -49,6 +48,27 @@ export function LoginPage() {
     criteriaMode: 'firstError',
     resolver: joiResolver(loginSchema),
   });
+
+  useEffect(() => {
+  const error = searchParams.get('error');
+  const success = searchParams.get('success');
+
+  if (error === 'account_exists') {
+    notifications.show({
+      title: 'Account Already Exists',
+      message: 'You already have an account. Please log in instead.',
+      color: 'blue'
+    });
+  }
+
+  if (success === 'registration_complete') {
+    notifications.show({
+      title: 'Registration Complete!',
+      message: 'Please log in with your credentials.',
+      color: 'green'
+    });
+  }
+}, [searchParams]);
 
   const onSubmit = async (data: FieldValues) => {
     setIsLoading(true);
@@ -137,14 +157,6 @@ export function LoginPage() {
               {...register('password')}
               error={errors.password?.message}
             />
-
-            <Group justify="space-between" mt="lg">
-              <Checkbox
-                label="Remember me"
-                checked={rememberMe}
-                onChange={(event) => setRemember(event.currentTarget.checked)}
-              />
-            </Group>
 
             <Group justify="center">
               <Text c="dimmed" size="sm" ta="center" my="lg">

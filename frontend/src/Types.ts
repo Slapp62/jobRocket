@@ -22,7 +22,6 @@ export type TListing = {
     city: string;
   };
   workArrangement: string;
-  industry: string;
   likes?: string[];
   isActive?: boolean;
   createdAt?: string;
@@ -69,7 +68,6 @@ export type TBusinessProfile = {
     alt?: string;
     _id?: string;
   };
-  industry: string;
   numberOfEmployees: '1-10' | '11-50' | '51-200' | '201-500' | '501-1000' | '1000+';
   website?: string;
   contactEmail?: string;
@@ -82,6 +80,13 @@ export type TBusinessProfile = {
   description?: string;
   _id?: string;
 };
+
+export type googleProfile =  {
+  email: string;
+  firstName: string;
+  lastName: string;
+  profilePicture: string;
+}
 
 export type TUsers = {
   _id: string;

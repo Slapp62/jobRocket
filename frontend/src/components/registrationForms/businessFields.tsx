@@ -13,13 +13,6 @@ type BusinessFieldsProps = {
 
 const EMPLOYEE_COUNTS = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
 
-const INDUSTRIES = [
-  'Technology', 'Healthcare', 'Finance', 'Education', 'Retail', 'Manufacturing',
-  'Construction', 'Transportation', 'Hospitality', 'Real Estate', 'Media',
-  'Telecommunications', 'Energy', 'Agriculture', 'Professional Services',
-  'Government', 'Non-Profit', 'Other'
-];
-
 export function BusinessFields({
   register,
   errors,
@@ -100,24 +93,6 @@ export function BusinessFields({
             disabled={!selectedRegion || disabled}
             {...field}
             error={errors.businessProfile?.location?.city?.message}
-          />
-        )}
-      />
-
-      {/* Required: Industry */}
-      <Controller
-        name="businessProfile.industry"
-        control={control}
-        render={({ field }) => (
-          <Select
-            label="Industry"
-            placeholder="Select industry"
-            withAsterisk
-            data={INDUSTRIES}
-            searchable
-            disabled={disabled}
-            {...field}
-            error={errors.businessProfile?.industry?.message}
           />
         )}
       />

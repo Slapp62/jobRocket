@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Badge, Box, Button, Card, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { TListing } from '@/Types';
+import { formatRegionForDisplay } from '@/utils/formatters';
 import styles from './ListingCard.module.css';
 
 type ListingCardProps = {
@@ -79,7 +80,7 @@ function ListingCard({
               <Text span fw={500}>
                 Location:
               </Text>{' '}
-              {listing.location.region}, {listing.location.city}
+              {formatRegionForDisplay(listing.location.region)}, {listing.location.city}
             </Text>
             <Text size="sm">
               <Text span fw={500}>

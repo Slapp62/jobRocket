@@ -102,10 +102,6 @@ const editProfileSchema = Joi.object({
         }),
         alt: Joi.string().max(256).allow('').optional(),
       }).optional(),
-      industry: Joi.string().required().messages({
-        'string.empty': 'Industry is required',
-        'any.required': 'Industry is required',
-      }),
       numberOfEmployees: Joi.string()
         .valid('1-10', '11-50', '51-200', '201-500', '501-1000', '1000+')
         .required()
