@@ -3,6 +3,7 @@ const { throwError } = require('../utils/functionHandlers');
 const Users = require('../models/Users.js');
 const { normalizeUserResponse } = require('../utils/normalizeResponses.js');
 const { uploadResumeToCloudinary } = require('../utils/uploadResumeToCloudinary.js');
+const { logDatabase, logError, logExternalAPI } = require('../utils/logHelpers.js');
 
 const getAllUsers = async () => {
   const users = await Users.find().select('-password').lean();
@@ -28,7 +29,22 @@ const registerUser = async (userData, resumeFile) => {
         userData.jobseekerProfile = {};
       }
       userData.jobseekerProfile.resume = resumeUrl.secure_url;
+
+      // Log successful Cloudinary upload
+      logExternalAPI('Cloudinary', 'upload-resume', {
+        email: userData.email,
+        fileSize: resumeFile.size,
+        success: true,
+        url: resumeUrl.secure_url,
+      });
     } catch (error) {
+      // Log Cloudinary upload failure
+      logError(error, {
+        operation: 'cloudinary-upload-resume',
+        email: userData.email,
+        fileSize: resumeFile?.size,
+      });
+
       // Detect network-related errors
       if (error.code === 'EAI_AGAIN' || error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
         throwError(503, 'Failed to upload resume due to a network issue. Please try again in a moment.');
@@ -37,12 +53,21 @@ const registerUser = async (userData, resumeFile) => {
       throw error;
     }
   }
-  
+
   const encryptedPassword = await encryptPassword(userData.password);
   userData.password = encryptedPassword;
 
   const newUser = new Users(userData);
   const savedUser = await newUser.save();
+
+  // Log database operation
+  logDatabase('create', 'Users', {
+    userId: savedUser._id,
+    email: savedUser.email,
+    profileType: savedUser.profileType,
+    hasResume: !!resumeFile,
+  });
+
   const normalizedUser = normalizeUserResponse(savedUser);
   return normalizedUser;
 };
@@ -71,7 +96,23 @@ const updateProfile = async (userId, updateData, resumeFile) => {
         updateData.jobseekerProfile = {};
       }
       updateData.jobseekerProfile.resume = resumeUrl.secure_url;
+
+      // Log successful Cloudinary upload
+      logExternalAPI('Cloudinary', 'upload-resume', {
+        userId,
+        email: user.email,
+        fileSize: resumeFile.size,
+        success: true,
+        url: resumeUrl.secure_url,
+      });
     } catch (error) {
+      // Log Cloudinary upload failure
+      logError(error, {
+        operation: 'cloudinary-upload-resume',
+        userId,
+        fileSize: resumeFile?.size,
+      });
+
       // Detect network-related errors
       if (error.code === 'EAI_AGAIN' || error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
         throwError(503, 'Failed to upload resume due to a network issue. Please try again in a moment.');
@@ -89,6 +130,14 @@ const updateProfile = async (userId, updateData, resumeFile) => {
       "Your profile couldn't be updated. Please try logging in again."
     );
   }
+
+  // Log database operation
+  logDatabase('update', 'Users', {
+    userId,
+    updatedFields: Object.keys(updateData),
+    hasResume: !!resumeFile,
+  });
+
   const normalizedUser = normalizeUserResponse(updatedUser);
   return normalizedUser;
 };
@@ -117,6 +166,14 @@ const deleteUser = async (userId) => {
   if (!deletedUser) {
     throwError(404, 'User not found');
   }
+
+  // Log database operation
+  logDatabase('delete', 'Users', {
+    userId,
+    email: deletedUser.email,
+    profileType: deletedUser.profileType,
+  });
+
   const normalizedUser = normalizeUserResponse(deletedUser);
   return normalizedUser;
 };

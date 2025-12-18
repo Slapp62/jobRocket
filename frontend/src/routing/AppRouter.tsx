@@ -9,7 +9,9 @@ import RouteGuard from './RouteGuard';
 import { HomePage } from '../pages/HomePage/Home.pages';
 import { SearchPage } from '@/pages/AllUsers/Search.page';
 import { LoginPage } from '../pages/AllUsers/LoginPage/Login.pages';
-import { RegisterForm } from '../pages/AllUsers/Register.pages';
+import { RegisterForm } from '../pages/AllUsers/Registration/Register.pages';
+import RegisterStart from '@/pages/AllUsers/Registration/RegisterStart.pages';
+import RegisterAccountTypePage from '@/pages/AllUsers/Registration/ChooseAccountType';
 
 // Lazy loaded routes (large pages, less frequently accessed)
 const Dashboard = lazy(() => import('@/pages/BusinessUsers/Dashboard/Dashboard.pages').then(m => ({ default: m.Dashboard })));
@@ -50,7 +52,8 @@ const router = createBrowserRouter(
             </Suspense>
           )
         },
-        { path: 'register', element: <RegisterForm /> },
+        { path: 'register', element: <RegisterStart /> },
+        { path: 'register/account-type', element: <RegisterAccountTypePage/>},
         {
           path: 'privacy-policy',
           element: (

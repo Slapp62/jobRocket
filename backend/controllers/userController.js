@@ -1,13 +1,30 @@
 const userService = require('../services/userService.js');
 const { handleSuccess, handleError } = require('../utils/functionHandlers.js');
+const { logAuth, logError } = require('../utils/logHelpers.js');
 
 async function registerUser(req, res) {
   try {
     const userData = req.body;
     const resumeFile = req.file;
     const user = await userService.registerUser(userData, resumeFile);
+
+    // Log successful registration
+    logAuth('register', user._id, {
+      profileType: user.profileType,
+      email: user.email,
+      ip: req.ip,
+      hasResume: !!resumeFile,
+    });
+
     handleSuccess(res, 201, user, 'User registered successfully.');
   } catch (error) {
+    // Log registration failure
+    logError(error, {
+      operation: 'user-registration',
+      email: req.body.email,
+      profileType: req.body.profileType,
+      ip: req.ip,
+    });
     handleError(res, error.status, error.message);
   }
 }
@@ -24,11 +41,30 @@ async function loginUser(req, res) {
     // Save session to MongoDB BEFORE responding
     req.session.save((err) => {
       if (err) {
+        logError(new Error('Session creation failed'), {
+          operation: 'user-login',
+          userId: user._id,
+          ip: req.ip,
+        });
         return handleError(res, 500, 'Failed to create session');
       }
+
+      // Log successful login
+      logAuth('login', user._id, {
+        profileType: user.profileType,
+        email: user.email,
+        ip: req.ip,
+        sessionId: req.sessionID,
+      });
+
       handleSuccess(res, 200, user, 'Login successful.');
     });
   } catch (error) {
+    logError(error, {
+      operation: 'user-login',
+      email: req.body?.email,
+      ip: req.ip,
+    });
     handleError(res, error.status, error.message);
   }
 }
@@ -44,11 +80,27 @@ async function getCurrentUser(req, res) {
 }
 
 async function logoutUser(req, res) {
+  const userId = req.session?.userId;
+  const profileType = req.session?.profileType;
+
   req.session.destroy((err) => {
     if (err) {
+      logError(new Error('Session destruction failed'), {
+        operation: 'user-logout',
+        userId,
+        ip: req.ip,
+      });
       return handleError(res, 500, 'Could not log out');
     }
-    
+
+    // Log successful logout
+    if (userId) {
+      logAuth('logout', userId, {
+        profileType,
+        ip: req.ip,
+      });
+    }
+
     res.clearCookie('sessionId'); // Must match the name in sessionConfig
     handleSuccess(res, 200, null, 'Logged out successfully');
   });

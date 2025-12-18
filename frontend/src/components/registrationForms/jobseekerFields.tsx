@@ -1,8 +1,9 @@
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Anchor, FileInput, Text, Flex, Group, Select, TagsInput, Textarea, TextInput } from '@mantine/core';
+import { Anchor, FileInput, Text, Flex, Group, Select, TagsInput, Textarea, TextInput, Fieldset } from '@mantine/core';
 import { TUsers } from '@/Types';
 import WORK_ARRANGEMENTS from '../../data/workArr.ts';
 import { validatePdfFile } from '@/utils/fileValidation';
+import { IconPhone } from '@tabler/icons-react';
 
 type JobseekerFieldsProps = {
   register: UseFormRegister<TUsers>;
@@ -14,6 +15,8 @@ type JobseekerFieldsProps = {
   currentResumeUrl?: string | null;
   resumeError?: string | null;
   setResumeError?: (error: string | null) => void;
+  defaultFirstName?: string;
+  defaultLastName?: string;
 };
 
 const EDUCATION_LEVELS = [
@@ -35,6 +38,8 @@ export function JobseekerFields({
   currentResumeUrl,
   resumeError,
   setResumeError,
+  defaultFirstName,
+  defaultLastName,
 }: JobseekerFieldsProps) {
   /**
    * Handle resume file change with validation
@@ -59,6 +64,7 @@ export function JobseekerFields({
         withAsterisk
         disabled={disabled}
         {...register('jobseekerProfile.firstName')}
+        defaultValue={defaultFirstName}
         error={errors.jobseekerProfile?.firstName?.message}
       />
 
@@ -69,9 +75,22 @@ export function JobseekerFields({
         withAsterisk
         disabled={disabled}
         {...register('jobseekerProfile.lastName')}
+        defaultValue={defaultLastName}
         error={errors.jobseekerProfile?.lastName?.message}
       />
 
+      <TextInput
+        rightSection={<IconPhone />}
+        label="Phone"
+        required
+        {...register('phone', {
+          onChange: (e) => {
+            e.target.value = e.target.value.replace(/[^\d-]/g, '');
+          },
+        })}
+        error={errors.phone?.message}
+      />
+      
       {/* Required: Highest Education */}
       <Controller
         name="jobseekerProfile.highestEducation"

@@ -1,4 +1,5 @@
 {
   "NODE_ENV": "production",
-  "PORT": 9191
+  "PORT": 9191,
+  "FRONTEND_URL": "https://jobrocket.work"
 }

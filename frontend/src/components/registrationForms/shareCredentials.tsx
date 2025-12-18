@@ -22,40 +22,26 @@ export function SharedCredentials({ register, errors, control }: JobseekerFields
 
   return (
     <>
-      <Fieldset legend="Credentials">
+      <Fieldset legend="Credentials" p='sm' mb='md' bg='rocketOrange.1'>
         <TextInput
           label="Email"
-          {...register('email')}
-          withAsterisk
-          error={errors.email?.message}
-        />
-        <PasswordInput
-          label="Password"
-          {...register('password')}
-          withAsterisk
-          error={errors.password?.message}
-        />
-        <PasswordInput
-          label="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          error={confirmPasswordError}
-        />
-      </Fieldset>
-
-      <Fieldset legend="Contact">
-        <TextInput
-          rightSection={<IconPhone />}
-          label="Phone"
-          required
-          {...register('phone', {
-            onChange: (e) => {
-              e.target.value = e.target.value.replace(/[^\d-]/g, '');
-            },
-          })}
-          error={errors.phone?.message}
-        />
-      </Fieldset>
-    </>
-  );
+        {...register('email')}
+        withAsterisk
+        error={errors.email?.message}
+      />
+      <PasswordInput
+        label="Password"
+        {...register('password')}
+        withAsterisk
+        error={errors.password?.message}
+      />
+      <PasswordInput
+        label="Confirm Password"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        error={confirmPasswordError}
+      />
+    </Fieldset>
+  </>
+  ) 
 }

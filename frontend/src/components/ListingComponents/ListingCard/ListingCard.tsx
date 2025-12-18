@@ -46,6 +46,7 @@ function ListingCard({
       <Card
         shadow="sm"
         radius="md"
+        w='100%'
         withBorder
         style={{
           cursor: onClick ? 'pointer' : 'default',
@@ -56,7 +57,7 @@ function ListingCard({
         onClick={onClick}
         className={disableHoverEffect ? undefined : styles.hover}
       >
-        <Stack gap="sm" style={{ flex: 1 }}>
+        <Stack gap="sm" style={{ flex: 1 }} w='100%'>
           {/* Company Name */}
 
           {/* Job Title */}

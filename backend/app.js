@@ -10,9 +10,9 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const { handleError } = require('./utils/functionHandlers');
 const router = require('./routes/main');
-const morgan = require('morgan');
+const httpLogger = require('./middleware/logging/httpLogger');
 const errorLogger = require('./middleware/logging/errorLogger');
-require('./middleware/logging/morganTokens');
+const logger = require('./config/logger');
 const app = express();
 
 // Apply helmet (sets secure HTTP headers)
@@ -33,9 +33,8 @@ if (process.env.NODE_ENV === 'development') {
   );
 }
 
-app.use(
-  morgan('Server Log: [:localtime] :method :url :status :response-time ms')
-);
+// HTTP request logging (Morgan -> Winston)
+app.use(httpLogger);
 
 app.use(express.json());
 
@@ -70,9 +69,10 @@ app.use((req, res, next) => {
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 
-app.use(router);
-
+// Error logging (must be before routes to capture errors)
 app.use(errorLogger);
+
+app.use(router);
 // Serve static frontend files (IN PRODUCTION ONLY)
 if (process.env.NODE_ENV === 'production') {
   // Serve static files from the public folder
@@ -84,8 +84,22 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// error handler
-app.use((error, _req, res, _next) => {
+// Global error handler
+app.use((error, req, res, _next) => {
+  // Log the error with full context
+  logger.error('Unhandled Application Error', {
+    message: error.message,
+    stack: error.stack,
+    statusCode: error.status || 500,
+    url: req.originalUrl || req.url,
+    method: req.method,
+    userId: req.user ? req.user._id : 'anonymous',
+    userType: req.user ? req.user.profileType : 'not-authenticated',
+    ip: req.ip || req.connection.remoteAddress,
+    category: 'unhandled-error',
+  });
+
+  // Send error response
   handleError(res, error.status || 500, error.message);
 });
 

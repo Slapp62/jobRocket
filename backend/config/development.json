@@ -1,4 +1,5 @@
 {
   "NODE_ENV": "development",
-  "PORT": 8181
+  "PORT": 8181,
+  "FRONTEND_URL": "http://localhost:5173"
 }

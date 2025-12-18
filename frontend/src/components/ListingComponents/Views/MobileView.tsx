@@ -37,9 +37,10 @@ const MobileView = ({ displayListings, isLoading = false }: MobileViewProps) => 
 
   return (
     <Flex direction="column" align="center" gap={20}>
-      <Flex wrap="wrap" gap="lg" align="stretch" justify="center" w={isMobile ? '95vw' : '80vw'}>
+      <Flex wrap="wrap" gap="lg" align="stretch" justify="st" w={isMobile ? '95vw' : '80vw'}>
         {displayListings.map((listing) => (
           <ListingCard
+           mobileWidth='100%'
             key={listing._id}
             listing={listing}
             actions={

@@ -16,6 +16,9 @@ export default function ErrorFallback() {
             page.
           </Text>
           <Text c="red">Error: {error.message}</Text>
+          <Button w="20%" onClick={() => (history.back())}>
+            Go Back
+          </Button>
           <Button w="20%" variant="outline" onClick={() => window.location.reload()}>
             Refresh Page
           </Button>

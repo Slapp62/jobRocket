@@ -1,6 +1,7 @@
 const { throwError, nextError } = require('../utils/functionHandlers');
 const Listing = require('../models/Listings');
 const authService = require('../services/authService');
+const { logAuth, logSecurity } = require('../utils/logHelpers');
 
 const lockoutCheck = async (req, _res, next) => {
   const { email } = req.body;
@@ -10,6 +11,13 @@ const lockoutCheck = async (req, _res, next) => {
       await authService.checkLockoutStatus(email);
 
     if (isLockedOut) {
+      // Log lockout attempt
+      logSecurity('account-locked-attempt', {
+        email,
+        ip: req.ip,
+        lockoutTimeRemaining: lockoutTime,
+      });
+
       throwError(
         403,
         `Access denied. You have been locked out. Time remaining: ${lockoutTime}s`
@@ -35,14 +43,28 @@ const verifyCredentials = async (req, _res, next) => {
 const authenticateUser = (req, res, next) => {
   // Check if user has a session
   if (!req.session.userId) {
+    // Log unauthorized access attempt
+    logSecurity('unauthorized-access', {
+      ip: req.ip,
+      url: req.originalUrl,
+      method: req.method,
+      userAgent: req.get('user-agent'),
+    });
     return nextError(next, 401, 'Access denied. Please log in.');
   }
 
   // Check inactivity timeout (1 hour)
   const ONE_HOUR = 60 * 60 * 1000;
   const timeSinceActivity = Date.now() - (req.session.lastActivity || 0);
-  
+
   if (timeSinceActivity > ONE_HOUR) {
+    const userId = req.session.userId;
+    // Log session expiry
+    logAuth('session-expired', userId, {
+      inactivityDuration: timeSinceActivity,
+      ip: req.ip,
+    });
+
     return req.session.destroy((err) => {
       return nextError(next, 410, 'Session expired due to inactivity.');
     });
@@ -93,6 +115,13 @@ const optionalAuthenticateUser = (req, res, next) => {
 
 const adminAuth = (req, _res, next) => {
   if (!req.user.isAdmin) {
+    // Log unauthorized admin access attempt
+    logSecurity('unauthorized-admin-access', {
+      userId: req.user._id,
+      ip: req.ip,
+      url: req.originalUrl,
+      method: req.method,
+    });
     return nextError(next, 403, 'Access denied. Admin access only.');
   }
 

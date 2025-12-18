@@ -30,7 +30,7 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <Container>
           <Title>Something went wrong</Title>
-          <Text>We're sorry for the inconvenience. Please try refreshing the page.</Text>
+          <Text>We're sorry for the inconvenience.</Text>
           <Button onClick={() => window.location.reload()}>Refresh Page</Button>
         </Container>
       );
