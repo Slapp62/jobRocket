@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
-import { Box, Flex, Group, Skeleton, Stack, Text } from '@mantine/core';
+import { Box, Button, Flex, Group, Skeleton, Stack, Text } from '@mantine/core';
 import { MatchScore } from '@/components/AI_Components/ListingMatchScore';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import { RootState } from '@/store/store';
@@ -74,6 +74,18 @@ const DesktopDefaultView = ({
                     listing={listing}
                     actions={
                       <Group gap={10} w="100%">
+                        <Button 
+                          onClick={() => {
+                            if (!handleSelectListing) return null;
+                            handleSelectListing(listing._id);
+                            window.scrollTo({ top: 0, behavior: 'instant' });
+                          }} 
+                          color='rocketRed' 
+                          fullWidth 
+                          size='sm'
+                        >
+                          Learn More
+                        </Button>
                         {user?.profileType === 'jobseeker' &&
                           <FavoritesButton listing={listing} />}
 

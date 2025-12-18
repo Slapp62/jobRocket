@@ -47,7 +47,7 @@ const DesktopSplitView = ({
             overflow: 'hidden',
           }}
         >
-          <ScrollArea h="100%">
+          <ScrollArea h="100vh">
             <Stack gap="sm" p="md">
               {/* Back button */}
               <Button
@@ -66,7 +66,7 @@ const DesktopSplitView = ({
                   key={listing._id}
                   onClick={() => {
                     handleSelectListing(listing._id);
-                    window.scrollTo({ top: 0, behavior: 'instant' });
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   style={{
                     cursor: 'pointer',

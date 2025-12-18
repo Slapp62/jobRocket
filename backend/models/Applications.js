@@ -59,6 +59,20 @@ const applicationSchema = new Schema({
     maxlength: 2000,
     required: false,
   },
+  dataShared: {
+    sharedFields: {
+      name: { type: Boolean, default: true },
+      email: { type: Boolean, default: true },
+      phone: { type: Boolean, default: false },
+      resume: { type: Boolean, default: true },
+      coverLetter: { type: Boolean, default: true },
+    },
+    consentGranted: { type: Boolean, required: true },
+    consentTimestamp: { type: Date, required: true },
+    ipAddress: String,
+    userAgent: String,
+    employerName: String,
+  },
   status: {
     type: String,
     enum: ['pending', 'reviewed', 'rejected'],

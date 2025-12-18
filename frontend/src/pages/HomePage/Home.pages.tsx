@@ -1,33 +1,41 @@
-import { useState, useEffect } from 'react';
-import { IconCards, IconSearch } from '@tabler/icons-react';
+import { useState, KeyboardEvent } from 'react';
+import { IconCoffee, IconSearch, IconX } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Button, Flex, Stack, Text, Title, List, TextInput } from '@mantine/core';
+import { Box, Button, Flex, Stack, Text, Title, List, TextInput, ActionIcon } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { SearchCity } from '@/components/Filters/SearchCity';
-import { SearchRegion } from '@/components/Filters/SearchRegion';
-import { SearchText } from '@/components/Filters/SearchText.tsx';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
+import KofiButton from '@/components/Buttons/KofiButton';
 
 export function HomePage() {
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery('(max-width: 500px)');
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.userSlice.user);
   const isBusiness = user?.profileType === 'business';
-  const [searchWord, setSearchWord] = useState('');
+  const [searchText, setSearchText] = useState('');
 
   const searchListing = () => {
     // Build URL query params from searchObj
     const params = new URLSearchParams();
 
     // Only add params that have values
-    if (searchWord?.trim()) {
-      params.append('searchWord', searchWord.trim());
+    if (searchText?.trim()) {
+      params.append('searchText', searchText.trim());
     }
 
     // Navigate to search page with query params
     navigate(`/search?${params.toString()}`);
+  };
+
+  const handleSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      searchListing();
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchText('');
   };
   
   return (
@@ -69,8 +77,21 @@ export function HomePage() {
               size='lg'
               variant="default"
               placeholder={'Start finding jobs...'}
-              value={searchWord}
-              onChange={(event) => setSearchWord(event.currentTarget.value)} 
+              value={searchText}
+              onChange={(event) => setSearchText(event.currentTarget.value)}
+              onKeyDown={handleSearchKeyDown}
+              rightSection={
+                searchText ? (
+                  <ActionIcon
+                    variant="subtle"
+                    color="gray"
+                    onClick={handleClearSearch}
+                    aria-label="Clear search"
+                  >
+                    <IconX size={16} />
+                  </ActionIcon>
+                ) : null
+              } 
             />
             <Button
               mx="auto"
@@ -136,6 +157,20 @@ export function HomePage() {
           <Flex direction='column' mt='xl' gap={20} p='xl'  mx='auto' style={{border: '1px solid orange', borderRadius: '10px'}}>
             <Title order={1} fw={600} ta='center' c='rocketRed.9'>Support JobRocket</Title>
             <Text w='90%' mx='auto' ta='center' c='rocketRed.9'>This site was not built by a team. It isn't owned by a big company. It was built by one person in order to help other English speaking people in Israel find a job and support their families. My goal was, and still is, to create a platform that is user-friendly and efficient. It takes a serious amount of time and effort in order to maintain such a platform. As of now, the entire site is free to use, which means I am funding it out of my own pocket. Any donations made help me maintain, improve, and expand the platform.</Text>
+            <Button
+              component="a"
+              href="https://ko-fi.com/L4L01PZCY8"
+              target="_blank"
+              rel="noopener noreferrer"
+              leftSection={<IconCoffee />}
+              w={{base: '90%', md: '30%'}}
+              mx='auto'
+              size='md'
+              fw={500}
+              color='rocketRed'
+            >
+              Support JobRocket
+            </Button>
           </Flex>
         </Box>
       </Box>

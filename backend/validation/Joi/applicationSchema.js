@@ -27,6 +27,14 @@ const joiApplicationSchema = joi.object({
     }),
   resume: joi.string().max(1024).optional().allow(''),
   message: joi.string().optional().allow('').min(10).max(2000),
+  applicationDataConsent: joi
+    .boolean()
+    .valid(true)
+    .required()
+    .messages({
+      'any.only': 'You must consent to sharing your data with this employer',
+      'any.required': 'Application consent is required',
+    }),
 });
 
 module.exports = joiApplicationSchema;

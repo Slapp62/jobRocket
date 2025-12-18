@@ -116,6 +116,15 @@ const joiUserSchema = joi.object({
     }),
 
   isAdmin: joi.boolean().optional(),
+
+  dataProcessingConsent: joi
+    .boolean()
+    .valid(true)
+    .required()
+    .messages({
+      'any.only': 'You must consent to data processing to create an account',
+      'any.required': 'Data processing consent is required',
+    }),
 });
 
 module.exports = joiUserSchema;

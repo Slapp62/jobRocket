@@ -6,7 +6,6 @@ const { normalizeApplicationResponse } = require('../utils/normalizeResponses');
 const { throwError } = require('../utils/functionHandlers');
 const { sortListingsByMatchScore } = require('../utils/matchScoreSorting.js');
 const { calculateMatchScore } = require('./matchingService.js');
-const { generateEmbedding } = require('./embeddingService.js');
 
 const normalizeSearch = (query) => {
   if (query.city === 'all') {
@@ -19,7 +18,7 @@ const normalizeSearch = (query) => {
     query.workArrangement = '';
   }
   return {
-    searchWord: query.searchWord || '',
+    searchText: query.searchText || '',
     region: query.region || '',
     city: query.city || '',
     workArrangement: query.workArrangement || '',
@@ -63,114 +62,9 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
     query.workArrangement = filterParams.workArrangement;
   }
 
-   // Semantic search with AI embeddings (when search query provided)
-  if (filterParams.searchWord && filterParams.searchWord.trim() !== '') {
-    const searchQuery = filterParams.searchWord.trim();
-    const threshold = parseFloat(process.env.SEMANTIC_SEARCH_THRESHOLD) || 0.4;
-
-    try {
-      // Generate embedding for search query
-      const searchEmbedding = await generateEmbedding(searchQuery);
-
-      // Fetch all listings matching other filters (region, city, workArrangement)
-      const allListings = await Listing.find(query).lean();
-
-      if (allListings.length === 0) {
-        throwError(404, 'No jobs match your search. Try adjusting your filters.');
-      }
-
-      // Calculate semantic scores for all listings
-      const scoredListings = allListings.map(listing => {
-        const hasValidEmbedding =
-          listing.embedding &&
-          Array.isArray(listing.embedding) &&
-          listing.embedding.length > 0;
-
-        const searchScore = hasValidEmbedding
-          ? calculateMatchScore(searchEmbedding, listing.embedding)
-          : 0;
-
-        return {
-          ...listing,
-          searchScore,
-        };
-      });
-
-      // Filter by relevance threshold
-      const relevantListings = scoredListings.filter(l => l.searchScore >= threshold);
-
-      if (relevantListings.length === 0) {
-        throwError(404, 'No jobs match your search. Try different keywords or adjusting your filters.');
-      }
-
-      // Apply sorting (default to relevance, but allow user to re-sort)
-      let sortedListings;
-      if (filterParams.sortOption === 'title-asc') {
-        sortedListings = relevantListings.sort((a, b) => a.jobTitle.localeCompare(b.jobTitle));
-      } else if (filterParams.sortOption === 'title-desc') {
-        sortedListings = relevantListings.sort((a, b) => b.jobTitle.localeCompare(a.jobTitle));
-      } else if (filterParams.sortOption === 'date-created-old') {
-        sortedListings = relevantListings.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-      } else if (filterParams.sortOption === 'date-created-new') {
-        sortedListings = relevantListings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      } else {
-        // Default: sort by relevance (searchScore descending)
-        sortedListings = relevantListings.sort((a, b) => b.searchScore - a.searchScore);
-      }
-
-      // Apply pagination
-      const page = parseInt(filterParams.page) || 1;
-      const limit = parseInt(filterParams.limit) || 20;
-      const skip = (page - 1) * limit;
-      const total = sortedListings.length;
-      const paginatedListings = sortedListings.slice(skip, skip + limit);
-
-      // Add matchScore for jobseekers (if applicable)
-      let listingsWithScores = paginatedListings;
-      if (userId) {
-        const user = await User.findById(userId);
-        if (user?.profileType === 'jobseeker' && user.jobseekerProfile?.embedding) {
-          const userEmbedding = user.jobseekerProfile.embedding;
-          listingsWithScores = paginatedListings.map((listing) => {
-            const hasValidEmbedding =
-              listing.embedding &&
-              Array.isArray(listing.embedding) &&
-              listing.embedding.length > 0;
-
-            const matchScore = hasValidEmbedding
-              ? calculateMatchScore(userEmbedding, listing.embedding)
-              : null;
-
-            return {
-              ...listing,
-              matchScore,
-            };
-          });
-        }
-      }
-
-      // Early return for semantic search
-      return {
-        listings: listingsWithScores.map(normalizeListingResponse),
-        pagination: {
-          currentPage: page,
-          totalPages: Math.ceil(total / limit),
-          totalResults: total,
-          perPage: limit,
-          hasNextPage: page < Math.ceil(total / limit),
-          hasPrevPage: page > 1,
-        },
-      };
-
-    } catch (error) {
-      // Graceful fallback to regex search if OpenAI fails
-      console.error('Semantic search failed, falling back to regex:', error);
-      query.$or = [
-        { jobTitle: { $regex: searchQuery, $options: 'i' } },
-        { jobDescription: { $regex: searchQuery, $options: 'i' } },
-      ];
-      // Continue to normal flow below (will use regex filter)
-    }
+  // Text search using MongoDB text index (searches jobTitle, companyName, jobDescription, workArrangement, location.city, location.region)
+  if (filterParams.searchText && filterParams.searchText.trim() !== '') {
+    query.$text = { $search: filterParams.searchText.trim() };
   }
 
   const page = parseInt(filterParams.page) || 1;
@@ -244,7 +138,18 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
     'date-created-old': { createdAt: 1 },
     'date-created-new': { createdAt: -1 },
   };
-  const sortBy = sortOptions[filterParams.sortOption] || { createdAt: -1 };
+
+  // Default sort: if text search is active, sort by relevance (text score), otherwise by date
+  let sortBy;
+  if (filterParams.searchText && !filterParams.sortOption) {
+    // Default to text search relevance when searching
+    sortBy = { score: { $meta: 'textScore' } };
+  } else {
+    sortBy = sortOptions[filterParams.sortOption] || { createdAt: -1 };
+  }
+
+  // Projection: Include text score when text search is active (for potential client-side use)
+  const projection = filterParams.searchText ? { score: { $meta: 'textScore' } } : {};
 
   // Check if requester is a logged-in jobseeker with an embedding
   // We'll use this to add match scores to ALL listing responses
@@ -258,7 +163,7 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
 
   // Execute search
   const [listings, total] = await Promise.all([
-    Listing.find(query).sort(sortBy).skip(skip).limit(limit).lean(), // Returns plain objects (faster)
+    Listing.find(query, projection).sort(sortBy).skip(skip).limit(limit).lean(), // Returns plain objects (faster)
     Listing.countDocuments(query), // Get total count for pagination info
   ]);
 
@@ -317,11 +222,11 @@ async function getFilteredApplications(businessId, filterParams) {
     query.status = filterParams.status;
   }
 
-  if (filterParams.searchWord) {
+  if (filterParams.searchText) {
     query.$or = [
-      { firstName: { $regex: filterParams.searchWord, $options: 'i' } },
-      { lastName: { $regex: filterParams.searchWord, $options: 'i' } },
-      { email: { $regex: filterParams.searchWord, $options: 'i' } }
+      { firstName: { $regex: filterParams.searchText, $options: 'i' } },
+      { lastName: { $regex: filterParams.searchText, $options: 'i' } },
+      { email: { $regex: filterParams.searchText, $options: 'i' } }
     ];
   }
 

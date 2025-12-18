@@ -1,0 +1,1 @@
+import{O as n,a9 as r,j as a,E as u}from"./index-LTZHocb-.js";const l=()=>{const e=n(),o=r(s=>s.userSlice.user),t=()=>{e("/")};return a.jsx(u,{title:"404: Page Not Found",description:"The page you're looking for doesn't exist or has been moved.",action:{label:"Return to Homepage",onClick:t,showOnlyWhenLoggedOut:!0},isLoggedIn:o!==null})};export{l as default};

@@ -29,7 +29,7 @@ function ListingCard({
   disableHoverEffect,
   handleSelectListing
 }: ListingCardProps) {
-  const isMobile = useMediaQuery('(max-width: 500px)');
+  const isMobile = useMediaQuery('(max-width: 726px)');
 
   return (
     <motion.div
@@ -46,7 +46,7 @@ function ListingCard({
       <Card
         shadow="sm"
         radius="md"
-        w='100%'
+        w={{base: '90vw', sm: '100%'}}
         withBorder
         style={{
           cursor: onClick ? 'pointer' : 'default',
@@ -99,18 +99,6 @@ function ListingCard({
           {/* Actions - parent decides what goes here */}
           {actions && (
             <Box mt="auto" pt="md">
-              <Button 
-                onClick={() => {
-                  if (!handleSelectListing) return null;
-                  handleSelectListing(listing._id);
-                  window.scrollTo({ top: 0, behavior: 'instant' });
-                }} 
-                color='rocketRed' 
-                fullWidth 
-                size='sm'
-              >
-                Learn More
-              </Button>
               {actions}
             </Box>
           )}

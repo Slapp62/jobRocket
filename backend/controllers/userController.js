@@ -6,6 +6,17 @@ async function registerUser(req, res) {
   try {
     const userData = req.body;
     const resumeFile = req.file;
+
+    // Capture consent metadata for Amendment 13 compliance
+    userData.consents = {
+      dataProcessing: {
+        granted: true,
+        timestamp: new Date(),
+        ipAddress: req.ip,
+        userAgent: req.get('user-agent'),
+      },
+    };
+
     const user = await userService.registerUser(userData, resumeFile);
 
     // Log successful registration

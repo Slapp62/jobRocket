@@ -1,6 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
-import { Box, Button, Center, Divider, Flex, Loader, Stack, TextInput } from '@mantine/core';
-import { useDebouncedValue, useMediaQuery } from '@mantine/hooks';
+import { ActionIcon, Box, Button, Center, Divider, Flex, Loader, Stack, TextInput } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { FilterBar } from '@/components/Filters/FilterBar';
 import DesktopDefaultView from '@/components/ListingComponents/Views/ListingsGridView';
 import DesktopSplitView from '@/components/ListingComponents/Views/DesktopSplitView';
@@ -8,6 +8,7 @@ import { PageMeta } from '@/SEO/PageMeta';
 import { getParamsInfo } from '@/utils/getParamsInfo';
 import ListingDetailsPanel from '@/components/ListingComponents/ListingPanel/ListingDetailsPanel';
 import { KeyboardEvent, useEffect, useState } from 'react';
+import { IconX } from '@tabler/icons-react';
 
 export function SearchPage() {
   const isMobile = useMediaQuery('(max-width: 500px)');
@@ -24,26 +25,22 @@ export function SearchPage() {
     handleBackToAll,
   } = getParamsInfo('search', isDesktop);
   const city = searchParams.get('city');
-  const [searchText, setSearchText] = useState(searchParams.get('searchWord') || '');
+  const [searchText, setSearchText] = useState(searchParams.get('searchText') || '');
 
-  // Debounce search text by 500ms to reduce API calls
-  const [debouncedSearchText] = useDebouncedValue(searchText, 500);
-
+  // Sync searchText with URL params when they change externally
   useEffect(() => {
-    setSearchText(searchParams.get('searchWord') || '');
-  }, [searchParams.get('searchWord')]);
-
-  // Auto-trigger search when debounced value changes (unless it's empty)
-  useEffect(() => {
-    if (debouncedSearchText.trim() !== '' && debouncedSearchText !== searchParams.get('searchWord')) {
-      updateSearchParam('searchWord', debouncedSearchText);
-    }
-  }, [debouncedSearchText]);
+    setSearchText(searchParams.get('searchText') || '');
+  }, [searchParams.get('searchText')]);
 
   const handleSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      updateSearchParam('searchWord', searchText);
+      updateSearchParam('searchText', searchText);
     }
+  };
+
+  const handleClearSearch = () => {
+    setSearchText('');
+    updateSearchParam('searchText', '');
   };
   
   const buildTitle = () => {
@@ -73,8 +70,20 @@ export function SearchPage() {
               value={searchText}
               onChange={(event) => setSearchText(event.currentTarget.value)}
               onKeyDown={handleSearchKeyDown}
+              rightSection={
+                searchText ? (
+                  <ActionIcon
+                    variant="subtle"
+                    color="gray"
+                    onClick={handleClearSearch}
+                    aria-label="Clear search"
+                  >
+                    <IconX size={16} />
+                  </ActionIcon>
+                ) : null
+              }
             />
-            <Button w={{base:'100%', md: '30%'}} size='lg' radius={0} onClick={(e) => updateSearchParam('searchWord', searchText)}>Search</Button>
+            <Button w={{base:'100%', md: '30%'}} size='lg' radius={0} onClick={(e) => updateSearchParam('searchText', searchText)}>Search</Button>
           </Flex>
 
           <FilterBar
@@ -86,30 +95,29 @@ export function SearchPage() {
         </Box>
         <Divider size='xs' color='rocketRed.3'/>
 
-        {isLoading ? 
-         <Center mt={100}><Loader size='xl' /></Center> : 
-        <AnimatePresence mode="wait">
-          {selectedId ? (
-            <DesktopSplitView
-              displayListings={displayListings}
-              handleSelectListing={handleSelectListing}
-              handleBackToAll={handleBackToAll}
-              selectedId={selectedId}
-              isMobile={isMobile}
-            />
-          ) : (selectedId && !isDesktop) ? (
-            <ListingDetailsPanel listingId={selectedId} />
-          ) : (
-            // FULL WIDTH GRID - Default view
-            <DesktopDefaultView
-              isLoading={isLoading}
-              noListings={noListings}
-              displayListings={displayListings}
-              totalCurrentListings={totalCurrentListings}
-              handleSelectListing={handleSelectListing}
-            />
-          )}
-        </AnimatePresence>}
+        {isLoading ? <Center my={100}><Loader size='xl' /></Center> : 
+          <AnimatePresence mode="wait">
+            {selectedId ? (
+              <DesktopSplitView
+                displayListings={displayListings}
+                handleSelectListing={handleSelectListing}
+                handleBackToAll={handleBackToAll}
+                selectedId={selectedId}
+                isMobile={isMobile}
+              />
+            ) : (selectedId && !isDesktop) ? (
+              <ListingDetailsPanel listingId={selectedId} />
+            ) : (
+              // FULL WIDTH GRID - Default view
+              <DesktopDefaultView
+                isLoading={isLoading}
+                noListings={noListings}
+                displayListings={displayListings}
+                totalCurrentListings={totalCurrentListings}
+                handleSelectListing={handleSelectListing}
+              />
+            )}
+          </AnimatePresence>}
       </Box>
     </>
   );

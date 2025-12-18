@@ -1,6 +1,8 @@
 const applicationsService = require('../services/applicationsService.js');
 const { getFilteredApplications } = require('../services/filterService.js');
 const { handleSuccess, handleError, throwError } = require('../utils/functionHandlers.js');
+const Users = require('../models/Users.js');
+const Listings = require('../models/JobListings.js');
 
 async function createApplication(req, res) {
   try {
@@ -12,7 +14,29 @@ async function createApplication(req, res) {
     const applicantId = req.user._id;
     const applicationData = req.body;
     const resumeFile = req.file;
-    
+
+    // Fetch user to check if they have a phone number
+    const user = await Users.findById(applicantId);
+
+    // Fetch listing to get employer name for audit trail
+    const listing = await Listings.findById(listingId);
+
+    // Capture consent metadata for Amendment 13 compliance
+    applicationData.dataShared = {
+      sharedFields: {
+        name: true,
+        email: true,
+        phone: !!user.phone, // Convert to boolean: true if exists, false if null/undefined
+        resume: true,
+        coverLetter: true,
+      },
+      consentGranted: true,
+      consentTimestamp: new Date(),
+      ipAddress: req.ip,
+      userAgent: req.get('user-agent'),
+      employerName: listing?.companyName || 'Unknown',
+    };
+
     const application = await applicationsService.createApplication(
       listingId,
       applicantId,

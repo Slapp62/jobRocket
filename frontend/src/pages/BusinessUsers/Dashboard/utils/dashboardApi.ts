@@ -8,20 +8,20 @@ export const fetchDashboardMetrics = async (): Promise<TDashboardMetrics> => {
 };
 
 export const fetchBusinessListings = async (filterParams: {
-  searchWord?: string | null;
+  searchText?: string | null;
   industry?: string | null;
   sortOption?: string | null;
   page?: number;
   limit?: number;
 }) => {
   // Build URL query string from filter parameters
-  // Example: { searchWord: 'engineer', industry: 'All', page: 1 }
-  // becomes: "searchWord=engineer&page=1"
+  // Example: { searchText: 'engineer', industry: 'All', page: 1 }
+  // becomes: "searchText=engineer&page=1"
   const queryString = new URLSearchParams(
-    Object.entries(filterParams)  // Convert object to array: [['searchWord', 'engineer'], ['industry', 'All'], ['page', 1]]
+    Object.entries(filterParams)  // Convert object to array: [['searchText', 'engineer'], ['industry', 'All'], ['page', 1]]
       .filter(([_, value]) => value !== undefined && value !== 'All')  // Remove empty filters and 'All' values
       .map(([key, value]) => [key, String(value)])  // Convert all values to strings (URLs need strings)
-  ).toString();  // Convert to URL format: "searchWord=engineer&page=1"
+  ).toString();  // Convert to URL format: "searchText=engineer&page=1"
 
   const response = await axios.get(`/api/listings/business-listings?${queryString}`);
 

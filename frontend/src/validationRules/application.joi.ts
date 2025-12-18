@@ -26,6 +26,13 @@ const applicationSchema = Joi.object({
   message: Joi.string().min(10).max(2000).allow('').optional().messages({
     'string.min': 'Message must be at least 10 characters',
   }),
+  applicationDataConsent: Joi.boolean()
+    .valid(true)
+    .required()
+    .messages({
+      'any.only': 'You must consent to sharing your data to apply',
+      'any.required': 'Application consent is required',
+    }),
 });
 
 export { applicationSchema };

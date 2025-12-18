@@ -46,6 +46,7 @@ export function RegisterForm() {
     defaultValues: {
       profileType: 'jobseeker', // Default to jobseeker
       terms: false,
+      dataProcessingConsent: false,
     },
     criteriaMode: 'all', // Show all errors
   });

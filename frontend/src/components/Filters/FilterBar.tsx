@@ -1,10 +1,11 @@
-import { Flex } from '@mantine/core';
+import { ActionIcon, Flex, Tooltip } from '@mantine/core';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { SearchCity } from './SearchCity';
 import { SearchRegion } from './SearchRegion';
 import { SearchSort } from './SearchSort';
 import { SearchWorkArrangement } from './SearchWorkArrangement';
+import { IconFilterOff } from '@tabler/icons-react';
 
 type FilterBarProps = {
   searchParams: URLSearchParams;
@@ -14,7 +15,20 @@ type FilterBarProps = {
 
 export function FilterBar({ searchParams, updateSearchParam, isMobile }: FilterBarProps) {
   const isLoggedIn = useSelector((state: RootState) => state.userSlice.isLoggedIn);
-  const isSearchActive = !!(searchParams.get('searchWord')?.trim());
+  const isSearchActive = !!(searchParams.get('searchText')?.trim());
+
+  const hasActiveFilters = !!(
+    searchParams.get('searchText') ||
+    searchParams.get('sortOption') ||
+    searchParams.get('region') ||
+    searchParams.get('city') ||
+    searchParams.get('workArrangement')
+  );
+
+  const handleResetFilters = () => {
+    // Clear all filter params by redirecting to clean search page
+    window.location.href = '/search';
+  };
 
   return (
     <Flex direction='row' w={{base:'100%', md: '100%'}} wrap={isMobile ? 'wrap' : 'nowrap'} gap={isMobile ? 5 : 10 } mx="auto" align='center' justify='center'>
@@ -70,6 +84,21 @@ export function FilterBar({ searchParams, updateSearchParam, isMobile }: FilterB
         width={{base:'30%', md: '100%'}}
         radius={100}
       />
+      {hasActiveFilters && (
+        <Tooltip label="Reset all filters" position="bottom">
+          <ActionIcon
+            size="lg"
+            w='50%'
+            variant="light"
+            color="white"
+            onClick={handleResetFilters}
+            aria-label="Reset all filters"
+            radius={50}
+          >
+            Clear
+          </ActionIcon>
+        </Tooltip>
+      )}
     </Flex>
   );
 }

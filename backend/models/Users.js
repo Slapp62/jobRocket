@@ -238,6 +238,14 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  consents: {
+    dataProcessing: {
+      granted: { type: Boolean, required: true },
+      timestamp: { type: Date, required: true },
+      ipAddress: String,
+      userAgent: String,
+    },
+  },
 });
 
 // Custom validator: Either password OR googleId must exist

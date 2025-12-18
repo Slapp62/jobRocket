@@ -12,6 +12,7 @@ import {
   Flex,
   Group,
   ScrollArea,
+  Stack,
   Text,
   Tooltip,
   useMantineColorScheme,
@@ -151,62 +152,28 @@ export function Navbar() {
       >
         <ScrollArea h="calc(100vh - 80px" mx="-sm">
           <Divider />
-          <Flex direction="column" my={20}>
-            {loggedIn && (
-              <Group my="md" gap={5} align='center' justify='center'>
-                <AvatarIcon closeDrawer={closeDrawer} />
-                <Text fz={15} fw={600}>
-                  {user?.profileType === 'jobseeker'
-                    ? `${user?.jobseekerProfile?.firstName} ${user?.jobseekerProfile?.lastName}`
-                    : user?.businessProfile?.companyName}
-                </Text>
-              </Group>
-            )}
-
-            <Link to="/" className={classes.drawerLink} onClick={closeDrawer}>
-              <Text fz={15}>
-                Home
-              </Text>
-            </Link>
-
-            <Link to="/about" className={classes.drawerLink} onClick={closeDrawer}>
-              <Text fz={15}>
-                About
-              </Text>
-            </Link>
-
-            {loggedIn && (
-              <Link to="/favorites" className={classes.drawerLink} onClick={closeDrawer}>
-                <Text fz={15}>
-                  Favorites
-                </Text>
-              </Link>
+          <Stack my={20} gap={5}>
+            <Button fz='md' variant='subtle' c='rocketRed' component={Link} to='/'>Home</Button>
+            <Button fz='md' variant='subtle' c='rocketRed' component={Link} to='/search'>Job Board</Button>
+            
+            {loggedIn && user?.profileType === 'jobseeker' && (
+              <Button fz='md' variant='subtle' c='rocketRed' component={Link} to='/favorites'>Favorites</Button>
             )}
 
             {loggedIn && user?.profileType === 'jobseeker' && (
-              <Link to="/my-applications" className={classes.drawerLink} onClick={closeDrawer} >
-                <Text fz={15}>
-                  My Applications
-                </Text>
-              </Link>
+              <Button fz='md' variant='subtle' c='rocketRed' component={Link} to='/my-applications'>Applications</Button>
             )}
 
-            {user?.profileType === 'business' && (
-              <Link to="/dashboard" className={classes.link} onClick={closeDrawer}>
-                <Text fz={15}>
-                  Dashboard
-                </Text>
-              </Link>
+            {loggedIn && user?.profileType === 'business' && (
+             <Button fz='md' variant='subtle' c='rocketRed' component={Link} to='/dashboard'>Dashboard</Button>
             )}
+
+           <Button fz='md' variant='subtle' c='rocketRed' component={Link} to='/about'>About Us</Button>
 
             {user?.isAdmin && (
-              <Link to="/admin" className={classes.link} onClick={closeDrawer}>
-                <Text fz={15}>
-                  Admin Controls
-                </Text>
-              </Link>
+             <Button fz='md' variant='subtle' c='rocketRed' component={Link} to='/admin'>Admin Controls</Button>
             )}
-          </Flex>
+          </Stack>
           <Divider my="md" />
 
           <Flex justify="space-evenly" ta="center" p="sm" gap={5} direction="column">

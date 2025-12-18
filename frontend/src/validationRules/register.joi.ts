@@ -43,6 +43,14 @@ const registrationSchema = Joi.object({
       'any.required': 'The terms and conditions checkbox is required.',
   }),
 
+  dataProcessingConsent: Joi.boolean()
+    .valid(true)
+    .required()
+    .messages({
+      'any.only': 'You must consent to data processing to register',
+      'any.required': 'Data processing consent is required',
+    }),
+
   jobseekerProfile: Joi.when('profileType', {
     is: 'jobseeker',
     then: Joi.object({
@@ -204,6 +212,14 @@ const googleRegistrationSchema = Joi.object({
       'any.only': 'You must agree to the terms and conditions to register.',
       'any.required': 'The terms and conditions checkbox is required.',
   }),
+
+  dataProcessingConsent: Joi.boolean()
+    .valid(true)
+    .required()
+    .messages({
+      'any.only': 'You must consent to data processing to register',
+      'any.required': 'Data processing consent is required',
+    }),
 
   jobseekerProfile: Joi.when('profileType', {
     is: 'jobseeker',

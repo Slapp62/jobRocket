@@ -18,7 +18,7 @@ export const useDashboardListings = () => {
     setIsLoading(true)
     try {
       const data = await fetchBusinessListings({
-        searchWord: searchText || undefined,
+        searchText: searchText || undefined,
         sortOption,
         page,
         limit: 20
