@@ -1,9 +1,9 @@
 const { connectLocalDB } = require('./mongoDB/connectLocally');
 const { connectAtlasDB } = require('./mongoDB/connectAtlas');
-const config = require('config');
 const { connectTestDB } = require('./mongoDB/connectTest');
 
-const ENV = config.get('NODE_ENV');
+// Use process.env.NODE_ENV directly instead of config
+const ENV = process.env.NODE_ENV || 'development';
 
 const connectToDB = async () => {
   if (ENV === 'development') {
