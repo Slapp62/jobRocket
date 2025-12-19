@@ -15,6 +15,8 @@ const errorLogger = require('./middleware/logging/errorLogger');
 const logger = require('./config/logger');
 const app = express();
 
+console.log('📱 app.js: Initializing Express app...');
+
 // Apply helmet (sets secure HTTP headers)
 app.use(helmet());
 
@@ -53,13 +55,19 @@ app.use((req, res, next) => {
   next();
 });
 
+console.log('📱 app.js: Setting up session middleware...');
 
+// Initialize session store (requires MongoDB connection to exist)
 app.use(session(createSessionConfig()));
+
+console.log('📱 app.js: Session middleware configured');
 
 const passport = require('passport');
 require('./config/passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
+
+console.log('📱 app.js: Passport configured');
 
 app.use((req, res, next) => {
   req.body = mongoSanitize.sanitize(req.body);

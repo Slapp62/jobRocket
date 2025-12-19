@@ -3,9 +3,6 @@ console.log('🚀 index.js: Starting module load...');
 console.log('Environment:', process.env.NODE_ENV || 'undefined');
 console.log('PORT:', process.env.PORT || 'undefined');
 
-const app = require('./app');
-console.log('✓ app loaded');
-
 const chalk = require('chalk');
 console.log('✓ chalk loaded');
 
@@ -24,13 +21,18 @@ console.log('✓ seeding modules loaded');
 // Function-based startup for explicit control
 const startServer = async () => {
   try {
-    // 1. Connect to database FIRST
+    // 1. Connect to database FIRST (before loading app.js)
     console.log(chalk.blue('Connecting to database...'));
     console.log(chalk.blue(`Environment: ${process.env.NODE_ENV || 'undefined'}`));
     await connectToDB();
     console.log(chalk.green('Database connected!'));
 
-    // 2. Seed dev data ONLY in development
+    // 2. NOW load app.js (after DB connection exists for session store)
+    console.log(chalk.blue('Loading Express app...'));
+    const app = require('./app');
+    console.log(chalk.green('✓ app loaded'));
+
+    // 3. Seed dev data ONLY in development
     if (process.env.NODE_ENV === 'development') {
       console.log(chalk.yellow('Seeding development data...'));
       await seedDevData(dummyUsers, dummyListings, dummyApplications);
@@ -39,7 +41,7 @@ const startServer = async () => {
       console.log(chalk.blue('Skipping seeding (production mode)'));
     }
 
-    // 3. THEN start server
+    // 4. THEN start server
     const PORT = process.env.PORT || config.get('PORT') || 3000;
     console.log(chalk.blue(`Attempting to bind to port ${PORT}...`));
 
