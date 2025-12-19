@@ -4,8 +4,8 @@ const { handleSuccess, handleError } = require('../utils/functionHandlers');
 const router = express.Router();
 const { logAuth, logError } = require('../utils/logHelpers');
 
-const config = require('config');
-const frontendUrl = config.get('FRONTEND_URL');
+// Frontend URL for OAuth redirects (defaults to production URL)
+const frontendUrl = process.env.FRONTEND_URL || 'https://jobrocket-site.onrender.com';
 // Step 1: User clicks "Sign in with Google" - redirect them to Google
 router.get('/google', 
   passport.authenticate('google', { 
@@ -67,7 +67,7 @@ router.get('/google/register',
 router.get('/google/register/callback',
   passport.authenticate('google-register', {
     session: false,
-    failureRedirect: `${config.get('FRONTEND_URL')}/register?error=oauth_failed`
+    failureRedirect: `${frontendUrl}/register?error=oauth_failed`
   }),
   (req, res) => {
     // Store Google profile data temporarily in session
@@ -81,11 +81,11 @@ router.get('/google/register/callback',
 
     req.session.save((err) => {
       if (err) {
-        return res.redirect(`${config.get('FRONTEND_URL')}/register?error=session_failed`);
+        return res.redirect(`${frontendUrl}/register?error=session_failed`);
       }
 
       // Redirect to account type selection page
-      res.redirect(`${config.get('FRONTEND_URL')}/register/account-type?method=google`);
+      res.redirect(`${frontendUrl}/register/account-type?method=google`);
     });
   }
 );
