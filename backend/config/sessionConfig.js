@@ -1,6 +1,7 @@
 const {MongoStore} = require('connect-mongo');
+const mongoose = require('mongoose');
 
-// Factory function to create session config (avoids blocking during module load)
+// Factory function to create session config (reuses existing Mongoose connection)
 const createSessionConfig = () => {
   console.log('Creating MongoStore session config...');
 
@@ -9,7 +10,7 @@ const createSessionConfig = () => {
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.NODE_ENV === 'production' ? process.env.MONGO_ATLAS_URI : process.env.MONGO_LOCAL_URI,
+      client: mongoose.connection.getClient(), // Reuse existing Mongoose connection
       collectionName: 'sessions',
       ttl: 24 * 60 * 60, // 24 hours in seconds
     }),
