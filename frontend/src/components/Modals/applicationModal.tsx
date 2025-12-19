@@ -3,7 +3,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { Button, FileInput, Modal, Stack, Textarea, TextInput, Text } from '@mantine/core';
+import { Button, Checkbox, FileInput, Modal, Stack, Textarea, TextInput, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { TApplication } from '@/Types';
@@ -41,6 +41,7 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
         lastName: user.jobseekerProfile?.lastName,
         email: user.email,
         phone: user.phone || '',
+        applicationDataConsent: false,
       });
     }
   }, [user, opened, reset]);
@@ -66,6 +67,7 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
       if (data.phone) {formData.append('phone', data.phone);}
       if (data.message) {formData.append('message', data.message);}
       if (resumeFile) {formData.append('resume', resumeFile);}
+      formData.append('applicationDataConsent', String(data.applicationDataConsent));
             
       
       await axios.post(`/api/applications/${listingID}`, formData);
@@ -114,6 +116,16 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
             error={resumeError}
           />
           <Textarea label="Message" {...register('message')} error={errors.message?.message} />
+          <Checkbox
+            {...register('applicationDataConsent')}
+            label={
+              <Text size="sm">
+                I consent to share my <strong>name, email, phone, resume, and cover letter</strong> with this employer
+              </Text>
+            }
+            error={errors.applicationDataConsent?.message}
+            mt="md"
+          />
           <Button type="submit" mx="auto" w={200} disabled={!isValid || !resumeFile || !!resumeError} loading={isLoading}>
             Submit
           </Button>

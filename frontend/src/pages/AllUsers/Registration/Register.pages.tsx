@@ -66,6 +66,7 @@ export function RegisterForm() {
       password: data.password,
       phone: data.phone,
       profileType: data.profileType,
+      dataProcessingConsent: data.dataProcessingConsent,
     };
 
     // Add ONLY the appropriate profile based on type
@@ -90,6 +91,7 @@ export function RegisterForm() {
         formData.append('password', payload.password);
         formData.append('phone', payload.phone || '');
         formData.append('profileType', payload.profileType);
+        formData.append('dataProcessingConsent', String(payload.dataProcessingConsent));
         
         if (payload.jobseekerProfile) {
           // Flatten jobseekerProfile fields
@@ -221,6 +223,28 @@ export function RegisterForm() {
                   />
                 </Tabs.Panel>
               </Tabs>
+            </Fieldset>
+
+            <Fieldset legend="Data Processing Consent">
+              <Controller
+                name="dataProcessingConsent"
+                control={control}
+                render={({ field }) => (
+                  <Checkbox
+                    {...field}
+                    checked={field.value}
+                    onChange={(event) => field.onChange(event.currentTarget.checked)}
+                    label={
+                      <Text size="sm">
+                        I consent to JobRocket processing my data (account creation, resume
+                        storage via Cloudinary, AI job matching via OpenAI) as described in the{' '}
+                        <Anchor href="/privacy-policy" target="_blank">Privacy Policy</Anchor>
+                      </Text>
+                    }
+                    error={errors.dataProcessingConsent?.message}
+                  />
+                )}
+              />
             </Fieldset>
 
             <Fieldset legend="Terms and Conditions">
