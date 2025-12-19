@@ -8,6 +8,9 @@ node_modules/
 .env.development
 
 # Build output
+dist/
+build/
+backend/public/
 
 # Logs
 *.log
