@@ -2,7 +2,7 @@ const applicationsService = require('../services/applicationsService.js');
 const { getFilteredApplications } = require('../services/filterService.js');
 const { handleSuccess, handleError, throwError } = require('../utils/functionHandlers.js');
 const Users = require('../models/Users.js');
-const Listings = require('../models/JobListings.js');
+const Listings = require('../models/Listings.js');
 
 async function createApplication(req, res) {
   try {
