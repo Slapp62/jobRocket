@@ -3,7 +3,7 @@ dotenv.config();
 const cloudinary = require('cloudinary').v2;
 const path = require('path');
 const session = require('express-session');
-const sessionConfig = require('./config/sessionConfig');
+const createSessionConfig = require('./config/sessionConfig');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -54,7 +54,7 @@ app.use((req, res, next) => {
 });
 
 
-app.use(session(sessionConfig));
+app.use(session(createSessionConfig()));
 
 const passport = require('passport');
 require('./config/passport')(passport);

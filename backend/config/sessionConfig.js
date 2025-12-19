@@ -1,24 +1,29 @@
 const {MongoStore} = require('connect-mongo');
 
-const sessionConfig = {
-  secret: process.env.SESSION_SECRET || 'your-fallback-secret-change-in-production',
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.NODE_ENV === 'production' ? process.env.MONGO_ATLAS_URI : process.env.MONGO_LOCAL_URI,
-    collectionName: 'sessions',
-    ttl: 24 * 60 * 60, // 24 hours in seconds
-  }),
-  cookie: {
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-  },
-  name: 'sessionId', // Cookie name (defaults to 'connect.sid')
+// Factory function to create session config (avoids blocking during module load)
+const createSessionConfig = () => {
+  console.log('Creating MongoStore session config...');
+
+  return {
+    secret: process.env.SESSION_SECRET || 'your-fallback-secret-change-in-production',
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.NODE_ENV === 'production' ? process.env.MONGO_ATLAS_URI : process.env.MONGO_LOCAL_URI,
+      collectionName: 'sessions',
+      ttl: 24 * 60 * 60, // 24 hours in seconds
+    }),
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    },
+    name: 'sessionId', // Cookie name (defaults to 'connect.sid')
+  };
 };
 
-module.exports = sessionConfig;
+module.exports = createSessionConfig;
 
 
 // **Breaking down each option:**
