@@ -94,6 +94,7 @@ export type TUsers = {
   password?: string;
   phone: string;
   terms: boolean;
+  dataProcessingConsent?: boolean;
   profileType: 'jobseeker' | 'business';
   name?: {
     first: string;
@@ -135,6 +136,7 @@ export type TApplication = {
   listingId: TListing | string;
   resumeUrl?: string;
   message?: string;
+  applicationDataConsent?: boolean;
   createdAt: string;
   matchScore?: number | null;
   status: 'pending' | 'reviewed' | 'rejected';

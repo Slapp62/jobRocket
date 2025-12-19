@@ -229,10 +229,10 @@ export function RegisterForm() {
               <Controller
                 name="dataProcessingConsent"
                 control={control}
-                render={({ field }) => (
+                render={({ field: { value, ...field } }) => (
                   <Checkbox
                     {...field}
-                    checked={field.value}
+                    checked={value}
                     onChange={(event) => field.onChange(event.currentTarget.checked)}
                     label={
                       <Text size="sm">
