@@ -1,11 +1,25 @@
+// Emergency logging to catch startup issues
+console.log('🚀 index.js: Starting module load...');
+console.log('Environment:', process.env.NODE_ENV || 'undefined');
+console.log('PORT:', process.env.PORT || 'undefined');
+
 const app = require('./app');
+console.log('✓ app loaded');
+
 const chalk = require('chalk');
+console.log('✓ chalk loaded');
+
 const { connectToDB } = require('./database/dbService');
+console.log('✓ dbService loaded');
+
 const config = require('config');
+console.log('✓ config loaded');
+
 const { seedDevData } = require('./seeding/seedingDataService');
 const dummyUsers = require('./seeding/seedingData/userSeedingData');
 const dummyListings = require('./seeding/seedingData/listingSeedingData');
 const dummyApplications = require('./seeding/seedingData/applicationSeedingData');
+console.log('✓ seeding modules loaded');
 
 // Function-based startup for explicit control
 const startServer = async () => {
