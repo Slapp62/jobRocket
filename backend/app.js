@@ -49,7 +49,7 @@ app.use((req, res, next) => {
     "img-src 'self' data: https:; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://storage.ko-fi.com; " +
     "font-src 'self' https://fonts.gstatic.com; " +
-    "connect-src 'self' https://accounts.google.com https://jobrocket.work; " +
+    "connect-src 'self' https://accounts.google.com https://jobrocket.work https://jobrocket.onrender.com; " +
     "form-action 'self' https://accounts.google.com;"
   );
   next();
