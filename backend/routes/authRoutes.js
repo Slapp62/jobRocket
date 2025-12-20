@@ -5,7 +5,7 @@ const router = express.Router();
 const { logAuth, logError } = require('../utils/logHelpers');
 
 // Frontend URL for OAuth redirects (defaults to production URL)
-const frontendUrl = process.env.FRONTEND_URL || 'https://jobrocket-site.onrender.com';
+const frontendUrl = process.env.FRONTEND_URL || 'https://jobrocket.onrender.com';
 // Step 1: User clicks "Sign in with Google" - redirect them to Google
 router.get('/google', 
   passport.authenticate('google', { 
