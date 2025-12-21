@@ -182,99 +182,101 @@ const AdminControls = () => {
         {/* Desktop Table View */}
         <Box visibleFrom="md">
           <Table.ScrollContainer minWidth={800}>
-          <Table verticalSpacing="sm" maw="75%" mx="auto">
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th />
-                <Table.Th>First Name</Table.Th>
-                <Table.Th>Last Name</Table.Th>
-                <Table.Th>Email</Table.Th>
-                <Table.Th>Account Type</Table.Th>
-                <Table.Th>Date Created</Table.Th>
-                <Table.Th>Edit</Table.Th>
-                <Table.Th>Delete</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
+            <Table verticalSpacing="sm" maw="75%" mx="auto">
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th />
+                  <Table.Th>First Name</Table.Th>
+                  <Table.Th>Last Name</Table.Th>
+                  <Table.Th>Email</Table.Th>
+                  <Table.Th>Account Type</Table.Th>
+                  <Table.Th>Date Created</Table.Th>
+                  <Table.Th>Edit</Table.Th>
+                  <Table.Th>Delete</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
 
-            <Table.Tbody>
-              {paginatedUsers.map((user) => (
-                <Table.Tr key={user._id}>
-                  <Table.Td
-                    styles={{ td: { borderLeft: '1px solid #eee', borderRight: '1px solid #eee' } }}
-                  >
-                    <Text fz="sm" fw="bold" c="dimmed" ta="center">
-                      {paginatedUsers.indexOf(user) + 1}
-                    </Text>
-                  </Table.Td>
-
-                  <Table.Td>
-                    <Text fz="sm" fw={500}>
-                      {user.profileType === 'jobseeker'
-                        ? `${user.jobseekerProfile?.firstName} ${user.jobseekerProfile?.lastName}`
-                        : user.businessProfile?.companyName}
-                    </Text>
-                  </Table.Td>
-
-                  <Table.Td>
-                    <Text fz="sm" fw={500}>
-                      {user.profileType === 'jobseeker' ? 'Jobseeker' : 'Business'}
-                    </Text>
-                  </Table.Td>
-
-                  <Table.Td>
-                    <Anchor component="button" size="sm">
-                      {user.email}
-                    </Anchor>
-                  </Table.Td>
-
-                  <Table.Td>
-                    <Text fz="sm">
-                      {user.isAdmin
-                        ? 'Admin'
-                        : user.profileType === 'business'
-                          ? 'Business'
-                          : 'Jobseeker'}
-                    </Text>
-                  </Table.Td>
-
-                  <Table.Td>
-                    <Text fz="sm">{new Date(user.createdAt).toLocaleString()}</Text>
-                  </Table.Td>
-
-                  <Table.Td>
-                    <ActionIcon
-                      size={30}
-                      variant="outline"
-                      color="yellow"
-                      onClick={() => {
-                        dispatch(toggleAdminView(true));
-                        jumpTo(`/edit-profile/${user?._id}`);
+              <Table.Tbody>
+                {paginatedUsers.map((user) => (
+                  <Table.Tr key={user._id}>
+                    <Table.Td
+                      styles={{
+                        td: { borderLeft: '1px solid #eee', borderRight: '1px solid #eee' },
                       }}
                     >
-                      <IconPencil size={25} stroke={1.5} />
-                    </ActionIcon>
-                  </Table.Td>
+                      <Text fz="sm" fw="bold" c="dimmed" ta="center">
+                        {paginatedUsers.indexOf(user) + 1}
+                      </Text>
+                    </Table.Td>
 
-                  {!user.isAdmin && (
-                    <Table.Td styles={{ td: { borderRight: '1px solid #eee' } }}>
+                    <Table.Td>
+                      <Text fz="sm" fw={500}>
+                        {user.profileType === 'jobseeker'
+                          ? `${user.jobseekerProfile?.firstName} ${user.jobseekerProfile?.lastName}`
+                          : user.businessProfile?.companyName}
+                      </Text>
+                    </Table.Td>
+
+                    <Table.Td>
+                      <Text fz="sm" fw={500}>
+                        {user.profileType === 'jobseeker' ? 'Jobseeker' : 'Business'}
+                      </Text>
+                    </Table.Td>
+
+                    <Table.Td>
+                      <Anchor component="button" size="sm">
+                        {user.email}
+                      </Anchor>
+                    </Table.Td>
+
+                    <Table.Td>
+                      <Text fz="sm">
+                        {user.isAdmin
+                          ? 'Admin'
+                          : user.profileType === 'business'
+                            ? 'Business'
+                            : 'Jobseeker'}
+                      </Text>
+                    </Table.Td>
+
+                    <Table.Td>
+                      <Text fz="sm">{new Date(user.createdAt).toLocaleString()}</Text>
+                    </Table.Td>
+
+                    <Table.Td>
                       <ActionIcon
                         size={30}
                         variant="outline"
-                        color="red"
+                        color="yellow"
                         onClick={() => {
-                          open();
-                          setId(user._id);
+                          dispatch(toggleAdminView(true));
+                          jumpTo(`/edit-profile/${user?._id}`);
                         }}
                       >
-                        <IconTrash size={25} stroke={1.5} />
+                        <IconPencil size={25} stroke={1.5} />
                       </ActionIcon>
                     </Table.Td>
-                  )}
-                </Table.Tr>
-              ))}
-            </Table.Tbody>
-          </Table>
-        </Table.ScrollContainer>
+
+                    {!user.isAdmin && (
+                      <Table.Td styles={{ td: { borderRight: '1px solid #eee' } }}>
+                        <ActionIcon
+                          size={30}
+                          variant="outline"
+                          color="red"
+                          onClick={() => {
+                            open();
+                            setId(user._id);
+                          }}
+                        >
+                          <IconTrash size={25} stroke={1.5} />
+                        </ActionIcon>
+                      </Table.Td>
+                    )}
+                  </Table.Tr>
+                ))}
+              </Table.Tbody>
+            </Table>
+          </Table.ScrollContainer>
         </Box>
 
         {allUsers && (

@@ -7,7 +7,9 @@ export function Logo() {
     <Link to="/" style={{ textDecoration: 'none' }}>
       <Group align="center" justify="center" p={5} gap={5}>
         <Image src={icon} alt="Logo" h={40} w={40} />
-        <Title fz={30} c="white">JobRocket</Title>
+        <Title fz={30} c="white">
+          JobRocket
+        </Title>
       </Group>
     </Link>
   );

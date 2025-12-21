@@ -1,8 +1,8 @@
 import { IconMailFilled, IconMapPinFilled, IconPhoneFilled } from '@tabler/icons-react';
 import { Container, Flex, Group, Stack, Text, Title } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { Logo } from './Logo';
 import classes from '../ComponentStyles/FooterStyles.module.css';
-import { useMediaQuery } from '@mantine/hooks';
 
 const data = [
   {
@@ -59,10 +59,10 @@ export function Footer() {
   return (
     <footer className={classes.footer}>
       <Container className={classes.inner}>
-        <Stack className={classes.logo} bg='rocketOrange.9'>
+        <Stack className={classes.logo} bg="rocketRed.7">
           <Logo />
-          <Text size="xs" ta='center' className={classes.description}>
-            Creating opportunities and careers with simplicity in mind.
+          <Text size="xs" ta="center" className={classes.description}>
+            Launch yourself into a world of possibility.
           </Text>
         </Stack>
         <div className={classes.groups}>{groups}</div>

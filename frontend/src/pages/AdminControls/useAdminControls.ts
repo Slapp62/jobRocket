@@ -55,15 +55,23 @@ export const useAdminControls = () => {
     ? [...allUsers].sort((a, b) => {
         if (sortOption === 'last-name-asc') {
           const aName =
-            a.profileType === 'jobseeker' ? a.jobseekerProfile?.lastName : a.businessProfile?.companyName;
+            a.profileType === 'jobseeker'
+              ? a.jobseekerProfile?.lastName
+              : a.businessProfile?.companyName;
           const bName =
-            b.profileType === 'jobseeker' ? b.jobseekerProfile?.lastName : b.businessProfile?.companyName;
+            b.profileType === 'jobseeker'
+              ? b.jobseekerProfile?.lastName
+              : b.businessProfile?.companyName;
           return (aName || '').localeCompare(bName || '');
         } else if (sortOption === 'last-name-desc') {
           const aName =
-            a.profileType === 'jobseeker' ? a.jobseekerProfile?.lastName : a.businessProfile?.companyName;
+            a.profileType === 'jobseeker'
+              ? a.jobseekerProfile?.lastName
+              : a.businessProfile?.companyName;
           const bName =
-            b.profileType === 'jobseeker' ? b.jobseekerProfile?.lastName : b.businessProfile?.companyName;
+            b.profileType === 'jobseeker'
+              ? b.jobseekerProfile?.lastName
+              : b.businessProfile?.companyName;
           return (bName || '').localeCompare(aName || '');
         } else if (sortOption === 'account-type') {
           return getAccountType(a).localeCompare(getAccountType(b));

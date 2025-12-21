@@ -16,6 +16,14 @@ const dummyUsers = [
         'Passionate full-stack developer with 3 years of experience in web development.',
     },
     isAdmin: false,
+    consents: {
+      dataProcessing: {
+        granted: true,
+        timestamp: "2025-12-16T20:47:31.297Z",
+        ipAddress: '',
+        userAgent: '',
+        },
+    },
   },
   {
     email: 'david.levi@email.com',
@@ -46,6 +54,14 @@ const dummyUsers = [
         'Leading software development company specializing in enterprise solutions.',
     },
     isAdmin: false,
+    consents: {
+      dataProcessing: {
+        granted: true,
+        timestamp: "2025-12-16T20:47:31.297Z",
+        ipAddress: '',
+        userAgent: '',
+        },
+    },
   },
   {
     email: 'admin@email.com',
@@ -56,6 +72,14 @@ const dummyUsers = [
       name: 'Admin',
     },
     isAdmin: true,
+    consents: {
+      dataProcessing: {
+        granted: true,
+        timestamp: "2025-12-16T20:47:31.297Z",
+        ipAddress: '',
+        userAgent: '',
+        },
+    },
   },
 ];
 

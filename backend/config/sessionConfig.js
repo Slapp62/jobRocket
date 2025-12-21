@@ -1,4 +1,4 @@
-const {MongoStore} = require('connect-mongo');
+const { MongoStore } = require('connect-mongo');
 const mongoose = require('mongoose');
 
 // Factory function to create session config (reuses existing Mongoose connection)
@@ -6,7 +6,8 @@ const createSessionConfig = () => {
   console.log('Creating MongoStore session config...');
 
   return {
-    secret: process.env.SESSION_SECRET || 'your-fallback-secret-change-in-production',
+    secret:
+      process.env.SESSION_SECRET || 'your-fallback-secret-change-in-production',
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
@@ -25,7 +26,6 @@ const createSessionConfig = () => {
 };
 
 module.exports = createSessionConfig;
-
 
 // **Breaking down each option:**
 

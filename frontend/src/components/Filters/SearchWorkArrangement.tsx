@@ -27,7 +27,7 @@ export function SearchWorkArrangement({
       radius={radius || 100}
       w={width}
       placeholder={placeholder || 'Work Type'}
-      rightSection={<IconFilter2 size={15}/>}
+      rightSection={<IconFilter2 size={15} />}
       data={data}
       value={value || null}
       onChange={(val) => onChange(val || '')}

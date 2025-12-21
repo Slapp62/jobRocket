@@ -1,4 +1,4 @@
-import { IconCards, IconHeart, IconPlus, IconUserSearch } from '@tabler/icons-react';
+import { IconCards, IconDashboard, IconFile, IconForms, IconHeart, IconLayoutDashboard, IconLogin, IconLogin2, IconPlus, IconRegistered, IconSearch, IconUser, IconUserSearch } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ActionIcon, Group } from '@mantine/core';
@@ -6,6 +6,9 @@ import { RootState } from '@/store/store';
 
 export const MobileBottomNav = () => {
   const isAdmin = useSelector((state: RootState) => state.userSlice.user?.isAdmin);
+  const isBusiness = useSelector((state: RootState) => state.userSlice.user?.profileType === 'business');
+  const isJobseeker = useSelector((state: RootState) => state.userSlice.user?.profileType === 'jobseeker');
+  const isLoggedIn = useSelector((state: RootState) => state.userSlice.user);
 
   return (
     <Group
@@ -20,53 +23,108 @@ export const MobileBottomNav = () => {
     >
       <ActionIcon
         component={Link}
+        bg='rocketOrange.1'
+        to="/search"
+        variant="subtle"
+        color="rocketRed"
+        radius={10}
+        size={35}
+        style={{ boxShadow: '0px 0px 5px 2px rgba(0, 0, 0, 0.11)' }}
+      >
+        <IconSearch />
+      </ActionIcon>
+
+      {!isLoggedIn && <ActionIcon
+        component={Link}
+        bg='rocketOrange.1'
+        to="/login"
+        variant="subtle"
+        color="rocketRed"
+        radius={10}
+        size={40}
+        style={{ boxShadow: '0px 0px 5px 2px rgba(0, 0, 0, 0.11)' }}
+      >
+        <IconLogin />
+      </ActionIcon>}
+
+      {!isLoggedIn && <ActionIcon
+        component={Link}
+        bg='rocketOrange.1'
+        to="/register"
+        variant="subtle"
+        color="rocketRed"
+        radius={10}
+        size={40}
+        style={{ boxShadow: '0px 0px 5px 2px rgba(0, 0, 0, 0.11)' }}
+      >
+        <IconUser />
+      </ActionIcon>}
+
+      {isJobseeker && <ActionIcon
+        component={Link}
+        bg='rocketOrange.1'
         to="/favorites"
         variant="subtle"
-        color="black"
-        radius={100}
+        color="rocketRed"
+        radius={10}
         size={40}
         style={{ boxShadow: '0px 0px 5px 2px rgba(0, 0, 0, 0.11)' }}
       >
         <IconHeart />
-      </ActionIcon>
+      </ActionIcon>}
 
-      <ActionIcon
+      {isJobseeker && <ActionIcon
         component={Link}
-        to="/my-listings"
+        bg='rocketOrange.1'
+        to="/my-applications"
         variant="subtle"
-        color="black"
-        radius={100}
+        color="rocketRed"
+        radius={10}
         size={40}
         style={{ boxShadow: '0px 0px 5px 2px rgba(0, 0, 0, 0.11)' }}
       >
-        <IconCards />
-      </ActionIcon>
+        <IconFile />
+      </ActionIcon>}
 
-      <ActionIcon
+      {isBusiness && <ActionIcon
         component={Link}
+        bg='rocketOrange.1'
+        to="/dashboard"
+        variant="subtle"
+        color="rocketRed"
+        radius={10}
+        size={40}
+        style={{ boxShadow: '0px 0px 5px 2px rgba(0, 0, 0, 0.11)' }}
+      >
+        <IconLayoutDashboard />
+      </ActionIcon>}
+
+      {isBusiness && <ActionIcon
+        component={Link}
+        bg='rocketOrange.1'
         to="/create-listing"
         variant="subtle"
-        color="black"
-        radius={100}
+        color="rocketRed"
+        radius={10}
         size={40}
         style={{ boxShadow: '0px 0px 5px 2px rgba(0, 0, 0, 0.11)' }}
       >
         <IconPlus />
-      </ActionIcon>
+      </ActionIcon>}
 
-      {isAdmin && (
-        <ActionIcon
+      {isAdmin && <ActionIcon
           component={Link}
+          bg='rocketOrange.1'
           to="/admin"
           variant="subtle"
           color="black"
-          radius={100}
+          radius={10}
           size={40}
           style={{ boxShadow: '0px 0px 5px 2px rgba(0, 0, 0, 0.11)' }}
         >
           <IconUserSearch />
         </ActionIcon>
-      )}
+      }
     </Group>
   );
 };

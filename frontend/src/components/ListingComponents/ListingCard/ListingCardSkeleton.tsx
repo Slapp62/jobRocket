@@ -1,4 +1,4 @@
-import { Card, Skeleton, Stack, Box } from '@mantine/core';
+import { Box, Card, Skeleton, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
 type ListingCardSkeletonProps = {
@@ -28,7 +28,7 @@ function ListingCardSkeleton({
         flexDirection: 'column',
       }}
     >
-      <Stack gap="lg" justify='center' style={{ flex: 1 }}>
+      <Stack gap="lg" justify="center" style={{ flex: 1 }}>
         {/* Job Title - 2 lines */}
         <Skeleton height={24} width="90%" mt={-8} />
         <Skeleton height={24} width="70%" mt={-12} />

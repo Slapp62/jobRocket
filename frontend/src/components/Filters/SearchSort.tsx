@@ -25,7 +25,7 @@ function getOptionsForType(sortType: SortType) {
     return SORT_OPTIONS;
   }
   const allowedValues = SORT_GROUPS[sortType];
-  return SORT_OPTIONS.filter(opt => allowedValues.includes(opt.value));
+  return SORT_OPTIONS.filter((opt) => allowedValues.includes(opt.value));
 }
 
 type SearchSortProps = {
@@ -54,7 +54,7 @@ export function SearchSort({
       radius={radius || 100}
       w={width}
       placeholder={placeholder || 'Sort By'}
-      rightSection={<IconFilter2 size={15}/>}
+      rightSection={<IconFilter2 size={15} />}
       data={filteredOptions}
       value={value || null}
       onChange={(val) => onChange(val || '')}

@@ -26,18 +26,22 @@ export const listingSchema = Joi.object({
     'any.required': 'Job description is required',
   }),
   requirements: Joi.array()
-    .items(Joi.string().trim().max(100).messages({
-      'string.max': 'Each requirement must be 100 characters or less',
-    }))
+    .items(
+      Joi.string().trim().max(100).messages({
+        'string.max': 'Each requirement must be 100 characters or less',
+      })
+    )
     .max(20)
     .default([])
     .messages({
       'array.max': 'Maximum 20 requirements allowed',
     }),
   advantages: Joi.array()
-    .items(Joi.string().trim().max(100).messages({
-      'string.max': 'Each advantage must be 100 characters or less',
-    }))
+    .items(
+      Joi.string().trim().max(100).messages({
+        'string.max': 'Each advantage must be 100 characters or less',
+      })
+    )
     .max(20)
     .default([])
     .messages({
@@ -52,9 +56,7 @@ export const listingSchema = Joi.object({
       .required()
       .custom((value, helpers) => {
         const count =
-          (value.jobRocketSystem ? 1 : 0) +
-          (value.companySystem ? 1 : 0) +
-          (value.email ? 1 : 0);
+          (value.jobRocketSystem ? 1 : 0) + (value.companySystem ? 1 : 0) + (value.email ? 1 : 0);
 
         if (count !== 1) {
           return helpers.error('apply.method.exactly_one');

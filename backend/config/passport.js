@@ -13,19 +13,21 @@ module.exports = (passport) => {
         try {
           // Look for user with this Google ID
           const user = await Users.findOne({ googleId: profile.id });
-          
+
           if (!user) {
             // No user found - we'll handle registration later
-            return done(null, false, { message: 'No account found. Please register first.' });
+            return done(null, false, {
+              message: 'No account found. Please register first.',
+            });
           }
-          
+
           // User found - proceed with login
           return done(null, user);
         } catch (err) {
           return done(err, null);
         }
-      }
-    )
+      },
+    ),
   );
   passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -40,7 +42,8 @@ module.exports = (passport) => {
   });
 
   // Google Registration Strategy (separate from login)
-  passport.use('google-register',
+  passport.use(
+    'google-register',
     new GoogleStrategy(
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
@@ -51,16 +54,13 @@ module.exports = (passport) => {
         try {
           // Check if user already exists
           const existingUser = await Users.findOne({
-            $or: [
-              { googleId: profile.id },
-              { email: profile.emails[0].value }
-            ]
+            $or: [{ googleId: profile.id }, { email: profile.emails[0].value }],
           });
 
           if (existingUser) {
             // User already has an account - reject registration
             return done(null, false, {
-              message: 'Account already exists. Please use login instead.'
+              message: 'Account already exists. Please use login instead.',
             });
           }
 
@@ -70,7 +70,7 @@ module.exports = (passport) => {
             email: profile.emails[0].value,
             firstName: profile.name.givenName,
             lastName: profile.name.familyName,
-            profilePicture: profile.photos[0]?.value
+            profilePicture: profile.photos[0]?.value,
           };
 
           // Pass Google data to callback handler
@@ -78,8 +78,7 @@ module.exports = (passport) => {
         } catch (err) {
           return done(err, null);
         }
-      }
-    )
+      },
+    ),
   );
 };
-

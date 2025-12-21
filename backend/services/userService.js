@@ -2,8 +2,14 @@ const { encryptPassword } = require('../utils/bcrypt');
 const { throwError } = require('../utils/functionHandlers');
 const Users = require('../models/Users.js');
 const { normalizeUserResponse } = require('../utils/normalizeResponses.js');
-const { uploadResumeToCloudinary } = require('../utils/uploadResumeToCloudinary.js');
-const { logDatabase, logError, logExternalAPI } = require('../utils/logHelpers.js');
+const {
+  uploadResumeToCloudinary,
+} = require('../utils/uploadResumeToCloudinary.js');
+const {
+  logDatabase,
+  logError,
+  logExternalAPI,
+} = require('../utils/logHelpers.js');
 
 const getAllUsers = async () => {
   const users = await Users.find().select('-password').lean();
@@ -22,9 +28,12 @@ const registerUser = async (userData, resumeFile) => {
     throw error;
   }
 
-  if (resumeFile){
+  if (resumeFile) {
     try {
-      const resumeUrl = await uploadResumeToCloudinary(resumeFile.buffer, userData.email);
+      const resumeUrl = await uploadResumeToCloudinary(
+        resumeFile.buffer,
+        userData.email,
+      );
       if (!userData.jobseekerProfile) {
         userData.jobseekerProfile = {};
       }
@@ -46,8 +55,15 @@ const registerUser = async (userData, resumeFile) => {
       });
 
       // Detect network-related errors
-      if (error.code === 'EAI_AGAIN' || error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
-        throwError(503, 'Failed to upload resume due to a network issue. Please try again in a moment.');
+      if (
+        error.code === 'EAI_AGAIN' ||
+        error.code === 'ETIMEDOUT' ||
+        error.code === 'ECONNREFUSED'
+      ) {
+        throwError(
+          503,
+          'Failed to upload resume due to a network issue. Please try again in a moment.',
+        );
       }
       // Re-throw other errors to preserve original error handling
       throw error;
@@ -82,14 +98,17 @@ const getUserById = async (userId) => {
 };
 
 const updateProfile = async (userId, updateData, resumeFile) => {
-  if (resumeFile){
+  if (resumeFile) {
     const user = await Users.findById(userId);
     if (!user) {
       throwError(404, 'User not found');
     }
 
     try {
-      const resumeUrl = await uploadResumeToCloudinary(resumeFile.buffer, user.email);
+      const resumeUrl = await uploadResumeToCloudinary(
+        resumeFile.buffer,
+        user.email,
+      );
 
       // Add the Cloudinary URL to the update data
       if (!updateData.jobseekerProfile) {
@@ -114,8 +133,15 @@ const updateProfile = async (userId, updateData, resumeFile) => {
       });
 
       // Detect network-related errors
-      if (error.code === 'EAI_AGAIN' || error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
-        throwError(503, 'Failed to upload resume due to a network issue. Please try again in a moment.');
+      if (
+        error.code === 'EAI_AGAIN' ||
+        error.code === 'ETIMEDOUT' ||
+        error.code === 'ECONNREFUSED'
+      ) {
+        throwError(
+          503,
+          'Failed to upload resume due to a network issue. Please try again in a moment.',
+        );
       }
       // Re-throw other errors to preserve original error handling
       throw error;
@@ -127,7 +153,7 @@ const updateProfile = async (userId, updateData, resumeFile) => {
   if (!updatedUser) {
     throwError(
       404,
-      "Your profile couldn't be updated. Please try logging in again."
+      "Your profile couldn't be updated. Please try logging in again.",
     );
   }
 
@@ -147,7 +173,7 @@ const toggleRole = async (userId) => {
   if (!user) {
     throwError(
       404,
-      "Your account couldn't be found. Please try logging in again."
+      "Your account couldn't be found. Please try logging in again.",
     );
   }
   const newProfileType =
@@ -155,7 +181,7 @@ const toggleRole = async (userId) => {
   const updatedUser = await Users.findByIdAndUpdate(
     userId,
     { profileType: newProfileType },
-    { new: true }
+    { new: true },
   );
   const normalizedUser = normalizeUserResponse(updatedUser);
   return normalizedUser;

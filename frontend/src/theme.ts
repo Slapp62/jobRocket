@@ -1,10 +1,11 @@
 // theme.ts - Rocket Theme Configuration
 import {
   createTheme,
-  MantineColorsTuple,
   defaultVariantColorsResolver,
+  MantineColorsTuple,
   Title,
 } from '@mantine/core';
+
 // Custom Rocket Orange color palette
 const rocketOrange: MantineColorsTuple = [
   '#FFF4E6', // 0 - Lightest (backgrounds, subtle highlights)
@@ -58,7 +59,7 @@ export const theme = createTheme({
 
   variantColorResolver: (input) => {
     const defaultResolvedColors = defaultVariantColorsResolver(input);
-    
+
     if (input.variant === 'rocketRedFilled') {
       return {
         background: input.theme.colors.rocketRed[8],
@@ -73,7 +74,7 @@ export const theme = createTheme({
 
   // Typography - Space-inspired, modern and bold
   fontFamily: 'Poppins, Inter, Roboto, sans-serif',
-  fontSizes: {xs: '12px', md: '16px'},
+  fontSizes: { xs: '12px', md: '16px' },
   // font weight set in global css
   headings: {
     fontFamily: 'Poppins, sans-serif',
@@ -89,7 +90,7 @@ export const theme = createTheme({
       defaultProps: {
         radius: 'md',
         fw: 600,
-        c: 'black'
+        c: 'black',
       },
     },
     Button: {
@@ -108,12 +109,12 @@ export const theme = createTheme({
     Text: {
       defaultProps: {
         fw: 400,
-      }
+      },
     },
     Title: {
-      defaultProps:{
-        fw: 400
-      }
+      defaultProps: {
+        fw: 400,
+      },
     },
     ThemeIcon: {
       defaultProps: {

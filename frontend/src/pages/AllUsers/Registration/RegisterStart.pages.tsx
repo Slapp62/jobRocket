@@ -1,10 +1,21 @@
 import { useState } from 'react';
-import { Button, Container, Stack, Title, Text, Divider, Paper, Anchor, TextInput, PasswordInput } from '@mantine/core';
-import { IconBrandGoogle } from '@tabler/icons-react';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { IconBrandGoogle } from '@tabler/icons-react';
 import Joi from 'joi';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import {
+  Anchor,
+  Button,
+  Container,
+  Divider,
+  Paper,
+  PasswordInput,
+  Stack,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core';
 
 // Simple validation schema for email/password only
 const credentialsSchema = Joi.object({
@@ -36,7 +47,11 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<Credentials>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Credentials>({
     resolver: joiResolver(credentialsSchema),
     mode: 'onBlur',
   });
@@ -52,7 +67,9 @@ export default function RegisterPage() {
   return (
     <Container size="xs" py="xl">
       <Paper shadow="md" p="xl" radius="md">
-        <Title order={1} ta="center" mb="md">Create Your Account</Title>
+        <Title order={1} ta="center" mb="md">
+          Create Your Account
+        </Title>
         <Text ta="center" c="dimmed" mb="xl">
           Choose how you'd like to sign up
         </Text>
@@ -94,13 +111,7 @@ export default function RegisterPage() {
                 description="8-20 characters, 1 uppercase, 1 number, 1 special character"
               />
 
-              <Button
-                type="submit"
-                fullWidth
-                size="lg"
-                variant="filled"
-                loading={loading}
-              >
+              <Button type="submit" fullWidth size="lg" variant="filled" loading={loading}>
                 Continue
               </Button>
             </Stack>

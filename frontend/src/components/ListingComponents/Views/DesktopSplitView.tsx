@@ -22,10 +22,9 @@ const DesktopSplitView = ({
   // Find the selected listing from the already-loaded displayListings
   const selectedListing = displayListings.find((listing) => listing._id === selectedId);
 
-  return (
-    isMobile ? (
-      <ListingDetailsPanel listingId={selectedId} />
-    ) : (
+  return isMobile ? (
+    <ListingDetailsPanel listingId={selectedId} />
+  ) : (
     // SPLIT VIEW - When listing is selected
     <motion.div
       key="split-view"
@@ -98,7 +97,6 @@ const DesktopSplitView = ({
         </motion.div>
       </Flex>
     </motion.div>
-    )
   );
 };
 

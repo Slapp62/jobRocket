@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { Control, Controller, FieldErrors, UseFormRegister, useWatch } from 'react-hook-form';
 import { Select, Textarea, TextInput } from '@mantine/core';
-import { TUsers } from '@/Types';
 import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
+import { TUsers } from '@/Types';
 import { ConsentCheckboxes } from './ConsentCheckboxes';
 
 type BusinessFieldsProps = {

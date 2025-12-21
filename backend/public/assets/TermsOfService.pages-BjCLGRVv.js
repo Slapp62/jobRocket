@@ -1,1 +1,1156 @@
-import{j as e,v as a,e as t,T as i,h as s,g as o,P as n,E as r}from"./index-Dbp1fGsr.js";const l=()=>e.jsxs(a,{size:"lg",py:"xl",children:[e.jsx(t,{order:1,mb:"md",children:"Terms of Service"}),e.jsx(i,{c:"dimmed",fs:"italic",mb:"xl",children:"Last Updated: January 2025"}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"1. Acceptance of Terms"}),e.jsxs(i,{mb:"md",children:['Welcome to JobRocket ("we," "our," "us," or the "Service"). These Terms of Service ("Terms") constitute a legally binding agreement between you and JobRocket governing your access to and use of our job matching platform available at'," ",e.jsx(o,{href:"https://jobrocket-site.onrender.com",target:"_blank",children:"https://jobrocket-site.onrender.com"}),"."]}),e.jsxs(i,{mb:"md",children:["By accessing or using JobRocket, you acknowledge that you have read, understood, and agree to be bound by these Terms and our ",e.jsx(o,{href:"/privacy-policy",children:"Privacy Policy"}),". If you do not agree to these Terms, you must not use our Service."]}),e.jsxs(n,{p:"md",withBorder:!0,bg:"yellow.0",mb:"md",children:[e.jsx(i,{fw:700,mb:"xs",children:"Age Requirement:"}),e.jsx(i,{children:"You must be at least 15 years old to use JobRocket. By using our Service, you represent and warrant that you are at least 15 years of age."})]})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"2. Description of Service"}),e.jsx(i,{mb:"md",children:"JobRocket is an online platform that connects job seekers with employers in Israel. Our Service provides:"}),e.jsxs(r,{mb:"md",children:[e.jsxs(r.Item,{children:[e.jsx("strong",{children:"For Jobseekers:"})," The ability to create profiles, browse job listings, apply for positions, favorite listings, and receive AI-powered job match recommendations"]}),e.jsxs(r.Item,{children:[e.jsx("strong",{children:"For Businesses:"})," The ability to create company profiles, post job listings, manage applications, and access AI-powered candidate matching"]}),e.jsxs(r.Item,{children:[e.jsx("strong",{children:"AI Matching:"})," Automated job matching using artificial intelligence to calculate compatibility scores between jobseekers and job listings"]})]}),e.jsx(i,{mb:"md",children:"The Service is currently provided free of charge. We reserve the right to introduce pricing, subscription plans, or premium features in the future with appropriate notice."})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"3. User Accounts"}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"3.1 Account Creation"}),e.jsx(i,{mb:"sm",children:"To use certain features of JobRocket, you must create an account. You agree to:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Provide accurate, current, and complete information during registration"}),e.jsx(r.Item,{children:"Maintain and promptly update your account information"}),e.jsx(r.Item,{children:"Keep your password secure and confidential"}),e.jsx(r.Item,{children:"Be responsible for all activities that occur under your account"}),e.jsxs(r.Item,{children:["Notify us immediately of any unauthorized use of your account at"," ",e.jsx(o,{href:"mailto:admin@jobrocket.co.il",children:"admin@jobrocket.co.il"})]})]}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"3.2 Account Types"}),e.jsx(i,{mb:"sm",children:"JobRocket offers two account types:"}),e.jsxs(r,{mb:"md",children:[e.jsxs(r.Item,{children:[e.jsx("strong",{children:"Jobseeker Accounts:"})," For individuals seeking employment opportunities"]}),e.jsxs(r.Item,{children:[e.jsx("strong",{children:"Business Accounts:"})," For companies and employers posting job listings"]})]}),e.jsx(i,{mb:"md",children:"You may switch between account types at any time through your account settings. However, you may only maintain one active account."}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"3.3 Account Termination"}),e.jsx(i,{mb:"sm",children:"You may delete your account at any time through your account settings. Upon deletion:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Your personal data will be immediately removed from our active systems"}),e.jsx(r.Item,{children:"Your job listings (if any) will be removed"}),e.jsx(r.Item,{children:"Your applications will be removed"}),e.jsx(r.Item,{children:"Data may remain in backup systems for up to 30 days for technical reasons"})]})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"4. User Conduct and Responsibilities"}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"4.1 Acceptable Use"}),e.jsx(i,{mb:"sm",children:"You agree to use JobRocket only for lawful purposes and in accordance with these Terms. You agree NOT to:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Violate any applicable Israeli or international laws or regulations"}),e.jsx(r.Item,{children:"Post false, misleading, fraudulent, or deceptive content"}),e.jsx(r.Item,{children:"Impersonate any person or entity or falsely state or misrepresent your affiliation"}),e.jsx(r.Item,{children:"Post job listings for positions that do not exist or that you are not authorized to fill"}),e.jsx(r.Item,{children:"Harass, abuse, threaten, or discriminate against other users"}),e.jsx(r.Item,{children:"Spam, solicit, or advertise unrelated products or services"}),e.jsx(r.Item,{children:"Use automated systems (bots, scrapers, etc.) to access the Service without authorization"}),e.jsx(r.Item,{children:"Attempt to gain unauthorized access to our systems or other users' accounts"}),e.jsx(r.Item,{children:"Upload or transmit viruses, malware, or any other malicious code"}),e.jsx(r.Item,{children:"Interfere with or disrupt the Service or servers/networks connected to the Service"}),e.jsx(r.Item,{children:"Collect or harvest personal information from other users without their consent"}),e.jsx(r.Item,{children:"Post content that is illegal, obscene, defamatory, discriminatory, or violates intellectual property rights"})]}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"4.2 Job Listings (Business Accounts)"}),e.jsx(i,{mb:"sm",children:"If you post job listings, you agree that:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"All job listings are for legitimate positions that actually exist"}),e.jsx(r.Item,{children:"You have the authority to recruit for the positions you post"}),e.jsx(r.Item,{children:"Your listings comply with Israeli employment and anti-discrimination laws"}),e.jsx(r.Item,{children:"You will not discriminate based on age, gender, religion, ethnicity, disability, or other protected characteristics"}),e.jsx(r.Item,{children:"You will promptly remove or mark as filled any listings that are no longer available"}),e.jsx(r.Item,{children:"You will handle applicant information responsibly and in compliance with privacy laws"})]}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"4.3 Job Applications (Jobseeker Accounts)"}),e.jsx(i,{mb:"sm",children:"If you submit job applications, you agree that:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"All information in your profile and applications is accurate and truthful"}),e.jsx(r.Item,{children:"You own the rights to any content (resumes, cover letters, etc.) you submit"}),e.jsx(r.Item,{children:"You understand that your application information will be shared with the employer"}),e.jsx(r.Item,{children:"You will not submit spam or mass applications"})]}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"4.4 Rate Limits"}),e.jsx(i,{mb:"sm",children:"To ensure fair use and prevent abuse, we implement the following rate limits:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Login attempts: 5 per 15 minutes"}),e.jsx(r.Item,{children:"Registration attempts: 5 per hour"}),e.jsx(r.Item,{children:"Job listings: 10 per 24 hours"}),e.jsx(r.Item,{children:"Job applications: 50 per hour"})]}),e.jsx(i,{children:"Exceeding these limits may result in temporary account restrictions or permanent suspension."})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"5. Content and Intellectual Property"}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"5.1 Your Content"}),e.jsx(i,{mb:"sm",children:"You retain ownership of all content you submit to JobRocket (profiles, job listings, applications, etc.). By posting content, you grant JobRocket a worldwide, non-exclusive, royalty-free license to:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Use, reproduce, and display your content to provide the Service"}),e.jsx(r.Item,{children:"Process your content with AI/ML algorithms for job matching purposes"}),e.jsx(r.Item,{children:"Share your content with other users as part of the Service functionality (e.g., sharing applications with employers)"})]}),e.jsx(i,{mb:"md",children:"You represent and warrant that you have all necessary rights to grant this license and that your content does not violate any third-party rights."}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"5.2 JobRocket's Content"}),e.jsx(i,{mb:"sm",children:"The Service, including its design, features, graphics, text, and code, is owned by JobRocket and protected by Israeli and international copyright and trademark laws. You may not:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Copy, modify, or create derivative works of the Service"}),e.jsx(r.Item,{children:"Reverse engineer, decompile, or disassemble any aspect of the Service"}),e.jsx(r.Item,{children:"Remove or modify any proprietary notices"}),e.jsx(r.Item,{children:"Use the JobRocket name, logo, or trademarks without permission"})]}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"5.3 Content Moderation"}),e.jsx(i,{mb:"sm",children:"JobRocket reserves the right, but not the obligation, to:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Monitor, review, and moderate content posted on the Service"}),e.jsx(r.Item,{children:"Remove or refuse to post any content that violates these Terms or that we deem inappropriate, offensive, or harmful"}),e.jsx(r.Item,{children:"Determine in our sole discretion what constitutes inappropriate or violating content"}),e.jsx(r.Item,{children:"Take action against users who violate these Terms, including warnings, content removal, or account suspension/termination"})]}),e.jsx(i,{mb:"md",children:"We are not responsible for user-generated content and do not endorse any opinions expressed by users."})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"6. Artificial Intelligence and Matching"}),e.jsx(i,{mb:"md",children:"JobRocket uses artificial intelligence (OpenAI's embedding models) to provide job matching functionality. By using our Service, you understand and agree that:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"AI-generated match scores are recommendations only and not guarantees"}),e.jsx(r.Item,{children:"Match scores are based on algorithmic analysis and may not reflect all relevant factors"}),e.jsx(r.Item,{children:"Your data may be processed by third-party AI services (see our Privacy Policy)"}),e.jsx(r.Item,{children:'AI matching is provided "as is" without warranties of accuracy or completeness'}),e.jsx(r.Item,{children:"You should exercise your own judgment when applying for jobs or evaluating candidates"})]})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"7. Third-Party Services and Links"}),e.jsx(i,{mb:"md",children:"JobRocket may contain links to third-party websites or integrate with third-party services (such as OpenAI, EmailJS, LinkedIn, etc.). We are not responsible for:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"The content, privacy practices, or terms of third-party services"}),e.jsx(r.Item,{children:"Any damages or losses caused by third-party services"}),e.jsx(r.Item,{children:"The availability or functionality of external links"})]}),e.jsx(i,{children:"Your use of third-party services is subject to their own terms and policies."})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"8. Disclaimers and Limitations of Liability"}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:'8.1 Service "As Is"'}),e.jsx(i,{mb:"md",children:'JobRocket is provided "AS IS" and "AS AVAILABLE" without warranties of any kind, either express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement. We do not warrant that:'}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"The Service will be uninterrupted, secure, or error-free"}),e.jsx(r.Item,{children:"The results obtained from the Service will be accurate or reliable"}),e.jsx(r.Item,{children:"Any errors or defects will be corrected"}),e.jsx(r.Item,{children:"The Service will meet your specific requirements"})]}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"8.2 No Employment Guarantees"}),e.jsx(i,{mb:"md",children:"JobRocket is a platform that facilitates connections between job seekers and employers. We do not:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Guarantee that jobseekers will find employment"}),e.jsx(r.Item,{children:"Guarantee that employers will find suitable candidates"}),e.jsx(r.Item,{children:"Verify the accuracy of job listings or user profiles"}),e.jsx(r.Item,{children:"Participate in hiring decisions or employment relationships"}),e.jsx(r.Item,{children:"Act as an employer, recruiter, or employment agency"})]}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"8.3 Limitation of Liability"}),e.jsx(i,{mb:"md",children:"To the maximum extent permitted by Israeli law, JobRocket and its officers, directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Lost profits, data, or opportunities"}),e.jsx(r.Item,{children:"Business interruption"}),e.jsx(r.Item,{children:"Loss of employment or hiring opportunities"}),e.jsx(r.Item,{children:"Damages arising from your use or inability to use the Service"}),e.jsx(r.Item,{children:"Damages arising from user content or conduct of other users"}),e.jsx(r.Item,{children:"Damages arising from unauthorized access to your account"})]}),e.jsx(i,{mb:"md",children:"Our total liability to you for all claims arising from your use of the Service shall not exceed the amount you paid us in the 12 months prior to the claim (currently zero, as the Service is free)."}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"8.4 User Interactions"}),e.jsx(i,{mb:"md",children:"JobRocket is not responsible for interactions between users. You are solely responsible for your interactions with other users, including employers and jobseekers. We recommend exercising caution and good judgment in all communications and transactions."})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"9. Indemnification"}),e.jsx(i,{mb:"md",children:"You agree to indemnify, defend, and hold harmless JobRocket and its officers, directors, employees, agents, and affiliates from and against any and all claims, liabilities, damages, losses, costs, and expenses (including reasonable attorneys' fees) arising from:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Your use or misuse of the Service"}),e.jsx(r.Item,{children:"Your violation of these Terms"}),e.jsx(r.Item,{children:"Your violation of any rights of another party"}),e.jsx(r.Item,{children:"Content you post or submit to the Service"}),e.jsx(r.Item,{children:"Your interactions with other users"})]})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"10. Service Modifications and Pricing"}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"10.1 Right to Modify"}),e.jsx(i,{mb:"md",children:"We reserve the right to:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Modify, suspend, or discontinue any aspect of the Service at any time"}),e.jsx(r.Item,{children:"Change features, functionality, or availability of the Service"}),e.jsx(r.Item,{children:"Implement rate limits or usage restrictions"}),e.jsx(r.Item,{children:"Update these Terms from time to time"})]}),e.jsx(i,{mb:"md",children:"We will provide reasonable notice of material changes when feasible, but are not obligated to do so."}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"10.2 Future Pricing"}),e.jsx(i,{mb:"md",children:"JobRocket is currently free to use. However, we reserve the right to introduce:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Subscription plans or membership fees"}),e.jsx(r.Item,{children:"Premium features or services"}),e.jsx(r.Item,{children:"Fees for job listings or applications"}),e.jsx(r.Item,{children:"Transaction fees or commissions"})]}),e.jsx(i,{mb:"md",children:"If we introduce pricing, we will provide advance notice and you will have the opportunity to decide whether to continue using the Service. Existing free features may be modified or limited when paid plans are introduced."})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"11. Termination and Suspension"}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"11.1 Termination by JobRocket"}),e.jsx(i,{mb:"sm",children:"We reserve the right to suspend or terminate your account and access to the Service at any time, with or without cause, with or without notice, for any reason including:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Violation of these Terms"}),e.jsx(r.Item,{children:"Fraudulent, abusive, or illegal activity"}),e.jsx(r.Item,{children:"Extended periods of inactivity"}),e.jsx(r.Item,{children:"At our sole discretion"})]}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"11.2 Effect of Termination"}),e.jsx(i,{mb:"sm",children:"Upon termination of your account:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:"Your right to access and use the Service immediately ceases"}),e.jsx(r.Item,{children:"Your content may be deleted from our active systems"}),e.jsx(r.Item,{children:"We are not liable for any losses resulting from termination"}),e.jsx(r.Item,{children:"Sections of these Terms that by their nature should survive termination will continue to apply"})]})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"12. Dispute Resolution and Governing Law"}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"12.1 Governing Law"}),e.jsx(i,{mb:"md",children:"These Terms shall be governed by and construed in accordance with the laws of the State of Israel, without regard to its conflict of law provisions."}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"12.2 Jurisdiction"}),e.jsx(i,{mb:"md",children:"Any legal action, suit, or proceeding arising out of or relating to these Terms or the Service shall be instituted exclusively in the competent courts located in Jerusalem, Israel. You consent to the personal jurisdiction of such courts and waive any objection to venue in such courts."}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"12.3 Informal Resolution"}),e.jsxs(i,{mb:"md",children:["Before filing any formal legal action, you agree to first contact us at"," ",e.jsx(o,{href:"mailto:admin@jobrocket.co.il",children:"admin@jobrocket.co.il"})," to attempt to resolve the dispute informally. We will make reasonable efforts to resolve disputes amicably."]})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"13. Changes to Terms"}),e.jsx(i,{mb:"md",children:"We reserve the right to modify these Terms at any time. When we make changes:"}),e.jsxs(r,{mb:"md",children:[e.jsx(r.Item,{children:'We will update the "Last Updated" date at the top of these Terms'}),e.jsx(r.Item,{children:"Material changes will be communicated via email or prominent notice on the platform"}),e.jsx(r.Item,{children:"Your continued use of the Service after changes become effective constitutes acceptance of the new Terms"}),e.jsx(r.Item,{children:"If you do not agree to the modified Terms, you must stop using the Service"})]})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"14. General Provisions"}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"14.1 Entire Agreement"}),e.jsx(i,{mb:"md",children:"These Terms, together with our Privacy Policy, constitute the entire agreement between you and JobRocket regarding the Service and supersede all prior agreements and understandings."}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"14.2 Severability"}),e.jsx(i,{mb:"md",children:"If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions shall remain in full force and effect."}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"14.3 Waiver"}),e.jsx(i,{mb:"md",children:"No waiver of any term or condition of these Terms shall be deemed a further or continuing waiver of such term or condition or any other term or condition."}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"14.4 Assignment"}),e.jsx(i,{mb:"md",children:"You may not assign or transfer these Terms or your rights under them without our prior written consent. We may freely assign these Terms."}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"14.5 No Agency"}),e.jsx(i,{mb:"md",children:"Nothing in these Terms creates any agency, partnership, joint venture, or employment relationship between you and JobRocket."}),e.jsx(t,{order:3,size:"h4",mb:"xs",mt:"md",children:"14.6 Language"}),e.jsx(i,{mb:"md",children:"These Terms are written in English. In the event of any conflict between an English version and a translated version, the English version shall prevail."})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"15. Contact Information"}),e.jsxs(n,{p:"md",withBorder:!0,mb:"md",children:[e.jsx(i,{mb:"sm",children:"If you have any questions, concerns, or feedback regarding these Terms, please contact us:"}),e.jsxs(i,{children:[e.jsx("strong",{children:"Email:"})," ",e.jsx(o,{href:"mailto:admin@jobrocket.co.il",children:"admin@jobrocket.co.il"})]}),e.jsxs(i,{children:[e.jsx("strong",{children:"Service:"})," JobRocket"]}),e.jsxs(i,{children:[e.jsx("strong",{children:"Website:"})," ",e.jsx(o,{href:"https://jobrocket-site.onrender.com",target:"_blank",children:"https://jobrocket-site.onrender.com"})]})]})]}),e.jsxs(s,{mb:"xl",children:[e.jsx(t,{order:2,size:"h3",mb:"sm",children:"16. Acknowledgment"}),e.jsx(i,{mb:"md",children:"BY USING JOBROCKET, YOU ACKNOWLEDGE THAT YOU HAVE READ THESE TERMS OF SERVICE, UNDERSTAND THEM, AND AGREE TO BE BOUND BY THEM. IF YOU DO NOT AGREE TO THESE TERMS, YOU MUST NOT USE THE SERVICE."})]}),e.jsxs(s,{ta:"center",c:"dimmed",pt:"xl",mt:"xl",style:{borderTop:"1px solid #e0e0e0"},children:[e.jsxs(i,{size:"sm",children:["© ",new Date().getFullYear()," JobRocket. All rights reserved."]}),e.jsxs(i,{size:"sm",children:["For questions about these Terms, contact"," ",e.jsx(o,{href:"mailto:admin@jobrocket.co.il",children:"admin@jobrocket.co.il"})]})]})]});export{l as default};
+import {
+  j as e,
+  v as a,
+  e as t,
+  T as i,
+  h as s,
+  g as o,
+  P as n,
+  E as r,
+} from './index-Dbp1fGsr.js';
+const l = () =>
+  e.jsxs(a, {
+    size: 'lg',
+    py: 'xl',
+    children: [
+      e.jsx(t, { order: 1, mb: 'md', children: 'Terms of Service' }),
+      e.jsx(i, {
+        c: 'dimmed',
+        fs: 'italic',
+        mb: 'xl',
+        children: 'Last Updated: January 2025',
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '1. Acceptance of Terms',
+          }),
+          e.jsxs(i, {
+            mb: 'md',
+            children: [
+              'Welcome to JobRocket ("we," "our," "us," or the "Service"). These Terms of Service ("Terms") constitute a legally binding agreement between you and JobRocket governing your access to and use of our job matching platform available at',
+              ' ',
+              e.jsx(o, {
+                href: 'https://jobrocket-site.onrender.com',
+                target: '_blank',
+                children: 'https://jobrocket-site.onrender.com',
+              }),
+              '.',
+            ],
+          }),
+          e.jsxs(i, {
+            mb: 'md',
+            children: [
+              'By accessing or using JobRocket, you acknowledge that you have read, understood, and agree to be bound by these Terms and our ',
+              e.jsx(o, { href: '/privacy-policy', children: 'Privacy Policy' }),
+              '. If you do not agree to these Terms, you must not use our Service.',
+            ],
+          }),
+          e.jsxs(n, {
+            p: 'md',
+            withBorder: !0,
+            bg: 'yellow.0',
+            mb: 'md',
+            children: [
+              e.jsx(i, { fw: 700, mb: 'xs', children: 'Age Requirement:' }),
+              e.jsx(i, {
+                children:
+                  'You must be at least 15 years old to use JobRocket. By using our Service, you represent and warrant that you are at least 15 years of age.',
+              }),
+            ],
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '2. Description of Service',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'JobRocket is an online platform that connects job seekers with employers in Israel. Our Service provides:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsxs(r.Item, {
+                children: [
+                  e.jsx('strong', { children: 'For Jobseekers:' }),
+                  ' The ability to create profiles, browse job listings, apply for positions, favorite listings, and receive AI-powered job match recommendations',
+                ],
+              }),
+              e.jsxs(r.Item, {
+                children: [
+                  e.jsx('strong', { children: 'For Businesses:' }),
+                  ' The ability to create company profiles, post job listings, manage applications, and access AI-powered candidate matching',
+                ],
+              }),
+              e.jsxs(r.Item, {
+                children: [
+                  e.jsx('strong', { children: 'AI Matching:' }),
+                  ' Automated job matching using artificial intelligence to calculate compatibility scores between jobseekers and job listings',
+                ],
+              }),
+            ],
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'The Service is currently provided free of charge. We reserve the right to introduce pricing, subscription plans, or premium features in the future with appropriate notice.',
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '3. User Accounts',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '3.1 Account Creation',
+          }),
+          e.jsx(i, {
+            mb: 'sm',
+            children:
+              'To use certain features of JobRocket, you must create an account. You agree to:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'Provide accurate, current, and complete information during registration',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Maintain and promptly update your account information',
+              }),
+              e.jsx(r.Item, {
+                children: 'Keep your password secure and confidential',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Be responsible for all activities that occur under your account',
+              }),
+              e.jsxs(r.Item, {
+                children: [
+                  'Notify us immediately of any unauthorized use of your account at',
+                  ' ',
+                  e.jsx(o, {
+                    href: 'mailto:admin@jobrocket.co.il',
+                    children: 'admin@jobrocket.co.il',
+                  }),
+                ],
+              }),
+            ],
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '3.2 Account Types',
+          }),
+          e.jsx(i, {
+            mb: 'sm',
+            children: 'JobRocket offers two account types:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsxs(r.Item, {
+                children: [
+                  e.jsx('strong', { children: 'Jobseeker Accounts:' }),
+                  ' For individuals seeking employment opportunities',
+                ],
+              }),
+              e.jsxs(r.Item, {
+                children: [
+                  e.jsx('strong', { children: 'Business Accounts:' }),
+                  ' For companies and employers posting job listings',
+                ],
+              }),
+            ],
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'You may switch between account types at any time through your account settings. However, you may only maintain one active account.',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '3.3 Account Termination',
+          }),
+          e.jsx(i, {
+            mb: 'sm',
+            children:
+              'You may delete your account at any time through your account settings. Upon deletion:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'Your personal data will be immediately removed from our active systems',
+              }),
+              e.jsx(r.Item, {
+                children: 'Your job listings (if any) will be removed',
+              }),
+              e.jsx(r.Item, { children: 'Your applications will be removed' }),
+              e.jsx(r.Item, {
+                children:
+                  'Data may remain in backup systems for up to 30 days for technical reasons',
+              }),
+            ],
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '4. User Conduct and Responsibilities',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '4.1 Acceptable Use',
+          }),
+          e.jsx(i, {
+            mb: 'sm',
+            children:
+              'You agree to use JobRocket only for lawful purposes and in accordance with these Terms. You agree NOT to:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'Violate any applicable Israeli or international laws or regulations',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Post false, misleading, fraudulent, or deceptive content',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Impersonate any person or entity or falsely state or misrepresent your affiliation',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Post job listings for positions that do not exist or that you are not authorized to fill',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Harass, abuse, threaten, or discriminate against other users',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Spam, solicit, or advertise unrelated products or services',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Use automated systems (bots, scrapers, etc.) to access the Service without authorization',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  "Attempt to gain unauthorized access to our systems or other users' accounts",
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Upload or transmit viruses, malware, or any other malicious code',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Interfere with or disrupt the Service or servers/networks connected to the Service',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Collect or harvest personal information from other users without their consent',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Post content that is illegal, obscene, defamatory, discriminatory, or violates intellectual property rights',
+              }),
+            ],
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '4.2 Job Listings (Business Accounts)',
+          }),
+          e.jsx(i, {
+            mb: 'sm',
+            children: 'If you post job listings, you agree that:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'All job listings are for legitimate positions that actually exist',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'You have the authority to recruit for the positions you post',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Your listings comply with Israeli employment and anti-discrimination laws',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'You will not discriminate based on age, gender, religion, ethnicity, disability, or other protected characteristics',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'You will promptly remove or mark as filled any listings that are no longer available',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'You will handle applicant information responsibly and in compliance with privacy laws',
+              }),
+            ],
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '4.3 Job Applications (Jobseeker Accounts)',
+          }),
+          e.jsx(i, {
+            mb: 'sm',
+            children: 'If you submit job applications, you agree that:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'All information in your profile and applications is accurate and truthful',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'You own the rights to any content (resumes, cover letters, etc.) you submit',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'You understand that your application information will be shared with the employer',
+              }),
+              e.jsx(r.Item, {
+                children: 'You will not submit spam or mass applications',
+              }),
+            ],
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '4.4 Rate Limits',
+          }),
+          e.jsx(i, {
+            mb: 'sm',
+            children:
+              'To ensure fair use and prevent abuse, we implement the following rate limits:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, { children: 'Login attempts: 5 per 15 minutes' }),
+              e.jsx(r.Item, { children: 'Registration attempts: 5 per hour' }),
+              e.jsx(r.Item, { children: 'Job listings: 10 per 24 hours' }),
+              e.jsx(r.Item, { children: 'Job applications: 50 per hour' }),
+            ],
+          }),
+          e.jsx(i, {
+            children:
+              'Exceeding these limits may result in temporary account restrictions or permanent suspension.',
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '5. Content and Intellectual Property',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '5.1 Your Content',
+          }),
+          e.jsx(i, {
+            mb: 'sm',
+            children:
+              'You retain ownership of all content you submit to JobRocket (profiles, job listings, applications, etc.). By posting content, you grant JobRocket a worldwide, non-exclusive, royalty-free license to:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'Use, reproduce, and display your content to provide the Service',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Process your content with AI/ML algorithms for job matching purposes',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Share your content with other users as part of the Service functionality (e.g., sharing applications with employers)',
+              }),
+            ],
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'You represent and warrant that you have all necessary rights to grant this license and that your content does not violate any third-party rights.',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: "5.2 JobRocket's Content",
+          }),
+          e.jsx(i, {
+            mb: 'sm',
+            children:
+              'The Service, including its design, features, graphics, text, and code, is owned by JobRocket and protected by Israeli and international copyright and trademark laws. You may not:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'Copy, modify, or create derivative works of the Service',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Reverse engineer, decompile, or disassemble any aspect of the Service',
+              }),
+              e.jsx(r.Item, {
+                children: 'Remove or modify any proprietary notices',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Use the JobRocket name, logo, or trademarks without permission',
+              }),
+            ],
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '5.3 Content Moderation',
+          }),
+          e.jsx(i, {
+            mb: 'sm',
+            children:
+              'JobRocket reserves the right, but not the obligation, to:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'Monitor, review, and moderate content posted on the Service',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Remove or refuse to post any content that violates these Terms or that we deem inappropriate, offensive, or harmful',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Determine in our sole discretion what constitutes inappropriate or violating content',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Take action against users who violate these Terms, including warnings, content removal, or account suspension/termination',
+              }),
+            ],
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'We are not responsible for user-generated content and do not endorse any opinions expressed by users.',
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '6. Artificial Intelligence and Matching',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              "JobRocket uses artificial intelligence (OpenAI's embedding models) to provide job matching functionality. By using our Service, you understand and agree that:",
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'AI-generated match scores are recommendations only and not guarantees',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Match scores are based on algorithmic analysis and may not reflect all relevant factors',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Your data may be processed by third-party AI services (see our Privacy Policy)',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'AI matching is provided "as is" without warranties of accuracy or completeness',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'You should exercise your own judgment when applying for jobs or evaluating candidates',
+              }),
+            ],
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '7. Third-Party Services and Links',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'JobRocket may contain links to third-party websites or integrate with third-party services (such as OpenAI, EmailJS, LinkedIn, etc.). We are not responsible for:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'The content, privacy practices, or terms of third-party services',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Any damages or losses caused by third-party services',
+              }),
+              e.jsx(r.Item, {
+                children: 'The availability or functionality of external links',
+              }),
+            ],
+          }),
+          e.jsx(i, {
+            children:
+              'Your use of third-party services is subject to their own terms and policies.',
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '8. Disclaimers and Limitations of Liability',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '8.1 Service "As Is"',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'JobRocket is provided "AS IS" and "AS AVAILABLE" without warranties of any kind, either express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement. We do not warrant that:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'The Service will be uninterrupted, secure, or error-free',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'The results obtained from the Service will be accurate or reliable',
+              }),
+              e.jsx(r.Item, {
+                children: 'Any errors or defects will be corrected',
+              }),
+              e.jsx(r.Item, {
+                children: 'The Service will meet your specific requirements',
+              }),
+            ],
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '8.2 No Employment Guarantees',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'JobRocket is a platform that facilitates connections between job seekers and employers. We do not:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children: 'Guarantee that jobseekers will find employment',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Guarantee that employers will find suitable candidates',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Verify the accuracy of job listings or user profiles',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Participate in hiring decisions or employment relationships',
+              }),
+              e.jsx(r.Item, {
+                children: 'Act as an employer, recruiter, or employment agency',
+              }),
+            ],
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '8.3 Limitation of Liability',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'To the maximum extent permitted by Israeli law, JobRocket and its officers, directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children: 'Lost profits, data, or opportunities',
+              }),
+              e.jsx(r.Item, { children: 'Business interruption' }),
+              e.jsx(r.Item, {
+                children: 'Loss of employment or hiring opportunities',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Damages arising from your use or inability to use the Service',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Damages arising from user content or conduct of other users',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Damages arising from unauthorized access to your account',
+              }),
+            ],
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'Our total liability to you for all claims arising from your use of the Service shall not exceed the amount you paid us in the 12 months prior to the claim (currently zero, as the Service is free).',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '8.4 User Interactions',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'JobRocket is not responsible for interactions between users. You are solely responsible for your interactions with other users, including employers and jobseekers. We recommend exercising caution and good judgment in all communications and transactions.',
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '9. Indemnification',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              "You agree to indemnify, defend, and hold harmless JobRocket and its officers, directors, employees, agents, and affiliates from and against any and all claims, liabilities, damages, losses, costs, and expenses (including reasonable attorneys' fees) arising from:",
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, { children: 'Your use or misuse of the Service' }),
+              e.jsx(r.Item, { children: 'Your violation of these Terms' }),
+              e.jsx(r.Item, {
+                children: 'Your violation of any rights of another party',
+              }),
+              e.jsx(r.Item, {
+                children: 'Content you post or submit to the Service',
+              }),
+              e.jsx(r.Item, { children: 'Your interactions with other users' }),
+            ],
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '10. Service Modifications and Pricing',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '10.1 Right to Modify',
+          }),
+          e.jsx(i, { mb: 'md', children: 'We reserve the right to:' }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'Modify, suspend, or discontinue any aspect of the Service at any time',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Change features, functionality, or availability of the Service',
+              }),
+              e.jsx(r.Item, {
+                children: 'Implement rate limits or usage restrictions',
+              }),
+              e.jsx(r.Item, {
+                children: 'Update these Terms from time to time',
+              }),
+            ],
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'We will provide reasonable notice of material changes when feasible, but are not obligated to do so.',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '10.2 Future Pricing',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'JobRocket is currently free to use. However, we reserve the right to introduce:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children: 'Subscription plans or membership fees',
+              }),
+              e.jsx(r.Item, { children: 'Premium features or services' }),
+              e.jsx(r.Item, {
+                children: 'Fees for job listings or applications',
+              }),
+              e.jsx(r.Item, { children: 'Transaction fees or commissions' }),
+            ],
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'If we introduce pricing, we will provide advance notice and you will have the opportunity to decide whether to continue using the Service. Existing free features may be modified or limited when paid plans are introduced.',
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '11. Termination and Suspension',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '11.1 Termination by JobRocket',
+          }),
+          e.jsx(i, {
+            mb: 'sm',
+            children:
+              'We reserve the right to suspend or terminate your account and access to the Service at any time, with or without cause, with or without notice, for any reason including:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, { children: 'Violation of these Terms' }),
+              e.jsx(r.Item, {
+                children: 'Fraudulent, abusive, or illegal activity',
+              }),
+              e.jsx(r.Item, { children: 'Extended periods of inactivity' }),
+              e.jsx(r.Item, { children: 'At our sole discretion' }),
+            ],
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '11.2 Effect of Termination',
+          }),
+          e.jsx(i, { mb: 'sm', children: 'Upon termination of your account:' }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'Your right to access and use the Service immediately ceases',
+              }),
+              e.jsx(r.Item, {
+                children: 'Your content may be deleted from our active systems',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'We are not liable for any losses resulting from termination',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Sections of these Terms that by their nature should survive termination will continue to apply',
+              }),
+            ],
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '12. Dispute Resolution and Governing Law',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '12.1 Governing Law',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'These Terms shall be governed by and construed in accordance with the laws of the State of Israel, without regard to its conflict of law provisions.',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '12.2 Jurisdiction',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'Any legal action, suit, or proceeding arising out of or relating to these Terms or the Service shall be instituted exclusively in the competent courts located in Jerusalem, Israel. You consent to the personal jurisdiction of such courts and waive any objection to venue in such courts.',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '12.3 Informal Resolution',
+          }),
+          e.jsxs(i, {
+            mb: 'md',
+            children: [
+              'Before filing any formal legal action, you agree to first contact us at',
+              ' ',
+              e.jsx(o, {
+                href: 'mailto:admin@jobrocket.co.il',
+                children: 'admin@jobrocket.co.il',
+              }),
+              ' to attempt to resolve the dispute informally. We will make reasonable efforts to resolve disputes amicably.',
+            ],
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '13. Changes to Terms',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'We reserve the right to modify these Terms at any time. When we make changes:',
+          }),
+          e.jsxs(r, {
+            mb: 'md',
+            children: [
+              e.jsx(r.Item, {
+                children:
+                  'We will update the "Last Updated" date at the top of these Terms',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Material changes will be communicated via email or prominent notice on the platform',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'Your continued use of the Service after changes become effective constitutes acceptance of the new Terms',
+              }),
+              e.jsx(r.Item, {
+                children:
+                  'If you do not agree to the modified Terms, you must stop using the Service',
+              }),
+            ],
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '14. General Provisions',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '14.1 Entire Agreement',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'These Terms, together with our Privacy Policy, constitute the entire agreement between you and JobRocket regarding the Service and supersede all prior agreements and understandings.',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '14.2 Severability',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions shall remain in full force and effect.',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '14.3 Waiver',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'No waiver of any term or condition of these Terms shall be deemed a further or continuing waiver of such term or condition or any other term or condition.',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '14.4 Assignment',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'You may not assign or transfer these Terms or your rights under them without our prior written consent. We may freely assign these Terms.',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '14.5 No Agency',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'Nothing in these Terms creates any agency, partnership, joint venture, or employment relationship between you and JobRocket.',
+          }),
+          e.jsx(t, {
+            order: 3,
+            size: 'h4',
+            mb: 'xs',
+            mt: 'md',
+            children: '14.6 Language',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'These Terms are written in English. In the event of any conflict between an English version and a translated version, the English version shall prevail.',
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '15. Contact Information',
+          }),
+          e.jsxs(n, {
+            p: 'md',
+            withBorder: !0,
+            mb: 'md',
+            children: [
+              e.jsx(i, {
+                mb: 'sm',
+                children:
+                  'If you have any questions, concerns, or feedback regarding these Terms, please contact us:',
+              }),
+              e.jsxs(i, {
+                children: [
+                  e.jsx('strong', { children: 'Email:' }),
+                  ' ',
+                  e.jsx(o, {
+                    href: 'mailto:admin@jobrocket.co.il',
+                    children: 'admin@jobrocket.co.il',
+                  }),
+                ],
+              }),
+              e.jsxs(i, {
+                children: [
+                  e.jsx('strong', { children: 'Service:' }),
+                  ' JobRocket',
+                ],
+              }),
+              e.jsxs(i, {
+                children: [
+                  e.jsx('strong', { children: 'Website:' }),
+                  ' ',
+                  e.jsx(o, {
+                    href: 'https://jobrocket-site.onrender.com',
+                    target: '_blank',
+                    children: 'https://jobrocket-site.onrender.com',
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        mb: 'xl',
+        children: [
+          e.jsx(t, {
+            order: 2,
+            size: 'h3',
+            mb: 'sm',
+            children: '16. Acknowledgment',
+          }),
+          e.jsx(i, {
+            mb: 'md',
+            children:
+              'BY USING JOBROCKET, YOU ACKNOWLEDGE THAT YOU HAVE READ THESE TERMS OF SERVICE, UNDERSTAND THEM, AND AGREE TO BE BOUND BY THEM. IF YOU DO NOT AGREE TO THESE TERMS, YOU MUST NOT USE THE SERVICE.',
+          }),
+        ],
+      }),
+      e.jsxs(s, {
+        ta: 'center',
+        c: 'dimmed',
+        pt: 'xl',
+        mt: 'xl',
+        style: { borderTop: '1px solid #e0e0e0' },
+        children: [
+          e.jsxs(i, {
+            size: 'sm',
+            children: [
+              '© ',
+              new Date().getFullYear(),
+              ' JobRocket. All rights reserved.',
+            ],
+          }),
+          e.jsxs(i, {
+            size: 'sm',
+            children: [
+              'For questions about these Terms, contact',
+              ' ',
+              e.jsx(o, {
+                href: 'mailto:admin@jobrocket.co.il',
+                children: 'admin@jobrocket.co.il',
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
+export { l as default };

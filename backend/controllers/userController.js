@@ -141,7 +141,11 @@ async function updateUserProfile(req, res) {
     const userId = req.params.id;
     const updateData = req.body;
     const resumeFile = req.file;
-    const updatedUser = await userService.updateProfile(userId, updateData, resumeFile);
+    const updatedUser = await userService.updateProfile(
+      userId,
+      updateData,
+      resumeFile,
+    );
     handleSuccess(res, 200, updatedUser, 'Profile updated successfully.');
   } catch (error) {
     handleError(res, error.status, error.message);

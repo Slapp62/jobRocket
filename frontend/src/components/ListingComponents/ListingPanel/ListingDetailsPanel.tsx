@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { IconArrowBack } from '@tabler/icons-react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
@@ -18,12 +19,11 @@ import {
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { ApplicationModal } from '@/components/Modals/applicationModal';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
+import { ApplicationModal } from '@/components/Modals/applicationModal';
 import SocialIcons from '@/components/SocialIcons';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
-import { IconArrowBack } from '@tabler/icons-react';
 
 type ListingDetailPanelProps = {
   listingId: string;
@@ -39,7 +39,7 @@ export function ListingDetailsPanel({
   const [showLoader, setShowLoader] = useState(false);
   const user = useSelector((state: RootState) => state.userSlice.user);
   const [opened, { open, close }] = useDisclosure(false);
-  const isMobile = useMediaQuery('(max-width: 768px)'); 
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
     // If listing is already provided, skip API call
@@ -115,7 +115,11 @@ export function ListingDetailsPanel({
       <Card shadow="sm" radius="md" withBorder p="lg" h="100%">
         <Stack gap="md">
           {isMobile && (
-            <Button variant='outline' leftSection={<IconArrowBack />} onClick={() => window.history.back()}>
+            <Button
+              variant="outline"
+              leftSection={<IconArrowBack />}
+              onClick={() => window.history.back()}
+            >
               Go Back
             </Button>
           )}
@@ -133,13 +137,13 @@ export function ListingDetailsPanel({
               </Badge>
             </Group>
 
-            <Group justify='start' align='center' gap="xs" mt="sm">
+            <Group justify="start" align="center" gap="xs" mt="sm">
               {listing.apply.method.jobRocketSystem && (
-                <Button 
-                  variant="filled" 
-                  color="rocketRed.6" 
-                  onClick={open} 
-                  w={{base: '100%', md: '30%'}}
+                <Button
+                  variant="filled"
+                  color="rocketRed.6"
+                  onClick={open}
+                  w={{ base: '100%', md: '30%' }}
                 >
                   Apply
                 </Button>
@@ -150,11 +154,7 @@ export function ListingDetailsPanel({
                   href={`mailto:${listing.apply.contact.email}`}
                   style={{ textDecoration: 'none', width: isMobile ? '100%' : '30%' }}
                 >
-                  <Button
-                    variant="filled"
-                    color="rocketRed.6"
-                    fullWidth
-                  >
+                  <Button variant="filled" color="rocketRed.6" fullWidth>
                     Email
                   </Button>
                 </Anchor>
@@ -166,16 +166,12 @@ export function ListingDetailsPanel({
                   target="_blank"
                   style={{ textDecoration: 'none', width: isMobile ? '100%' : '30%' }}
                 >
-                  <Button
-                    variant="filled"
-                    color="rocketRed.6"
-                    fullWidth
-                  >
+                  <Button variant="filled" color="rocketRed.6" fullWidth>
                     Apply Externally
                   </Button>
                 </Anchor>
               )}
-              
+
               <SocialIcons listingID={listing._id} />
               <ApplicationModal opened={opened} onClose={close} listingID={listing._id} />
             </Group>
@@ -247,7 +243,6 @@ export function ListingDetailsPanel({
               Posted on {new Date(listing.createdAt).toLocaleDateString()}
             </Text>
           )}
-
         </Stack>
       </Card>
     </motion.div>

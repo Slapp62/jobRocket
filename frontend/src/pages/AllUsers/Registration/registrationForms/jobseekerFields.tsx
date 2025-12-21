@@ -1,9 +1,9 @@
+import { IconPhone } from '@tabler/icons-react';
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Anchor, FileInput, Flex, Select, TagsInput, Textarea, TextInput } from '@mantine/core';
-import { TUsers } from '@/Types';
 import WORK_ARRANGEMENTS from '@/data/workArr.ts';
+import { TUsers } from '@/Types';
 import { validatePdfFile } from '@/utils/fileValidation';
-import { IconPhone } from '@tabler/icons-react';
 import { ConsentCheckboxes } from './ConsentCheckboxes';
 
 type JobseekerFieldsProps = {
@@ -93,7 +93,7 @@ export function JobseekerFields({
         })}
         error={errors.phone?.message}
       />
-      
+
       {/* Required: Highest Education */}
       <Controller
         name="jobseekerProfile.highestEducation"
@@ -129,12 +129,11 @@ export function JobseekerFields({
         )}
       />
 
-      
       {/* Optional: Resume URL/Path */}
-      
+
       <FileInput
         label="Resume URL"
-        description='Your resume will pre-fill in application forms.'
+        description="Your resume will pre-fill in application forms."
         placeholder="Upload your resume (PDF only)"
         disabled={disabled}
         value={resumeFile}
@@ -144,9 +143,9 @@ export function JobseekerFields({
         accept="application/pdf"
       />
       {currentResumeUrl && (
-          <Anchor href={currentResumeUrl} target="_blank" size="sm">
-            View Current Resume
-          </Anchor>
+        <Anchor href={currentResumeUrl} target="_blank" size="sm">
+          View Current Resume
+        </Anchor>
       )}
 
       {/* Optional: LinkedIn Page */}

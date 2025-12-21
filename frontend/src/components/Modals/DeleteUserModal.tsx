@@ -8,7 +8,13 @@ type DeleteUserModalProps = {
   isDeleting?: boolean;
 };
 
-export const DeleteUserModal = ({ opened, close, deleteUser, id, isDeleting }: DeleteUserModalProps) => {
+export const DeleteUserModal = ({
+  opened,
+  close,
+  deleteUser,
+  id,
+  isDeleting,
+}: DeleteUserModalProps) => {
   const handleDelete = () => {
     deleteUser(id);
     close();

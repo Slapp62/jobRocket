@@ -3,11 +3,17 @@ const Listings = require('../models/Listings.js');
 const User = require('../models/Users.js');
 const { throwError } = require('../utils/functionHandlers.js');
 const { normalizeApplicationResponse } = require('../utils/normalizeResponses');
-const { uploadResumeToCloudinary } = require('../utils/uploadResumeToCloudinary.js');
+const {
+  uploadResumeToCloudinary,
+} = require('../utils/uploadResumeToCloudinary.js');
 const matchingService = require('./matchingService.js');
 
-
-async function createApplication(listingId, applicantId, applicationData, resumeFile) {
+async function createApplication(
+  listingId,
+  applicantId,
+  applicationData,
+  resumeFile,
+) {
   // Check if listing exists and is active
   const listing = await Listings.findById(listingId);
   if (!listing) {
@@ -17,7 +23,7 @@ async function createApplication(listingId, applicantId, applicationData, resume
     throwError(400, 'Cannot apply to inactive listing');
   }
 
-  if (applicantId){
+  if (applicantId) {
     const user = await User.findById(applicantId);
     if (!user) {
       throwError(404, 'User not found');
@@ -27,19 +33,22 @@ async function createApplication(listingId, applicantId, applicationData, resume
     }
     const matchScore = matchingService.calculateMatchScore(
       user.jobseekerProfile.embedding,
-      listing.embedding
+      listing.embedding,
     );
     applicationData.matchScore = matchScore;
   }
 
-  const resumeUrl = await uploadResumeToCloudinary(resumeFile.buffer, applicationData.email);
-  
+  const resumeUrl = await uploadResumeToCloudinary(
+    resumeFile.buffer,
+    applicationData.email,
+  );
+
   // Create application
   const application = new Applications({
     listingId,
     applicantId: applicantId || null,
     firstName: applicationData.firstName,
-    lastName: applicationData.lastName, 
+    lastName: applicationData.lastName,
     email: applicationData.email,
     phone: applicationData.phone === '' ? undefined : applicationData.phone,
     resumeUrl: resumeUrl.secure_url,
@@ -47,6 +56,7 @@ async function createApplication(listingId, applicantId, applicationData, resume
       applicationData.message === '' ? undefined : applicationData.message,
     status: 'pending',
     matchScore: applicationData.matchScore || null,
+    applicationDataConsent: applicationData.applicationDataConsent,
   });
   await application.save();
   return application;
@@ -60,23 +70,27 @@ async function getApplicantApplications(applicantId) {
   return applications;
 }
 
-async function getDashboardMetrics(businessId){
-  const listings = await Listings.find({businessId: businessId});
+async function getDashboardMetrics(businessId) {
+  const listings = await Listings.find({ businessId });
   if (!listings || listings.length === 0) {
     throwError(404, 'No listings found');
   }
 
-  const listingIds = listings.map(listing => listing._id);
-  const applications = await Applications.find({listingId : {$in: listingIds}})
+  const listingIds = listings.map((listing) => listing._id);
+  const applications = await Applications.find({
+    listingId: { $in: listingIds },
+  });
   let reviewed = 0;
   let pending = 0;
   let rejected = 0;
 
   applications.forEach((application) => {
-    application.status === 'pending' ? ++pending :
-    application.status === 'reviewed' ? ++reviewed :
-    ++rejected; 
-  })
+    application.status === 'pending'
+      ? ++pending
+      : application.status === 'reviewed'
+        ? ++reviewed
+        : ++rejected;
+  });
 
   return {
     metrics: {
@@ -85,8 +99,8 @@ async function getDashboardMetrics(businessId){
       pendingApplications: pending,
       reviewedApplications: reviewed,
       rejectedApplications: rejected,
-    }
-  }
+    },
+  };
 }
 
 async function getListingApplications(listingId, requesterId) {
@@ -103,7 +117,7 @@ async function getListingApplications(listingId, requesterId) {
   const applications = await Applications.find({ listingId })
     .populate(
       'applicantId',
-      'jobseekerProfile.firstName jobseekerProfile.lastName jobseekerProfile.email jobseekerProfile.phone jobseekerProfile.resume jobseekerProfile.message'
+      'jobseekerProfile.firstName jobseekerProfile.lastName jobseekerProfile.email jobseekerProfile.phone jobseekerProfile.resume jobseekerProfile.message',
     )
     .sort({ createdAt: -1 });
 
@@ -132,7 +146,7 @@ async function updateApplicationData(
   applicationId,
   applicationData,
   requesterId,
-  resumeFile
+  resumeFile,
 ) {
   const application = await Applications.findById(applicationId);
 
@@ -153,12 +167,22 @@ async function updateApplicationData(
   // Handle resume file upload if provided
   if (resumeFile) {
     try {
-      const resumeUrl = await uploadResumeToCloudinary(resumeFile.buffer, applicationData.email || application.email);
+      const resumeUrl = await uploadResumeToCloudinary(
+        resumeFile.buffer,
+        applicationData.email || application.email,
+      );
       application.resumeUrl = resumeUrl.secure_url;
     } catch (error) {
       // Detect network-related errors
-      if (error.code === 'EAI_AGAIN' || error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
-        throwError(503, 'Failed to upload resume due to a network issue. Please try again in a moment.');
+      if (
+        error.code === 'EAI_AGAIN' ||
+        error.code === 'ETIMEDOUT' ||
+        error.code === 'ECONNREFUSED'
+      ) {
+        throwError(
+          503,
+          'Failed to upload resume due to a network issue. Please try again in a moment.',
+        );
       }
       // Re-throw other errors to preserve original error handling
       throw error;
@@ -181,7 +205,6 @@ async function updateApplicationData(
   return application;
 }
 
-
 async function deleteApplication(applicationId, requesterId) {
   const application =
     await Applications.findById(applicationId).populate('listingId');
@@ -189,14 +212,18 @@ async function deleteApplication(applicationId, requesterId) {
     throwError(404, 'Application not found');
   }
 
-  if (application.listingId.businessId.toString() !== requesterId || application.applicantId.toString() !== requesterId) {
+  if (
+    application.listingId.businessId.toString() !== requesterId ||
+    application.applicantId.toString() !== requesterId
+  ) {
     throwError(403, 'Not authorized to delete this application');
   }
 
-  await Applications.findByIdAndUpdate(applicationId, { hiddenFromBusiness: true });
+  await Applications.findByIdAndUpdate(applicationId, {
+    hiddenFromBusiness: true,
+  });
   return { deleted: true, id: applicationId };
 }
-
 
 module.exports = {
   createApplication,

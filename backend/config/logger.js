@@ -29,15 +29,15 @@ const devFormat = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
   winston.format.colorize({ all: true }),
   winston.format.printf(
-    (info) => `[${info.timestamp}] ${info.level}: ${info.message}`
-  )
+    (info) => `[${info.timestamp}] ${info.level}: ${info.message}`,
+  ),
 );
 
 const prodFormat = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
   winston.format.errors({ stack: true }),
   winston.format.splat(),
-  winston.format.json()
+  winston.format.json(),
 );
 
 // Create logs directory path
@@ -52,7 +52,7 @@ if (env === 'development' || env === 'test') {
     new winston.transports.Console({
       format: devFormat,
       level: env === 'test' ? 'error' : 'debug', // Only errors in test mode
-    })
+    }),
   );
 }
 
@@ -67,7 +67,7 @@ if (env !== 'test') {
       maxFiles: '14d', // Keep logs for 14 days
       format: prodFormat,
       level: 'debug',
-    })
+    }),
   );
 
   // Error logs (separate file, rotating daily)
@@ -79,7 +79,7 @@ if (env !== 'test') {
       maxFiles: '30d', // Keep error logs for 30 days
       format: prodFormat,
       level: 'error',
-    })
+    }),
   );
 
   // HTTP request logs (separate file, rotating daily)
@@ -91,7 +91,7 @@ if (env !== 'test') {
       maxFiles: '7d', // Keep HTTP logs for 7 days
       format: prodFormat,
       level: 'http',
-    })
+    }),
   );
 }
 
@@ -111,7 +111,7 @@ if (env === 'production') {
       maxSize: '20m',
       maxFiles: '30d',
       format: prodFormat,
-    })
+    }),
   );
 
   logger.rejections.handle(
@@ -121,7 +121,7 @@ if (env === 'production') {
       maxSize: '20m',
       maxFiles: '30d',
       format: prodFormat,
-    })
+    }),
   );
 }
 

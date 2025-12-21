@@ -52,7 +52,5 @@ export const cleanedListingData = (listing: TListing) => ({
   location: listing.location,
   workArrangement: listing.workArrangement,
   isActive: listing.isActive ?? true,
-  expiresAt: listing?.expiresAt
-    ? new Date(listing.expiresAt).toISOString().split('T')[0]
-    : null
+  expiresAt: listing?.expiresAt ? new Date(listing.expiresAt).toISOString().split('T')[0] : null,
 });

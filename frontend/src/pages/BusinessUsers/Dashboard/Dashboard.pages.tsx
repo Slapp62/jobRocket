@@ -1,13 +1,5 @@
 import { useState } from 'react';
-import {
-  Center,
-  Container,
-  Loader,
-  Stack,
-  Tabs,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Center, Container, Loader, Stack, Tabs, Text, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import {
   deleteApplication,
@@ -19,17 +11,13 @@ import { PageMeta } from '@/SEO/PageMeta';
 import { DashApplications } from './components/DashApplications';
 import { DashListings } from './components/DashListings';
 import { DashMetrics } from './components/DashMetrics';
-import { useDashboardListings } from './hooks/useDashboardListings'
-import { useDashboardApplications } from './hooks/useDashboardApplications'
+import { useDashboardApplications } from './hooks/useDashboardApplications';
+import { useDashboardListings } from './hooks/useDashboardListings';
 import { useDashboardMetrics } from './hooks/useDashboardMetrics';
 
 export const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    dashboardMetrics,
-    setDashboardMetrics,
-    getDashboardMetrics
-  } = useDashboardMetrics();
+  const { dashboardMetrics, setDashboardMetrics, getDashboardMetrics } = useDashboardMetrics();
 
   const {
     listings,
@@ -43,13 +31,13 @@ export const Dashboard = () => {
     setActiveFilter,
     page,
     setPage,
-    removeListingById
+    removeListingById,
   } = useDashboardListings();
 
   const {
     applications,
     isLoading: applicationsLoading,
-    searchText : appSearchText,
+    searchText: appSearchText,
     setSearchText: setAppSearchText,
     status,
     setStatus,
@@ -59,26 +47,28 @@ export const Dashboard = () => {
     setDateFrom,
     dateTo,
     setDateTo,
-    sortOption : appSortOption,
+    sortOption: appSortOption,
     setSortOption: setAppSortOption,
-    page : appPage,
+    page: appPage,
     setPage: setAppPage,
     newStatus,
     setNewStatus,
     setApplications,
-    removeApplicationById
+    removeApplicationById,
   } = useDashboardApplications();
-  
+
   const listingOptions = [
     { value: 'all', label: 'All Listings' },
-    ...(listings.map(listing => ({
+    ...(listings.map((listing) => ({
       value: listing._id,
-      label: listing.jobTitle
-    })) ?? [])
+      label: listing.jobTitle,
+    })) ?? []),
   ];
 
   const handleListingDelete = async (listingId: string) => {
-    if (!listingId) {return;}
+    if (!listingId) {
+      return;
+    }
     const newListings = removeListingById(listingId);
     setListings(newListings);
 
@@ -88,33 +78,38 @@ export const Dashboard = () => {
       notifications.show({
         title: 'Success',
         message: 'Listing deleted successfully',
-        color: 'green'
+        color: 'green',
       });
-    } catch (error : any) {
+    } catch (error: any) {
       notifications.show({
         title: 'Error',
         message: error.response?.data?.message || 'Failed to delete listing',
-        color: 'red'
+        color: 'red',
       });
     }
 
     // update listings metrics
     //TODO: add option to delete associated applications
     setDashboardMetrics((prev) => {
-      if (!prev) {return prev;}
-  
+      if (!prev) {
+        return prev;
+      }
+
       return {
         ...prev,
-      metrics: {              // Update the nested metrics object
-        ...prev.metrics,      // Keep all other metrics
-        totalListings: newListings.length,  // Update just this one
-      }
+        metrics: {
+          // Update the nested metrics object
+          ...prev.metrics, // Keep all other metrics
+          totalListings: newListings.length, // Update just this one
+        },
       };
-    });  
+    });
   };
 
   const handleApplicationDelete = async (applicationId: string) => {
-    if (!applicationId) {return;}
+    if (!applicationId) {
+      return;
+    }
     const newApplications = removeApplicationById(applicationId);
     setApplications(newApplications);
 
@@ -124,35 +119,39 @@ export const Dashboard = () => {
       notifications.show({
         title: 'Success',
         message: 'Application deleted successfully',
-        color: 'green'
+        color: 'green',
       });
-    } catch (error : any) {
+    } catch (error: any) {
       notifications.show({
         title: 'Error',
         message: error.response?.data?.message || 'Failed to delete application',
-        color: 'red'
+        color: 'red',
       });
     }
 
     // update applications metrics
     setDashboardMetrics((prev) => {
-      if (!prev) {return prev;}
-  
+      if (!prev) {
+        return prev;
+      }
+
       return {
         ...prev,
         metrics: {
           ...prev.metrics,
           totalApplications: newApplications.length,
-          pendingApplications: newApplications.filter(app => app.status === 'pending').length,
-          reviewedApplications: newApplications.filter(app => app.status === 'reviewed').length,
-          rejectedApplications: newApplications.filter(app => app.status === 'rejected').length
-        }
-      }
-    });  
+          pendingApplications: newApplications.filter((app) => app.status === 'pending').length,
+          reviewedApplications: newApplications.filter((app) => app.status === 'reviewed').length,
+          rejectedApplications: newApplications.filter((app) => app.status === 'rejected').length,
+        },
+      };
+    });
   };
 
   const handleStatusChange = async (applicationId: string, newStatus: string | null) => {
-    if (!newStatus) {return;}
+    if (!newStatus) {
+      return;
+    }
     const validStatus = newStatus as 'pending' | 'reviewed' | 'rejected';
 
     try {
@@ -160,40 +159,42 @@ export const Dashboard = () => {
       // Refresh dashboard metrics to reflect the status change
       const data = await fetchDashboardMetrics();
       setDashboardMetrics(data);
-    } catch (error : any) {
+    } catch (error: any) {
       notifications.show({
         title: 'Error',
         message: error.response?.data?.message || 'Failed to update application status',
-        color: 'red'
+        color: 'red',
       });
     }
 
-    setApplications(prev => {
-      if (!prev) {return prev;}
+    setApplications((prev) => {
+      if (!prev) {
+        return prev;
+      }
 
-      return prev.map(app => 
-        app._id === applicationId ? { ...app, status: validStatus } : app
-      );
+      return prev.map((app) => (app._id === applicationId ? { ...app, status: validStatus } : app));
     });
 
     setDashboardMetrics((prev) => {
-      if (!prev) {return prev;}
-      const updatedMetrics = {
-        pendingApplications: applications.filter(app => app.status === 'pending').length,
-        reviewedApplications: applications.filter(app => app.status === 'reviewed').length,
-        rejectedApplications: applications.filter(app => app.status === 'rejected').length,
+      if (!prev) {
+        return prev;
       }
-  
+      const updatedMetrics = {
+        pendingApplications: applications.filter((app) => app.status === 'pending').length,
+        reviewedApplications: applications.filter((app) => app.status === 'reviewed').length,
+        rejectedApplications: applications.filter((app) => app.status === 'rejected').length,
+      };
+
       return {
         ...prev,
         metrics: {
           ...prev.metrics,
-          updatedMetrics
-        }
-      }
-    });   
+          updatedMetrics,
+        },
+      };
+    });
   };
-  
+
   return (
     <>
       <PageMeta
@@ -222,14 +223,18 @@ export const Dashboard = () => {
             <DashMetrics dashboardMetrics={dashboardMetrics} />
 
             <Tabs color="rocketOrange" variant="outline" defaultValue="applications">
-              <Tabs.List mb={20} justify='center' fw={600} >
-                <Tabs.Tab value="applications" fz={{ base: 'lg', md: 30 }}>Applications</Tabs.Tab>
-                <Tabs.Tab value="listings" fz={{ base: 'lg', md: 30 }}>Listings</Tabs.Tab>
+              <Tabs.List mb={20} justify="center" fw={600}>
+                <Tabs.Tab value="applications" fz={{ base: 'lg', md: 30 }}>
+                  Applications
+                </Tabs.Tab>
+                <Tabs.Tab value="listings" fz={{ base: 'lg', md: 30 }}>
+                  Listings
+                </Tabs.Tab>
               </Tabs.List>
 
               <Tabs.Panel value="applications">
-                <DashApplications 
-                  dashApplications={applications} 
+                <DashApplications
+                  dashApplications={applications}
                   listingOptions={listingOptions}
                   onStatusChange={handleStatusChange}
                   searchText={appSearchText}

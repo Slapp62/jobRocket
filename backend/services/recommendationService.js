@@ -10,7 +10,7 @@ async function getMatchScoreForListing(userId, listingId) {
     if (!user) {
       throwError(
         404,
-        "Your account information couldn't be found. Please try logging in again."
+        "Your account information couldn't be found. Please try logging in again.",
       );
     }
 
@@ -35,7 +35,7 @@ async function getMatchScoreForListing(userId, listingId) {
       user.jobseekerProfile.embedding,
       listing.embedding,
       userId,
-      listingId
+      listingId,
     );
 
     // Log recommendation calculation
@@ -56,6 +56,5 @@ async function getMatchScoreForListing(userId, listingId) {
     throw error;
   }
 }
-
 
 module.exports = { getMatchScoreForListing };

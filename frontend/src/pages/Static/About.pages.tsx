@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Container,
+  Flex,
   Grid,
   Group,
   Image,
@@ -72,97 +73,93 @@ const AboutPage: FC = () => {
         <Title order={1} mb="md" ta="center">
           About Us
         </Title>
-      <Text size="lg" mb="xl">
-        At <strong>JobRocket</strong>, we connect job seekers with employers through intelligent AI-powered
-        matching. Our platform uses advanced OpenAI embeddings to analyze your skills, experience, and
-        preferences to find the perfect job matches tailored to you.
-      </Text>
-      <Grid gutter="xl" mb="xl">
-        <Grid.Col span={{ base: 12, md: 6 }}>
-          <Image
-            radius="md"
-            src="/office-hero.jpg"
-            alt="Professional office environment"
-            loading="lazy"
-            fit="cover"
-            h={300}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6 }}>
-          <Paper
-            shadow="md"
-            p="md"
-            radius="md"
-            className={styles.cardGradientSubtle}
+        <Text size="lg" mb="xl">
+          At <strong>JobRocket</strong>, we connect job seekers with employers through intelligent
+          AI-powered matching. Our platform uses advanced OpenAI embeddings to analyze your skills,
+          experience, and preferences to find the perfect job matches tailored to you.
+        </Text>
+        <Grid gutter="xl" mb="xl">
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <Image
+              radius="md"
+              src="/office-hero.jpg"
+              alt="Professional office environment"
+              loading="lazy"
+              fit="cover"
+              h={300}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <Paper shadow="md" p="md" radius="md" className={styles.cardGradientSubtle}>
+              <Title order={4}>Our Mission</Title>
+              <Text mt="sm">
+                We leverage cutting-edge AI technology to transform job searching and hiring. Our
+                intelligent matching system analyzes compatibility between job seekers and
+                positions, ensuring better fits and more successful placements for everyone
+                involved.
+              </Text>
+            </Paper>
+          </Grid.Col>
+        </Grid>
+        <Flex direction={{ base: 'column', md: 'row' }} gap='lg' justify='center' align='stretch' >
+          <Stat icon={<IconBriefcase size={24} />} label="AI-Powered Matching" value="Smart" />
+          <Stat icon={<IconUsers size={24} />} label="Job Seekers & Employers" value="Connected" />
+          <Stat icon={<IconWorld size={24} />} label="Match Score Technology" value="OpenAI" />
+        </Flex>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          `
+          <Title
+            order={2}
+            size="h1"
+            style={{ fontFamily: 'Outfit, var(--mantine-font-family)' }}
+            fw={700}
+            ta="center"
           >
-            <Title order={4}>Our Mission</Title>
-            <Text mt="sm">
-              We leverage cutting-edge AI technology to transform job searching and hiring.
-              Our intelligent matching system analyzes compatibility between job seekers and positions,
-              ensuring better fits and more successful placements for everyone involved.
-            </Text>
-          </Paper>
-        </Grid.Col>
-      </Grid>
-      <Group grow>
-        <Stat icon={<IconBriefcase size={24} />} label="AI-Powered Matching" value="Smart" />
-        <Stat icon={<IconUsers size={24} />} label="Job Seekers & Employers" value="Connected" />
-        <Stat icon={<IconWorld size={24} />} label="Match Score Technology" value="OpenAI" />
-      </Group>
-      <form onSubmit={form.onSubmit(handleSubmit)}>
+            Get in touch
+          </Title>
+          <SimpleGrid cols={{ base: 1, sm: 2 }} mt="xl">
+            <TextInput
+              label="Name"
+              placeholder="Your name"
+              name="name"
+              variant="filled"
+              {...form.getInputProps('name')}
+            />
+            <TextInput
+              label="Email"
+              placeholder="Your email"
+              name="email"
+              variant="filled"
+              {...form.getInputProps('email')}
+            />
+          </SimpleGrid>
+          <TextInput
+            label="Subject"
+            placeholder="Subject"
+            mt="md"
+            name="subject"
+            variant="filled"
+            {...form.getInputProps('subject')}
+          />
+          <Textarea
+            mt="md"
+            label="Message"
+            placeholder="Your message"
+            maxRows={10}
+            minRows={5}
+            autosize
+            name="message"
+            variant="filled"
+            {...form.getInputProps('message')}
+          />
+          <Group justify="center" mt="xl">
+            <Button type="submit" size="md" loading={isSubmitting}>
+              Send message
+            </Button>
+          </Group>
+        </form>
         `
-        <Title
-          order={2}
-          size="h1"
-          style={{ fontFamily: 'Outfit, var(--mantine-font-family)' }}
-          fw={700}
-          ta="center"
-        >
-          Get in touch
-        </Title>
-        <SimpleGrid cols={{ base: 1, sm: 2 }} mt="xl">
-          <TextInput
-            label="Name"
-            placeholder="Your name"
-            name="name"
-            variant="filled"
-            {...form.getInputProps('name')}
-          />
-          <TextInput
-            label="Email"
-            placeholder="Your email"
-            name="email"
-            variant="filled"
-            {...form.getInputProps('email')}
-          />
-        </SimpleGrid>
-        <TextInput
-          label="Subject"
-          placeholder="Subject"
-          mt="md"
-          name="subject"
-          variant="filled"
-          {...form.getInputProps('subject')}
-        />
-        <Textarea
-          mt="md"
-          label="Message"
-          placeholder="Your message"
-          maxRows={10}
-          minRows={5}
-          autosize
-          name="message"
-          variant="filled"
-          {...form.getInputProps('message')}
-        />
-        <Group justify="center" mt="xl">
-          <Button type="submit" size="md" loading={isSubmitting}>
-            Send message
-          </Button>
-        </Group>
-      </form>
-      `
-    </Container>
+      </Container>
     </Box>
   );
 };
@@ -174,13 +171,7 @@ type StatProps = {
 };
 
 const Stat: FC<StatProps> = ({ icon, label, value }) => (
-  <Paper
-    shadow="xs"
-    p="md"
-    radius="md"
-    withBorder
-    className={styles.cardGradientOrange}
-  >
+  <Paper shadow="xs" p="md" radius="md" withBorder className={styles.cardGradientOrange}>
     <Group>
       <ThemeIcon variant="light" size="lg" radius="xl" color="rocketOrange">
         {icon}

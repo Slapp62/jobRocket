@@ -131,7 +131,7 @@ describe('GET /api/applications/listing/:listingId - Get Listing Applications', 
       .expect(403);
 
     expect(response.body.message).toBe(
-      'Not authorized to view these applications'
+      'Not authorized to view these applications',
     );
   });
 

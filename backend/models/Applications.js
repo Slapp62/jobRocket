@@ -31,7 +31,7 @@ const applicationSchema = new Schema({
     type: String,
     required: true,
     validate: {
-      validator (v) {
+      validator(v) {
         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
       },
       message: (props) => `${props.value} is not a valid email!`,
@@ -41,7 +41,7 @@ const applicationSchema = new Schema({
     type: String,
     required: false,
     validate: {
-      validator (v) {
+      validator(v) {
         return /^0(?:5[0-9]|[2-4689])(?:-?\d{3}(?:-?\d{4}))$/.test(v);
       },
       message: (props) => `${props.value} is not a valid Israeli phone number!`,
@@ -59,7 +59,7 @@ const applicationSchema = new Schema({
     maxlength: 2000,
     required: false,
   },
-  dataShared: {
+  applicationDataConsent: {
     sharedFields: {
       name: { type: Boolean, default: true },
       email: { type: Boolean, default: true },
@@ -78,7 +78,7 @@ const applicationSchema = new Schema({
     enum: ['pending', 'reviewed', 'rejected'],
     default: 'pending',
   },
-  hiddenFromBusiness:{
+  hiddenFromBusiness: {
     type: Boolean,
     default: false,
   },

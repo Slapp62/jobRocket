@@ -10,16 +10,24 @@ describe('Match Score Calculation', () => {
 
   test('completely different embeddings should return low scores', () => {
     // Create two orthogonal vectors (no similarity)
-    const embedding1 = Array(1536).fill(0).map((_, i) => (i === 0 ? 1 : 0));
-    const embedding2 = Array(1536).fill(0).map((_, i) => (i === 1 ? 1 : 0));
+    const embedding1 = Array(1536)
+      .fill(0)
+      .map((_, i) => (i === 0 ? 1 : 0));
+    const embedding2 = Array(1536)
+      .fill(0)
+      .map((_, i) => (i === 1 ? 1 : 0));
     const score = calculateMatchScore(embedding1, embedding2);
     expect(score).toBeCloseTo(0, 2);
   });
 
   test('somewhat similar embeddings should return moderate scores', () => {
     // Create two vectors with some overlap
-    const embedding1 = Array(1536).fill(0).map((_, i) => (i < 500 ? 0.8 : 0.2));
-    const embedding2 = Array(1536).fill(0).map((_, i) => (i < 300 ? 0.7 : 0.3));
+    const embedding1 = Array(1536)
+      .fill(0)
+      .map((_, i) => (i < 500 ? 0.8 : 0.2));
+    const embedding2 = Array(1536)
+      .fill(0)
+      .map((_, i) => (i < 300 ? 0.7 : 0.3));
     const score = calculateMatchScore(embedding1, embedding2);
     // Should be between 0 and 1, but not at extremes
     expect(score).toBeGreaterThan(0.3);
@@ -42,8 +50,12 @@ describe('Match Score Calculation', () => {
 
   test('realistic OpenAI-style embeddings should produce reasonable scores', () => {
     // Simulate realistic embeddings (small positive/negative values, normalized)
-    const embedding1 = Array(1536).fill(0).map(() => (Math.random() - 0.5) * 0.1);
-    const embedding2 = Array(1536).fill(0).map(() => (Math.random() - 0.5) * 0.1);
+    const embedding1 = Array(1536)
+      .fill(0)
+      .map(() => (Math.random() - 0.5) * 0.1);
+    const embedding2 = Array(1536)
+      .fill(0)
+      .map(() => (Math.random() - 0.5) * 0.1);
 
     const score = calculateMatchScore(embedding1, embedding2);
 

@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { IconArrowUp } from '@tabler/icons-react';
 import { Box, Button, Flex, Group, Pagination, Skeleton, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { EmptyState } from '@/components/EmptyState';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import { ViewDetailsAction } from '@/components/ListingActions/ViewDetailsAction';
 import ListingCard from '../ListingCard/ListingCard';
-import { EmptyState } from '@/components/EmptyState';
 
 interface MobileViewProps {
   displayListings: any[];
@@ -40,7 +40,7 @@ const MobileView = ({ displayListings, isLoading = false }: MobileViewProps) => 
       <Flex wrap="wrap" gap="lg" align="stretch" justify="st" w={isMobile ? '95vw' : '80vw'}>
         {displayListings.map((listing) => (
           <ListingCard
-           mobileWidth='100%'
+            mobileWidth="100%"
             key={listing._id}
             listing={listing}
             actions={

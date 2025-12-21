@@ -81,12 +81,12 @@ export type TBusinessProfile = {
   _id?: string;
 };
 
-export type googleProfile =  {
+export type googleProfile = {
   email: string;
   firstName: string;
   lastName: string;
   profilePicture: string;
-}
+};
 
 export type TUsers = {
   _id: string;
@@ -149,5 +149,5 @@ export type TDashboardMetrics = {
     pendingApplications: number;
     reviewedApplications: number;
     rejectedApplications: number;
-  }
-}
+  };
+};

@@ -1,8 +1,8 @@
-import { notifications } from "@mantine/notifications";
-import { useEffect, useState } from "react";
-import { fetchDashboardMetrics } from "../utils/dashboardApi";
-import { TDashboardMetrics } from "@/Types";
-import { get } from "http";
+import { useEffect, useState } from 'react';
+import { get } from 'http';
+import { notifications } from '@mantine/notifications';
+import { TDashboardMetrics } from '@/Types';
+import { fetchDashboardMetrics } from '../utils/dashboardApi';
 
 export const useDashboardMetrics = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +31,6 @@ export const useDashboardMetrics = () => {
   return {
     dashboardMetrics,
     setDashboardMetrics,
-    getDashboardMetrics
-  }
-}
+    getDashboardMetrics,
+  };
+};

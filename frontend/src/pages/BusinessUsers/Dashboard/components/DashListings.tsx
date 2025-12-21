@@ -1,12 +1,12 @@
+import { useState } from 'react';
 import { IconCircle, IconCircleFilled, IconPencil, IconTrash } from '@tabler/icons-react';
+import { useNavigate } from 'react-router';
 import { ActionIcon, Box, Card, Group, Select, Stack, Table, Text, TextInput } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { EmptyState } from '@/components/EmptyState';
 import { TListing } from '@/Types';
 import { DeleteListingModal } from '../modals/DeleteListingModal';
-import { useDisclosure } from '@mantine/hooks';
-import { useState } from 'react';
 import { EditListingModal } from '../modals/EditListingModal';
-import { EmptyState } from '@/components/EmptyState';
-import { useNavigate } from 'react-router';
 
 interface DashListingsProps {
   listings: TListing[];
@@ -20,12 +20,24 @@ interface DashListingsProps {
   page: number;
   setPage: (page: number) => void;
   handleDelete: (listingId: string) => Promise<void>;
-  setListings: React.Dispatch<React.SetStateAction<TListing[]>>
+  setListings: React.Dispatch<React.SetStateAction<TListing[]>>;
 }
 
-export const DashListings = ({ listings, handleDelete, searchText, setSearchText, sortOption, setSortOption, activeFilter, setActiveFilter, page, setPage, setListings }: DashListingsProps) => {
+export const DashListings = ({
+  listings,
+  handleDelete,
+  searchText,
+  setSearchText,
+  sortOption,
+  setSortOption,
+  activeFilter,
+  setActiveFilter,
+  page,
+  setPage,
+  setListings,
+}: DashListingsProps) => {
   const [deleteOpened, { open: openDelete, close: closeDelete }] = useDisclosure(false);
-  const [listingDelete, setListingDelete] = useState<{id: string, title: string} | null>(null);
+  const [listingDelete, setListingDelete] = useState<{ id: string; title: string } | null>(null);
   const [editOpened, { open: openEdit, close: closeEdit }] = useDisclosure(false);
   const [listingEdit, setListingEdit] = useState<TListing>();
   const navigate = useNavigate();
@@ -68,7 +80,9 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
             label="Sort by"
             placeholder="Select sort option"
             value={sortOption}
-            onChange={(value) => {setSortOption(value)}}
+            onChange={(value) => {
+              setSortOption(value);
+            }}
             data={[
               { value: 'all', label: 'All Listings' },
               { value: 'date-created-new', label: 'Newest First' },
@@ -83,7 +97,9 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
             label="Filter by status"
             placeholder="Select active filter"
             value={activeFilter}
-            onChange={(value) => {setActiveFilter(value)}}
+            onChange={(value) => {
+              setActiveFilter(value);
+            }}
             data={[
               { value: 'all', label: 'All Listings' },
               { value: 'active', label: 'Active' },
@@ -93,7 +109,7 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
         </Stack>
 
         {/* Desktop Filters */}
-        <Group justify='center' visibleFrom="md">
+        <Group justify="center" visibleFrom="md">
           <TextInput
             label="Search listings"
             placeholder="Search listings"
@@ -104,7 +120,9 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
             label="Sort by"
             placeholder="Select sort option"
             value={sortOption}
-            onChange={(value) => {setSortOption(value)}}
+            onChange={(value) => {
+              setSortOption(value);
+            }}
             data={[
               { value: 'all', label: 'All Listings' },
               { value: 'date-created-new', label: 'Newest First' },
@@ -119,7 +137,9 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
             label="Filter by status"
             placeholder="Select active filter"
             value={activeFilter}
-            onChange={(value) => {setActiveFilter(value)}}
+            onChange={(value) => {
+              setActiveFilter(value);
+            }}
             data={[
               { value: 'all', label: 'All Listings' },
               { value: 'active', label: 'Active' },
@@ -135,7 +155,9 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
               <Stack gap="xs">
                 <Group justify="space-between" align="start">
                   <div>
-                    <Text fw={600} size="lg">{listing.jobTitle}</Text>
+                    <Text fw={600} size="lg">
+                      {listing.jobTitle}
+                    </Text>
                   </div>
                   {listing.isActive ? (
                     <IconCircleFilled size={20} color="green" />
@@ -148,7 +170,9 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
                   <Text size="xs" c="dimmed">
                     Created: {listing.createdAt && new Date(listing.createdAt).toLocaleDateString()}
                   </Text>
-                  <Text size="xs" c="dimmed">•</Text>
+                  <Text size="xs" c="dimmed">
+                    •
+                  </Text>
                   <Text size="xs" c="dimmed">
                     {listing.likes?.length || 0} favorites
                   </Text>
@@ -156,7 +180,7 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
 
                 {listing.expiresAt && (
                   <Text size="xs" c="dimmed">
-                    Expires: {listing.expiresAt}
+                    Expires: {listing.expiresAt && new Date(listing.expiresAt).toLocaleDateString()}
                   </Text>
                 )}
 
@@ -204,7 +228,9 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
                 {listings?.map((listing) => (
                   <Table.Tr key={listing._id}>
                     <Table.Td
-                      styles={{ td: { borderLeft: '1px solid #eee', borderRight: '1px solid #eee' } }}
+                      styles={{
+                        td: { borderLeft: '1px solid #eee', borderRight: '1px solid #eee' },
+                      }}
                     >
                       <Text fz="sm" fw="bold" c="dimmed" ta="center">
                         {listings.indexOf(listing) + 1}
@@ -218,17 +244,19 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
                     </Table.Td>
 
                     <Table.Td>
-                      {listing.createdAt && new Date(listing.createdAt).toLocaleString()}
+                      {listing.createdAt && new Date(listing.createdAt).toLocaleDateString()}
                     </Table.Td>
 
                     <Table.Td>
-                      <Text fz="sm">
-                        {listing.expiresAt}
-                      </Text>
+                      <Text fz="sm">{listing.expiresAt && new Date(listing.expiresAt).toLocaleDateString()}</Text>
                     </Table.Td>
 
                     <Table.Td>
-                      {listing.isActive === true ? <IconCircleFilled size={16} color="green" /> : <IconCircleFilled size={16} color="red" />}
+                      {listing.isActive === true ? (
+                        <IconCircleFilled size={16} color="green" />
+                      ) : (
+                        <IconCircleFilled size={16} color="red" />
+                      )}
                     </Table.Td>
 
                     <Table.Td>
@@ -264,19 +292,19 @@ export const DashListings = ({ listings, handleDelete, searchText, setSearchText
         </Box>
       </Stack>
 
-      <EditListingModal 
-        opened={editOpened} 
-        onClose={closeEdit} 
-        listing={listingEdit} 
+      <EditListingModal
+        opened={editOpened}
+        onClose={closeEdit}
+        listing={listingEdit}
         setListings={setListings}
       />
 
-      <DeleteListingModal 
-        opened={deleteOpened} 
-        onClose={closeDelete} 
-        listingId={listingDelete?.id || ""} 
-        listingTitle={listingDelete?.title || ""} 
-        handleDelete={handleDelete} 
+      <DeleteListingModal
+        opened={deleteOpened}
+        onClose={closeDelete}
+        listingId={listingDelete?.id || ''}
+        listingTitle={listingDelete?.title || ''}
+        handleDelete={handleDelete}
       />
     </>
   );

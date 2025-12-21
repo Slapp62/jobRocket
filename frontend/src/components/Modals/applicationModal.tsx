@@ -1,14 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { Button, Checkbox, FileInput, Modal, Stack, Textarea, TextInput, Text } from '@mantine/core';
+import {
+  Anchor,
+  Button,
+  Checkbox,
+  FileInput,
+  Modal,
+  Stack,
+  Text,
+  Textarea,
+  TextInput,
+} from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { TApplication } from '@/Types';
-import { applicationSchema } from '@/validationRules/application.joi';
 import { validateRequiredPdfFile } from '@/utils/fileValidation';
+import { applicationSchema } from '@/validationRules/application.joi';
 
 interface ApplicationModalProps {
   opened: boolean;
@@ -24,6 +34,7 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
 
   const {
     reset,
+    control,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -55,7 +66,7 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
     setResumeError(error);
     setResumeFile(error ? null : file);
   };
-  
+
   const onSubmit = async (data: TApplication) => {
     try {
       setIsLoading(true);
@@ -64,11 +75,18 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
       formData.append('firstName', data.firstName);
       formData.append('lastName', data.lastName);
       formData.append('email', data.email);
-      if (data.phone) {formData.append('phone', data.phone);}
-      if (data.message) {formData.append('message', data.message);}
-      if (resumeFile) {formData.append('resume', resumeFile);}
+      if (data.phone) {
+        formData.append('phone', data.phone);
+      }
+      if (data.message) {
+        formData.append('message', data.message);
+      }
+      if (resumeFile) {
+        formData.append('resume', resumeFile);
+      }
       formData.append('applicationDataConsent', String(data.applicationDataConsent));
-            
+
+      console.log(formData);
       
       await axios.post(`/api/applications/${listingID}`, formData);
       reset();
@@ -91,9 +109,9 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
   };
 
   return (
-    <Modal opened={opened} onClose={onClose} title="Application" zIndex={1000}>
+    <Modal opened={opened} onClose={onClose} title="Application" zIndex={1000} size='md'>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack w={{base: '100%', md: '80%'}} mx='auto'>
+        <Stack w={{ base: '100%', md: '95%' }} mx="auto">
           <TextInput
             label="First Name"
             required
@@ -108,6 +126,7 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
           />
           <TextInput label="Email" required {...register('email')} error={errors.email?.message} />
           <TextInput label="Phone" {...register('phone')} error={errors.phone?.message} />
+
           <FileInput
             label="Resume/CV"
             accept="application/pdf"
@@ -116,17 +135,34 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
             error={resumeError}
           />
           <Textarea label="Message" {...register('message')} error={errors.message?.message} />
-          <Checkbox
-            {...register('applicationDataConsent')}
-            label={
-              <Text size="sm">
-                I consent to share my <strong>name, email, phone, resume, and cover letter</strong> with this employer
-              </Text>
-            }
-            error={errors.applicationDataConsent?.message}
-            mt="md"
+          <Controller
+            name="applicationDataConsent"
+            control={control}
+            render={({ field: { value, ...field } }) => (
+              <Checkbox
+                {...field}
+                checked={value}
+                onChange={(event) => field.onChange(event.currentTarget.checked)}
+                label={
+                  <Text size="sm">
+                    I consent to JobRocket sharing my data (full name, email, phone number, and resume via Cloudinary) as described in the{' '}
+                    <Anchor href="/privacy-policy" target="_blank">
+                      Privacy Policy.
+                    </Anchor>
+                  </Text>
+                }
+                error={errors. applicationDataConsent?.message}
+              />
+            )}
           />
-          <Button type="submit" mx="auto" w={200} disabled={!isValid || !resumeFile || !!resumeError} loading={isLoading}>
+
+          <Button
+            type="submit"
+            mx="auto"
+            w={200}
+            disabled={!isValid || !resumeFile || !!resumeError}
+            loading={isLoading}
+          >
             Submit
           </Button>
         </Stack>

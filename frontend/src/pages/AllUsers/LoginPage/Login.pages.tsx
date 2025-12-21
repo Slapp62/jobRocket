@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { IconBrandGoogle } from '@tabler/icons-react';
 import axios from 'axios';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -19,10 +20,9 @@ import { notifications } from '@mantine/notifications';
 import { PageMeta } from '@/SEO/PageMeta';
 import { AppDispatch } from '@/store/store';
 import { setUser } from '@/store/userSlice';
+import styles from '@/styles/gradients.module.css';
 import { loginSchema } from '@/validationRules/login.joi';
 import classes from './Login.module.css';
-import styles from '@/styles/gradients.module.css';
-import { IconBrandGoogle } from '@tabler/icons-react';
 
 export function LoginPage() {
   const jumpTo = useNavigate();
@@ -50,25 +50,25 @@ export function LoginPage() {
   });
 
   useEffect(() => {
-  const error = searchParams.get('error');
-  const success = searchParams.get('success');
+    const error = searchParams.get('error');
+    const success = searchParams.get('success');
 
-  if (error === 'account_exists') {
-    notifications.show({
-      title: 'Account Already Exists',
-      message: 'You already have an account. Please log in instead.',
-      color: 'blue'
-    });
-  }
+    if (error === 'account_exists') {
+      notifications.show({
+        title: 'Account Already Exists',
+        message: 'You already have an account. Please log in instead.',
+        color: 'blue',
+      });
+    }
 
-  if (success === 'registration_complete') {
-    notifications.show({
-      title: 'Registration Complete!',
-      message: 'Please log in with your credentials.',
-      color: 'green'
-    });
-  }
-}, [searchParams]);
+    if (success === 'registration_complete') {
+      notifications.show({
+        title: 'Registration Complete!',
+        message: 'Please log in with your credentials.',
+        color: 'green',
+      });
+    }
+  }, [searchParams]);
 
   const onSubmit = async (data: FieldValues) => {
     setIsLoading(true);
@@ -94,7 +94,6 @@ export function LoginPage() {
         color: 'red',
       });
       reset();
-
     } finally {
       setIsLoading(false);
     }
@@ -132,7 +131,7 @@ export function LoginPage() {
             <Button
               fullWidth
               variant="filled"
-              fz='md'
+              fz="md"
               onClick={() => {
                 window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`;
               }}

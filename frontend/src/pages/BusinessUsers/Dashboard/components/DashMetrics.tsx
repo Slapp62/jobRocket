@@ -1,7 +1,7 @@
 import { IconBriefcase, IconChecks, IconClock, IconUsers, IconX } from '@tabler/icons-react';
-import { Paper, SimpleGrid, Text, ThemeIcon, Group } from '@mantine/core';
-import { TDashboardMetrics } from '@/Types';
+import { Group, Paper, SimpleGrid, Text, ThemeIcon } from '@mantine/core';
 import styles from '@/styles/gradients.module.css';
+import { TDashboardMetrics } from '@/Types';
 
 interface DashMetricsProps {
   dashboardMetrics?: TDashboardMetrics;
@@ -11,13 +11,7 @@ export const DashMetrics = ({ dashboardMetrics }: DashMetricsProps) => {
   return (
     <SimpleGrid cols={{ base: 1, xs: 2, sm: 3, md: 5 }} spacing="md">
       <>
-        <Paper
-          shadow="sm"
-          p="md"
-          radius="md"
-          withBorder
-          className={styles.cardGradientSubtle}
-        >
+        <Paper shadow="sm" p="md" radius="md" withBorder className={styles.cardGradientSubtle}>
           <Group justify="space-between" mb="xs">
             <Text size="xs" c="dimmed" fw={700} tt="uppercase">
               Total Applications
@@ -30,13 +24,7 @@ export const DashMetrics = ({ dashboardMetrics }: DashMetricsProps) => {
             {dashboardMetrics?.metrics?.totalApplications || 0}
           </Text>
         </Paper>
-        <Paper
-          shadow="sm"
-          p="md"
-          radius="md"
-          withBorder
-          className={styles.cardGradientRed}
-        >
+        <Paper shadow="sm" p="md" radius="md" withBorder className={styles.cardGradientRed}>
           <Group justify="space-between" mb="xs">
             <Text size="xs" c="dimmed" fw={700} tt="uppercase">
               Total Listings

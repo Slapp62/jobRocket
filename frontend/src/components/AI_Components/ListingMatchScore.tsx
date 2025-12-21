@@ -1,7 +1,7 @@
-import { Badge } from '@mantine/core';
-import { TListing } from '@/Types';
 import { useSelector } from 'react-redux';
+import { Badge } from '@mantine/core';
 import { RootState } from '@/store/store';
+import { TListing } from '@/Types';
 
 interface MatchScoreProps {
   listing: TListing;
@@ -33,8 +33,8 @@ export function MatchScore({ listing }: MatchScoreProps) {
   if (score === null || score === undefined || isNaN(score)) {
     return (
       <Badge
-        style={{borderColor:'gray'}}
-        c='gray'
+        style={{ borderColor: 'gray' }}
+        c="gray"
         size="lg"
         variant="outline"
         radius="md"
@@ -50,12 +50,11 @@ export function MatchScore({ listing }: MatchScoreProps) {
 
   return (
     <Badge
-      style={{borderColor:color}}
+      style={{ borderColor: color }}
       c={color}
-      size="lg"
+      size="xl"
       variant="outline"
       radius="md"
-      h="100%"
     >
       {percentage}% Match
     </Badge>

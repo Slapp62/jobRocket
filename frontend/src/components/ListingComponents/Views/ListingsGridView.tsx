@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { Box, Button, Flex, Group, Skeleton, Stack, Text } from '@mantine/core';
 import { MatchScore } from '@/components/AI_Components/ListingMatchScore';
+import { EmptyState } from '@/components/EmptyState';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import { RootState } from '@/store/store';
 import ListingCard from '../ListingCard/ListingCard';
-import { EmptyState } from '@/components/EmptyState';
 
 interface DesktopDefaultViewProps {
   isLoading: boolean;
@@ -74,23 +74,21 @@ const DesktopDefaultView = ({
                     listing={listing}
                     actions={
                       <Group gap={10} w="100%">
-                        <Button 
+                        <Button
                           onClick={() => {
                             if (!handleSelectListing) return null;
                             handleSelectListing(listing._id);
                             window.scrollTo({ top: 0, behavior: 'instant' });
-                          }} 
-                          color='rocketRed' 
-                          fullWidth 
-                          size='sm'
+                          }}
+                          color="rocketRed"
+                          fullWidth
+                          size="sm"
                         >
                           Learn More
                         </Button>
-                        {user?.profileType === 'jobseeker' &&
-                          <FavoritesButton listing={listing} />}
+                        {user?.profileType === 'jobseeker' && <FavoritesButton listing={listing} />}
 
-                        {user?.profileType !== 'business' &&
-                        <MatchScore listing={listing} />}
+                        {user?.profileType !== 'business' && <MatchScore listing={listing} />}
                       </Group>
                     }
                     width="300px"

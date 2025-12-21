@@ -1,5 +1,10 @@
 const OpenAI = require('openai');
-const { logAI, logExternalAPI, logError, createTimer } = require('../utils/logHelpers');
+const {
+  logAI,
+  logExternalAPI,
+  logError,
+  createTimer,
+} = require('../utils/logHelpers');
 
 const openai =
   process.env.NODE_ENV === 'test' && !process.env.OPENAI_API_KEY
@@ -7,7 +12,11 @@ const openai =
     : new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // Main function: text → coordinates
-async function generateEmbedding(text, entityType = 'unknown', entityId = null) {
+async function generateEmbedding(
+  text,
+  entityType = 'unknown',
+  entityId = null,
+) {
   const endTimer = createTimer('generate-embedding');
 
   try {

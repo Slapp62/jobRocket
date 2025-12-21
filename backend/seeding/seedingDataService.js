@@ -33,7 +33,7 @@ const seedDevData = async (users, listings, applications = []) => {
       }
       const normalizedListing = await normalizeListing(
         listing,
-        businessUser._id
+        businessUser._id,
       );
       const newListing = new Listing(normalizedListing);
       await newListing.save();
@@ -57,7 +57,7 @@ const seedDevData = async (users, listings, applications = []) => {
       const listing = seededListings[application.listingIndex];
       if (!listing) {
         console.error(
-          `Listing not found at index: ${application.listingIndex}`
+          `Listing not found at index: ${application.listingIndex}`,
         );
         continue;
       }
@@ -81,6 +81,7 @@ const seedDevData = async (users, listings, applications = []) => {
         resumeUrl: application.resumeUrl,
         message: application.message,
         status: application.status,
+        applicationDataConsent: application.applicationDataConsent,
       });
       await newApplication.save();
     } catch (error) {
@@ -115,7 +116,7 @@ const seedTestData = async (users, listings, applications = []) => {
     try {
       const normalizedListing = await normalizeListing(
         listing,
-        businessUser._id
+        businessUser._id,
       );
       const newListing = new Listing(normalizedListing);
       await newListing.save();
@@ -139,7 +140,7 @@ const seedTestData = async (users, listings, applications = []) => {
       const listing = seededListings[application.listingIndex];
       if (!listing) {
         console.error(
-          `Listing not found at index: ${application.listingIndex}`
+          `Listing not found at index: ${application.listingIndex}`,
         );
         continue;
       }

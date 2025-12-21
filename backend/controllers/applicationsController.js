@@ -1,6 +1,10 @@
 const applicationsService = require('../services/applicationsService.js');
 const { getFilteredApplications } = require('../services/filterService.js');
-const { handleSuccess, handleError, throwError } = require('../utils/functionHandlers.js');
+const {
+  handleSuccess,
+  handleError,
+  throwError,
+} = require('../utils/functionHandlers.js');
 const Users = require('../models/Users.js');
 const Listings = require('../models/Listings.js');
 
@@ -20,9 +24,9 @@ async function createApplication(req, res) {
 
     // Fetch listing to get employer name for audit trail
     const listing = await Listings.findById(listingId);
-
+    
     // Capture consent metadata for Amendment 13 compliance
-    applicationData.dataShared = {
+    applicationData.applicationDataConsent = {
       sharedFields: {
         name: true,
         email: true,
@@ -36,7 +40,8 @@ async function createApplication(req, res) {
       userAgent: req.get('user-agent'),
       employerName: listing?.companyName || 'Unknown',
     };
-
+    console.log(applicationData.applicationDataConsent)
+    
     const application = await applicationsService.createApplication(
       listingId,
       applicantId,
@@ -46,7 +51,11 @@ async function createApplication(req, res) {
 
     handleSuccess(res, 201, application, 'Application submitted successfully.');
   } catch (error) {
-    handleError(res, error.status, `createApplicationController: ${error.message}`);
+    handleError(
+      res,
+      error.status,
+      `createApplicationController: ${error.message}`,
+    );
   }
 }
 
@@ -60,11 +69,14 @@ async function getDashboardMetrics(req, res) {
   }
 }
 
-async function getBusinessApplications(req, res){
+async function getBusinessApplications(req, res) {
   try {
     const businessId = req.user._id;
     const filterParams = req.query;
-    const applications = await getFilteredApplications(businessId, filterParams);
+    const applications = await getFilteredApplications(
+      businessId,
+      filterParams,
+    );
     handleSuccess(res, 200, applications);
   } catch (error) {
     handleError(res, error.status || 500, error.message);

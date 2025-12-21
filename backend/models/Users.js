@@ -249,7 +249,7 @@ const userSchema = new Schema({
 });
 
 // Custom validator: Either password OR googleId must exist
-userSchema.pre('validate', function(next) {
+userSchema.pre('validate', function (next) {
   if (!this.password && !this.googleId) {
     next(new Error('User must have either a password or Google account'));
   } else {

@@ -3,17 +3,29 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { Controller, FieldValues, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Anchor, Box, Button, Checkbox, Fieldset, Flex, FloatingIndicator, Group, Stack, Tabs, Text } from '@mantine/core';
+import {
+  Anchor,
+  Box,
+  Button,
+  Checkbox,
+  Fieldset,
+  Flex,
+  FloatingIndicator,
+  Group,
+  Stack,
+  Tabs,
+  Text,
+} from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { PageMeta } from '@/SEO/PageMeta';
+import styles from '@/styles/gradients.module.css';
+import { TUsers } from '@/Types';
+import { registrationSchema } from '@/validationRules/register.joi';
 import { BusinessFields } from './registrationForms/businessFields';
 import { JobseekerFields } from './registrationForms/jobseekerFields';
 import { SharedCredentials } from './registrationForms/shareCredentials';
-import { PageMeta } from '@/SEO/PageMeta';
-import { TUsers } from '@/Types';
-import { registrationSchema } from '@/validationRules/register.joi';
 import classes from './formTabs.module.css';
-import styles from '@/styles/gradients.module.css';
 
 export function RegisterForm() {
   const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
@@ -22,7 +34,7 @@ export function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeError, setResumeError] = useState<string | null>(null);
-  
+
   const setControlRef = (val: string) => (node: HTMLButtonElement) => {
     controlsRefs[val] = node;
     setControlsRefs(controlsRefs);
@@ -52,12 +64,12 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (data: FieldValues) => {
-    if (resumeError){
+    if (resumeError) {
       notifications.show({
         title: 'Error',
         message: resumeError,
         color: 'red',
-      })
+      });
       return;
     }
     // Build the request payload - profileType is already set by tab change
@@ -85,14 +97,14 @@ export function RegisterForm() {
       // If there's a resume file, use FormData
       if (resumeFile) {
         const formData = new FormData();
-        
+
         // Add all the regular data
         formData.append('email', payload.email);
         formData.append('password', payload.password);
         formData.append('phone', payload.phone || '');
         formData.append('profileType', payload.profileType);
         formData.append('dataProcessingConsent', String(payload.dataProcessingConsent));
-        
+
         if (payload.jobseekerProfile) {
           // Flatten jobseekerProfile fields
           Object.keys(payload.jobseekerProfile).forEach((key) => {
@@ -106,7 +118,7 @@ export function RegisterForm() {
             }
           });
         }
-        
+
         if (payload.businessProfile) {
           Object.keys(payload.businessProfile).forEach((key) => {
             const value = payload.businessProfile[key];
@@ -115,10 +127,10 @@ export function RegisterForm() {
             }
           });
         }
-        
+
         // Add the resume file
         formData.append('resume', resumeFile);
-        
+
         response = await axios.post('/api/users/', formData);
       } else {
         // No file, use regular JSON
@@ -205,9 +217,9 @@ export function RegisterForm() {
                 </Tabs.List>
 
                 <Tabs.Panel value="jobseeker">
-                  <JobseekerFields 
-                    register={register} 
-                    errors={errors} 
+                  <JobseekerFields
+                    register={register}
+                    errors={errors}
                     control={control}
                     resumeFile={resumeFile}
                     setResumeFile={setResumeFile}
@@ -216,11 +228,7 @@ export function RegisterForm() {
                   />
                 </Tabs.Panel>
                 <Tabs.Panel value="business">
-                  <BusinessFields 
-                    register={register} 
-                    errors={errors} 
-                    control={control} 
-                  />
+                  <BusinessFields register={register} errors={errors} control={control} />
                 </Tabs.Panel>
               </Tabs>
             </Fieldset>
@@ -239,11 +247,11 @@ export function RegisterForm() {
                 Reset Form
               </Button>
 
-              <Button 
-                type="submit" 
-                mx="auto" 
-                fullWidth 
-                disabled={!isValid || (!isDirty && !resumeFile) || !!resumeError} 
+              <Button
+                type="submit"
+                mx="auto"
+                fullWidth
+                disabled={!isValid || (!isDirty && !resumeFile) || !!resumeError}
                 loading={isLoading}
               >
                 Submit
@@ -265,7 +273,6 @@ export function RegisterForm() {
               </Group>
             </Stack>
           </Flex>
-
         </form>
       </Flex>
     </>

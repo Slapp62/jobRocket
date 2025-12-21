@@ -26,7 +26,7 @@ export function SearchCity({
       radius={radius || 100}
       w={width}
       placeholder={placeholder || 'City'}
-      rightSection={<IconFilter2 size={15}/>}
+      rightSection={<IconFilter2 size={15} />}
       data={data}
       searchable
       nothingFoundMessage="No city found"

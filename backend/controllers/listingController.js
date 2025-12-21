@@ -18,7 +18,7 @@ async function getSearchedListings(req, res) {
     const normalizedSearchParams = filterService.normalizeSearch(req.query);
     const result = await filterService.getFilteredListings(
       normalizedSearchParams,
-      req.user._id
+      req.user._id,
     );
     res.json(result);
   } catch (error) {
@@ -30,8 +30,11 @@ async function getBusinessListings(req, res) {
   try {
     const businessId = req.user._id;
     const normalizedSearchParams = filterService.normalizeSearch(req.query);
-    
-    const result = await filterService.getFilteredListings(normalizedSearchParams, businessId);
+
+    const result = await filterService.getFilteredListings(
+      normalizedSearchParams,
+      businessId,
+    );
     handleSuccess(res, 200, result, 'Business listings fetched successfully');
   } catch (error) {
     handleError(res, error.status, error.message);
@@ -46,7 +49,7 @@ async function getLikedListings(req, res) {
       res,
       200,
       likedListings,
-      'Liked listings fetched successfully'
+      'Liked listings fetched successfully',
     );
   } catch (error) {
     handleError(res, error.status, error.message);
@@ -119,7 +122,7 @@ async function updateListing(req, res) {
     const listingData = req.body;
     const updatedListing = await listingService.editListingById(
       listingId,
-      listingData
+      listingData,
     );
     handleSuccess(res, 200, updatedListing, 'Listing updated successfully');
   } catch (error) {
@@ -146,7 +149,7 @@ async function toggleListingLikeNew(req, res) {
 
     // Return a simple response indicating liked status
     const isLiked = updatedListing.likes.some(
-      (likeId) => likeId.toString() === userId.toString()
+      (likeId) => likeId.toString() === userId.toString(),
     );
 
     handleSuccess(
@@ -156,7 +159,7 @@ async function toggleListingLikeNew(req, res) {
         liked: isLiked,
         likeCount: updatedListing.likes.length,
       },
-      'Like toggled successfully'
+      'Like toggled successfully',
     );
   } catch (error) {
     handleError(res, error.status, error.message);

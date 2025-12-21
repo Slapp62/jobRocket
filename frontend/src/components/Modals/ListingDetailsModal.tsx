@@ -1,7 +1,7 @@
 import { Anchor, Badge, Box, Divider, Group, List, Modal, Stack, Text, Title } from '@mantine/core';
+import styles from '@/styles/gradients.module.css';
 import { TListing } from '@/Types';
 import { formatRegionForDisplay } from '@/utils/formatters';
-import styles from '@/styles/gradients.module.css';
 
 type ListingDetailsModalProps = {
   opened: boolean;
@@ -29,7 +29,7 @@ export const ListingDetailsModal = ({ opened, onClose, listing }: ListingDetails
               borderRadius: '8px',
               marginTop: '-16px',
               marginLeft: '-16px',
-              marginRight: '-16px'
+              marginRight: '-16px',
             }}
           >
             <Text fw={700} size="lg" c="dimmed" mb={5}>

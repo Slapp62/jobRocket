@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 
 const handleSuccess = (res, status, data = {}, message = '') => {
-  console.log(chalk.blueBright.bold(message, status ));
+  console.log(chalk.blueBright.bold(message, status));
   return res.status(status).json(data);
 };
 

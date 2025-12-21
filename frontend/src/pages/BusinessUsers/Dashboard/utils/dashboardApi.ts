@@ -18,10 +18,10 @@ export const fetchBusinessListings = async (filterParams: {
   // Example: { searchText: 'engineer', industry: 'All', page: 1 }
   // becomes: "searchText=engineer&page=1"
   const queryString = new URLSearchParams(
-    Object.entries(filterParams)  // Convert object to array: [['searchText', 'engineer'], ['industry', 'All'], ['page', 1]]
-      .filter(([_, value]) => value !== undefined && value !== 'All')  // Remove empty filters and 'All' values
-      .map(([key, value]) => [key, String(value)])  // Convert all values to strings (URLs need strings)
-  ).toString();  // Convert to URL format: "searchText=engineer&page=1"
+    Object.entries(filterParams) // Convert object to array: [['searchText', 'engineer'], ['industry', 'All'], ['page', 1]]
+      .filter(([_, value]) => value !== undefined && value !== 'All') // Remove empty filters and 'All' values
+      .map(([key, value]) => [key, String(value)]) // Convert all values to strings (URLs need strings)
+  ).toString(); // Convert to URL format: "searchText=engineer&page=1"
 
   const response = await axios.get(`/api/listings/business-listings?${queryString}`);
 
@@ -42,10 +42,10 @@ export const fetchBusinessApplications = async (filterParams: {
   // Example: { searchText: 'john', status: 'all', page: 1 }
   // becomes: "searchText=john&page=1"
   const queryString = new URLSearchParams(
-    Object.entries(filterParams)  // Convert object to array: [['searchText', 'john'], ['status', 'all'], ['page', 1]]
-      .filter(([_, value]) => value !== undefined && value !== 'All' && value !== 'all')  // Remove empty filters and 'All'/'all' values
-      .map(([key, value]) => [key, String(value)])  // Convert all values to strings (URLs need strings)
-  ).toString();  // Convert to URL format: "searchText=john&page=1"
+    Object.entries(filterParams) // Convert object to array: [['searchText', 'john'], ['status', 'all'], ['page', 1]]
+      .filter(([_, value]) => value !== undefined && value !== 'All' && value !== 'all') // Remove empty filters and 'All'/'all' values
+      .map(([key, value]) => [key, String(value)]) // Convert all values to strings (URLs need strings)
+  ).toString(); // Convert to URL format: "searchText=john&page=1"
 
   const response = await axios.get(`/api/applications/business-applications?${queryString}`);
 
@@ -72,4 +72,3 @@ export const deleteApplication = async (applicationId: string) => {
 
   return response.data;
 };
-

@@ -70,17 +70,17 @@ const { logDatabase } = require('./utils/logHelpers');
 // Log database operations
 logDatabase('create', 'Users', {
   userId: newUser._id,
-  email: newUser.email
+  email: newUser.email,
 });
 
 logDatabase('update', 'Listings', {
   listingId: listing._id,
-  changes: ['title', 'salary']
+  changes: ['title', 'salary'],
 });
 
 logDatabase('delete', 'Applications', {
   applicationId: app._id,
-  userId: req.user._id
+  userId: req.user._id,
 });
 ```
 
@@ -92,19 +92,19 @@ const { logAuth } = require('./utils/logHelpers');
 // Login success
 logAuth('login', user._id, {
   profileType: user.profileType,
-  ip: req.ip
+  ip: req.ip,
 });
 
 // Login failure
 logAuth('failed-login', null, {
   email: req.body.email,
   ip: req.ip,
-  reason: 'invalid_password'
+  reason: 'invalid_password',
 });
 
 // Registration
 logAuth('register', newUser._id, {
-  profileType: newUser.profileType
+  profileType: newUser.profileType,
 });
 
 // Logout
@@ -120,21 +120,21 @@ const { logBusiness } = require('./utils/logHelpers');
 logBusiness('application-submitted', {
   applicantId: applicant._id,
   listingId: listing._id,
-  businessId: listing.user_id
+  businessId: listing.user_id,
 });
 
 // Listing published
 logBusiness('listing-published', {
   listingId: listing._id,
   businessId: req.user._id,
-  jobTitle: listing.jobTitle
+  jobTitle: listing.jobTitle,
 });
 
 // Match score calculated
 logBusiness('match-calculated', {
   jobseekerId: jobseeker._id,
   listingId: listing._id,
-  score: matchScore
+  score: matchScore,
 });
 ```
 
@@ -147,14 +147,14 @@ const { logExternalAPI } = require('./utils/logHelpers');
 logExternalAPI('OpenAI', 'generate-embedding', {
   model: 'text-embedding-3-small',
   inputLength: text.length,
-  tokensUsed: 150
+  tokensUsed: 150,
 });
 
 // Cloudinary upload
 logExternalAPI('Cloudinary', 'upload-image', {
   userId: req.user._id,
   fileSize: file.size,
-  success: true
+  success: true,
 });
 ```
 
@@ -167,20 +167,20 @@ const { logSecurity } = require('./utils/logHelpers');
 logSecurity('rate-limit-exceeded', {
   ip: req.ip,
   endpoint: req.path,
-  userId: req.user?._id
+  userId: req.user?._id,
 });
 
 // Suspicious activity
 logSecurity('invalid-token', {
   ip: req.ip,
-  token: token.substring(0, 10) + '...'
+  token: token.substring(0, 10) + '...',
 });
 
 // Account locked
 logSecurity('account-locked', {
   userId: user._id,
   reason: 'too_many_failed_logins',
-  failedAttempts: 5
+  failedAttempts: 5,
 });
 ```
 
@@ -195,7 +195,7 @@ try {
   logError(error, {
     userId: req.user?._id,
     route: req.path,
-    operation: 'create-listing'
+    operation: 'create-listing',
   });
   throw error; // Re-throw if needed
 }
@@ -212,7 +212,7 @@ const start = Date.now();
 const duration = Date.now() - start;
 logPerformance('database-query', duration, {
   query: 'findUserById',
-  userId: userId
+  userId: userId,
 });
 
 // Using timer helper
@@ -230,7 +230,7 @@ const { logAI } = require('./utils/logHelpers');
 logAI('generate-embedding', {
   entityType: 'jobseeker',
   entityId: user._id,
-  vectorDimensions: 1536
+  vectorDimensions: 1536,
 });
 
 // Match calculation
@@ -238,14 +238,14 @@ logAI('calculate-match', {
   jobseekerId: jobseeker._id,
   listingId: listing._id,
   matchScore: 0.87,
-  algorithm: 'cosine-similarity'
+  algorithm: 'cosine-similarity',
 });
 
 // Recommendation generated
 logAI('generate-recommendations', {
   userId: user._id,
   recommendationCount: 10,
-  minScore: 0.6
+  minScore: 0.6,
 });
 ```
 
@@ -349,6 +349,7 @@ grep 'Performance' backend/logs/application-*.log | grep 'warn'
 ## Best Practices
 
 ### DO:
+
 - Use structured logging helpers for consistency
 - Include relevant context (userId, operation, etc.)
 - Log at appropriate levels
@@ -357,6 +358,7 @@ grep 'Performance' backend/logs/application-*.log | grep 'warn'
 - Log external API calls with outcomes
 
 ### DON'T:
+
 - Log sensitive user data (passwords, API keys, SSNs)
 - Use console.log() (use logger instead)
 - Log in tight loops (creates noise and performance issues)
@@ -375,14 +377,14 @@ const createListing = async (req, res) => {
     // Business logic
     const listing = await Listing.create({
       ...req.body,
-      user_id: req.user._id
+      user_id: req.user._id,
     });
 
     // Log successful operation
     logDatabase('create', 'Listings', {
       listingId: listing._id,
       userId: req.user._id,
-      jobTitle: listing.jobTitle
+      jobTitle: listing.jobTitle,
     });
 
     // Log timing
@@ -394,7 +396,7 @@ const createListing = async (req, res) => {
     logError(error, {
       userId: req.user._id,
       operation: 'create-listing',
-      jobTitle: req.body.jobTitle
+      jobTitle: req.body.jobTitle,
     });
 
     // Log timing even on failure

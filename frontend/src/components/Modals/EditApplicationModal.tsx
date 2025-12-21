@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { Anchor, Button, Text, FileInput, Modal, Stack, Textarea, TextInput } from '@mantine/core';
+import { Anchor, Button, FileInput, Modal, Stack, Text, Textarea, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { TApplication } from '@/Types';
-import { applicationSchema } from '@/validationRules/application.joi';
 import { validatePdfFile } from '@/utils/fileValidation';
+import { applicationSchema } from '@/validationRules/application.joi';
 
 interface EditApplicationModalProps {
   opened: boolean;
@@ -59,7 +59,9 @@ export const EditApplicationModal = ({
   };
 
   const onSubmit = async (data: TApplication) => {
-    if (!application) {return;}
+    if (!application) {
+      return;
+    }
 
     try {
       setIsLoading(true);
@@ -68,9 +70,15 @@ export const EditApplicationModal = ({
       formData.append('firstName', data.firstName);
       formData.append('lastName', data.lastName);
       formData.append('email', data.email);
-      if (data.phone) {formData.append('phone', data.phone);}
-      if (data.message) {formData.append('message', data.message);}
-      if (resumeFile) {formData.append('resume', resumeFile);}
+      if (data.phone) {
+        formData.append('phone', data.phone);
+      }
+      if (data.message) {
+        formData.append('message', data.message);
+      }
+      if (resumeFile) {
+        formData.append('resume', resumeFile);
+      }
 
       await axios.put(`/api/applications/${application._id}`, formData);
 
@@ -80,7 +88,9 @@ export const EditApplicationModal = ({
         color: 'green',
       });
 
-      if (onSuccess) {onSuccess();}
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (error: any) {
       console.error(error);
       notifications.show({
@@ -94,13 +104,17 @@ export const EditApplicationModal = ({
     }
   };
 
-  if (!application) {return null;}
+  if (!application) {
+    return null;
+  }
 
   return (
     <Modal opened={opened} onClose={onClose} title="Edit Application" size="lg" zIndex={1000}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack p="lg">
-          <Text c="dimmed" fz="xs">*If the employer already reviewed your application, they may not see your changes.</Text>
+          <Text c="dimmed" fz="xs">
+            *If the employer already reviewed your application, they may not see your changes.
+          </Text>
           <TextInput
             label="First Name"
             required
@@ -132,7 +146,13 @@ export const EditApplicationModal = ({
           )}
 
           <Textarea label="Message" {...register('message')} error={errors.message?.message} />
-          <Button type="submit" mx="auto" w={200} disabled={!isValid || !!resumeError} loading={isLoading}>
+          <Button
+            type="submit"
+            mx="auto"
+            w={200}
+            disabled={!isValid || !!resumeError}
+            loading={isLoading}
+          >
             Update Application
           </Button>
         </Stack>

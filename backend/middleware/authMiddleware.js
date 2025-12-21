@@ -20,7 +20,7 @@ const lockoutCheck = async (req, _res, next) => {
 
       throwError(
         403,
-        `Access denied. You have been locked out. Time remaining: ${lockoutTime}s`
+        `Access denied. You have been locked out. Time remaining: ${lockoutTime}s`,
       );
     }
     next();
@@ -93,8 +93,8 @@ const optionalAuthenticateUser = (req, res, next) => {
   // Check inactivity timeout
   const ONE_HOUR = 60 * 60 * 1000;
   const timeSinceActivity = Date.now() - (req.session.lastActivity || 0);
-  
-   if (timeSinceActivity > ONE_HOUR) {
+
+  if (timeSinceActivity > ONE_HOUR) {
     return req.session.destroy((err) => {
       return nextError(next, 410, 'Session expired due to inactivity.');
     });

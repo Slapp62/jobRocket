@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'development') {
     cors({
       origin: ['http://localhost:5173', 'http://localhost:5174'],
       credentials: true,
-    })
+    }),
   );
 }
 
@@ -44,13 +44,13 @@ app.use((req, res, next) => {
   res.setHeader(
     'Content-Security-Policy',
     "default-src 'self'; " +
-    "script-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com; " +
-    "frame-src https://ko-fi.com; " +
-    "img-src 'self' data: https:; " +
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://storage.ko-fi.com; " +
-    "font-src 'self' https://fonts.gstatic.com; " +
-    "connect-src 'self' https://accounts.google.com https://jobrocket.work https://jobrocket.onrender.com; " +
-    "form-action 'self' https://accounts.google.com;"
+      "script-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com; " +
+      'frame-src https://ko-fi.com; ' +
+      "img-src 'self' data: https:; " +
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://storage.ko-fi.com; " +
+      "font-src 'self' https://fonts.gstatic.com; " +
+      "connect-src 'self' https://accounts.google.com https://jobrocket.work https://jobrocket.onrender.com; " +
+      "form-action 'self' https://accounts.google.com;",
   );
   next();
 });

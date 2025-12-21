@@ -1,5 +1,5 @@
-
 import './utils/axiosConfig';
+
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import ErrorBoundary from './components/ErrorCatching/ErrorBoundary';

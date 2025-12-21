@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { Controller, useForm, useWatch } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
@@ -14,8 +15,8 @@ import {
   Stack,
   Switch,
   TagsInput,
-  Textarea,
   Text,
+  Textarea,
   TextInput,
   Title,
 } from '@mantine/core';
@@ -24,9 +25,8 @@ import { notifications } from '@mantine/notifications';
 import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
 import WORK_ARRANGEMENTS from '@/data/workArr.ts';
 import { PageMeta } from '@/SEO/PageMeta';
-import { listingSchema } from '@/validationRules/listing.joi';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import { listingSchema } from '@/validationRules/listing.joi';
 
 type ListingFormValues = {
   companyName: string;
@@ -59,7 +59,7 @@ export function CreateListing() {
   const isMobile = useMediaQuery('(max-width: 700px)');
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state: RootState) => state.userSlice.user);
-  
+
   const {
     reset,
     register,
@@ -74,16 +74,16 @@ export function CreateListing() {
       companyName: '',
       requirements: [],
       advantages: [],
-      apply: { 
-        method: { 
-          jobRocketSystem: false, 
-          companySystem: false, 
-          email: false 
-        }, 
-        contact: { 
-          email: '', 
-          link: '' 
-        } 
+      apply: {
+        method: {
+          jobRocketSystem: false,
+          companySystem: false,
+          email: false,
+        },
+        contact: {
+          email: '',
+          link: '',
+        },
       },
       location: { region: '', city: '' },
       workArrangement: '',

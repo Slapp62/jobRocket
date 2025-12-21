@@ -7,7 +7,7 @@ async function uploadResumeToCloudinary(fileBuffer, applicantEmail) {
         folder: 'resumes',
         resource_type: 'raw',
         public_id: `resume_${applicantEmail}_${Date.now()}`,
-        timeout: 60000 // 60 second timeout
+        timeout: 60000, // 60 second timeout
       },
       (error, result) => {
         if (error) {
@@ -16,9 +16,9 @@ async function uploadResumeToCloudinary(fileBuffer, applicantEmail) {
         } else {
           resolve(result);
         }
-      }
+      },
     );
-    
+
     uploadStream.end(fileBuffer);
   });
 }

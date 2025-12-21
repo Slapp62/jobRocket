@@ -35,21 +35,15 @@ const registrationSchema = Joi.object({
     'any.required': 'Profile type is required',
   }),
 
-  terms: Joi.boolean()
-    .valid(true)
-    .required()
-    .messages({
-      'any.only': 'You must agree to the terms and conditions to register.',
-      'any.required': 'The terms and conditions checkbox is required.',
+  terms: Joi.boolean().valid(true).required().messages({
+    'any.only': 'You must agree to the terms and conditions to register.',
+    'any.required': 'The terms and conditions checkbox is required.',
   }),
 
-  dataProcessingConsent: Joi.boolean()
-    .valid(true)
-    .required()
-    .messages({
-      'any.only': 'You must consent to data processing to register',
-      'any.required': 'Data processing consent is required',
-    }),
+  dataProcessingConsent: Joi.boolean().valid(true).required().messages({
+    'any.only': 'You must consent to data processing to register',
+    'any.required': 'Data processing consent is required',
+  }),
 
   jobseekerProfile: Joi.when('profileType', {
     is: 'jobseeker',
@@ -87,9 +81,11 @@ const registrationSchema = Joi.object({
         'string.uri': 'Please enter a valid LinkedIn URL',
       }),
       skills: Joi.array()
-        .items(Joi.string().max(50).messages({
-          'string.max': 'Each skill must be 50 characters or less',
-        }))
+        .items(
+          Joi.string().max(50).messages({
+            'string.max': 'Each skill must be 50 characters or less',
+          })
+        )
         .max(25)
         .optional()
         .default([])
@@ -117,16 +113,22 @@ const registrationSchema = Joi.object({
           'string.empty': 'Country is required',
           'any.required': 'Country is required',
         }),
-        region: Joi.string().valid(...REGIONS).required().messages({
-          'any.only': 'Please select a valid region',
-          'string.empty': 'Region is required',
-          'any.required': 'Region is required',
-        }),
-        city: Joi.string().valid(...CITIES).required().messages({
-          'any.only': 'Please select a valid city',
-          'string.empty': 'City is required',
-          'any.required': 'City is required',
-        }),
+        region: Joi.string()
+          .valid(...REGIONS)
+          .required()
+          .messages({
+            'any.only': 'Please select a valid region',
+            'string.empty': 'Region is required',
+            'any.required': 'Region is required',
+          }),
+        city: Joi.string()
+          .valid(...CITIES)
+          .required()
+          .messages({
+            'any.only': 'Please select a valid city',
+            'string.empty': 'City is required',
+            'any.required': 'City is required',
+          }),
       }).required(),
       logo: Joi.object({
         url: Joi.string().uri().allow('').optional().messages({
@@ -205,21 +207,15 @@ const googleRegistrationSchema = Joi.object({
     'any.required': 'Profile type is required',
   }),
 
-  terms: Joi.boolean()
-    .valid(true)
-    .required()
-    .messages({
-      'any.only': 'You must agree to the terms and conditions to register.',
-      'any.required': 'The terms and conditions checkbox is required.',
+  terms: Joi.boolean().valid(true).required().messages({
+    'any.only': 'You must agree to the terms and conditions to register.',
+    'any.required': 'The terms and conditions checkbox is required.',
   }),
 
-  dataProcessingConsent: Joi.boolean()
-    .valid(true)
-    .required()
-    .messages({
-      'any.only': 'You must consent to data processing to register',
-      'any.required': 'Data processing consent is required',
-    }),
+  dataProcessingConsent: Joi.boolean().valid(true).required().messages({
+    'any.only': 'You must consent to data processing to register',
+    'any.required': 'Data processing consent is required',
+  }),
 
   jobseekerProfile: Joi.when('profileType', {
     is: 'jobseeker',
@@ -257,9 +253,11 @@ const googleRegistrationSchema = Joi.object({
         'string.uri': 'Please enter a valid LinkedIn URL',
       }),
       skills: Joi.array()
-        .items(Joi.string().max(50).messages({
-          'string.max': 'Each skill must be 50 characters or less',
-        }))
+        .items(
+          Joi.string().max(50).messages({
+            'string.max': 'Each skill must be 50 characters or less',
+          })
+        )
         .max(25)
         .optional()
         .default([])
@@ -287,16 +285,22 @@ const googleRegistrationSchema = Joi.object({
           'string.empty': 'Country is required',
           'any.required': 'Country is required',
         }),
-        region: Joi.string().valid(...REGIONS).required().messages({
-          'any.only': 'Please select a valid region',
-          'string.empty': 'Region is required',
-          'any.required': 'Region is required',
-        }),
-        city: Joi.string().valid(...CITIES).required().messages({
-          'any.only': 'Please select a valid city',
-          'string.empty': 'City is required',
-          'any.required': 'City is required',
-        }),
+        region: Joi.string()
+          .valid(...REGIONS)
+          .required()
+          .messages({
+            'any.only': 'Please select a valid region',
+            'string.empty': 'Region is required',
+            'any.required': 'Region is required',
+          }),
+        city: Joi.string()
+          .valid(...CITIES)
+          .required()
+          .messages({
+            'any.only': 'Please select a valid city',
+            'string.empty': 'City is required',
+            'any.required': 'City is required',
+          }),
       }).required(),
       logo: Joi.object({
         url: Joi.string().uri().allow('').optional().messages({

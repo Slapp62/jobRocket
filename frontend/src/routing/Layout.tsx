@@ -7,9 +7,9 @@ import { MobileBottomNav } from '@/components/Navigation/MobileNav.tsx';
 import { useAuthInit } from '@/hooks/UseAuthInit.ts';
 import { useScrollToTop } from '@/hooks/useScrollToTop.ts';
 import { AppDispatch, RootState } from '@/store/store.ts';
+import { setupAxiosInterceptors } from '@/utils/axiosConfig.ts';
 import { Footer } from '../components/Navigation/Footer.tsx';
 import { Navbar } from '../components/Navigation/Header.tsx';
-import { setupAxiosInterceptors } from '@/utils/axiosConfig.ts';
 
 export function Layout() {
   const isMobile = useMediaQuery('(max-width: 700px)');
@@ -24,7 +24,7 @@ export function Layout() {
   useEffect(() => {
     setupAxiosInterceptors(dispatch, navigate);
   }, [dispatch, navigate]);
-  
+
   // persist log in between sessions
   useAuthInit();
 
@@ -42,7 +42,7 @@ export function Layout() {
 
         <Footer />
 
-        {isMobile && isBusiness && <MobileBottomNav />}
+        {isMobile && <MobileBottomNav />}
       </Flex>
     </>
   );

@@ -23,7 +23,7 @@ export function SearchRegion({ value, onChange, placeholder, width, radius }: Se
       radius={radius || 100}
       w={width}
       placeholder={placeholder || 'Region'}
-      rightSection={<IconFilter2 size={15}/>}
+      rightSection={<IconFilter2 size={15} />}
       data={REGION_OPTIONS}
       value={value || null}
       onChange={(val) => onChange(val || '')}

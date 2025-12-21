@@ -25,7 +25,9 @@ const startServer = async () => {
   try {
     // 1. Connect to database FIRST (before loading app.js)
     console.log(chalk.blue('Connecting to database...'));
-    console.log(chalk.blue(`Environment: ${process.env.NODE_ENV || 'undefined'}`));
+    console.log(
+      chalk.blue(`Environment: ${process.env.NODE_ENV || 'undefined'}`),
+    );
     await connectToDB();
     console.log(chalk.green('Database connected!'));
 
@@ -51,7 +53,11 @@ const startServer = async () => {
     // Bind to 0.0.0.0 to listen on all network interfaces (required by some hosting platforms)
     const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(chalk.green.bold(`✓ Server running on port ${PORT}`));
-      console.log(chalk.green.bold(`✓ Environment: ${process.env.NODE_ENV || 'development'}`));
+      console.log(
+        chalk.green.bold(
+          `✓ Environment: ${process.env.NODE_ENV || 'development'}`,
+        ),
+      );
     });
 
     return server;

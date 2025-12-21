@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { cleanedUserData } from '@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData';
 import { RootState } from '@/store/store';
 import { clearUser, setUser, updateUser } from '@/store/userSlice';
 import { TUsers } from '@/Types';
-import { cleanedUserData } from '@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData';
-import { editProfileSchema } from '@/validationRules/editProfile.joi';
 import { validatePdfFile } from '@/utils/fileValidation';
+import { editProfileSchema } from '@/validationRules/editProfile.joi';
 
 export const useEditProfile = () => {
   const jumpTo = useNavigate();
@@ -31,7 +31,7 @@ export const useEditProfile = () => {
   const [resumeError, setResumeError] = useState<string | null>(null);
 
   const userData = isAdminView ? paramsUser : currentUser;
-  
+
   const {
     register,
     handleSubmit,
@@ -88,15 +88,15 @@ export const useEditProfile = () => {
     try {
       setSubmitting(true);
       let response;
-      
+
       // If there's a resume file, use FormData
       if (resumeFile) {
         const formData = new FormData();
-        
+
         // Add all the regular data as JSON string
         formData.append('phone', payload.phone || '');
         formData.append('profileType', payload.profileType || '');
-        
+
         if (payload.jobseekerProfile) {
           // Flatten jobseekerProfile fields
           Object.keys(payload.jobseekerProfile).forEach((key) => {
@@ -110,7 +110,7 @@ export const useEditProfile = () => {
             }
           });
         }
-        
+
         if (payload.businessProfile) {
           Object.keys(payload.businessProfile).forEach((key) => {
             const value = payload.businessProfile![key as keyof typeof payload.businessProfile];
@@ -119,10 +119,10 @@ export const useEditProfile = () => {
             }
           });
         }
-        
+
         // Add the resume file
         formData.append('resume', resumeFile);
-        
+
         response = await axios.put(`/api/users/${userData?._id}`, formData);
       } else {
         // No file, use regular JSON
@@ -151,7 +151,11 @@ export const useEditProfile = () => {
         });
       }
     } catch (error: any) {
-      const errorMessage = error?.response?.data?.message || error?.response?.data || error.message || 'An unexpected error occurred';
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.response?.data ||
+        error.message ||
+        'An unexpected error occurred';
       notifications.show({
         title: 'Error',
         message: errorMessage,
@@ -168,7 +172,7 @@ export const useEditProfile = () => {
       const response = await axios.patch(`/api/users/${userData?._id}`);
       if (response.status === 200) {
         const updatedUser = response.data;
-        
+
         setTimeout(() => {
           // if not admin view, update the current user information
           if (!isAdminView) {

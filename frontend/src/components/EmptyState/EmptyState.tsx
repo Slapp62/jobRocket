@@ -1,6 +1,6 @@
-import { Button, Center, Flex, Text, Title } from '@mantine/core';
-import { IconMoodSad } from '@tabler/icons-react';
 import { ReactNode } from 'react';
+import { IconMoodSad } from '@tabler/icons-react';
+import { Button, Center, Flex, Text, Title } from '@mantine/core';
 
 /**
  * Props for the EmptyState component
@@ -89,8 +89,7 @@ export const EmptyState = ({
   isLoggedIn = false,
 }: EmptyStateProps) => {
   // Determine if the button should be shown
-  const shouldShowButton =
-    action && (!action.showOnlyWhenLoggedOut || !isLoggedIn);
+  const shouldShowButton = action && (!action.showOnlyWhenLoggedOut || !isLoggedIn);
 
   return (
     <Center>
@@ -105,7 +104,7 @@ export const EmptyState = ({
 
         {/* Description - optional secondary message */}
         {description && (
-          <Text c="dimmed" m="sm">
+          <Text c="dimmed" m="sm" p='xs' ta="center" >
             {description}
           </Text>
         )}

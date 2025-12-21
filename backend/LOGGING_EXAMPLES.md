@@ -24,9 +24,18 @@ async function generateEmbedding(text) {
 
 ```javascript
 // services/embeddingService.js
-const { logAI, logExternalAPI, logError, createTimer } = require('../utils/logHelpers');
+const {
+  logAI,
+  logExternalAPI,
+  logError,
+  createTimer,
+} = require('../utils/logHelpers');
 
-async function generateEmbedding(text, entityType = 'unknown', entityId = null) {
+async function generateEmbedding(
+  text,
+  entityType = 'unknown',
+  entityId = null
+) {
   const endTimer = createTimer('generate-embedding');
 
   try {
@@ -36,7 +45,7 @@ async function generateEmbedding(text, entityType = 'unknown', entityId = null) 
         entityType,
         entityId,
         textLength: text.length,
-        environment: 'test'
+        environment: 'test',
       });
       return Array(1536).fill(0);
     }
@@ -53,7 +62,7 @@ async function generateEmbedding(text, entityType = 'unknown', entityId = null) 
       model: 'text-embedding-3-small',
       inputLength: text.length,
       tokensUsed: response.usage?.total_tokens,
-      success: true
+      success: true,
     });
 
     // Log AI operation
@@ -61,18 +70,17 @@ async function generateEmbedding(text, entityType = 'unknown', entityId = null) 
       entityType,
       entityId,
       vectorDimensions: embedding.length,
-      textLength: text.length
+      textLength: text.length,
     });
 
     endTimer({ success: true, entityType });
     return embedding;
-
   } catch (error) {
     logError(error, {
       operation: 'generate-embedding',
       entityType,
       entityId,
-      textLength: text.length
+      textLength: text.length,
     });
     endTimer({ success: false, entityType });
     throw error;
@@ -91,7 +99,7 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = await User.create({
       ...req.body,
-      password: hashedPassword
+      password: hashedPassword,
     });
 
     res.status(201).json({ message: 'User registered successfully' });
@@ -112,20 +120,20 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = await User.create({
       ...req.body,
-      password: hashedPassword
+      password: hashedPassword,
     });
 
     // Log database operation
     logDatabase('create', 'Users', {
       userId: user._id,
       profileType: user.profileType,
-      email: user.email
+      email: user.email,
     });
 
     // Log authentication event
     logAuth('register', user._id, {
       profileType: user.profileType,
-      ip: req.ip
+      ip: req.ip,
     });
 
     res.status(201).json({ message: 'User registered successfully' });
@@ -134,7 +142,7 @@ const register = async (req, res) => {
       operation: 'user-registration',
       email: req.body.email,
       profileType: req.body.profileType,
-      ip: req.ip
+      ip: req.ip,
     });
     res.status(500).json({ message: error.message });
   }
@@ -160,7 +168,12 @@ async function calculateMatchScore(jobseekerId, listingId) {
 
 ```javascript
 // services/matchingService.js
-const { logAI, logPerformance, logError, createTimer } = require('../utils/logHelpers');
+const {
+  logAI,
+  logPerformance,
+  logError,
+  createTimer,
+} = require('../utils/logHelpers');
 
 async function calculateMatchScore(jobseekerId, listingId) {
   const endTimer = createTimer('calculate-match-score');
@@ -175,7 +188,7 @@ async function calculateMatchScore(jobseekerId, listingId) {
         jobseekerId,
         listingId,
         hasJobseekerEmbedding: !!jobseeker?.embedding,
-        hasListingEmbedding: !!listing?.embedding
+        hasListingEmbedding: !!listing?.embedding,
       });
       return 0;
     }
@@ -188,7 +201,7 @@ async function calculateMatchScore(jobseekerId, listingId) {
       jobseekerId,
       listingId,
       matchScore: normalized,
-      algorithm: 'cosine-similarity'
+      algorithm: 'cosine-similarity',
     });
 
     // Log performance if slow
@@ -196,16 +209,15 @@ async function calculateMatchScore(jobseekerId, listingId) {
     endTimer({
       jobseekerId,
       listingId,
-      matchScore: normalized
+      matchScore: normalized,
     });
 
     return normalized;
-
   } catch (error) {
     logError(error, {
       operation: 'calculate-match-score',
       jobseekerId,
-      listingId
+      listingId,
     });
     endTimer({ success: false });
     throw error;
@@ -241,7 +253,7 @@ const authenticateUser = (req, res, next) => {
       ip: req.ip,
       url: req.originalUrl,
       method: req.method,
-      userAgent: req.get('user-agent')
+      userAgent: req.get('user-agent'),
     });
     return res.status(401).json({ message: 'Access denied. Please log in.' });
   }
@@ -259,7 +271,7 @@ const authenticateUser = (req, res, next) => {
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
-  message: 'Too many login attempts. Please try again later.'
+  message: 'Too many login attempts. Please try again later.',
 });
 ```
 
@@ -278,12 +290,12 @@ const loginLimiter = rateLimit({
     logSecurity('rate-limit-exceeded', {
       ip: req.ip,
       endpoint: 'login',
-      userAgent: req.get('user-agent')
+      userAgent: req.get('user-agent'),
     });
     res.status(429).json({
-      message: 'Too many login attempts. Please try again later.'
+      message: 'Too many login attempts. Please try again later.',
     });
-  }
+  },
 });
 ```
 
@@ -298,7 +310,7 @@ async function submitApplication(applicantId, listingId, applicationData) {
     applicantId,
     listingId,
     ...applicationData,
-    status: 'pending'
+    status: 'pending',
   });
 
   return application;
@@ -317,7 +329,7 @@ async function submitApplication(applicantId, listingId, applicationData) {
       applicantId,
       listingId,
       ...applicationData,
-      status: 'pending'
+      status: 'pending',
     });
 
     // Get additional context
@@ -328,7 +340,7 @@ async function submitApplication(applicantId, listingId, applicationData) {
       applicationId: application._id,
       applicantId,
       listingId,
-      status: 'pending'
+      status: 'pending',
     });
 
     // Log business event
@@ -337,16 +349,15 @@ async function submitApplication(applicantId, listingId, applicationData) {
       applicantId,
       listingId,
       businessId: listing?.user_id,
-      jobTitle: listing?.jobTitle
+      jobTitle: listing?.jobTitle,
     });
 
     return application;
-
   } catch (error) {
     logError(error, {
       operation: 'submit-application',
       applicantId,
-      listingId
+      listingId,
     });
     throw error;
   }
@@ -377,7 +388,11 @@ async function uploadResume(fileBuffer, userId) {
 
 ```javascript
 // services/cloudinaryService.js
-const { logExternalAPI, logError, createTimer } = require('../utils/logHelpers');
+const {
+  logExternalAPI,
+  logError,
+  createTimer,
+} = require('../utils/logHelpers');
 
 async function uploadResume(fileBuffer, userId) {
   const endTimer = createTimer('cloudinary-upload');
@@ -400,17 +415,16 @@ async function uploadResume(fileBuffer, userId) {
       fileSize: fileBuffer.length,
       publicId: result.public_id,
       url: result.secure_url,
-      success: true
+      success: true,
     });
 
     endTimer({ success: true, userId });
     return result;
-
   } catch (error) {
     logError(error, {
       operation: 'cloudinary-upload',
       userId,
-      fileSize: fileBuffer.length
+      fileSize: fileBuffer.length,
     });
     endTimer({ success: false, userId });
     throw error;
@@ -420,22 +434,22 @@ async function uploadResume(fileBuffer, userId) {
 
 ## Quick Reference: Which Helper to Use?
 
-| Scenario | Helper Function | Category |
-|----------|----------------|----------|
-| User registers | `logAuth('register', userId, {...})` | authentication |
-| User logs in | `logAuth('login', userId, {...})` | authentication |
-| Login fails | `logAuth('failed-login', null, {...})` | authentication |
-| Create/update/delete DB record | `logDatabase('create', 'ModelName', {...})` | database |
-| Job application submitted | `logBusiness('application-submitted', {...})` | business |
-| Match score calculated | `logBusiness('match-calculated', {...})` | business |
-| OpenAI API call | `logExternalAPI('OpenAI', 'operation', {...})` | external-api |
-| Cloudinary upload | `logExternalAPI('Cloudinary', 'upload', {...})` | external-api |
-| Rate limit hit | `logSecurity('rate-limit-exceeded', {...})` | security |
-| Unauthorized access | `logSecurity('unauthorized-access', {...})` | security |
-| Try/catch error | `logError(error, {...})` | error |
-| Measure performance | `createTimer('operation-name')` | performance |
-| Generate embedding | `logAI('generate-embedding', {...})` | ai |
-| Calculate recommendation | `logAI('calculate-match', {...})` | ai |
+| Scenario                       | Helper Function                                 | Category       |
+| ------------------------------ | ----------------------------------------------- | -------------- |
+| User registers                 | `logAuth('register', userId, {...})`            | authentication |
+| User logs in                   | `logAuth('login', userId, {...})`               | authentication |
+| Login fails                    | `logAuth('failed-login', null, {...})`          | authentication |
+| Create/update/delete DB record | `logDatabase('create', 'ModelName', {...})`     | database       |
+| Job application submitted      | `logBusiness('application-submitted', {...})`   | business       |
+| Match score calculated         | `logBusiness('match-calculated', {...})`        | business       |
+| OpenAI API call                | `logExternalAPI('OpenAI', 'operation', {...})`  | external-api   |
+| Cloudinary upload              | `logExternalAPI('Cloudinary', 'upload', {...})` | external-api   |
+| Rate limit hit                 | `logSecurity('rate-limit-exceeded', {...})`     | security       |
+| Unauthorized access            | `logSecurity('unauthorized-access', {...})`     | security       |
+| Try/catch error                | `logError(error, {...})`                        | error          |
+| Measure performance            | `createTimer('operation-name')`                 | performance    |
+| Generate embedding             | `logAI('generate-embedding', {...})`            | ai             |
+| Calculate recommendation       | `logAI('calculate-match', {...})`               | ai             |
 
 ## Tips for Adding Logging to Existing Code
 
@@ -451,36 +465,36 @@ async function uploadResume(fileBuffer, userId) {
 ```javascript
 // ❌ BAD - Logging sensitive data
 logAuth('login', user._id, {
-  password: req.body.password  // NEVER!
+  password: req.body.password, // NEVER!
 });
 
 // ❌ BAD - Logging full objects
 logDatabase('create', 'Users', {
-  user: user  // Too verbose, logs everything
+  user: user, // Too verbose, logs everything
 });
 
 // ❌ BAD - Logging in loops
 for (let i = 0; i < 1000; i++) {
-  logger.debug(`Processing item ${i}`);  // Creates noise
+  logger.debug(`Processing item ${i}`); // Creates noise
 }
 
 // ✅ GOOD - Sanitized, relevant data
 logAuth('login', user._id, {
   email: user.email,
-  ip: req.ip
+  ip: req.ip,
 });
 
 // ✅ GOOD - Specific fields only
 logDatabase('create', 'Users', {
   userId: user._id,
   email: user.email,
-  profileType: user.profileType
+  profileType: user.profileType,
 });
 
 // ✅ GOOD - Summary logging
 logger.info('Batch process completed', {
   itemsProcessed: 1000,
   duration: '5s',
-  errors: 3
+  errors: 3,
 });
 ```

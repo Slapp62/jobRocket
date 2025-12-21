@@ -27,7 +27,7 @@ function ListingCard({
   height,
   mobileHeight,
   disableHoverEffect,
-  handleSelectListing
+  handleSelectListing,
 }: ListingCardProps) {
   const isMobile = useMediaQuery('(max-width: 726px)');
 
@@ -46,7 +46,7 @@ function ListingCard({
       <Card
         shadow="sm"
         radius="md"
-        w={{base: '90vw', sm: '100%'}}
+        w={{ base: '90vw', sm: '100%' }}
         withBorder
         style={{
           cursor: onClick ? 'pointer' : 'default',
@@ -57,7 +57,7 @@ function ListingCard({
         onClick={onClick}
         className={disableHoverEffect ? undefined : styles.hover}
       >
-        <Stack gap="sm" style={{ flex: 1 }} w='100%'>
+        <Stack gap="sm" style={{ flex: 1 }} w="100%">
           {/* Company Name */}
 
           {/* Job Title */}
@@ -87,7 +87,11 @@ function ListingCard({
               <Text span fw={500}>
                 Apply via:
               </Text>{' '}
-              {listing.apply.method.jobRocketSystem ? 'JobRocket' : listing.apply.method.companySystem ? 'External Link' : 'Email'}
+              {listing.apply.method.jobRocketSystem
+                ? 'JobRocket'
+                : listing.apply.method.companySystem
+                  ? 'External Link'
+                  : 'Email'}
             </Text>
             {listing.createdAt && (
               <Text size="xs" c="dimmed">

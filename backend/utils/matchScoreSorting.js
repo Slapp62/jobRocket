@@ -35,7 +35,7 @@ function sortListingsByMatchScore(listings, userEmbedding, sortOrder = 'desc') {
   }
 
   // Calculate match score for EACH listing
-  const listingsWithScores = listings.map(listing => {
+  const listingsWithScores = listings.map((listing) => {
     // Check if this listing has a valid embedding
     // (Some old listings might not have embeddings yet)
     const hasValidEmbedding =

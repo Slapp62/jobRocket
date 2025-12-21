@@ -4,10 +4,24 @@ const { CITIES, REGIONS } = require('../../data/israelCities.js');
 
 // Industries for business profiles (not job listings)
 const INDUSTRIES = [
-  'Technology', 'Healthcare', 'Finance', 'Education', 'Retail', 'Manufacturing',
-  'Construction', 'Transportation', 'Hospitality', 'Real Estate', 'Media',
-  'Telecommunications', 'Energy', 'Agriculture', 'Professional Services',
-  'Government', 'Non-Profit', 'Other',
+  'Technology',
+  'Healthcare',
+  'Finance',
+  'Education',
+  'Retail',
+  'Manufacturing',
+  'Construction',
+  'Transportation',
+  'Hospitality',
+  'Real Estate',
+  'Media',
+  'Telecommunications',
+  'Energy',
+  'Agriculture',
+  'Professional Services',
+  'Government',
+  'Non-Profit',
+  'Other',
 ];
 
 const joiUserSchema = joi.object({
@@ -76,8 +90,14 @@ const joiUserSchema = joi.object({
       location: joi
         .object({
           country: joi.string().min(2).max(256).required(),
-          region: joi.string().valid(...REGIONS).required(),
-          city: joi.string().valid(...CITIES).required(),
+          region: joi
+            .string()
+            .valid(...REGIONS)
+            .required(),
+          city: joi
+            .string()
+            .valid(...CITIES)
+            .required(),
         })
         .required(),
       logo: joi
@@ -117,14 +137,10 @@ const joiUserSchema = joi.object({
 
   isAdmin: joi.boolean().optional(),
 
-  dataProcessingConsent: joi
-    .boolean()
-    .valid(true)
-    .required()
-    .messages({
-      'any.only': 'You must consent to data processing to create an account',
-      'any.required': 'Data processing consent is required',
-    }),
+  dataProcessingConsent: joi.boolean().valid(true).required().messages({
+    'any.only': 'You must consent to data processing to create an account',
+    'any.required': 'Data processing consent is required',
+  }),
 });
 
 module.exports = joiUserSchema;

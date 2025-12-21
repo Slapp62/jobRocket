@@ -76,24 +76,27 @@ const jobListingSchema = new Schema({
 });
 
 // Text search index for full-text search across multiple fields
-jobListingSchema.index({
-  jobTitle: 'text',
-  companyName: 'text',
-  jobDescription: 'text',
-  workArrangement: 'text',
-  'location.city': 'text',
-  'location.region': 'text'
-}, {
-  weights: {
-    jobTitle: 10,          // Highest priority - matches in job title are most relevant
-    companyName: 8,        // High priority - company name matches are very relevant
-    jobDescription: 5,     // Medium priority - description matches are relevant
-    workArrangement: 2,    // Lower priority - work arrangement is less critical for relevance
-    'location.city': 2,    // Lower priority - city is filterable separately
-    'location.region': 2   // Lower priority - region is filterable separately
+jobListingSchema.index(
+  {
+    jobTitle: 'text',
+    companyName: 'text',
+    jobDescription: 'text',
+    workArrangement: 'text',
+    'location.city': 'text',
+    'location.region': 'text',
   },
-  name: 'listing_text_search'
-});
+  {
+    weights: {
+      jobTitle: 10, // Highest priority - matches in job title are most relevant
+      companyName: 8, // High priority - company name matches are very relevant
+      jobDescription: 5, // Medium priority - description matches are relevant
+      workArrangement: 2, // Lower priority - work arrangement is less critical for relevance
+      'location.city': 2, // Lower priority - city is filterable separately
+      'location.region': 2, // Lower priority - region is filterable separately
+    },
+    name: 'listing_text_search',
+  },
+);
 
 // Validation: Exactly one application method must be selected
 jobListingSchema.pre('validate', function (next) {
@@ -104,7 +107,10 @@ jobListingSchema.pre('validate', function (next) {
       (this.apply.method.email ? 1 : 0);
 
     if (count !== 1) {
-      this.invalidate('apply.method', 'Exactly one application method must be selected');
+      this.invalidate(
+        'apply.method',
+        'Exactly one application method must be selected',
+      );
     }
   }
   next();

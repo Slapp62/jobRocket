@@ -94,8 +94,14 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
     }
 
     // Check if jobseeker has an embedding
-    if (!user.jobseekerProfile?.embedding || user.jobseekerProfile.embedding.length === 0) {
-      throwError(400, 'User profile incomplete - cannot calculate match scores. Please complete your profile.');
+    if (
+      !user.jobseekerProfile?.embedding ||
+      user.jobseekerProfile.embedding.length === 0
+    ) {
+      throwError(
+        400,
+        'User profile incomplete - cannot calculate match scores. Please complete your profile.',
+      );
     }
 
     // Fetch ALL listings matching the filters (before pagination)
@@ -106,7 +112,8 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
     }
 
     // Use utility function to calculate match scores and sort
-    const sortOrder = filterParams.sortOption === 'match-score' ? 'desc' : 'asc';
+    const sortOrder =
+      filterParams.sortOption === 'match-score' ? 'desc' : 'asc';
     const sortedListings = sortListingsByMatchScore(
       allListings,
       user.jobseekerProfile.embedding,
@@ -149,7 +156,9 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
   }
 
   // Projection: Include text score when text search is active (for potential client-side use)
-  const projection = filterParams.searchText ? { score: { $meta: 'textScore' } } : {};
+  const projection = filterParams.searchText
+    ? { score: { $meta: 'textScore' } }
+    : {};
 
   // Check if requester is a logged-in jobseeker with an embedding
   // We'll use this to add match scores to ALL listing responses
@@ -207,15 +216,15 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
 };
 
 async function getFilteredApplications(businessId, filterParams) {
-  // Get all listings for the business 
-  const listings = await Listing.find({businessId});
+  // Get all listings for the business
+  const listings = await Listing.find({ businessId });
   // Get all listingIds
-  const listingIds = listings.map(listing => listing._id);
+  const listingIds = listings.map((listing) => listing._id);
 
   // Start query for applications with all applications for the listings
-  const query = { 
+  const query = {
     listingId: { $in: listingIds },
-    hiddenFromBusiness: false
+    hiddenFromBusiness: false,
   };
 
   if (filterParams.status && filterParams.status !== 'all') {
@@ -226,14 +235,15 @@ async function getFilteredApplications(businessId, filterParams) {
     query.$or = [
       { firstName: { $regex: filterParams.searchText, $options: 'i' } },
       { lastName: { $regex: filterParams.searchText, $options: 'i' } },
-      { email: { $regex: filterParams.searchText, $options: 'i' } }
+      { email: { $regex: filterParams.searchText, $options: 'i' } },
     ];
   }
 
   // Date range filter
   if (filterParams.dateFrom || filterParams.dateTo) {
     query.createdAt = {};
-    if (filterParams.dateFrom) query.createdAt.$gte = new Date(filterParams.dateFrom);
+    if (filterParams.dateFrom)
+      query.createdAt.$gte = new Date(filterParams.dateFrom);
     if (filterParams.dateTo) {
       const endOfDay = new Date(filterParams.dateTo);
       endOfDay.setHours(23, 59, 59, 999);
@@ -260,10 +270,15 @@ async function getFilteredApplications(businessId, filterParams) {
   const skip = (page - 1) * limit;
 
   const sortBy = sortOptions[filterParams.sortOption] || { createdAt: -1 };
-  
+
   // Execute search
   const [applications, total] = await Promise.all([
-    Applications.find(query).populate('listingId').sort(sortBy).skip(skip).limit(limit).lean(), // Returns plain objects (faster)
+    Applications.find(query)
+      .populate('listingId')
+      .sort(sortBy)
+      .skip(skip)
+      .limit(limit)
+      .lean(), // Returns plain objects (faster)
     Applications.countDocuments(query), // Get total count for pagination info
   ]);
 
@@ -283,5 +298,5 @@ async function getFilteredApplications(businessId, filterParams) {
 module.exports = {
   normalizeSearch,
   getFilteredListings,
-  getFilteredApplications
+  getFilteredApplications,
 };

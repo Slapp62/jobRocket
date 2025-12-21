@@ -1,9 +1,9 @@
-import { Anchor, Checkbox, Fieldset, Text } from '@mantine/core';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
+import { Anchor, Checkbox, Fieldset, Text } from '@mantine/core';
 import { TUsers } from '@/Types';
 
 interface ConsentCheckboxesProps {
-  control: Control<TUsers>;
+  control: Control<TUsers> ;
   errors: FieldErrors<TUsers>;
   disabled?: boolean;
 }
@@ -18,7 +18,11 @@ interface ConsentCheckboxesProps {
  * @param errors - Form validation errors
  * @param disabled - Whether checkboxes should be disabled (default: false)
  */
-export const ConsentCheckboxes = ({ control, errors, disabled = false }: ConsentCheckboxesProps) => {
+export const ConsentCheckboxes = ({
+  control,
+  errors,
+  disabled = false,
+}: ConsentCheckboxesProps) => {
   return (
     <>
       {/* Data Processing Consent - Israeli Amendment 13 Compliance */}
@@ -28,7 +32,7 @@ export const ConsentCheckboxes = ({ control, errors, disabled = false }: Consent
         style={{
           backgroundColor: '#FFF4E6',
           padding: '1rem',
-          borderRadius: '8px'
+          borderRadius: '8px',
         }}
       >
         <Controller
@@ -42,8 +46,8 @@ export const ConsentCheckboxes = ({ control, errors, disabled = false }: Consent
               disabled={disabled}
               label={
                 <Text size="sm">
-                  I consent to JobRocket processing my data (account creation, resume
-                  storage via Cloudinary, AI job matching via OpenAI) as described in the{' '}
+                  I consent to JobRocket processing my data (account creation, resume storage via
+                  Cloudinary, AI job matching via OpenAI) as described in the{' '}
                   <Anchor href="/privacy-policy" target="_blank">
                     Privacy Policy
                   </Anchor>

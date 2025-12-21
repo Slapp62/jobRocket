@@ -16,7 +16,9 @@ const loginUser = async (email, password = 'Password123!') => {
     .send({ email, password });
 
   if (response.status !== 200) {
-    throw new Error(`Login failed for ${email}: ${response.body.message || response.status}`);
+    throw new Error(
+      `Login failed for ${email}: ${response.body.message || response.status}`,
+    );
   }
 
   return agent;

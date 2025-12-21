@@ -55,9 +55,11 @@ const editProfileSchema = Joi.object({
         'string.max': 'Resume URL cannot exceed 1024 characters',
       }),
       skills: Joi.array()
-        .items(Joi.string().max(50).messages({
-          'string.max': 'Each skill must be 50 characters or less',
-        }))
+        .items(
+          Joi.string().max(50).messages({
+            'string.max': 'Each skill must be 50 characters or less',
+          })
+        )
         .max(25)
         .optional()
         .default([])
@@ -85,16 +87,22 @@ const editProfileSchema = Joi.object({
           'string.empty': 'Country is required',
           'any.required': 'Country is required',
         }),
-        region: Joi.string().valid(...REGIONS).required().messages({
-          'any.only': 'Please select a valid region',
-          'string.empty': 'Region is required',
-          'any.required': 'Region is required',
-        }),
-        city: Joi.string().valid(...CITIES).required().messages({
-          'any.only': 'Please select a valid city',
-          'string.empty': 'City is required',
-          'any.required': 'City is required',
-        }),
+        region: Joi.string()
+          .valid(...REGIONS)
+          .required()
+          .messages({
+            'any.only': 'Please select a valid region',
+            'string.empty': 'Region is required',
+            'any.required': 'Region is required',
+          }),
+        city: Joi.string()
+          .valid(...CITIES)
+          .required()
+          .messages({
+            'any.only': 'Please select a valid city',
+            'string.empty': 'City is required',
+            'any.required': 'City is required',
+          }),
       }).required(),
       logo: Joi.object({
         url: Joi.string().uri().allow('').optional().messages({

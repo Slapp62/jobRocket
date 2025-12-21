@@ -1,24 +1,33 @@
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Center, Loader } from '@mantine/core';
+import RegisterAccountTypePage from '@/pages/AllUsers/Registration/ChooseAccountType';
+import RegisterStart from '@/pages/AllUsers/Registration/RegisterStart.pages';
+import { SearchPage } from '@/pages/AllUsers/Search.page';
 import ErrorFallback from '../components/ErrorCatching/ErrorFallback';
+import { LoginPage } from '../pages/AllUsers/LoginPage/Login.pages';
+import { RegisterForm } from '../pages/AllUsers/Registration/Register.pages';
+// Eager loaded routes (frequently accessed, small)
+import { HomePage } from '../pages/HomePage/Home.pages';
 import { Layout } from './Layout';
 import RouteGuard from './RouteGuard';
 
-// Eager loaded routes (frequently accessed, small)
-import { HomePage } from '../pages/HomePage/Home.pages';
-import { SearchPage } from '@/pages/AllUsers/Search.page';
-import { LoginPage } from '../pages/AllUsers/LoginPage/Login.pages';
-import { RegisterForm } from '../pages/AllUsers/Registration/Register.pages';
-import RegisterStart from '@/pages/AllUsers/Registration/RegisterStart.pages';
-import RegisterAccountTypePage from '@/pages/AllUsers/Registration/ChooseAccountType';
-
 // Lazy loaded routes (large pages, less frequently accessed)
-const Dashboard = lazy(() => import('@/pages/BusinessUsers/Dashboard/Dashboard.pages').then(m => ({ default: m.Dashboard })));
-const MyApplications = lazy(() => import('@/pages/Jobseekers/MyApplications.page').then(m => ({ default: m.MyApplications })));
-const FavoriteListings = lazy(() => import('@/pages/Jobseekers/Favorites.pages').then(m => ({ default: m.FavoriteListings })));
-const CreateListing = lazy(() => import('@/pages/BusinessUsers/CreateListing.pages').then(m => ({ default: m.CreateListing })));
-const EditProfile = lazy(() => import('@/pages/EditProfilePage/EditProfile.pages').then(m => ({ default: m.EditProfile })));
+const Dashboard = lazy(() =>
+  import('@/pages/BusinessUsers/Dashboard/Dashboard.pages').then((m) => ({ default: m.Dashboard }))
+);
+const MyApplications = lazy(() =>
+  import('@/pages/Jobseekers/MyApplications.page').then((m) => ({ default: m.MyApplications }))
+);
+const FavoriteListings = lazy(() =>
+  import('@/pages/Jobseekers/Favorites.pages').then((m) => ({ default: m.FavoriteListings }))
+);
+const CreateListing = lazy(() =>
+  import('@/pages/BusinessUsers/CreateListing.pages').then((m) => ({ default: m.CreateListing }))
+);
+const EditProfile = lazy(() =>
+  import('@/pages/EditProfilePage/EditProfile.pages').then((m) => ({ default: m.EditProfile }))
+);
 const AdminControls = lazy(() => import('@/pages/AdminControls/AdminControls.pages'));
 
 // Static pages (rarely accessed, can be lazy loaded)
@@ -50,17 +59,17 @@ const router = createBrowserRouter(
             <Suspense fallback={<PageLoader />}>
               <About />
             </Suspense>
-          )
+          ),
         },
         { path: 'register', element: <RegisterStart /> },
-        { path: 'register/account-type', element: <RegisterAccountTypePage/>},
+        { path: 'register/account-type', element: <RegisterAccountTypePage /> },
         {
           path: 'privacy-policy',
           element: (
             <Suspense fallback={<PageLoader />}>
               <PrivacyPolicy />
             </Suspense>
-          )
+          ),
         },
         {
           path: 'terms-of-service',
@@ -68,7 +77,7 @@ const router = createBrowserRouter(
             <Suspense fallback={<PageLoader />}>
               <TermsOfService />
             </Suspense>
-          )
+          ),
         },
         {
           path: 'my-applications',
@@ -83,7 +92,7 @@ const router = createBrowserRouter(
         {
           path: 'favorites',
           element: (
-            <RouteGuard>
+            <RouteGuard profileType="jobseeker">
               <Suspense fallback={<PageLoader />}>
                 <FavoriteListings />
               </Suspense>
@@ -93,7 +102,7 @@ const router = createBrowserRouter(
         {
           path: 'create-listing',
           element: (
-            <RouteGuard>
+            <RouteGuard profileType="business">
               <Suspense fallback={<PageLoader />}>
                 <CreateListing />
               </Suspense>
@@ -136,7 +145,7 @@ const router = createBrowserRouter(
             <Suspense fallback={<PageLoader />}>
               <Error404 />
             </Suspense>
-          )
+          ),
         },
       ],
     },

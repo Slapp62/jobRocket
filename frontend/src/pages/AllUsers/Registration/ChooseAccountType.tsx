@@ -1,18 +1,30 @@
 import { useEffect, useState } from 'react';
-import { Button, Container, Stack, Title, Text, Paper, SimpleGrid, Card, Fieldset, Checkbox, Anchor, LoadingOverlay } from '@mantine/core';
-import { IconBriefcase, IconUser } from '@tabler/icons-react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { IconBriefcase, IconUser } from '@tabler/icons-react';
 import axios from 'axios';
+import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  Anchor,
+  Button,
+  Card,
+  Checkbox,
+  Container,
+  Fieldset,
+  LoadingOverlay,
+  Paper,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-
-import { JobseekerFields } from './registrationForms/jobseekerFields';
-import { BusinessFields } from './registrationForms/businessFields';
-import { registrationSchema, googleRegistrationSchema } from '@/validationRules/register.joi';
 import { setUser } from '@/store/userSlice';
-import { TUsers, googleProfile } from '@/Types';
+import { googleProfile, TUsers } from '@/Types';
+import { googleRegistrationSchema, registrationSchema } from '@/validationRules/register.joi';
+import { BusinessFields } from './registrationForms/businessFields';
+import { JobseekerFields } from './registrationForms/jobseekerFields';
 
 export default function RegisterAccountTypePage() {
   const [searchParams] = useSearchParams();
@@ -36,8 +48,9 @@ export default function RegisterAccountTypePage() {
     // Fetch Google profile if Google method
     if (method === 'google') {
       setLoading(true);
-      axios.get('/api/auth/google/profile-temp')
-        .then(res => {
+      axios
+        .get('/api/auth/google/profile-temp')
+        .then((res) => {
           setGoogleProfile(res.data);
           setLoading(false);
         })
@@ -51,7 +64,13 @@ export default function RegisterAccountTypePage() {
   const storedEmail = method === 'email' ? sessionStorage.getItem('registrationEmail') : null;
   const storedPassword = method === 'email' ? sessionStorage.getItem('registrationPassword') : null;
 
-  const { register, handleSubmit, control, setValue, formState: { errors } } = useForm<TUsers>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm<TUsers>({
     mode: 'all',
     resolver: joiResolver(method === 'google' ? googleRegistrationSchema : registrationSchema),
     shouldUnregister: false,
@@ -62,13 +81,14 @@ export default function RegisterAccountTypePage() {
       password: method === 'google' ? undefined : storedPassword || '',
       phone: '',
       terms: false,
-      ...(selectedType === 'jobseeker' && method === 'google' && {
-        jobseekerProfile: {
-          firstName: googleProfile?.firstName || '',
-          lastName: googleProfile?.lastName || '',
-        }
-      })
-    }
+      ...(selectedType === 'jobseeker' &&
+        method === 'google' && {
+          jobseekerProfile: {
+            firstName: googleProfile?.firstName || '',
+            lastName: googleProfile?.lastName || '',
+          },
+        }),
+    },
   });
 
   // Update profileType when account type is selected
@@ -121,7 +141,7 @@ export default function RegisterAccountTypePage() {
         // Google registration - send to Google complete endpoint
         response = await axios.post('/api/auth/google/register/complete', {
           ...data,
-          profileType: selectedType
+          profileType: selectedType,
         });
 
         dispatch(setUser(response.data.user));
@@ -241,7 +261,9 @@ export default function RegisterAccountTypePage() {
               >
                 <Card.Section p="xl" ta="center">
                   <IconUser size={64} stroke={1.5} />
-                  <Title order={3} mt="md">Job Seeker</Title>
+                  <Title order={3} mt="md">
+                    Job Seeker
+                  </Title>
                   <Text size="sm" c="dimmed" mt="sm">
                     Looking for job opportunities
                   </Text>
@@ -259,7 +281,9 @@ export default function RegisterAccountTypePage() {
               >
                 <Card.Section p="xl" ta="center">
                   <IconBriefcase size={64} stroke={1.5} />
-                  <Title order={3} mt="md">Business</Title>
+                  <Title order={3} mt="md">
+                    Business
+                  </Title>
                   <Text size="sm" c="dimmed" mt="sm">
                     Posting job listings
                   </Text>
@@ -267,12 +291,7 @@ export default function RegisterAccountTypePage() {
               </Card>
             </SimpleGrid>
 
-            <Button
-              variant="subtle"
-              fullWidth
-              mt="xl"
-              onClick={() => navigate('/register')}
-            >
+            <Button variant="subtle" fullWidth mt="xl" onClick={() => navigate('/register')}>
               ← Back to sign up options
             </Button>
           </>
@@ -297,22 +316,14 @@ export default function RegisterAccountTypePage() {
                   defaultLastName={method === 'google' ? googleProfile?.lastName : undefined}
                 />
               ) : (
-                <BusinessFields
-                  control={control}
-                  register={register}
-                  errors={errors}
-                />
+                <BusinessFields control={control} register={register} errors={errors} />
               )}
 
               <Button type="submit" fullWidth size="lg" mt="xl" loading={loading}>
                 Complete Registration
               </Button>
 
-              <Button
-                variant="subtle"
-                fullWidth
-                onClick={() => setSelectedType(null)}
-              >
+              <Button variant="subtle" fullWidth onClick={() => setSelectedType(null)}>
                 ← Change account type
               </Button>
             </Stack>

@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-
-import { Container, Paper, Title, Text, Button, LoadingOverlay } from '@mantine/core';
-import {JobseekerFields} from './registrationForms/jobseekerFields';
-import {BusinessFields} from './registrationForms/businessFields';
-import {SharedCredentials} from './registrationForms/shareCredentials';
-import { registrationSchema } from '@/validationRules/register.joi';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Button, Container, LoadingOverlay, Paper, Text, Title } from '@mantine/core';
 import { setUser } from '@/store/userSlice';
 import { googleProfile, TUsers } from '@/Types';
+import { registrationSchema } from '@/validationRules/register.joi';
+import { BusinessFields } from './registrationForms/businessFields';
+import { JobseekerFields } from './registrationForms/jobseekerFields';
+import { SharedCredentials } from './registrationForms/shareCredentials';
 
 export default function RegisterCompletePage() {
   const [searchParams] = useSearchParams();
@@ -38,8 +37,9 @@ export default function RegisterCompletePage() {
     // Fetch Google profile if Google method
     if (method === 'google') {
       setLoading(true);
-      axios.get('/api/auth/google/profile-temp')
-        .then(res => {
+      axios
+        .get('/api/auth/google/profile-temp')
+        .then((res) => {
           setGoogleProfile(res.data);
           setLoading(false);
         })
@@ -49,7 +49,12 @@ export default function RegisterCompletePage() {
     }
   }, [method, type, navigate]);
 
-  const { register, handleSubmit, control, formState: { errors } } = useForm<TUsers>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<TUsers>({
     resolver: joiResolver(registrationSchema),
     defaultValues: {
       profileType: type as 'jobseeker' | 'business',
@@ -59,9 +64,9 @@ export default function RegisterCompletePage() {
         jobseekerProfile: {
           firstName: googleProfile?.firstName || '',
           lastName: googleProfile?.lastName || '',
-        }
-      })
-    }
+        },
+      }),
+    },
   });
 
   const onSubmit = async (data: Partial<TUsers>) => {
@@ -72,7 +77,7 @@ export default function RegisterCompletePage() {
         // Google registration
         const response = await axios.post('/api/auth/google/register/complete', {
           ...data,
-          profileType: type
+          profileType: type,
         });
 
         dispatch(setUser(response.data.user));
@@ -81,7 +86,7 @@ export default function RegisterCompletePage() {
         // Email registration (existing endpoint)
         const response = await axios.post('/api/users', {
           ...data,
-          profileType: type
+          profileType: type,
         });
 
         dispatch(setUser(response.data.user));
@@ -98,7 +103,9 @@ export default function RegisterCompletePage() {
       <Paper shadow="md" p="xl" radius="md" pos="relative">
         <LoadingOverlay visible={loading} />
 
-        <Title order={1} ta="center" mb="sm">Complete Your Profile</Title>
+        <Title order={1} ta="center" mb="sm">
+          Complete Your Profile
+        </Title>
         {method === 'google' && googleProfile && (
           <Text ta="center" c="dimmed" mb="md">
             Signing up with: {googleProfile.email}
@@ -111,11 +118,7 @@ export default function RegisterCompletePage() {
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* Shared fields (email, password if email method, phone) */}
           {method === 'email' && (
-            <SharedCredentials
-              control={control}
-              register={register}
-              errors={errors}
-            />
+            <SharedCredentials control={control} register={register} errors={errors} />
           )}
 
           {/* Profile-specific fields */}
@@ -128,11 +131,7 @@ export default function RegisterCompletePage() {
               defaultLastName={googleProfile?.lastName}
             />
           ) : (
-            <BusinessFields
-              control={control}
-              register={register}
-              errors={errors}
-            />
+            <BusinessFields control={control} register={register} errors={errors} />
           )}
 
           <Button type="submit" fullWidth size="lg" mt="xl" loading={loading}>
