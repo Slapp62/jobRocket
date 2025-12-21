@@ -16,7 +16,7 @@ export default function App() {
 
   return (
     <MantineProvider theme={theme}>
-      <Notifications position={isMobile ? 'top-right' : 'bottom-right'} />
+      <Notifications position='bottom-right' />
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <AppRouter />

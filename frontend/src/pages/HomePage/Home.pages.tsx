@@ -51,7 +51,8 @@ export function HomePage() {
           w="100%"
           h="100%"
           gap={20}
-          py={20}
+          pt={10}
+          pb={20}
           bg='rocketRed.7'
         >
           <Stack w={{ base: '95%', sm: '85%', md: '40%' }} align="center" mx="auto">
@@ -59,7 +60,7 @@ export function HomePage() {
             {/* Conditional Welcome Message */}
             {!user && (
               <Title order={2} c="white">
-                Welcome to a world of possibility.
+                Launch yourself into a world of possibility.
               </Title>
             )}
             {user && (

@@ -105,7 +105,7 @@ export const EmptyState = ({
 
         {/* Description - optional secondary message */}
         {description && (
-          <Text c="dimmed" mt="sm">
+          <Text c="dimmed" m="sm">
             {description}
           </Text>
         )}

@@ -31,14 +31,14 @@ export function FilterBar({ searchParams, updateSearchParam, isMobile }: FilterB
   };
 
   return (
-    <Flex direction='row' w={{base:'100%', md: '100%'}} wrap={isMobile ? 'wrap' : 'nowrap'} gap={isMobile ? 5 : 10 } mx="auto" align='center' justify='center'>
+    <Flex direction='row' w={{base:'100%', md: '100%'}} wrap={isMobile ? 'wrap' : 'nowrap'} gap={isMobile ? 5 : 10 } mx="auto" align='center' justify='space-evenly'>
       {isSearchActive && (
         <SearchSort
           sortType="all"
           value={searchParams.get('sortOption') || ''}
           onChange={(val) => updateSearchParam('sortOption', val)}
           placeholder="Sort By"
-          width={{base:'30%', md: '100%'}}
+          width={{base:'40%', md: '100%'}}
           radius={100}
         />
       )}
@@ -47,7 +47,7 @@ export function FilterBar({ searchParams, updateSearchParam, isMobile }: FilterB
         value={searchParams.get('sortOption') || ''}
         onChange={(val) => updateSearchParam('sortOption', val)}
         placeholder="Sort by Title"
-        width={{base:'30%', md: '100%'}}
+        width={{base:'40%', md: '100%'}}
         radius={100}
       />
       <SearchSort
@@ -55,7 +55,7 @@ export function FilterBar({ searchParams, updateSearchParam, isMobile }: FilterB
         value={searchParams.get('sortOption') || ''}
         onChange={(val) => updateSearchParam('sortOption', val)}
         placeholder="Sort by Date"
-        width={{base:'30%', md: '100%'}}
+        width={{base:'40%', md: '100%'}}
         radius={100}
       />
       {isLoggedIn && <SearchSort
@@ -63,25 +63,25 @@ export function FilterBar({ searchParams, updateSearchParam, isMobile }: FilterB
         value={searchParams.get('sortOption') || ''}
         onChange={(val) => updateSearchParam('sortOption', val)}
         placeholder="Sort by Match Score"
-        width={{base:'30%', md: '100%'}}
+        width={{base:'40%', md: '100%'}}
         radius={100}
       />}
       <SearchRegion
         value={searchParams.get('region') || ''}
         onChange={(val) => updateSearchParam('region', val)}
-        width={{base:'30%', md: '100%'}}
+        width={{base:'40%', md: '100%'}}
         radius={100}
       />
       <SearchCity
         value={searchParams.get('city') || ''}
         onChange={(val) => updateSearchParam('city', val)}
-        width={{base:'30%', md: '100%'}}
+        width={{base:'40%', md: '100%'}}
         radius={100}
       />
       <SearchWorkArrangement
         value={searchParams.get('workArrangement') || ''}
         onChange={(val) => updateSearchParam('workArrangement', val)}
-        width={{base:'30%', md: '100%'}}
+        width={{base:'40%', md: '100%'}}
         radius={100}
       />
       {hasActiveFilters && (

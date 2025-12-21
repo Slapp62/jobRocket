@@ -1,3 +1,5 @@
+const dotenv = require('dotenv');
+dotenv.config();
 // Emergency logging to catch startup issues
 console.log('🚀 index.js: Starting module load...');
 console.log('Environment:', process.env.NODE_ENV || 'undefined');
@@ -66,4 +68,4 @@ if (require.main === module) {
 }
 
 // Export both the app and the startup function
-module.exports = { app, startServer };
+//module.exports = { app, startServer };
