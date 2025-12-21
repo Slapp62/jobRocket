@@ -8,8 +8,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { notifications } from '@mantine/notifications';
 
-import { JobseekerFields } from '@/components/registrationForms/jobseekerFields';
-import { BusinessFields } from '@/components/registrationForms/businessFields';
+import { JobseekerFields } from './registrationForms/jobseekerFields';
+import { BusinessFields } from './registrationForms/businessFields';
 import { registrationSchema, googleRegistrationSchema } from '@/validationRules/register.joi';
 import { setUser } from '@/store/userSlice';
 import { TUsers, googleProfile } from '@/Types';

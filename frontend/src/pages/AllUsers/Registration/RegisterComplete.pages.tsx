@@ -6,9 +6,9 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 
 import { Container, Paper, Title, Text, Button, LoadingOverlay } from '@mantine/core';
-import {JobseekerFields} from '../../../components/registrationForms/jobseekerFields';
-import {BusinessFields} from '../../../components/registrationForms/businessFields';
-import {SharedCredentials} from '../../../components/registrationForms/shareCredentials';
+import {JobseekerFields} from './registrationForms/jobseekerFields';
+import {BusinessFields} from './registrationForms/businessFields';
+import {SharedCredentials} from './registrationForms/shareCredentials';
 import { registrationSchema } from '@/validationRules/register.joi';
 import { setUser } from '@/store/userSlice';
 import { googleProfile, TUsers } from '@/Types';

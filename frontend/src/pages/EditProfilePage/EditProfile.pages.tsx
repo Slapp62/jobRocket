@@ -1,8 +1,8 @@
 import { IconPhone } from '@tabler/icons-react';
 import { Button, Fieldset, Flex, Text, TextInput, Title } from '@mantine/core';
 import { DeleteUserModal } from '@/components/Modals/DeleteUserModal';
-import { BusinessFields } from '@/components/registrationForms/businessFields';
-import { JobseekerFields } from '@/components/registrationForms/jobseekerFields';
+import { BusinessFields } from '../AllUsers/Registration/registrationForms/businessFields';
+import { JobseekerFields } from '../AllUsers/Registration/registrationForms/jobseekerFields';
 import { PageMeta } from '@/SEO/PageMeta';
 import { useEditProfile } from './useEditProfile';
 
