@@ -225,41 +225,6 @@ export function RegisterForm() {
               </Tabs>
             </Fieldset>
 
-            <Fieldset legend="Data Processing Consent">
-              <Controller
-                name="dataProcessingConsent"
-                control={control}
-                render={({ field: { value, ...field } }) => (
-                  <Checkbox
-                    {...field}
-                    checked={value}
-                    onChange={(event) => field.onChange(event.currentTarget.checked)}
-                    label={
-                      <Text size="sm">
-                        I consent to JobRocket processing my data (account creation, resume
-                        storage via Cloudinary, AI job matching via OpenAI) as described in the{' '}
-                        <Anchor href="/privacy-policy" target="_blank">Privacy Policy</Anchor>
-                      </Text>
-                    }
-                    error={errors.dataProcessingConsent?.message}
-                  />
-                )}
-              />
-            </Fieldset>
-
-            <Fieldset legend="Terms and Conditions">
-              <Controller
-                name="terms"
-                control={control}
-                render={({ field }) => (
-                  <Checkbox
-                    label="I agree to the terms and conditions"
-                    checked={field.value}
-                    onChange={(event) => field.onChange(event.currentTarget.checked)}
-                  />
-                )}
-              />
-            </Fieldset>
             <Stack my="md" gap="md">
               <Button
                 variant="outline"

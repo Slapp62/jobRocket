@@ -1,5 +1,5 @@
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Anchor, FileInput, Text, Flex, Group, Select, TagsInput, Textarea, TextInput, Fieldset } from '@mantine/core';
+import { Anchor, FileInput, Text, Flex, Group, Select, TagsInput, Textarea, TextInput, Fieldset, Checkbox } from '@mantine/core';
 import { TUsers } from '@/Types';
 import WORK_ARRANGEMENTS from '../../data/workArr.ts';
 import { validatePdfFile } from '@/utils/fileValidation';
@@ -182,6 +182,47 @@ export function JobseekerFields({
         {...register('jobseekerProfile.description')}
         error={errors.jobseekerProfile?.description?.message}
       />
+
+      {/* Data Processing Consent */}
+      <Fieldset legend="Data Processing Consent" mt="md" style={{ backgroundColor: '#FFF4E6', padding: '1rem', borderRadius: '8px' }}>
+        <Controller
+          name="dataProcessingConsent"
+          control={control}
+          render={({ field: { value, ...field } }) => (
+            <Checkbox
+              {...field}
+              checked={value}
+              onChange={(event) => field.onChange(event.currentTarget.checked)}
+              disabled={disabled}
+              label={
+                <Text size="sm">
+                  I consent to JobRocket processing my data (account creation, resume
+                  storage via Cloudinary, AI job matching via OpenAI) as described in the{' '}
+                  <Anchor href="/privacy-policy" target="_blank">Privacy Policy</Anchor>
+                </Text>
+              }
+              error={errors.dataProcessingConsent?.message}
+            />
+          )}
+        />
+      </Fieldset>
+
+      {/* Terms and Conditions */}
+      <Fieldset legend="Terms and Conditions" mt="md">
+        <Controller
+          name="terms"
+          control={control}
+          render={({ field }) => (
+            <Checkbox
+              label="I agree to the terms and conditions"
+              checked={field.value}
+              onChange={(event) => field.onChange(event.currentTarget.checked)}
+              disabled={disabled}
+              error={errors.terms?.message}
+            />
+          )}
+        />
+      </Fieldset>
     </Flex>
   );
 }
