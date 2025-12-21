@@ -31,7 +31,7 @@ const applicationSchema = new Schema({
     type: String,
     required: true,
     validate: {
-      validator: function (v) {
+      validator (v) {
         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
       },
       message: (props) => `${props.value} is not a valid email!`,
@@ -41,7 +41,7 @@ const applicationSchema = new Schema({
     type: String,
     required: false,
     validate: {
-      validator: function (v) {
+      validator (v) {
         return /^0(?:5[0-9]|[2-4689])(?:-?\d{3}(?:-?\d{4}))$/.test(v);
       },
       message: (props) => `${props.value} is not a valid Israeli phone number!`,
@@ -80,7 +80,7 @@ const applicationSchema = new Schema({
   },
   hiddenFromBusiness:{
     type: Boolean,
-    default: false
+    default: false,
   },
   matchScore: {
     type: Number,

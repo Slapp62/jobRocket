@@ -1,14 +1,16 @@
 import { useMemo } from 'react';
 import { Control, Controller, FieldErrors, UseFormRegister, useWatch } from 'react-hook-form';
-import { Anchor, Checkbox, Fieldset, Select, Text, Textarea, TextInput } from '@mantine/core';
+import { Select, Textarea, TextInput } from '@mantine/core';
 import { TUsers } from '@/Types';
-import { getCitiesByRegion, REGIONS } from '../../data/israelCities.ts';
+import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
+import { ConsentCheckboxes } from './ConsentCheckboxes';
 
 type BusinessFieldsProps = {
   register: UseFormRegister<TUsers>;
   errors: FieldErrors<TUsers>;
   control: Control<TUsers>;
   disabled?: boolean;
+  showConsentCheckboxes?: boolean;
 };
 
 const EMPLOYEE_COUNTS = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
@@ -18,6 +20,7 @@ export function BusinessFields({
   errors,
   control,
   disabled = false,
+  showConsentCheckboxes = true,
 }: BusinessFieldsProps) {
   // Watch the selected region to filter cities
   const selectedRegion = useWatch({
@@ -189,46 +192,10 @@ export function BusinessFields({
         error={errors.businessProfile?.description?.message}
       />
 
-      {/* Data Processing Consent */}
-      <Fieldset legend="Data Processing Consent" mt="md" style={{ backgroundColor: '#FFF4E6', padding: '1rem', borderRadius: '8px' }}>
-        <Controller
-          name="dataProcessingConsent"
-          control={control}
-          render={({ field: { value, ...field } }) => (
-            <Checkbox
-              {...field}
-              checked={value}
-              onChange={(event) => field.onChange(event.currentTarget.checked)}
-              disabled={disabled}
-              label={
-                <Text size="sm">
-                  I consent to JobRocket processing my data (account creation, resume
-                  storage via Cloudinary, AI job matching via OpenAI) as described in the{' '}
-                  <Anchor href="/privacy-policy" target="_blank">Privacy Policy</Anchor>
-                </Text>
-              }
-              error={errors.dataProcessingConsent?.message}
-            />
-          )}
-        />
-      </Fieldset>
-
-      {/* Terms and Conditions */}
-      <Fieldset legend="Terms and Conditions" mt="md">
-        <Controller
-          name="terms"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              label="I agree to the terms and conditions"
-              checked={field.value}
-              onChange={(event) => field.onChange(event.currentTarget.checked)}
-              disabled={disabled}
-              error={errors.terms?.message}
-            />
-          )}
-        />
-      </Fieldset>
+      {/* Consent and Legal Checkboxes - Only show during registration */}
+      {showConsentCheckboxes && (
+        <ConsentCheckboxes control={control} errors={errors} disabled={disabled} />
+      )}
     </>
   );
 }

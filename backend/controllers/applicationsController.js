@@ -41,7 +41,7 @@ async function createApplication(req, res) {
       listingId,
       applicantId,
       applicationData,
-      resumeFile
+      resumeFile,
     );
 
     handleSuccess(res, 201, application, 'Application submitted successfully.');
@@ -54,7 +54,7 @@ async function getDashboardMetrics(req, res) {
   try {
     const businessId = req.user._id;
     const data = await applicationsService.getDashboardMetrics(businessId);
-    handleSuccess(res, 200, data, 'Dashboard metrics fetched successfully.')
+    handleSuccess(res, 200, data, 'Dashboard metrics fetched successfully.');
   } catch (error) {
     handleError(res, error.status, error.message);
   }
@@ -88,7 +88,7 @@ async function getListingApplications(req, res) {
     const requesterId = req.user._id;
     const applications = await applicationsService.getListingApplications(
       listingId,
-      requesterId
+      requesterId,
     );
     handleSuccess(res, 200, applications);
   } catch (error) {
@@ -105,7 +105,7 @@ async function updateApplicationStatus(req, res) {
     const application = await applicationsService.updateApplicationStatus(
       id,
       status,
-      requesterId
+      requesterId,
     );
     handleSuccess(res, 200, application, 'Application status updated');
   } catch (error) {
@@ -124,7 +124,7 @@ async function updateApplicationData(req, res) {
       id,
       applicationData,
       requesterId,
-      resumeFile
+      resumeFile,
     );
     handleSuccess(res, 200, application, 'Application updated successfully');
   } catch (error) {
@@ -152,5 +152,5 @@ module.exports = {
   updateApplicationStatus,
   updateApplicationData,
   getBusinessApplications,
-  deleteApplication
+  deleteApplication,
 };

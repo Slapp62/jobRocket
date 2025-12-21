@@ -304,29 +304,6 @@ export default function RegisterAccountTypePage() {
                 />
               )}
 
-              {/* Terms and Conditions */}
-              <Fieldset legend="Terms and Conditions" mt="md">
-                <Controller
-                  name="terms"
-                  control={control}
-                  render={({ field }) => (
-                    <Checkbox
-                      label={
-                        <>
-                          I agree to the{' '}
-                          <Anchor href="/terms" target="_blank">
-                            terms and conditions
-                          </Anchor>
-                        </>
-                      }
-                      checked={field.value}
-                      onChange={(event) => field.onChange(event.currentTarget.checked)}
-                      error={errors.terms?.message}
-                    />
-                  )}
-                />
-              </Fieldset>
-
               <Button type="submit" fullWidth size="lg" mt="xl" loading={loading}>
                 Complete Registration
               </Button>

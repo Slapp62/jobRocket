@@ -74,6 +74,7 @@ export function EditProfile() {
                     currentResumeUrl={userData.jobseekerProfile?.resume}
                     resumeError={resumeError}
                     setResumeError={undefined}
+                    showConsentCheckboxes={false}
                   />
                 </Fieldset>
               )}
@@ -84,7 +85,7 @@ export function EditProfile() {
                     register={register}
                     errors={errors}
                     control={control}
-                    
+                    showConsentCheckboxes={false}
                   />
                 </Fieldset>
               )}
