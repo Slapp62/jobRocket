@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { IconBrandGoogle } from '@tabler/icons-react';
+import { IconAlertCircle, IconBrandGoogle } from '@tabler/icons-react';
 import axios from 'axios';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import {
+  Alert,
   Button,
   Container,
   Divider,
   Group,
+  List,
   Paper,
   PasswordInput,
   Text,
@@ -21,6 +23,7 @@ import { PageMeta } from '@/SEO/PageMeta';
 import { AppDispatch } from '@/store/store';
 import { setUser } from '@/store/userSlice';
 import styles from '@/styles/gradients.module.css';
+import { announceToScreenReader, autocompleteValues } from '@/utils/accessibility';
 import { loginSchema } from '@/validationRules/login.joi';
 import classes from './Login.module.css';
 
@@ -31,6 +34,10 @@ export function LoginPage() {
 
   const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState(false);
+
+  // ACCESSIBILITY: Refs for focus management
+  const emailFieldRef = useRef<HTMLInputElement>(null);
+  const errorSummaryRef = useRef<HTMLDivElement>(null);
 
   const [searchParams] = useSearchParams();
 
@@ -72,6 +79,9 @@ export function LoginPage() {
 
   const onSubmit = async (data: FieldValues) => {
     setIsLoading(true);
+    // ACCESSIBILITY: Announce form submission to screen readers
+    announceToScreenReader('Signing in, please wait', 'polite');
+
     try {
       const response = await axios.post(`/api/users/login`, {
         email: data.email,
@@ -79,6 +89,9 @@ export function LoginPage() {
       });
       const userData = response.data; // Note: wrapped in .data.data because of backend handleSuccess format
       dispatch(setUser(userData));
+
+      // ACCESSIBILITY: Announce success to screen readers
+      announceToScreenReader('Logged in successfully', 'assertive');
 
       notifications.show({
         title: 'Success',
@@ -88,6 +101,9 @@ export function LoginPage() {
 
       jumpTo('/search');
     } catch (error: any) {
+      // ACCESSIBILITY: Announce error to screen readers
+      announceToScreenReader(`Login failed: ${error.response?.data?.message || 'Please try again'}`, 'assertive');
+
       notifications.show({
         title: 'Error',
         message: error.response.data.message,
@@ -127,7 +143,27 @@ export function LoginPage() {
           shadow="lg"
           className={styles.cardGradientSubtle}
         >
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} aria-label="Login form">
+            {/* ACCESSIBILITY: Error summary - WCAG 3.3.1 */}
+            {Object.keys(errors).length > 0 && (
+              <Alert
+                icon={<IconAlertCircle />}
+                title="Please fix the following errors:"
+                color="red"
+                variant="light"
+                ref={errorSummaryRef}
+                tabIndex={-1}
+                role="alert"
+                aria-live="assertive"
+                mb="md"
+              >
+                <List size="sm">
+                  {errors.email && <List.Item>Email: {errors.email.message}</List.Item>}
+                  {errors.password && <List.Item>Password: {errors.password.message}</List.Item>}
+                </List>
+              </Alert>
+            )}
+
             <Button
               fullWidth
               variant="filled"
@@ -136,7 +172,8 @@ export function LoginPage() {
                 window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`;
               }}
               mb="md"
-              leftSection={<IconBrandGoogle size={20} />}
+              leftSection={<IconBrandGoogle size={20} aria-hidden="true" />}
+              aria-label="Sign in with Google"
             >
               Sign in with Google
             </Button>
@@ -147,15 +184,38 @@ export function LoginPage() {
               label="Email"
               placeholder="you@email.com"
               {...register('email')}
+              ref={emailFieldRef}
               error={errors.email?.message}
+              aria-required="true"
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? 'email-error' : undefined}
+              autoComplete={autocompleteValues.email}
+              type="email"
+              id="login-email"
             />
+            {errors.email && (
+              <Text id="email-error" size="xs" c="red" role="alert" mt={4}>
+                {errors.email.message}
+              </Text>
+            )}
+
             <PasswordInput
               mt={10}
               label="Password"
               placeholder="Your password"
               {...register('password')}
               error={errors.password?.message}
+              aria-required="true"
+              aria-invalid={!!errors.password}
+              aria-describedby={errors.password ? 'password-error' : undefined}
+              autoComplete={autocompleteValues.currentPassword}
+              id="login-password"
             />
+            {errors.password && (
+              <Text id="password-error" size="xs" c="red" role="alert" mt={4}>
+                {errors.password.message}
+              </Text>
+            )}
 
             <Group justify="center">
               <Text c="dimmed" size="sm" ta="center" my="lg">
@@ -166,8 +226,14 @@ export function LoginPage() {
               </Button>
             </Group>
 
-            <Button type="submit" fullWidth loading={isLoading} disabled={!isValid}>
-              Sign in
+            <Button
+              type="submit"
+              fullWidth
+              loading={isLoading}
+              disabled={!isValid}
+              aria-label={isLoading ? 'Signing in...' : 'Sign in'}
+            >
+              {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>
           </form>
         </Paper>

@@ -6,6 +6,7 @@ import { ActionIcon } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
+import { announceToScreenReader } from '@/utils/accessibility';
 
 interface FavoritesButtonProps {
   listing: TListing;
@@ -28,7 +29,15 @@ export function FavoritesButton({ listing, width }: FavoritesButtonProps) {
 
     // Optimistic update
     const previousState = isLiked;
-    setIsLiked(!isLiked);
+    const newState = !isLiked;
+    setIsLiked(newState);
+
+    // ACCESSIBILITY: Announce the toggle action to screen readers
+    const jobTitle = listing.jobTitle;
+    announceToScreenReader(
+      newState ? `Added ${jobTitle} to favorites` : `Removed ${jobTitle} from favorites`,
+      'polite'
+    );
 
     try {
       await axios.post(`/api/listings/${listing._id}/like`);
@@ -40,6 +49,10 @@ export function FavoritesButton({ listing, width }: FavoritesButtonProps) {
     } catch (error) {
       // Rollback on failure
       setIsLiked(previousState);
+
+      // ACCESSIBILITY: Announce the error to screen readers
+      announceToScreenReader('Failed to update favorite. Please try again.', 'assertive');
+
       notifications.show({
         title: 'Error',
         message: 'Failed to update favorite',
@@ -51,6 +64,8 @@ export function FavoritesButton({ listing, width }: FavoritesButtonProps) {
   };
 
   return (
+    // ACCESSIBILITY: Icon-only button needs descriptive aria-label
+    // aria-pressed indicates toggle state for screen readers
     <ActionIcon
       variant="light"
       color="red"
@@ -58,8 +73,11 @@ export function FavoritesButton({ listing, width }: FavoritesButtonProps) {
       onClick={handleToggleLike}
       style={{ flex: 1 }}
       w={width}
+      aria-label={isLiked ? 'Remove from favorites' : 'Add to favorites'}
+      aria-pressed={isLiked}
+      disabled={isLoading}
     >
-      {isLiked ? <IconHeartFilled /> : <IconHeart />}
+      {isLiked ? <IconHeartFilled aria-hidden="true" /> : <IconHeart aria-hidden="true" />}
     </ActionIcon>
   );
 }

@@ -76,42 +76,46 @@ export function Navbar() {
         <Flex justify="space-between" align="center" h="100%" px="sm">
           <Logo />
 
-          <Group visibleFrom="md" gap={5}>
-            <Button fz="md" variant="subtle" c="white" component={Link} to="/">
-              Home
-            </Button>
-            <Button fz="md" variant="subtle" c="white" component={Link} to="/search">
-              Job Board
-            </Button>
-
-            {loggedIn && user?.profileType === 'jobseeker' && (
-              <Button fz="md" variant="subtle" c="white" component={Link} to="/favorites">
-                Favorites
+          {/* ACCESSIBILITY: Wrap navigation links in nav element with descriptive label
+              This helps screen reader users identify and navigate to the main navigation */}
+          <nav aria-label="Main navigation">
+            <Group visibleFrom="md" gap={5}>
+              <Button fz="md" variant="subtle" c="white" component={Link} to="/">
+                Home
               </Button>
-            )}
-
-            {loggedIn && user?.profileType === 'jobseeker' && (
-              <Button fz="md" variant="subtle" c="white" component={Link} to="/my-applications">
-                Applications
+              <Button fz="md" variant="subtle" c="white" component={Link} to="/search">
+                Job Board
               </Button>
-            )}
 
-            {loggedIn && user?.profileType === 'business' && (
-              <Button fz="md" variant="subtle" c="white" component={Link} to="/dashboard">
-                Dashboard
+              {loggedIn && user?.profileType === 'jobseeker' && (
+                <Button fz="md" variant="subtle" c="white" component={Link} to="/favorites">
+                  Favorites
+                </Button>
+              )}
+
+              {loggedIn && user?.profileType === 'jobseeker' && (
+                <Button fz="md" variant="subtle" c="white" component={Link} to="/my-applications">
+                  Applications
+                </Button>
+              )}
+
+              {loggedIn && user?.profileType === 'business' && (
+                <Button fz="md" variant="subtle" c="white" component={Link} to="/dashboard">
+                  Dashboard
+                </Button>
+              )}
+
+              <Button fz="md" variant="subtle" c="white" component={Link} to="/about">
+                About Us
               </Button>
-            )}
 
-            <Button fz="md" variant="subtle" c="white" component={Link} to="/about">
-              About Us
-            </Button>
-
-            {user?.isAdmin && (
-              <Button fz="md" variant="subtle" c="white" component={Link} to="/admin">
-                Admin Controls
-              </Button>
-            )}
-          </Group>
+              {user?.isAdmin && (
+                <Button fz="md" variant="subtle" c="white" component={Link} to="/admin">
+                  Admin Controls
+                </Button>
+              )}
+            </Group>
+          </nav>
 
           <Group>
             <Group visibleFrom="xs">
@@ -126,6 +130,8 @@ export function Navbar() {
                 </Button>
               )}
 
+              {/* ACCESSIBILITY: Icon-only button needs aria-label for screen readers
+                  The tooltip is visual-only and not accessible to keyboard/screen reader users */}
               {isBusinessUser && (
                 <ActionIcon
                   variant="outline"
@@ -133,6 +139,7 @@ export function Navbar() {
                   size="35px"
                   radius="md"
                   onClick={() => jumpTo('/create-listing')}
+                  aria-label="Create new job listing"
                 >
                   <Tooltip
                     label="New listing"
@@ -144,7 +151,7 @@ export function Navbar() {
                     bg="rocketYellow.1"
                     c="black"
                   >
-                    <IconPlus stroke={3} />
+                    <IconPlus stroke={3} aria-hidden="true" />
                   </Tooltip>
                 </ActionIcon>
               )}
@@ -158,13 +165,24 @@ export function Navbar() {
 
             <Group>
               {loggedIn && !isMobile && <AvatarIcon />}
-              <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="md" />
+              {/* ACCESSIBILITY: Burger menu needs aria-label and aria-expanded for screen readers
+                  aria-expanded tells screen readers if the mobile menu is currently open */}
+              <Burger
+                opened={drawerOpened}
+                onClick={toggleDrawer}
+                hiddenFrom="md"
+                aria-label={drawerOpened ? 'Close navigation menu' : 'Open navigation menu'}
+                aria-expanded={drawerOpened}
+                aria-controls="mobile-navigation-drawer"
+              />
             </Group>
           </Group>
         </Flex>
       </header>
 
-      {/* MobileView */}
+      {/* ACCESSIBILITY: Mobile navigation drawer needs proper ARIA attributes
+          aria-label identifies the drawer's purpose for screen readers
+          Mantine Drawer already includes role="dialog" and aria-modal="true" */}
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
@@ -178,6 +196,8 @@ export function Navbar() {
         }
         hiddenFrom="md"
         zIndex={1000000}
+        aria-label="Mobile navigation menu"
+        id="mobile-navigation-drawer"
       >
         <ScrollArea h="calc(100vh - 80px" mx="-sm">
           <Divider />

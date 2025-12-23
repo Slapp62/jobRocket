@@ -14,16 +14,35 @@ const SocialIcons = (props: { listingID: string }) => {
 
   return (
     <>
-      <ActionIcon size={40} variant="light" color="rocketRed">
-        <IconBrandLinkedin onClick={() => window.open(linkedInUrl, '_blank')} />
+      {/* ACCESSIBILITY: Social sharing buttons need aria-labels for screen readers */}
+      <ActionIcon
+        size={40}
+        variant="light"
+        color="rocketRed"
+        onClick={() => window.open(linkedInUrl, '_blank')}
+        aria-label="Share on LinkedIn"
+      >
+        <IconBrandLinkedin aria-hidden="true" />
       </ActionIcon>
 
-      <ActionIcon size={40} variant="light" color="rocketRed">
-        <IconBrandWhatsapp onClick={() => window.open(whatsappUrl, '_blank')} />
+      <ActionIcon
+        size={40}
+        variant="light"
+        color="rocketRed"
+        onClick={() => window.open(whatsappUrl, '_blank')}
+        aria-label="Share on WhatsApp"
+      >
+        <IconBrandWhatsapp aria-hidden="true" />
       </ActionIcon>
 
-      <ActionIcon size={40} variant="light" color="rocketRed">
-        <IconBrandX onClick={() => window.open(xUrl, '_blank')} />
+      <ActionIcon
+        size={40}
+        variant="light"
+        color="rocketRed"
+        onClick={() => window.open(xUrl, '_blank')}
+        aria-label="Share on X (Twitter)"
+      >
+        <IconBrandX aria-hidden="true" />
       </ActionIcon>
     </>
   );

@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from 'react';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { IconX } from '@tabler/icons-react';
 import { AnimatePresence } from 'framer-motion';
 import {
@@ -18,6 +18,7 @@ import ListingDetailsPanel from '@/components/ListingComponents/ListingPanel/Lis
 import DesktopSplitView from '@/components/ListingComponents/Views/DesktopSplitView';
 import DesktopDefaultView from '@/components/ListingComponents/Views/ListingsGridView';
 import { PageMeta } from '@/SEO/PageMeta';
+import { announceToScreenReader } from '@/utils/accessibility';
 import { getParamsInfo } from '@/utils/getParamsInfo';
 
 export function SearchPage() {
@@ -37,10 +38,40 @@ export function SearchPage() {
   const city = searchParams.get('city');
   const [searchText, setSearchText] = useState(searchParams.get('searchText') || '');
 
+  // ACCESSIBILITY: Track previous result count for announcements
+  const previousCountRef = useRef<number | null>(null);
+
   // Sync searchText with URL params when they change externally
   useEffect(() => {
     setSearchText(searchParams.get('searchText') || '');
   }, [searchParams.get('searchText')]);
+
+  // ACCESSIBILITY: Announce search results to screen readers
+  useEffect(() => {
+    if (!isLoading && totalCurrentListings !== previousCountRef.current) {
+      const count = totalCurrentListings;
+      const searchTerm = searchParams.get('searchText');
+      const region = searchParams.get('region');
+      const cityParam = searchParams.get('city');
+
+      let message = '';
+
+      if (count === 0) {
+        message = 'No job listings found';
+        if (searchTerm) message += ` matching "${searchTerm}"`;
+        if (cityParam) message += ` in ${cityParam}`;
+        else if (region) message += ` in ${region}`;
+      } else {
+        message = `Found ${count} job listing${count === 1 ? '' : 's'}`;
+        if (searchTerm) message += ` matching "${searchTerm}"`;
+        if (cityParam) message += ` in ${cityParam}`;
+        else if (region) message += ` in ${region}`;
+      }
+
+      announceToScreenReader(message, 'polite');
+      previousCountRef.current = totalCurrentListings;
+    }
+  }, [isLoading, totalCurrentListings, searchParams]);
 
   const handleSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -117,6 +148,30 @@ export function SearchPage() {
           </Stack>
         </Box>
         <Divider size="xs" color="rocketRed.3" />
+
+        {/* ACCESSIBILITY: Screen reader announcement region for search results */}
+        <div
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          style={{
+            position: 'absolute',
+            width: '1px',
+            height: '1px',
+            padding: 0,
+            margin: '-1px',
+            overflow: 'hidden',
+            clip: 'rect(0, 0, 0, 0)',
+            whiteSpace: 'nowrap',
+            borderWidth: 0,
+          }}
+        >
+          {!isLoading && totalCurrentListings !== null && (
+            totalCurrentListings === 0
+              ? 'No job listings found'
+              : `Showing ${totalCurrentListings} job listing${totalCurrentListings === 1 ? '' : 's'}`
+          )}
+        </div>
 
         {isLoading ? (
           <Center my={100}>

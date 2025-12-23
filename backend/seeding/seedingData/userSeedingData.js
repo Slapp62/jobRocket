@@ -19,7 +19,7 @@ const dummyUsers = [
     consents: {
       dataProcessing: {
         granted: true,
-        timestamp: "2025-12-16T20:47:31.297Z",
+        timestamp: new Date("2025-12-16T20:47:31.297Z"),
         ipAddress: '',
         userAgent: '',
         },
@@ -57,7 +57,7 @@ const dummyUsers = [
     consents: {
       dataProcessing: {
         granted: true,
-        timestamp: "2025-12-16T20:47:31.297Z",
+        timestamp: new Date("2025-12-16T20:47:31.297Z"),
         ipAddress: '',
         userAgent: '',
         },
@@ -75,7 +75,7 @@ const dummyUsers = [
     consents: {
       dataProcessing: {
         granted: true,
-        timestamp: "2025-12-16T20:47:31.297Z",
+        timestamp: new Date("2025-12-16T20:47:31.297Z"),
         ipAddress: '',
         userAgent: '',
         },

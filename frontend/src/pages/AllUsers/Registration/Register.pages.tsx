@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { IconAlertCircle } from '@tabler/icons-react';
 import axios from 'axios';
 import { Controller, FieldValues, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
+  Alert,
   Anchor,
   Box,
   Button,
@@ -12,6 +14,7 @@ import {
   Flex,
   FloatingIndicator,
   Group,
+  List,
   Stack,
   Tabs,
   Text,
@@ -21,6 +24,7 @@ import { notifications } from '@mantine/notifications';
 import { PageMeta } from '@/SEO/PageMeta';
 import styles from '@/styles/gradients.module.css';
 import { TUsers } from '@/Types';
+import { announceToScreenReader } from '@/utils/accessibility';
 import { registrationSchema } from '@/validationRules/register.joi';
 import { BusinessFields } from './registrationForms/businessFields';
 import { JobseekerFields } from './registrationForms/jobseekerFields';
@@ -34,6 +38,9 @@ export function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeError, setResumeError] = useState<string | null>(null);
+
+  // ACCESSIBILITY: Ref for error summary focus
+  const errorSummaryRef = useRef<HTMLDivElement>(null);
 
   const setControlRef = (val: string) => (node: HTMLButtonElement) => {
     controlsRefs[val] = node;
@@ -65,6 +72,7 @@ export function RegisterForm() {
 
   const onSubmit = async (data: FieldValues) => {
     if (resumeError) {
+      announceToScreenReader(`Registration failed: ${resumeError}`, 'assertive');
       notifications.show({
         title: 'Error',
         message: resumeError,
@@ -92,6 +100,9 @@ export function RegisterForm() {
     }
 
     setIsLoading(true);
+    // ACCESSIBILITY: Announce form submission to screen readers
+    announceToScreenReader('Submitting registration, please wait', 'polite');
+
     try {
       let response;
       // If there's a resume file, use FormData
@@ -138,6 +149,9 @@ export function RegisterForm() {
       }
 
       if (response.status === 201) {
+        // ACCESSIBILITY: Announce success to screen readers
+        announceToScreenReader('Registration successful! Redirecting to login page', 'assertive');
+
         jumpTo('/login');
         notifications.show({
           title: 'Success',
@@ -146,6 +160,12 @@ export function RegisterForm() {
         });
       }
     } catch (error: any) {
+      // ACCESSIBILITY: Announce error to screen readers
+      announceToScreenReader(
+        `Registration failed: ${error.response?.data?.message || error.message}`,
+        'assertive'
+      );
+
       notifications.show({
         title: 'Error',
         message: error.response?.data?.message || error.message,
@@ -169,7 +189,7 @@ export function RegisterForm() {
           <h1>Registration Form</h1>
         </Box>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} aria-label="Registration form">
           <Flex
             mx="auto"
             direction="column"
@@ -177,6 +197,41 @@ export function RegisterForm() {
             justify="space-between"
             gap={5}
           >
+            {/* ACCESSIBILITY: Error summary - WCAG 3.3.1 */}
+            {Object.keys(errors).length > 0 && (
+              <Alert
+                icon={<IconAlertCircle />}
+                title="Please fix the following errors before submitting:"
+                color="red"
+                variant="light"
+                ref={errorSummaryRef}
+                tabIndex={-1}
+                role="alert"
+                aria-live="assertive"
+                mb="md"
+              >
+                <List size="sm">
+                  {errors.email && <List.Item>Email: {errors.email.message}</List.Item>}
+                  {errors.password && <List.Item>Password: {errors.password.message}</List.Item>}
+                  {errors.phone && <List.Item>Phone: {errors.phone.message}</List.Item>}
+                  {errors.jobseekerProfile?.firstName && (
+                    <List.Item>First Name: {errors.jobseekerProfile.firstName.message}</List.Item>
+                  )}
+                  {errors.jobseekerProfile?.lastName && (
+                    <List.Item>Last Name: {errors.jobseekerProfile.lastName.message}</List.Item>
+                  )}
+                  {errors.businessProfile?.companyName && (
+                    <List.Item>Company Name: {errors.businessProfile.companyName.message}</List.Item>
+                  )}
+                  {errors.terms && <List.Item>Terms: {errors.terms.message}</List.Item>}
+                  {errors.dataProcessingConsent && (
+                    <List.Item>Data Consent: {errors.dataProcessingConsent.message}</List.Item>
+                  )}
+                  {resumeError && <List.Item>Resume: {resumeError}</List.Item>}
+                </List>
+              </Alert>
+            )}
+
             <SharedCredentials register={register} errors={errors} control={control} />
 
             <Fieldset
@@ -191,13 +246,19 @@ export function RegisterForm() {
                   setTabValue(newValue);
                   // Update profileType in form when tab changes
                   setValue('profileType', newValue as 'jobseeker' | 'business');
+                  // ACCESSIBILITY: Announce tab change to screen readers
+                  announceToScreenReader(
+                    `Switched to ${newValue === 'jobseeker' ? 'Job Seeker' : 'Business'} registration`,
+                    'polite'
+                  );
                 }}
               >
-                <Tabs.List ref={setRootRef} className={classes.list}>
+                <Tabs.List ref={setRootRef} className={classes.list} aria-label="Account type selection">
                   <Tabs.Tab
                     value="jobseeker"
                     ref={setControlRef('jobseeker')}
                     className={classes.tab}
+                    aria-label="Register as Job Seeker"
                   >
                     Job Seeker
                   </Tabs.Tab>
@@ -205,6 +266,7 @@ export function RegisterForm() {
                     value="business"
                     ref={setControlRef('business')}
                     className={classes.tab}
+                    aria-label="Register as Business"
                   >
                     Business
                   </Tabs.Tab>
@@ -242,7 +304,9 @@ export function RegisterForm() {
                 onClick={() => {
                   reset();
                   registerRef.current?.scrollIntoView({ behavior: 'smooth' });
+                  announceToScreenReader('Form has been reset', 'polite');
                 }}
+                aria-label="Reset registration form"
               >
                 Reset Form
               </Button>
@@ -253,8 +317,9 @@ export function RegisterForm() {
                 fullWidth
                 disabled={!isValid || (!isDirty && !resumeFile) || !!resumeError}
                 loading={isLoading}
+                aria-label={isLoading ? 'Submitting registration...' : 'Submit registration'}
               >
-                Submit
+                {isLoading ? 'Submitting...' : 'Submit'}
               </Button>
 
               <Group justify="center" align="center">

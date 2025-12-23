@@ -19,6 +19,7 @@ const data = [
     links: [
       { label: 'Privacy Policy', link: '/privacy-policy' },
       { label: 'Terms of Service', link: '/terms-of-service' },
+      { label: 'Accessibility Statement', link: '/accessibility' },
     ],
   },
   {
@@ -43,16 +44,20 @@ export function Footer() {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const groups = data.map((group) => {
     const links = group.links.map((link, index) => (
-      <Text<'a'> key={index} className={classes.link} component="a" href={link.link}>
-        {link.label}
-      </Text>
+      <li key={index}>
+        <Text<'a'> className={classes.link} component="a" href={link.link}>
+          {link.label}
+        </Text>
+      </li>
     ));
 
     return (
-      <div className={classes.wrapper} key={group.title}>
-        <Text className={classes.title}>{group.title}</Text>
-        {links}
-      </div>
+      <nav className={classes.wrapper} key={group.title} aria-label={group.title}>
+        <Text className={classes.title} component="h3">
+          {group.title}
+        </Text>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>{links}</ul>
+      </nav>
     );
   });
 

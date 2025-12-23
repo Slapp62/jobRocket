@@ -184,22 +184,25 @@ export const DashListings = ({
                   </Text>
                 )}
 
+                {/* ACCESSIBILITY: Edit and Delete buttons need aria-labels */}
                 <Group gap="xs" mt="xs">
                   <ActionIcon
                     size={36}
                     variant="outline"
                     color="yellow"
                     onClick={() => clickEditListing(listing)}
+                    aria-label={`Edit ${listing.jobTitle} listing`}
                   >
-                    <IconPencil size={20} />
+                    <IconPencil size={20} aria-hidden="true" />
                   </ActionIcon>
                   <ActionIcon
                     size={36}
                     variant="outline"
                     color="red"
                     onClick={() => clickDeleteListing(listing._id, listing.jobTitle)}
+                    aria-label={`Delete ${listing.jobTitle} listing`}
                   >
-                    <IconTrash size={20} />
+                    <IconTrash size={20} aria-hidden="true" />
                   </ActionIcon>
                 </Group>
               </Stack>
@@ -269,8 +272,9 @@ export const DashListings = ({
                         variant="outline"
                         color="yellow"
                         onClick={() => clickEditListing(listing)}
+                        aria-label={`Edit ${listing.jobTitle} listing`}
                       >
-                        <IconPencil size={25} stroke={1.5} />
+                        <IconPencil size={25} stroke={1.5} aria-hidden="true" />
                       </ActionIcon>
                     </Table.Td>
 
@@ -280,8 +284,9 @@ export const DashListings = ({
                         variant="outline"
                         color="red"
                         onClick={() => clickDeleteListing(listing._id, listing.jobTitle)}
+                        aria-label={`Delete ${listing.jobTitle} listing`}
                       >
-                        <IconTrash size={25} stroke={1.5} />
+                        <IconTrash size={25} stroke={1.5} aria-hidden="true" />
                       </ActionIcon>
                     </Table.Td>
                   </Table.Tr>

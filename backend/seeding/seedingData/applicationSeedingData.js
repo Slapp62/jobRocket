@@ -21,7 +21,7 @@ const dummyApplications = [
         coverLetter: true
       },
       consentGranted: true,
-      consentTimestamp: "2025-12-21T19:26:15.363Z",
+      consentTimestamp: new Date("2025-12-21T19:26:15.363Z"),
       ipAddress: "127.0.0.1",
       userAgent: "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 Edg/143.0.0.0",
       employerName: "FinTech Pro"
@@ -47,7 +47,7 @@ const dummyApplications = [
         coverLetter: true
       },
       consentGranted: true,
-      consentTimestamp: "2025-12-21T19:26:15.363Z",
+      consentTimestamp: new Date("2025-12-21T19:26:15.363Z"),
       ipAddress: "127.0.0.1",
       userAgent: "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 Edg/143.0.0.0",
       employerName: "FinTech Pro"
@@ -75,7 +75,7 @@ const dummyApplications = [
         coverLetter: true
       },
       consentGranted: true,
-      consentTimestamp: "2025-12-21T19:26:15.363Z",
+      consentTimestamp: new Date("2025-12-21T19:26:15.363Z"),
       ipAddress: "127.0.0.1",
       userAgent: "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 Edg/143.0.0.0",
       employerName: "FinTech Pro"
@@ -101,7 +101,7 @@ const dummyApplications = [
         coverLetter: true
       },
       consentGranted: true,
-      consentTimestamp: "2025-12-21T19:26:15.363Z",
+      consentTimestamp: new Date("2025-12-21T19:26:15.363Z"),
       ipAddress: "127.0.0.1",
       userAgent: "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 Edg/143.0.0.0",
       employerName: "FinTech Pro"
@@ -129,7 +129,7 @@ const dummyApplications = [
         coverLetter: true
       },
       consentGranted: true,
-      consentTimestamp: "2025-12-21T19:26:15.363Z",
+      consentTimestamp: new Date("2025-12-21T19:26:15.363Z"),
       ipAddress: "127.0.0.1",
       userAgent: "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 Edg/143.0.0.0",
       employerName: "FinTech Pro"
@@ -155,7 +155,7 @@ const dummyApplications = [
         coverLetter: true
       },
       consentGranted: true,
-      consentTimestamp: "2025-12-21T19:26:15.363Z",
+      consentTimestamp: new Date("2025-12-21T19:26:15.363Z"),
       ipAddress: "127.0.0.1",
       userAgent: "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 Edg/143.0.0.0",
       employerName: "FinTech Pro"
@@ -183,7 +183,7 @@ const dummyApplications = [
         coverLetter: true
       },
       consentGranted: true,
-      consentTimestamp: "2025-12-21T19:26:15.363Z",
+      consentTimestamp: new Date("2025-12-21T19:26:15.363Z"),
       ipAddress: "127.0.0.1",
       userAgent: "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 Edg/143.0.0.0",
       employerName: "FinTech Pro"

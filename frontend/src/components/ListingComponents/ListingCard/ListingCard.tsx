@@ -43,6 +43,8 @@ function ListingCard({
         height: isMobile ? mobileHeight : height || '100%',
       }}
     >
+      {/* ACCESSIBILITY: Make card keyboard-accessible when clickable
+          Using component="button" makes it a semantic button for screen readers */}
       <Card
         shadow="sm"
         radius="md"
@@ -53,9 +55,20 @@ function ListingCard({
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
+          ...(onClick && {
+            border: 'none',
+            background: 'inherit',
+            padding: 0,
+            textAlign: 'left',
+          }),
         }}
         onClick={onClick}
         className={disableHoverEffect ? undefined : styles.hover}
+        component={onClick ? 'button' : 'div'}
+        {...(onClick && {
+          type: 'button',
+          'aria-label': `View details for ${listing.jobTitle} at ${listing.companyName}`,
+        })}
       >
         <Stack gap="sm" style={{ flex: 1 }} w="100%">
           {/* Company Name */}

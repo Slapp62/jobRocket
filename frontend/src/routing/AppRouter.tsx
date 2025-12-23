@@ -34,6 +34,11 @@ const AdminControls = lazy(() => import('@/pages/AdminControls/AdminControls.pag
 const About = lazy(() => import('@/pages/Static/About.pages'));
 const PrivacyPolicy = lazy(() => import('@/pages/Static/PrivacyPolicy.pages'));
 const TermsOfService = lazy(() => import('@/pages/Static/TermsOfService.pages'));
+const AccessibilityStatement = lazy(() =>
+  import('@/pages/AllUsers/AccessibilityStatement.pages').then((m) => ({
+    default: m.AccessibilityStatement,
+  }))
+);
 const Error404 = lazy(() => import('@/pages/Static/404.pages'));
 
 // Loading fallback component
@@ -76,6 +81,14 @@ const router = createBrowserRouter(
           element: (
             <Suspense fallback={<PageLoader />}>
               <TermsOfService />
+            </Suspense>
+          ),
+        },
+        {
+          path: 'accessibility',
+          element: (
+            <Suspense fallback={<PageLoader />}>
+              <AccessibilityStatement />
             </Suspense>
           ),
         },

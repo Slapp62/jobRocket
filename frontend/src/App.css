@@ -69,3 +69,36 @@
 .hover-glow-orange:hover {
     box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY STYLES (WCAG 2.0 Level AA - IS 5568 Compliance)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Global focus styles - visible focus indicators required by law
+   All interactive elements must have a visible focus indicator for keyboard users */
+*:focus-visible {
+  outline: 3px solid #ff6b35; /* rocketOrange color for brand consistency */
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Remove focus outline for mouse users (but keep for keyboard users)
+   This ensures keyboard users can always see what's focused */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Screen reader only utility class
+   Hides content visually but keeps it available to screen readers
+   Used for labels, instructions, and announcements that provide context */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

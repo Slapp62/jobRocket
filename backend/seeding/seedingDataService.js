@@ -79,7 +79,7 @@ const seedDevData = async (users, listings, applications = []) => {
         phone: application.phone,
         applicantId: applicant._id,
         resumeUrl: application.resumeUrl,
-        message: application.message,
+        message: application.message || application.coverLetter || '',
         status: application.status,
         applicationDataConsent: application.applicationDataConsent,
       });
@@ -153,8 +153,9 @@ const seedTestData = async (users, listings, applications = []) => {
         phone: application.phone,
         applicantId: applicant._id,
         resumeUrl: application.resumeUrl,
-        message: application.message,
+        message: application.message || application.coverLetter || '',
         status: application.status,
+        applicationDataConsent: application.applicationDataConsent,
       });
       await newApplication.save();
     } catch (error) {
