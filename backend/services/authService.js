@@ -51,6 +51,11 @@ async function verifyUserCredentials(email, password) {
     throwError(403, 'This account has been deleted. Contact support to restore your account.');
   }
 
+  // Check if user has a password (not a Google OAuth user)
+  if (!user.password) {
+    throwError(401, 'This account uses Google sign-in. Please sign in with Google.');
+  }
+
   const isPasswordValid = await verifyPassword(password, user.password);
   const loginAttempts = user.loginAttempts;
 
