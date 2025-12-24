@@ -12,12 +12,13 @@ export const useDashboardApplications = () => {
   // Filters
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState<string | null>('all');
-  const [listingId, setListingId] = useState<string | null>('all'); // 'all', 'active', 'inactive'
   const [dateFrom, setDateFrom] = useState<string | null>('');
   const [dateTo, setDateTo] = useState<string | null>('');
   const [sortOption, setSortOption] = useState<string | null>('date-newest');
-  const [page, setPage] = useState(1);
-  const [newStatus, setNewStatus] = useState<string | null>(null);
+
+  // Backend still uses listingId filter, but we always fetch all listings
+  // since grouping happens on the frontend now
+  const listingId = 'all';
 
   const removeApplicationById = (applicationId: string) => {
     return applications.filter((app) => app._id !== applicationId);
@@ -34,8 +35,8 @@ export const useDashboardApplications = () => {
           dateFrom: dateFrom || undefined,
           dateTo: dateTo || undefined,
           sortOption,
-          page,
-          limit: 20,
+          page: 1,
+          limit: 100, // Fetch more since we're grouping on frontend
         });
         setApplications(data.applications);
       } catch (error: any) {
@@ -49,27 +50,21 @@ export const useDashboardApplications = () => {
       }
     };
     getBusinessApplications();
-  }, [searchText, status, listingId, dateFrom, dateTo, sortOption, page]);
+  }, [searchText, status, listingId, dateFrom, dateTo, sortOption]);
 
   return {
     applications,
     isLoading,
     searchText,
     status,
-    listingId,
     dateFrom,
     dateTo,
     sortOption,
-    page,
     setSearchText,
     setStatus,
-    setListingId,
     setDateFrom,
     setDateTo,
     setSortOption,
-    setPage,
-    newStatus,
-    setNewStatus,
     setApplications,
     removeApplicationById,
   };

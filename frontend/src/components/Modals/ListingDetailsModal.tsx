@@ -2,6 +2,7 @@ import { Anchor, Badge, Box, Divider, Group, List, Modal, Stack, Text, Title } f
 import styles from '@/styles/gradients.module.css';
 import { TListing } from '@/Types';
 import { formatRegionForDisplay } from '@/utils/formatters';
+import { formatDate } from '@/utils/dateUtils';
 
 type ListingDetailsModalProps = {
   opened: boolean;
@@ -134,7 +135,7 @@ export const ListingDetailsModal = ({ opened, onClose, listing }: ListingDetails
           {/* Posted Date */}
           {listing.createdAt && (
             <Text size="xs" c="dimmed" ta="center">
-              Posted on {new Date(listing.createdAt).toLocaleDateString()}
+              Posted on {formatDate(listing.createdAt)}
             </Text>
           )}
         </Stack>

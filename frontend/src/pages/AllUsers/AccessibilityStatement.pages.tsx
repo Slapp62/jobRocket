@@ -1,5 +1,6 @@
 import { Anchor, Container, List, Stack, Text, Title } from '@mantine/core';
 import { PageMeta } from '@/SEO/PageMeta';
+import { formatDate } from '@/utils/dateUtils';
 
 export function AccessibilityStatement() {
   return (
@@ -15,7 +16,7 @@ export function AccessibilityStatement() {
           <Title order={1}>Accessibility Statement</Title>
 
           <Text size="sm" c="dimmed">
-            Last Updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+            Last Updated: {formatDate(new Date())}
           </Text>
 
           <section>

@@ -1,4 +1,5 @@
 import { TListing, TUsers } from '@/Types';
+import { formatDateForInput } from '@/utils/dateUtils';
 
 export const cleanedUserData = (user: TUsers) => ({
   phone: user.phone,
@@ -52,5 +53,6 @@ export const cleanedListingData = (listing: TListing) => ({
   location: listing.location,
   workArrangement: listing.workArrangement,
   isActive: listing.isActive ?? true,
-  expiresAt: listing?.expiresAt ? new Date(listing.expiresAt).toISOString().split('T')[0] : null,
+  // Format date for input field (YYYY-MM-DD) without timezone shifts
+  expiresAt: listing?.expiresAt ? formatDateForInput(listing.expiresAt) : null,
 });

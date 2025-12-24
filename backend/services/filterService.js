@@ -282,8 +282,17 @@ async function getFilteredApplications(businessId, filterParams) {
     Applications.countDocuments(query), // Get total count for pagination info
   ]);
 
+  // Normalize application responses for dashboard - exclude unnecessary fields
+  const normalizedApplications = applications.map((app) =>
+    normalizeApplicationResponse(app, app.listingId, {
+      includeMessage: false, // Message not displayed on dashboard
+      includeApplicantId: false, // Internal field not displayed
+      includeConsent: false, // Privacy metadata not needed on frontend
+    }),
+  );
+
   return {
-    applications: applications.map(normalizeApplicationResponse),
+    applications: normalizedApplications,
     pagination: {
       currentPage: page,
       totalPages: Math.ceil(total / limit),

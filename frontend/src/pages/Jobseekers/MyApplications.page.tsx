@@ -9,6 +9,7 @@ import { EditApplicationModal } from '@/components/Modals/EditApplicationModal';
 import { ListingDetailsModal } from '@/components/Modals/ListingDetailsModal';
 import { PageMeta } from '@/SEO/PageMeta';
 import { TApplication, TListing } from '@/Types';
+import { formatDate } from '@/utils/dateUtils';
 
 export function MyApplications() {
   const [isLoading, setIsLoading] = useState(false);
@@ -125,7 +126,7 @@ export function MyApplications() {
                     {application.status}
                   </Badge>
                   <Text fz="sm" c="dimmed">
-                    Submitted on {new Date(application.createdAt).toLocaleDateString()}
+                    Submitted on {formatDate(application.createdAt)}
                   </Text>
                   <Button
                     variant="outline"

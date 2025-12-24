@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { IconPhone } from '@tabler/icons-react';
 import { Control, FieldErrors, UseFormRegister, useWatch } from 'react-hook-form';
-import { Fieldset, PasswordInput, Text, TextInput } from '@mantine/core';
+import { Fieldset, PasswordInput, TextInput } from '@mantine/core';
 import { TUsers } from '@/Types';
 import { autocompleteValues } from '@/utils/accessibility';
 
@@ -36,11 +35,6 @@ export function SharedCredentials({ register, errors, control }: JobseekerFields
           type="email"
           id="register-email"
         />
-        {errors.email && (
-          <Text id="register-email-error" size="xs" c="red" role="alert" mt={4}>
-            {errors.email.message}
-          </Text>
-        )}
 
         <PasswordInput
           label="Password"
@@ -53,11 +47,6 @@ export function SharedCredentials({ register, errors, control }: JobseekerFields
           autoComplete={autocompleteValues.newPassword}
           id="register-password"
         />
-        {errors.password && (
-          <Text id="register-password-error" size="xs" c="red" role="alert" mt={4}>
-            {errors.password.message}
-          </Text>
-        )}
 
         <PasswordInput
           label="Confirm Password"
@@ -70,11 +59,6 @@ export function SharedCredentials({ register, errors, control }: JobseekerFields
           autoComplete={autocompleteValues.newPassword}
           id="register-confirm-password"
         />
-        {confirmPasswordError && (
-          <Text id="confirm-password-error" size="xs" c="red" role="alert" mt={4}>
-            {confirmPasswordError}
-          </Text>
-        )}
       </Fieldset>
     </>
   );

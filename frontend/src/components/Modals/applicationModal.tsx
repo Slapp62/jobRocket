@@ -1,16 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
-import { IconAlertCircle } from '@tabler/icons-react';
+import { useEffect, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import axios from 'axios';
 import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import {
-  Alert,
   Anchor,
   Button,
   Checkbox,
   FileInput,
-  List,
   Modal,
   Stack,
   Text,
@@ -36,10 +33,6 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
   const [resumeError, setResumeError] = useState<string | null>(null);
   const user = useSelector((state: RootState) => state.userSlice.user);
 
-  // ACCESSIBILITY: Refs for focus management
-  const firstFieldRef = useRef<HTMLInputElement>(null);
-  const errorSummaryRef = useRef<HTMLDivElement>(null);
-
   const {
     reset,
     control,
@@ -64,17 +57,6 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
       });
     }
   }, [user, opened, reset]);
-
-  // ACCESSIBILITY: Focus management when modal opens
-  useEffect(() => {
-    if (opened) {
-      // Focus error summary if there are errors, otherwise focus first field
-      const targetRef = Object.keys(errors).length > 0 ? errorSummaryRef : firstFieldRef;
-      setTimeout(() => {
-        targetRef.current?.focus();
-      }, 100);
-    }
-  }, [opened, errors]);
 
   /**
    * Handle resume file selection with validation
@@ -141,37 +123,10 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
     <Modal opened={opened} onClose={onClose} title="Application" zIndex={1000} size='md'>
       <form onSubmit={handleSubmit(onSubmit)} aria-label="Job application form">
         <Stack w={{ base: '100%', md: '95%' }} mx="auto">
-          {/* ACCESSIBILITY: Error summary - WCAG 3.3.1 */}
-          {Object.keys(errors).length > 0 && (
-            <Alert
-              icon={<IconAlertCircle />}
-              title="Please fix the following errors:"
-              color="red"
-              variant="light"
-              ref={errorSummaryRef}
-              tabIndex={-1}
-              role="alert"
-              aria-live="assertive"
-            >
-              <List size="sm">
-                {errors.firstName && <List.Item>First name: {errors.firstName.message}</List.Item>}
-                {errors.lastName && <List.Item>Last name: {errors.lastName.message}</List.Item>}
-                {errors.email && <List.Item>Email: {errors.email.message}</List.Item>}
-                {errors.phone && <List.Item>Phone: {errors.phone.message}</List.Item>}
-                {errors.message && <List.Item>Message: {errors.message.message}</List.Item>}
-                {errors.applicationDataConsent && (
-                  <List.Item>Consent: {errors.applicationDataConsent.message}</List.Item>
-                )}
-                {resumeError && <List.Item>Resume: {resumeError}</List.Item>}
-              </List>
-            </Alert>
-          )}
-
           <TextInput
             label="First Name"
             required
             {...register('firstName')}
-            ref={firstFieldRef}
             error={errors.firstName?.message}
             aria-required="true"
             aria-invalid={!!errors.firstName}
@@ -179,11 +134,6 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
             autoComplete={autocompleteValues.firstName}
             id="application-firstName"
           />
-          {errors.firstName && (
-            <Text id="firstName-error" size="xs" c="red" role="alert">
-              {errors.firstName.message}
-            </Text>
-          )}
 
           <TextInput
             label="Last Name"
@@ -196,11 +146,6 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
             autoComplete={autocompleteValues.lastName}
             id="application-lastName"
           />
-          {errors.lastName && (
-            <Text id="lastName-error" size="xs" c="red" role="alert">
-              {errors.lastName.message}
-            </Text>
-          )}
 
           <TextInput
             label="Email"
@@ -214,11 +159,6 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
             type="email"
             id="application-email"
           />
-          {errors.email && (
-            <Text id="email-error" size="xs" c="red" role="alert">
-              {errors.email.message}
-            </Text>
-          )}
 
           <TextInput
             label="Phone"
@@ -230,11 +170,6 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
             type="tel"
             id="application-phone"
           />
-          {errors.phone && (
-            <Text id="phone-error" size="xs" c="red" role="alert">
-              {errors.phone.message}
-            </Text>
-          )}
 
           <FileInput
             label="Resume/CV"
@@ -247,11 +182,6 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
             aria-describedby={resumeError ? 'resume-error' : undefined}
             id="application-resume"
           />
-          {resumeError && (
-            <Text id="resume-error" size="xs" c="red" role="alert">
-              {resumeError}
-            </Text>
-          )}
 
           <Textarea
             label="Message"
@@ -262,11 +192,6 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
             id="application-message"
             placeholder="Optional: Add a message to the employer"
           />
-          {errors.message && (
-            <Text id="message-error" size="xs" c="red" role="alert">
-              {errors.message.message}
-            </Text>
-          )}
 
           <Controller
             name="applicationDataConsent"
@@ -292,11 +217,6 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
               />
             )}
           />
-          {errors.applicationDataConsent && (
-            <Text id="consent-error" size="xs" c="red" role="alert">
-              {errors.applicationDataConsent.message}
-            </Text>
-          )}
 
           <Button
             type="submit"

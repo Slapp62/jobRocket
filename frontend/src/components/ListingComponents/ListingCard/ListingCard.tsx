@@ -4,6 +4,7 @@ import { Badge, Box, Button, Card, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { TListing } from '@/Types';
 import { formatRegionForDisplay } from '@/utils/formatters';
+import { formatDate } from '@/utils/dateUtils';
 import styles from './ListingCard.module.css';
 
 type ListingCardProps = {
@@ -108,7 +109,7 @@ function ListingCard({
             </Text>
             {listing.createdAt && (
               <Text size="xs" c="dimmed">
-                Posted {new Date(listing.createdAt).toLocaleDateString()}
+                Posted {formatDate(listing.createdAt)}
               </Text>
             )}
           </Stack>

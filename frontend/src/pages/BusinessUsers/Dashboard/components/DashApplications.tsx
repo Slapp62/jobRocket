@@ -19,6 +19,7 @@ import { ApplicationMatchScore } from '@/components/AI_Components/ApplicationMat
 import { MatchScore } from '@/components/AI_Components/ListingMatchScore';
 import { EmptyState } from '@/components/EmptyState';
 import { TApplication } from '@/Types';
+import { formatDate } from '@/utils/dateUtils';
 import { DeleteApplicationModal } from '../modals/DeleteApplicationModal';
 
 interface DashApplicationsProps {
@@ -229,7 +230,7 @@ export const DashApplications = ({
                     {app.phone && <Text size="sm">{app.phone}</Text>}
 
                     <Text size="xs" c="dimmed">
-                      Submitted: {app.createdAt && new Date(app.createdAt).toLocaleString()}
+                      Submitted: {app.createdAt && formatDate(app.createdAt)}
                     </Text>
 
                     <Group gap="xs" mt="xs">
@@ -310,7 +311,7 @@ export const DashApplications = ({
                         </Table.Td>
 
                         <Table.Td>
-                          {app.createdAt && new Date(app.createdAt).toLocaleString()}
+                          {app.createdAt && formatDate(app.createdAt)}
                         </Table.Td>
 
                         <Table.Td>

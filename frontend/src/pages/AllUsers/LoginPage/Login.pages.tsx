@@ -35,8 +35,7 @@ export function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState(false);
 
-  // ACCESSIBILITY: Refs for focus management
-  const emailFieldRef = useRef<HTMLInputElement>(null);
+  // ACCESSIBILITY: Ref for error summary focus management
   const errorSummaryRef = useRef<HTMLDivElement>(null);
 
   const [searchParams] = useSearchParams();
@@ -76,6 +75,13 @@ export function LoginPage() {
       });
     }
   }, [searchParams]);
+
+  // ACCESSIBILITY: Focus error summary when validation errors appear
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      errorSummaryRef.current?.focus();
+    }
+  }, [errors]);
 
   const onSubmit = async (data: FieldValues) => {
     setIsLoading(true);
@@ -158,8 +164,8 @@ export function LoginPage() {
                 mb="md"
               >
                 <List size="sm">
-                  {errors.email && <List.Item>Email: {errors.email.message}</List.Item>}
-                  {errors.password && <List.Item>Password: {errors.password.message}</List.Item>}
+                  {errors.email && <List.Item>{errors.email.message}</List.Item>}
+                  {errors.password && <List.Item>{errors.password.message}</List.Item>}
                 </List>
               </Alert>
             )}
@@ -184,7 +190,6 @@ export function LoginPage() {
               label="Email"
               placeholder="you@email.com"
               {...register('email')}
-              ref={emailFieldRef}
               error={errors.email?.message}
               aria-required="true"
               aria-invalid={!!errors.email}
@@ -193,11 +198,6 @@ export function LoginPage() {
               type="email"
               id="login-email"
             />
-            {errors.email && (
-              <Text id="email-error" size="xs" c="red" role="alert" mt={4}>
-                {errors.email.message}
-              </Text>
-            )}
 
             <PasswordInput
               mt={10}
@@ -211,11 +211,6 @@ export function LoginPage() {
               autoComplete={autocompleteValues.currentPassword}
               id="login-password"
             />
-            {errors.password && (
-              <Text id="password-error" size="xs" c="red" role="alert" mt={4}>
-                {errors.password.message}
-              </Text>
-            )}
 
             <Group justify="center">
               <Text c="dimmed" size="sm" ta="center" my="lg">

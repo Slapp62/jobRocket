@@ -24,6 +24,7 @@ import { ApplicationModal } from '@/components/Modals/applicationModal';
 import SocialIcons from '@/components/SocialIcons';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
+import { formatDate } from '@/utils/dateUtils';
 
 type ListingDetailPanelProps = {
   listingId: string;
@@ -240,7 +241,7 @@ export function ListingDetailsPanel({
           {/* Posted Date */}
           {listing.createdAt && (
             <Text size="xs" c="dimmed" ta="center">
-              Posted on {new Date(listing.createdAt).toLocaleDateString()}
+              Posted on {formatDate(listing.createdAt)}
             </Text>
           )}
         </Stack>

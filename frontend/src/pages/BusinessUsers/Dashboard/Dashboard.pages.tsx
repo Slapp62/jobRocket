@@ -8,7 +8,7 @@ import {
   updateApplicationStatus,
 } from '@/pages/BusinessUsers/Dashboard/utils/dashboardApi';
 import { PageMeta } from '@/SEO/PageMeta';
-import { DashApplications } from './components/DashApplications';
+import { DashApplicationsGrouped } from './components/DashApplicationsGrouped';
 import { DashListings } from './components/DashListings';
 import { DashMetrics } from './components/DashMetrics';
 import { useDashboardApplications } from './hooks/useDashboardApplications';
@@ -41,29 +41,15 @@ export const Dashboard = () => {
     setSearchText: setAppSearchText,
     status,
     setStatus,
-    listingId,
-    setListingId,
     dateFrom,
     setDateFrom,
     dateTo,
     setDateTo,
     sortOption: appSortOption,
     setSortOption: setAppSortOption,
-    page: appPage,
-    setPage: setAppPage,
-    newStatus,
-    setNewStatus,
     setApplications,
     removeApplicationById,
   } = useDashboardApplications();
-
-  const listingOptions = [
-    { value: 'all', label: 'All Listings' },
-    ...(listings.map((listing) => ({
-      value: listing._id,
-      label: listing.jobTitle,
-    })) ?? []),
-  ];
 
   const handleListingDelete = async (listingId: string) => {
     if (!listingId) {
@@ -220,7 +206,7 @@ export const Dashboard = () => {
               </Text>
             </div>
 
-            <DashMetrics dashboardMetrics={dashboardMetrics} />
+            <DashMetrics dashboardMetrics={dashboardMetrics} listings={listings} />
 
             <Tabs color="rocketOrange" variant="outline" defaultValue="applications">
               <Tabs.List mb={20} justify="center" fw={600}>
@@ -233,27 +219,19 @@ export const Dashboard = () => {
               </Tabs.List>
 
               <Tabs.Panel value="applications">
-                <DashApplications
+                <DashApplicationsGrouped
                   dashApplications={applications}
-                  listingOptions={listingOptions}
-                  onStatusChange={handleStatusChange}
                   searchText={appSearchText}
                   setSearchText={setAppSearchText}
                   status={status}
                   setStatus={setStatus}
-                  listingId={listingId}
-                  setListingId={setListingId}
                   dateFrom={dateFrom}
                   setDateFrom={setDateFrom}
                   dateTo={dateTo}
                   setDateTo={setDateTo}
                   sortOption={appSortOption}
                   setSortOption={setAppSortOption}
-                  page={appPage}
-                  setPage={setAppPage}
                   updateApplicationStatus={handleStatusChange}
-                  newStatus={newStatus}
-                  setNewStatus={setNewStatus}
                   handleApplicationDelete={handleApplicationDelete}
                 />
               </Tabs.Panel>

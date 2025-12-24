@@ -21,6 +21,7 @@
 - [Authentication](#-authentication)
 - [Testing](#-testing)
 - [Deployment](#-deployment)
+- [Documentation](#-documentation)
 - [License](#-license)
 
 ---
@@ -689,6 +690,19 @@ Framer Motion animations for:
 - ✅ Account lockout mechanism
 - ✅ HTTPS in production
 - ✅ Environment variable protection
+
+---
+
+## 📚 Documentation
+
+Comprehensive technical documentation is available in the [`/docs`](./docs) folder:
+
+- **[Date Handling Guide](./docs/DATE_HANDLING.md)** - Complete guide to date formatting and timezone handling
+- **[Accessibility Audit](./docs/ACCESSIBILITY_AUDIT.md)** - WCAG 2.0 Level AA compliance documentation
+- **[Accessibility Maintenance](./docs/ACCESSIBILITY_MAINTENANCE.md)** - Best practices for maintaining accessibility
+- **[Privacy Policy](./docs/PRIVACY_POLICY.md)** - User data handling and privacy policies
+
+See the [documentation index](./docs/README.md) for more details.
 
 ---
 

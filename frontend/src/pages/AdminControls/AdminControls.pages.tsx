@@ -19,6 +19,7 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import { DeleteUserModal } from '@/components/Modals/DeleteUserModal';
 import { toggleAdminView } from '@/store/userSlice';
+import { formatDate } from '@/utils/dateUtils';
 import { useAdminControls } from './useAdminControls';
 
 const AdminControls = () => {
@@ -144,7 +145,7 @@ const AdminControls = () => {
                 <Text size="sm">{user.email}</Text>
 
                 <Text size="xs" c="dimmed">
-                  Created: {new Date(user.createdAt).toLocaleDateString()}
+                  Created: {formatDate(user.createdAt)}
                 </Text>
 
                 <Group gap="xs" mt="xs">
@@ -240,7 +241,7 @@ const AdminControls = () => {
                     </Table.Td>
 
                     <Table.Td>
-                      <Text fz="sm">{new Date(user.createdAt).toLocaleString()}</Text>
+                      <Text fz="sm">{formatDate(user.createdAt)}</Text>
                     </Table.Td>
 
                     <Table.Td>

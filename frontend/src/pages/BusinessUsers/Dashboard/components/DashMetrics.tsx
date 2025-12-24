@@ -1,15 +1,32 @@
-import { IconBriefcase, IconChecks, IconClock, IconUsers, IconX } from '@tabler/icons-react';
+import { useMemo } from 'react';
+import { IconAlertTriangle, IconBriefcase, IconChecks, IconClock, IconUsers, IconX } from '@tabler/icons-react';
 import { Group, Paper, SimpleGrid, Text, ThemeIcon } from '@mantine/core';
 import styles from '@/styles/gradients.module.css';
-import { TDashboardMetrics } from '@/Types';
+import { TDashboardMetrics, TListing } from '@/Types';
 
 interface DashMetricsProps {
   dashboardMetrics?: TDashboardMetrics;
+  listings?: TListing[];
 }
 
-export const DashMetrics = ({ dashboardMetrics }: DashMetricsProps) => {
+export const DashMetrics = ({ dashboardMetrics, listings }: DashMetricsProps) => {
+  // Calculate listings expiring within 7 days
+  const expiringListingsCount = useMemo(() => {
+    if (!listings) return 0;
+
+    const sevenDaysFromNow = new Date();
+    sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
+
+    return listings.filter((listing) => {
+      if (!listing.expiresAt) return false;
+      const expiresDate = new Date(listing.expiresAt);
+      const now = new Date();
+      return expiresDate >= now && expiresDate <= sevenDaysFromNow;
+    }).length;
+  }, [listings]);
+
   return (
-    <SimpleGrid cols={{ base: 1, xs: 2, sm: 3, md: 5 }} spacing="md">
+    <SimpleGrid cols={{ base: 1, xs: 2, sm: 3, md: 6 }} spacing="md">
       <>
         <Paper shadow="sm" p="md" radius="md" withBorder className={styles.cardGradientSubtle}>
           <Group justify="space-between" mb="xs">
@@ -74,6 +91,22 @@ export const DashMetrics = ({ dashboardMetrics }: DashMetricsProps) => {
           </Group>
           <Text size="xl" fw={700}>
             {dashboardMetrics?.metrics?.rejectedApplications || 0}
+          </Text>
+        </Paper>
+        <Paper shadow="sm" p="md" radius="md" withBorder>
+          <Group justify="space-between" mb="xs">
+            <Text size="xs" c="dimmed" fw={700} tt="uppercase">
+              Expiring Soon
+            </Text>
+            <ThemeIcon color="blue" variant="light" size="lg" radius="md">
+              <IconAlertTriangle size={20} />
+            </ThemeIcon>
+          </Group>
+          <Text size="xl" fw={700}>
+            {expiringListingsCount}
+          </Text>
+          <Text size="xs" c="dimmed" mt={4}>
+            Within 7 days
           </Text>
         </Paper>
       </>

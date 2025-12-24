@@ -40,7 +40,7 @@ async function createApplication(req, res) {
       userAgent: req.get('user-agent'),
       employerName: listing?.companyName || 'Unknown',
     };
-    console.log(applicationData.applicationDataConsent)
+    console.log(applicationData.applicationDataConsent);
     
     const application = await applicationsService.createApplication(
       listingId,

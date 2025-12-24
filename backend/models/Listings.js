@@ -72,7 +72,14 @@ const jobListingSchema = new Schema({
   likes: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
   isActive: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
-  expiresAt: Date,
+  expiresAt: {
+    type: Date, 
+    default: () => {
+      const date = new Date();
+      date.setDate(date.getDate() + 30);
+      return date;
+    },
+  },
 });
 
 // Text search index for full-text search across multiple fields

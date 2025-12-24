@@ -2,9 +2,8 @@ import { KeyboardEvent, useState } from 'react';
 import { IconCoffee, IconSearch, IconX } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { ActionIcon, Box, Button, Divider, Flex, List, Stack, Text, TextInput, Title } from '@mantine/core';
+import { ActionIcon, Box, Button, Divider, Flex, Group, List, Stack, Image, Text, TextInput, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import KofiButton from '@/components/Buttons/KofiButton';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 
@@ -128,18 +127,15 @@ export function HomePage() {
         <Box my='50px' w={{ base: '95%', md: '70%' }} mx="auto">
           <Stack 
             c="rocketRed.9"
-            bg='rocketOrange.1'
             w="100%"
             h="auto"
             p={{ base: 'md', sm: 'lg', md: 'xl' }}
-            style={{
-              border: '2px solid orange',
-              borderRadius: '10px',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            }}
           >
-            <Title ta="center" c="rocketRed.9">Welcome to JobRocket</Title>
-            <Text size="lg" mb="xl" ta='justify'>
+            <Group justify="center" align="center">
+              <Title ta="center" c="rocketRed.9">Welcome to JobRocket</Title>
+              <Image src="/public/flavicon-180.png" h={100} w={100}/>
+            </Group>
+            <Text size="lg" mb="xl" ta={{base: 'justify', md: 'center'}}>
               At <strong>JobRocket</strong>, we connect job seekers with employers through intelligent
               AI-powered matching. Our platform uses advanced OpenAI embeddings to analyze your skills,
               experience, and preferences to find the perfect job matches tailored to you. 

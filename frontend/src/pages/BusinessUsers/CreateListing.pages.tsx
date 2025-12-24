@@ -8,7 +8,6 @@ import {
   Button,
   Fieldset,
   Flex,
-  Group,
   Paper,
   Radio,
   Select,
@@ -27,6 +26,7 @@ import WORK_ARRANGEMENTS from '@/data/workArr.ts';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 import { listingSchema } from '@/validationRules/listing.joi';
+import { formatDateForInput, getDefaultListingExpiration, parseLocalDate, addDays, toLocalMidnight } from '@/utils/dateUtils';
 
 type ListingFormValues = {
   companyName: string;
@@ -60,6 +60,13 @@ export function CreateListing() {
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state: RootState) => state.userSlice.user);
 
+  // Get default expiration (30 days from today at local midnight)
+  const defaultListingExpiration = getDefaultListingExpiration();
+
+  // Calculate max expiration date (90 days from today at local midnight)
+  const maxListingExpiration = addDays(toLocalMidnight(new Date()), 90);
+
+
   const {
     reset,
     register,
@@ -88,7 +95,7 @@ export function CreateListing() {
       location: { region: '', city: '' },
       workArrangement: '',
       isActive: true,
-      expiresAt: '',
+      expiresAt: formatDateForInput(defaultListingExpiration),
     },
   });
 
@@ -127,7 +134,8 @@ export function CreateListing() {
   const onSubmit = async (data: ListingFormValues) => {
     const payload = {
       ...data,
-      expiresAt: data.expiresAt ? new Date(data.expiresAt).toISOString() : null,
+      // Parse date as local midnight to prevent timezone shifts
+      expiresAt: data.expiresAt ? parseLocalDate(data.expiresAt).toISOString() : null,
     };
 
     setIsLoading(true);
@@ -358,42 +366,48 @@ export function CreateListing() {
             </Fieldset>
 
             <Fieldset legend="Job Details">
-              <Controller
-                name="workArrangement"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    label="Work Arrangement"
-                    required
-                    searchable
-                    data={WORK_ARRANGEMENTS.map((option: string) => ({
-                      value: option,
-                      label: option,
-                    }))}
-                    {...field}
-                    error={errors.workArrangement?.message}
-                  />
-                )}
-              />
+              <Stack gap="md">
+                <Controller
+                  name="workArrangement"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      label="Work Arrangement"
+                      required
+                      searchable
+                      data={WORK_ARRANGEMENTS.map((option: string) => ({
+                        value: option,
+                        label: option,
+                      }))}
+                      {...field}
+                      error={errors.workArrangement?.message}
+                    />
+                  )}
+                />
 
-              <Controller
-                name="isActive"
-                control={control}
-                render={({ field }) => (
-                  <Switch
-                    label="Listing is active"
-                    checked={field.value}
-                    onChange={(event) => field.onChange(event.currentTarget.checked)}
-                  />
-                )}
-              />
+                <Controller
+                  name="isActive"
+                  control={control}
+                  render={({ field }) => (
+                    <Switch
+                      label="Listing is active"
+                      checked={field.value}
+                      onChange={(event) => field.onChange(event.currentTarget.checked)}
+                    />
+                  )}
+                />
 
-              <TextInput
-                label="Expiration Date"
-                type="date"
-                {...register('expiresAt')}
-                error={errors.expiresAt?.message as string}
-              />
+                <TextInput
+                  label="Expiration Date"
+                  withAsterisk
+                  description="By default, listings expire in 30 days. Maximum expiration is 90 days from today."
+                  type="date"
+                  min={formatDateForInput(new Date())}
+                  max={formatDateForInput(maxListingExpiration)}
+                  {...register('expiresAt')}
+                  error={errors.expiresAt?.message as string}
+                />
+                </Stack>
             </Fieldset>
           </Flex>
 

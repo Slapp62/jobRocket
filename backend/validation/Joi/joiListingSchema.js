@@ -113,7 +113,15 @@ const joiListingSchema = joi.object({
       'any.required': 'Work arrangement is required',
     }),
   isActive: joi.boolean().optional(),
-  expiresAt: joi.date().optional().allow(null),
+  expiresAt: joi.date()
+    .min('now')
+    .max(joi.ref('$maxExpirationDate'))
+    .optional()
+    .allow(null)
+    .messages({
+      'date.min': 'Expiration date cannot be in the past',
+      'date.max': 'Expiration date cannot exceed 90 days from today',
+    }),
 });
 
 module.exports = joiListingSchema;

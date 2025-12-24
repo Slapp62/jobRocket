@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { IconCircle, IconCircleFilled, IconPencil, IconTrash } from '@tabler/icons-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { IconCalendarPlus, IconCircle, IconCircleFilled, IconPencil, IconTrash, IconX } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
-import { ActionIcon, Box, Card, Group, Select, Stack, Table, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Alert, Box, Card, Group, Select, Stack, Table, Text, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { EmptyState } from '@/components/EmptyState';
 import { TListing } from '@/Types';
+import { formatDate } from '@/utils/dateUtils';
 import { DeleteListingModal } from '../modals/DeleteListingModal';
 import { EditListingModal } from '../modals/EditListingModal';
 
@@ -40,16 +41,87 @@ export const DashListings = ({
   const [listingDelete, setListingDelete] = useState<{ id: string; title: string } | null>(null);
   const [editOpened, { open: openEdit, close: closeEdit }] = useDisclosure(false);
   const [listingEdit, setListingEdit] = useState<TListing>();
+  const [isExtendMode, setIsExtendMode] = useState(false);
+  const [alertDismissed, setAlertDismissed] = useState(false);
+  const dateInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+
+  // Calculate expiring listings (within 7 days)
+  const expiringListings = useMemo(() => {
+    const sevenDaysFromNow = new Date();
+    sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
+
+    return listings.filter((listing) => {
+      if (!listing.expiresAt) return false;
+      const expiresDate = new Date(listing.expiresAt);
+      const now = new Date();
+      return expiresDate >= now && expiresDate <= sevenDaysFromNow;
+    });
+  }, [listings]);
+
+  // Check localStorage for alert dismissal
+  useEffect(() => {
+    const dismissedData = localStorage.getItem('expirationAlertDismissed');
+    if (dismissedData) {
+      try {
+        const { timestamp } = JSON.parse(dismissedData);
+        const dismissedDate = new Date(timestamp);
+        const today = new Date();
+
+        // Reset if dismissed on a different day
+        if (
+          dismissedDate.getDate() !== today.getDate() ||
+          dismissedDate.getMonth() !== today.getMonth() ||
+          dismissedDate.getFullYear() !== today.getFullYear()
+        ) {
+          localStorage.removeItem('expirationAlertDismissed');
+          setAlertDismissed(false);
+        } else {
+          setAlertDismissed(true);
+        }
+      } catch {
+        localStorage.removeItem('expirationAlertDismissed');
+        setAlertDismissed(false);
+      }
+    }
+  }, []);
+
+  const handleAlertClose = () => {
+    const dismissData = {
+      timestamp: new Date().toISOString(),
+    };
+    localStorage.setItem('expirationAlertDismissed', JSON.stringify(dismissData));
+    setAlertDismissed(true);
+  };
 
   const clickDeleteListing = (id: string, title: string) => {
     setListingDelete({ id, title });
     openDelete();
   };
+
   const clickEditListing = (listing: TListing) => {
     setListingEdit(listing);
+    setIsExtendMode(false);
     openEdit();
   };
+
+  const clickExtendListing = (listing: TListing) => {
+    setListingEdit(listing);
+    setIsExtendMode(true);
+    openEdit();
+  };
+
+  // Auto-scroll and focus date input when in extend mode
+  useEffect(() => {
+    if (editOpened && isExtendMode && dateInputRef.current) {
+      setTimeout(() => {
+        // Scroll to the date input
+        dateInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Focus the date input
+        dateInputRef.current?.focus();
+      }, 100);
+    }
+  }, [editOpened, isExtendMode]);
 
   // If no listings, show empty state
   if (listings.length === 0) {
@@ -68,6 +140,21 @@ export const DashListings = ({
   return (
     <>
       <Stack>
+        {/* Expiration Alert Banner */}
+        {expiringListings.length > 0 && !alertDismissed && (
+          <Alert
+            variant="light"
+            color="yellow"
+            title={`${expiringListings.length} listing${expiringListings.length > 1 ? 's' : ''} expiring within 7 days`}
+            withCloseButton
+            onClose={handleAlertClose}
+          >
+            <Text size="sm">
+              You have listings that will expire soon. Review and extend them to keep them active.
+            </Text>
+          </Alert>
+        )}
+
         {/* Mobile Filters */}
         <Stack gap="md" hiddenFrom="md">
           <TextInput
@@ -168,7 +255,7 @@ export const DashListings = ({
 
                 <Group gap="xs">
                   <Text size="xs" c="dimmed">
-                    Created: {listing.createdAt && new Date(listing.createdAt).toLocaleDateString()}
+                    Created: {listing.createdAt && formatDate(listing.createdAt)}
                   </Text>
                   <Text size="xs" c="dimmed">
                     •
@@ -180,12 +267,21 @@ export const DashListings = ({
 
                 {listing.expiresAt && (
                   <Text size="xs" c="dimmed">
-                    Expires: {listing.expiresAt && new Date(listing.expiresAt).toLocaleDateString()}
+                    Expires: {listing.expiresAt && formatDate(listing.expiresAt)}
                   </Text>
                 )}
 
                 {/* ACCESSIBILITY: Edit and Delete buttons need aria-labels */}
                 <Group gap="xs" mt="xs">
+                  <ActionIcon
+                    size={36}
+                    variant="outline"
+                    color="blue"
+                    onClick={() => clickExtendListing(listing)}
+                    aria-label={`Extend ${listing.jobTitle} listing expiration`}
+                  >
+                    <IconCalendarPlus size={20} aria-hidden="true" />
+                  </ActionIcon>
                   <ActionIcon
                     size={36}
                     variant="outline"
@@ -222,6 +318,7 @@ export const DashListings = ({
                   <Table.Th>Expires At</Table.Th>
                   <Table.Th>Active</Table.Th>
                   <Table.Th>Favorites</Table.Th>
+                  <Table.Th>Extend</Table.Th>
                   <Table.Th>Edit</Table.Th>
                   <Table.Th>Delete</Table.Th>
                 </Table.Tr>
@@ -247,11 +344,17 @@ export const DashListings = ({
                     </Table.Td>
 
                     <Table.Td>
-                      {listing.createdAt && new Date(listing.createdAt).toLocaleDateString()}
+                      {listing.createdAt && formatDate(listing.createdAt)}
                     </Table.Td>
 
                     <Table.Td>
-                      <Text fz="sm">{listing.expiresAt && new Date(listing.expiresAt).toLocaleDateString()}</Text>
+                      <Text 
+                        fz="sm"
+                        c={listing.expiresAt && listing.expiresAt < formatDate(listing.expiresAt) ? 'red' : 'dimmed'}
+                        fw={listing.expiresAt && listing.expiresAt < formatDate(listing.expiresAt) ? 'bold' : 'normal'}
+                      >
+                        {listing.expiresAt && formatDate(listing.expiresAt)}
+                      </Text>
                     </Table.Td>
 
                     <Table.Td>
@@ -264,6 +367,18 @@ export const DashListings = ({
 
                     <Table.Td>
                       <Text fz="sm">{listing.likes?.length}</Text>
+                    </Table.Td>
+
+                    <Table.Td>
+                      <ActionIcon
+                        size={30}
+                        variant="outline"
+                        color="blue"
+                        onClick={() => clickExtendListing(listing)}
+                        aria-label={`Extend ${listing.jobTitle} listing expiration`}
+                      >
+                        <IconCalendarPlus size={25} stroke={1.5} aria-hidden="true" />
+                      </ActionIcon>
                     </Table.Td>
 
                     <Table.Td>
@@ -302,6 +417,8 @@ export const DashListings = ({
         onClose={closeEdit}
         listing={listingEdit}
         setListings={setListings}
+        dateInputRef={dateInputRef}
+        isExtendMode={isExtendMode}
       />
 
       <DeleteListingModal

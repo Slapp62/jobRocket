@@ -1,11 +1,9 @@
 import { useRef, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { IconAlertCircle } from '@tabler/icons-react';
 import axios from 'axios';
 import { Controller, FieldValues, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
-  Alert,
   Anchor,
   Box,
   Button,
@@ -14,7 +12,6 @@ import {
   Flex,
   FloatingIndicator,
   Group,
-  List,
   Stack,
   Tabs,
   Text,
@@ -38,9 +35,6 @@ export function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeError, setResumeError] = useState<string | null>(null);
-
-  // ACCESSIBILITY: Ref for error summary focus
-  const errorSummaryRef = useRef<HTMLDivElement>(null);
 
   const setControlRef = (val: string) => (node: HTMLButtonElement) => {
     controlsRefs[val] = node;
@@ -197,41 +191,6 @@ export function RegisterForm() {
             justify="space-between"
             gap={5}
           >
-            {/* ACCESSIBILITY: Error summary - WCAG 3.3.1 */}
-            {Object.keys(errors).length > 0 && (
-              <Alert
-                icon={<IconAlertCircle />}
-                title="Please fix the following errors before submitting:"
-                color="red"
-                variant="light"
-                ref={errorSummaryRef}
-                tabIndex={-1}
-                role="alert"
-                aria-live="assertive"
-                mb="md"
-              >
-                <List size="sm">
-                  {errors.email && <List.Item>Email: {errors.email.message}</List.Item>}
-                  {errors.password && <List.Item>Password: {errors.password.message}</List.Item>}
-                  {errors.phone && <List.Item>Phone: {errors.phone.message}</List.Item>}
-                  {errors.jobseekerProfile?.firstName && (
-                    <List.Item>First Name: {errors.jobseekerProfile.firstName.message}</List.Item>
-                  )}
-                  {errors.jobseekerProfile?.lastName && (
-                    <List.Item>Last Name: {errors.jobseekerProfile.lastName.message}</List.Item>
-                  )}
-                  {errors.businessProfile?.companyName && (
-                    <List.Item>Company Name: {errors.businessProfile.companyName.message}</List.Item>
-                  )}
-                  {errors.terms && <List.Item>Terms: {errors.terms.message}</List.Item>}
-                  {errors.dataProcessingConsent && (
-                    <List.Item>Data Consent: {errors.dataProcessingConsent.message}</List.Item>
-                  )}
-                  {resumeError && <List.Item>Resume: {resumeError}</List.Item>}
-                </List>
-              </Alert>
-            )}
-
             <SharedCredentials register={register} errors={errors} control={control} />
 
             <Fieldset

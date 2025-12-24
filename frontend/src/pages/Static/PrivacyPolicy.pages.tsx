@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Anchor, Box, Container, List, Paper, Text, Title } from '@mantine/core';
+import { Accordion, Anchor, Container, List, Paper, Text, Title } from '@mantine/core';
 
 const PrivacyPolicy: FC = () => {
   return (
@@ -8,699 +8,714 @@ const PrivacyPolicy: FC = () => {
         Privacy Policy
       </Title>
       <Text c="dimmed" fs="italic" mb="xl">
-        Last Updated: January 2025
+        Last Updated: December 24, 2025
+        <br />
+        Effective Date: January 1, 2026
       </Text>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          1. Introduction
-        </Title>
-        <Text mb="md">
-          Welcome to JobRocket ("we," "our," or "us"). We are committed to protecting your privacy
-          and ensuring the security of your personal information. This Privacy Policy explains how
-          we collect, use, disclose, and safeguard your information when you use our job matching
-          platform available at{' '}
-          <Anchor href="https://jobrocket-site.onrender.com" target="_blank">
-            https://jobrocket-site.onrender.com
-          </Anchor>{' '}
-          (the "Service").
-        </Text>
-        <Text mb="md">
-          This Privacy Policy complies with the Israeli Privacy Protection Law, 1981, and its
-          regulations. By using JobRocket, you agree to the collection and use of information in
-          accordance with this policy.
-        </Text>
-        <Paper p="md" withBorder bg="yellow.0" mb="md">
-          <Text fw={700} mb="xs">
-            Age Restriction:
-          </Text>
-          <Text>
-            You must be at least 15 years old to use JobRocket. We do not knowingly collect personal
-            information from individuals under 15 years of age.
-          </Text>
-        </Paper>
-      </Box>
+      {/* Introduction */}
+      <Text mb="md">
+        JobRocket is committed to protecting your privacy. This Privacy Policy explains how we
+        collect, use, share, and protect your personal information when you use our job board
+        platform.
+      </Text>
+      <Text mb="md">
+        By using JobRocket, you agree to the practices described in this Privacy Policy. If you
+        don't agree, please don't use our services.
+      </Text>
+      <Text mb="xl">
+        This policy complies with Israeli Privacy Protection Law (Amendment 13, effective August
+        14, 2025).
+      </Text>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          2. Information We Collect
-        </Title>
+      <Accordion variant="separated" radius="md">
+        {/* Data Controller */}
+        <Accordion.Item value="data-controller">
+          <Accordion.Control>
+            <Title order={3} size="h4">
+              1. Data Controller & Contact Information
+            </Title>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Paper p="md" withBorder mb="md">
+              <Text>
+                <strong>Data Controller:</strong> Elazar Lapp
+              </Text>
+              <Text>
+                <strong>Email:</strong>{' '}
+                <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>
+              </Text>
+              <Text>
+                <strong>Phone:</strong> 058-434-5797
+              </Text>
+              <Text>
+                <strong>Address:</strong> Beit Shemesh, Israel
+              </Text>
+            </Paper>
+            <Text>
+              If you have questions about how we handle your personal data, or if you want to
+              exercise any of your privacy rights, contact us using the information above. We'll
+              respond within 30 days.
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          2.1 Information You Provide Directly
-        </Title>
-        <Text mb="sm">
-          When you register and use our Service, we collect the following information:
-        </Text>
-
-        <Text fw={600} mt="md" mb="xs">
-          For All Users:
-        </Text>
-        <List mb="md">
-          <List.Item>
-            <strong>Account Information:</strong> Email address, password (encrypted), phone number
-            (Israeli format), and profile type (jobseeker or business)
-          </List.Item>
-          <List.Item>
-            <strong>Account Metadata:</strong> Account creation date, login history, and preferences
-          </List.Item>
-        </List>
-
-        <Text fw={600} mb="xs">
-          For Jobseekers:
-        </Text>
-        <List mb="md">
-          <List.Item>
-            <strong>Profile Information:</strong> First name, last name, highest education level,
-            preferred work arrangement
-          </List.Item>
-          <List.Item>
-            <strong>Optional Professional Information:</strong> LinkedIn profile URL, resume
-            URL/link, skills list, professional description/summary (up to 2,000 characters)
-          </List.Item>
-          <List.Item>
-            <strong>Job Applications:</strong> Application details including resume text (50-5,000
-            characters), cover letter, messages, and application status
-          </List.Item>
-          <List.Item>
-            <strong>Preferences:</strong> Liked/favorited job listings
-          </List.Item>
-        </List>
-
-        <Text fw={600} mb="xs">
-          For Businesses:
-        </Text>
-        <List mb="md">
-          <List.Item>
-            <strong>Company Information:</strong> Company name, location (region and city in
-            Israel), industry, number of employees
-          </List.Item>
-          <List.Item>
-            <strong>Optional Business Information:</strong> Company logo, website URL, contact
-            email, social media links (LinkedIn, Twitter, Facebook), company description (up to
-            2,000 characters)
-          </List.Item>
-          <List.Item>
-            <strong>Job Listings:</strong> Job titles, descriptions, requirements, advantages,
-            application methods, contact information, locations, work arrangements, industry, and
-            listing status
-          </List.Item>
-        </List>
-
-        <Title order={3} size="h4" mb="xs" mt="md">
-          2.2 Information Collected Automatically
-        </Title>
-        <List mb="md">
-          <List.Item>
-            <strong>Usage Data:</strong> Login attempts, account access patterns, and
-            security-related information
-          </List.Item>
-          <List.Item>
-            <strong>Technical Data:</strong> HTTP request logs (IP address, browser type, access
-            times) for security and operational purposes
-          </List.Item>
-        </List>
-
-        <Title order={3} size="h4" mb="xs" mt="md">
-          2.3 Contact Form Data
-        </Title>
-        <Text>
-          When you use our contact form on the About page, we collect your name, email address,
-          subject, and message. This information is transmitted through EmailJS and is not stored in
-          our database.
-        </Text>
-      </Box>
-
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          3. How We Use Your Information
-        </Title>
-        <Text mb="sm">We use the collected information for the following purposes:</Text>
-        <List mb="md">
-          <List.Item>
-            <strong>Service Provision:</strong> To create and manage your account, facilitate job
-            matching, process applications, and deliver core platform features
-          </List.Item>
-          <List.Item>
-            <strong>AI-Powered Matching:</strong> To generate embeddings of your profile or job
-            listings using artificial intelligence to provide personalized job match recommendations
-          </List.Item>
-          <List.Item>
-            <strong>Communication:</strong> To respond to your inquiries, send service-related
-            notifications, and provide customer support
-          </List.Item>
-          <List.Item>
-            <strong>Security:</strong> To protect against unauthorized access, fraud, and abuse
-            through authentication, rate limiting, and account lockout mechanisms
-          </List.Item>
-          <List.Item>
-            <strong>Service Improvement:</strong> To analyze usage patterns and improve our
-            platform's functionality and user experience
-          </List.Item>
-          <List.Item>
-            <strong>Legal Compliance:</strong> To comply with applicable laws, regulations, and
-            legal processes
-          </List.Item>
-        </List>
-      </Box>
-
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          4. Artificial Intelligence and Data Processing
-        </Title>
-        <Text mb="sm">
-          JobRocket uses artificial intelligence to enhance job matching capabilities:
-        </Text>
-        <List mb="md">
-          <List.Item>
-            <strong>Embedding Generation:</strong> We use OpenAI's API (text-embedding-3-small
-            model) to create vector embeddings of jobseeker profiles and job listings
-          </List.Item>
-          <List.Item>
-            <strong>Processed Data:</strong> The AI processes information including skills,
-            education, job preferences, descriptions, requirements, and industry information
-          </List.Item>
-          <List.Item>
-            <strong>Purpose:</strong> These embeddings enable our algorithm to calculate match
-            scores between jobseekers and job listings
-          </List.Item>
-          <List.Item>
-            <strong>Automatic Updates:</strong> Embeddings are automatically regenerated when you
-            update your profile or listing information
-          </List.Item>
-        </List>
-        <Paper p="md" withBorder bg="yellow.0" mb="md">
-          <Text fw={700} mb="xs">
-            International Data Transfer:
-          </Text>
-          <Text>
-            OpenAI may process your data outside of Israel. By using JobRocket, you consent to this
-            transfer. OpenAI's data processing is subject to their own privacy policies and terms of
-            service.
-          </Text>
-        </Paper>
-      </Box>
-
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          5. Third-Party Services
-        </Title>
-        <Text mb="sm">
-          We use the following third-party services that may collect or process your information:
-        </Text>
-
-        <Title order={3} size="h4" mb="xs" mt="md">
-          5.1 OpenAI API
-        </Title>
-        <List mb="md">
-          <List.Item>
-            <strong>Purpose:</strong> Generate embeddings for job matching algorithm
-          </List.Item>
-          <List.Item>
-            <strong>Data Shared:</strong> Profile information, job listings, skills, and
-            descriptions
-          </List.Item>
-          <List.Item>
-            <strong>Privacy Policy:</strong>{' '}
-            <Anchor href="https://openai.com/privacy" target="_blank">
-              https://openai.com/privacy
-            </Anchor>
-          </List.Item>
-        </List>
-
-        <Title order={3} size="h4" mb="xs" mt="md">
-          5.2 EmailJS
-        </Title>
-        <List mb="md">
-          <List.Item>
-            <strong>Purpose:</strong> Process contact form submissions
-          </List.Item>
-          <List.Item>
-            <strong>Data Shared:</strong> Name, email, subject, and message content
-          </List.Item>
-          <List.Item>
-            <strong>Note:</strong> This data is not stored in our database
-          </List.Item>
-        </List>
-
-        <Title order={3} size="h4" mb="xs" mt="md">
-          5.3 MongoDB Atlas
-        </Title>
-        <List mb="md">
-          <List.Item>
-            <strong>Purpose:</strong> Cloud database hosting
-          </List.Item>
-          <List.Item>
-            <strong>Data Stored:</strong> All user accounts, profiles, job listings, and
-            applications
-          </List.Item>
-          <List.Item>
-            <strong>Security:</strong> Industry-standard encryption and security measures
-          </List.Item>
-        </List>
-      </Box>
-
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          6. Data Storage and Security
-        </Title>
-
-        <Title order={3} size="h4" mb="xs" mt="md">
-          6.1 Storage Locations
-        </Title>
-        <List mb="md">
-          <List.Item>
-            <strong>Server-Side:</strong> MongoDB Atlas (cloud database with encryption at rest and
-            in transit)
-          </List.Item>
-          <List.Item>
-            <strong>Client-Side:</strong>
-            <List withPadding>
-              <List.Item>localStorage: JWT authentication tokens and user preferences</List.Item>
-              <List.Item>sessionStorage: Temporary session state data</List.Item>
+        {/* What Data We Collect */}
+        <Accordion.Item value="data-collection">
+          <Accordion.Control>
+            <Title order={3} size="h4">
+              2. What Personal Data We Collect and Why
+            </Title>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              Account Information (All Users)
+            </Title>
+            <Text mb="sm">
+              <strong>What we collect:</strong>
+            </Text>
+            <List mb="md">
+              <List.Item>Email address</List.Item>
+              <List.Item>Password (stored as encrypted hash)</List.Item>
+              <List.Item>Phone number</List.Item>
+              <List.Item>Account type (job seeker or business)</List.Item>
+              <List.Item>Registration date</List.Item>
+              <List.Item>Account status</List.Item>
             </List>
-          </List.Item>
-        </List>
+            <Text mb="sm">
+              <strong>Why we collect it:</strong> Create and authenticate your account, allow you
+              to log in, contact you about your account or applications
+            </Text>
+            <Text mb="sm">
+              <strong>Legal basis:</strong> Contractual necessity (we need this to provide the
+              service)
+            </Text>
+            <Text mb="sm">
+              <strong>Mandatory:</strong> Yes (phone is optional for business accounts)
+            </Text>
+            <Text mb="md">
+              <strong>How long we keep it:</strong> Until you delete your account
+            </Text>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          6.2 Security Measures
-        </Title>
-        <Text mb="sm">We implement comprehensive security measures to protect your data:</Text>
-        <List mb="md">
-          <List.Item>
-            <strong>Encryption:</strong> Passwords are encrypted using bcrypt hashing algorithm
-          </List.Item>
-          <List.Item>
-            <strong>Authentication:</strong> JWT (JSON Web Token) authentication with 1-hour token
-            expiration
-          </List.Item>
-          <List.Item>
-            <strong>Rate Limiting:</strong> Protection against abuse (5 login attempts per 15
-            minutes, 5 registrations per hour, 10 listings per 24 hours, 50 applications per hour)
-          </List.Item>
-          <List.Item>
-            <strong>Account Security:</strong> Automatic account lockout after failed login attempts
-          </List.Item>
-          <List.Item>
-            <strong>Input Validation:</strong> Protection against NoSQL injection and malicious
-            input
-          </List.Item>
-          <List.Item>
-            <strong>HTTP Security:</strong> Security headers implemented via Helmet.js
-          </List.Item>
-          <List.Item>
-            <strong>CORS Protection:</strong> Cross-origin resource sharing restrictions
-          </List.Item>
-          <List.Item>
-            <strong>HTTPS:</strong> Encrypted connections in production environment
-          </List.Item>
-        </List>
+            <Title order={4} size="h5" mb="xs" mt="lg">
+              Job Seeker Profile Information
+            </Title>
+            <Text mb="sm">
+              <strong>What we collect:</strong>
+            </Text>
+            <List mb="md">
+              <List.Item>First name and last name</List.Item>
+              <List.Item>Highest education level</List.Item>
+              <List.Item>Preferred work arrangement</List.Item>
+              <List.Item>Resume file (PDF)</List.Item>
+              <List.Item>LinkedIn profile URL</List.Item>
+              <List.Item>Skills list</List.Item>
+              <List.Item>Professional summary/description</List.Item>
+            </List>
+            <Text mb="sm">
+              <strong>Why we collect it:</strong> Display your profile to employers, match you with
+              relevant job listings, allow employers to evaluate your applications
+            </Text>
+            <Text mb="sm">
+              <strong>Legal basis:</strong> Your consent (you provided this information
+              voluntarily)
+            </Text>
+            <Text mb="sm">
+              <strong>Mandatory:</strong> Only name, education, and work arrangement are required.
+              Resume, LinkedIn, skills, and summary are optional but recommended.
+            </Text>
+            <Text mb="sm">
+              <strong>Storage location:</strong> Resume files are stored on Cloudinary (US-based
+              service)
+            </Text>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          6.3 Data Retention
-        </Title>
-        <Text mb="sm">
-          We retain your personal information only as long as necessary to provide our services and
-          comply with legal obligations:
-        </Text>
-        <List mb="md">
-          <List.Item>
-            <strong>Active Accounts:</strong> Data is retained while your account remains active
-          </List.Item>
-          <List.Item>
-            <strong>Account Deletion:</strong> Upon request, your account and associated data will
-            be deleted immediately from our active database
-          </List.Item>
-          <List.Item>
-            <strong>Backup Systems:</strong> Data may remain in backup systems for up to 30 days
-            following deletion
-          </List.Item>
-          <List.Item>
-            <strong>Legal Requirements:</strong> We may retain certain information if required by
-            law or for legitimate business purposes
-          </List.Item>
-          <List.Item>
-            <strong>Session Data:</strong> JWT tokens expire after 1 hour; session storage is
-            cleared upon logout
-          </List.Item>
-        </List>
-      </Box>
+            <Title order={4} size="h5" mb="xs" mt="lg">
+              Business Profile Information
+            </Title>
+            <Text mb="sm">
+              <strong>What we collect:</strong>
+            </Text>
+            <List mb="md">
+              <List.Item>Company name</List.Item>
+              <List.Item>Location (country, region, city)</List.Item>
+              <List.Item>Number of employees</List.Item>
+              <List.Item>Company logo and description</List.Item>
+              <List.Item>Website URL</List.Item>
+              <List.Item>Contact email</List.Item>
+              <List.Item>Social media links (LinkedIn, Twitter, Facebook)</List.Item>
+            </List>
+            <Text mb="sm">
+              <strong>Why we collect it:</strong> Display your company profile, show company
+              information on job listings, allow job seekers to research your company
+            </Text>
+            <Text mb="md">
+              <strong>Mandatory:</strong> Company name, location, and employee count are required.
+              Everything else is optional.
+            </Text>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          7. How We Share Your Information
-        </Title>
-        <Text mb="md">
-          We do not sell or rent your personal information to third parties. We may share your
-          information in the following circumstances:
-        </Text>
+            <Title order={4} size="h5" mb="xs" mt="lg">
+              AI Processing Data
+            </Title>
+            <Text mb="sm">
+              <strong>What we collect:</strong>
+            </Text>
+            <List mb="md">
+              <List.Item>
+                Text extracted from job seeker profiles (job title, skills, professional summary)
+              </List.Item>
+              <List.Item>Text from job listings (title, description, requirements)</List.Item>
+            </List>
+            <Text mb="sm">
+              <strong>Why we collect it:</strong> Generate AI-powered job match scores (this is a
+              core feature of JobRocket), recommend relevant jobs to job seekers, help employers
+              find qualified candidates
+            </Text>
+            <Text mb="sm">
+              <strong>Legal basis:</strong> Contractual necessity - AI matching is integral to how
+              JobRocket works
+            </Text>
+            <Paper p="md" withBorder bg="yellow.0" mb="md">
+              <Text fw={700} mb="xs">
+                Can I opt out of AI processing?
+              </Text>
+              <Text>
+                No - AI job matching is a fundamental feature of our platform, not an optional
+                add-on. Without it, we cannot provide you with personalized job recommendations or
+                match scores. If you prefer not to use AI-powered matching, you may want to
+                consider other job platforms.
+              </Text>
+            </Paper>
+            <Text mb="sm">
+              <strong>Who processes it:</strong> OpenAI (US-based service). We send only profile
+              text - never your name, email, or phone number.
+            </Text>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          7.1 With Your Consent
-        </Title>
-        <List mb="md">
-          <List.Item>
-            <strong>Job Applications:</strong> When you apply for a job, your application
-            information (resume, cover letter, message) is shared with the business that posted the
-            listing
-          </List.Item>
-          <List.Item>
-            <strong>Public Listings:</strong> Job listings posted by businesses are publicly visible
-            to all users
-          </List.Item>
-          <List.Item>
-            <strong>Profile Visibility:</strong> Certain profile information may be visible when you
-            interact with the platform
-          </List.Item>
-        </List>
+            <Title order={4} size="h5" mb="xs" mt="lg">
+              Job Application Data
+            </Title>
+            <Text mb="sm">
+              <strong>What we collect when you apply through JobRocket's internal system:</strong>
+            </Text>
+            <List mb="md">
+              <List.Item>Your name, email, phone number (if provided)</List.Item>
+              <List.Item>Your resume file</List.Item>
+              <List.Item>Your cover letter/message (optional)</List.Item>
+              <List.Item>Application timestamp</List.Item>
+              <List.Item>Application status (pending, reviewed, rejected)</List.Item>
+              <List.Item>The job and company you applied to</List.Item>
+            </List>
+            <Paper p="md" withBorder bg="blue.0" mb="md">
+              <Text fw={700} mb="xs">
+                About Deletion Rights:
+              </Text>
+              <Text mb="sm">
+                Once you submit an application, you can delete it from our system{' '}
+                <strong>only while it's in "pending" status</strong> (the employer hasn't reviewed
+                it yet). Once an employer marks your application as "reviewed" or "rejected," you
+                can no longer delete it from our system. This is because:
+              </Text>
+              <List size="sm">
+                <List.Item>The employer has invested time reviewing your application</List.Item>
+                <List.Item>
+                  The employer needs records for their hiring process and legal compliance
+                </List.Item>
+                <List.Item>The application becomes part of the employer's business records</List.Item>
+              </List>
+              <Text size="sm" mt="sm">
+                If you want an employer to delete your reviewed application, contact them directly
+                through the contact information on the job listing.
+              </Text>
+            </Paper>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          7.2 Service Providers
-        </Title>
-        <List mb="md">
-          <List.Item>
-            We share data with third-party service providers (OpenAI, EmailJS, MongoDB Atlas) as
-            necessary to operate our platform (see Section 5)
-          </List.Item>
-        </List>
+            <Title order={4} size="h5" mb="xs" mt="lg">
+              Technical and Security Data
+            </Title>
+            <Text mb="sm">
+              <strong>What we collect automatically:</strong>
+            </Text>
+            <List mb="md">
+              <List.Item>IP address</List.Item>
+              <List.Item>Browser type and version (user-agent)</List.Item>
+              <List.Item>Login timestamps</List.Item>
+              <List.Item>Session information</List.Item>
+            </List>
+            <Text mb="sm">
+              <strong>Why we collect it:</strong> Prove you consented to data processing
+              (regulatory requirement), prevent fraud and unauthorized access, secure your account
+            </Text>
+            <Text mb="md">
+              <strong>How long we keep it:</strong> Consent records permanently (legal
+              requirement), security logs for 90 days
+            </Text>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          7.3 Legal Requirements
-        </Title>
-        <List mb="md">
-          <List.Item>
-            We may disclose your information if required by Israeli law, regulation, legal process,
-            or governmental request
-          </List.Item>
-          <List.Item>
-            To enforce our Terms of Service or protect the rights, property, or safety of JobRocket,
-            our users, or the public
-          </List.Item>
-        </List>
+            <Title order={4} size="h5" mb="xs" mt="lg">
+              What We DON'T Collect
+            </Title>
+            <Text>
+              We do not use cookies for tracking or analytics. We do not collect sensitive data
+              such as race, religion, political opinions, health information, or financial data.
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          7.4 Business Transfers
-        </Title>
-        <List mb="md">
-          <List.Item>
-            In the event of a merger, acquisition, or sale of assets, your information may be
-            transferred to the new entity
-          </List.Item>
-        </List>
-      </Box>
+        {/* Third Parties */}
+        <Accordion.Item value="third-parties">
+          <Accordion.Control>
+            <Title order={3} size="h4">
+              3. Who Receives Your Data (Third Parties)
+            </Title>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              Cloudinary (United States)
+            </Title>
+            <Text mb="sm">
+              <strong>What they receive:</strong> Resume files (PDF documents)
+            </Text>
+            <Text mb="sm">
+              <strong>Why:</strong> We use Cloudinary to securely store and deliver resume files.
+            </Text>
+            <Text mb="md">
+              <strong>Your control:</strong> Resume files are deleted from Cloudinary when you
+              delete your application or account.
+            </Text>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          8. Your Rights
-        </Title>
-        <Text mb="sm">
-          Under Israeli privacy law, you have the following rights regarding your personal
-          information:
-        </Text>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              OpenAI (United States)
+            </Title>
+            <Text mb="sm">
+              <strong>What they receive:</strong> Text extracted from your profile (job title,
+              skills, professional summary) and job listing descriptions
+            </Text>
+            <Text mb="sm">
+              <strong>What they DON'T receive:</strong> Your name, email, phone number, or resume
+              file
+            </Text>
+            <Text mb="sm">
+              <strong>Why:</strong> We use OpenAI's API to generate AI embeddings that power our
+              job matching algorithm.
+            </Text>
+            <Text mb="md">
+              <strong>Your control:</strong> AI embeddings are deleted from our system when you
+              delete your account. OpenAI retains API data for 30 days for abuse monitoring, then
+              deletes it.
+            </Text>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          8.1 Right to Access
-        </Title>
-        <List mb="md">
-          <List.Item>
-            You can access and review your personal information at any time through your account
-            settings
-          </List.Item>
-          <List.Item>
-            Contact us at <Anchor href="mailto:admin@jobrocket.co.il">admin@jobrocket.co.il</Anchor>{' '}
-            to request a copy of the information we hold about you
-          </List.Item>
-        </List>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              Employers (Israel and potentially international)
+            </Title>
+            <Text mb="sm">
+              <strong>What they receive when you apply through our internal system:</strong>
+            </Text>
+            <List mb="md">
+              <List.Item>Your name, email, phone (if provided)</List.Item>
+              <List.Item>Your resume file</List.Item>
+              <List.Item>Your cover letter/message</List.Item>
+              <List.Item>Your match score</List.Item>
+            </List>
+            <Paper p="md" withBorder bg="orange.0" mb="md">
+              <Text fw={700} mb="xs">
+                Important:
+              </Text>
+              <Text>
+                Once an employer receives your application through JobRocket's internal system,
+                they become independently responsible for handling your data according to privacy
+                laws. We cannot control what they do with your application after you submit it.
+              </Text>
+            </Paper>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          8.2 Right to Correction
-        </Title>
-        <List mb="md">
-          <List.Item>
-            You can update your profile information directly through the platform
-          </List.Item>
-          <List.Item>
-            If you cannot update information yourself, contact us for assistance
-          </List.Item>
-        </List>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              Render (United States)
+            </Title>
+            <Text mb="sm">
+              <strong>What they receive:</strong> All data stored on our platform (they host our
+              database and application servers)
+            </Text>
+            <Text mb="md">
+              <strong>Why:</strong> Render provides our hosting infrastructure - the servers that
+              run JobRocket
+            </Text>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          8.3 Right to Deletion
-        </Title>
-        <List mb="md">
-          <List.Item>
-            You can delete your account at any time through your account settings
-          </List.Item>
-          <List.Item>
-            Alternatively, submit a deletion request to{' '}
-            <Anchor href="mailto:admin@jobrocket.co.il">admin@jobrocket.co.il</Anchor>
-          </List.Item>
-          <List.Item>
-            Upon deletion, your data will be immediately removed from our active systems
-          </List.Item>
-        </List>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              International Data Transfers
+            </Title>
+            <Text mb="sm">
+              Some of the third parties listed above are based in the United States, which does not
+              have an "adequacy decision" from Israeli privacy authorities (meaning U.S. privacy
+              laws are considered less protective than Israeli law).
+            </Text>
+            <Text mb="sm">
+              <strong>How we protect international transfers:</strong>
+            </Text>
+            <List mb="md">
+              <List.Item>
+                All third parties are contractually bound to protect your data according to Israeli
+                privacy standards
+              </List.Item>
+              <List.Item>Data is transmitted using encrypted connections (HTTPS/TLS)</List.Item>
+              <List.Item>
+                We minimize the data sent (e.g., OpenAI never receives identifying information)
+              </List.Item>
+            </List>
+          </Accordion.Panel>
+        </Accordion.Item>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          8.4 Right to Object
-        </Title>
-        <List mb="md">
-          <List.Item>You may object to certain processing of your personal information</List.Item>
-          <List.Item>Contact us to discuss your concerns</List.Item>
-        </List>
+        {/* Privacy Rights */}
+        <Accordion.Item value="privacy-rights">
+          <Accordion.Control>
+            <Title order={3} size="h4">
+              4. Your Privacy Rights
+            </Title>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Text mb="md">
+              Under Israeli privacy law (Amendment 13), you have the following rights regarding
+              your personal data:
+            </Text>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          8.5 Role Switching
-        </Title>
-        <List mb="md">
-          <List.Item>You can switch between jobseeker and business profiles at any time</List.Item>
-          <List.Item>
-            Note that switching roles may affect the visibility and functionality of certain
-            features
-          </List.Item>
-        </List>
-      </Box>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              Right to Access Your Data
+            </Title>
+            <Text mb="md">
+              You can request a copy of all personal data we hold about you. Go to Settings &gt;
+              Privacy &gt; Download My Data, or email us at{' '}
+              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>. We'll
+              provide this within 30 days of your request.
+            </Text>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          9. Cookies and Local Storage
-        </Title>
-        <Text mb="sm">JobRocket uses browser storage technologies to enhance your experience:</Text>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              Right to Correct Your Data
+            </Title>
+            <Text mb="md">
+              You can update or correct inaccurate information in your profile. Go to Settings &gt;
+              Profile to update your information. For corrections we cannot provide through the
+              interface, email{' '}
+              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>.
+            </Text>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          9.1 localStorage
-        </Title>
-        <List mb="md">
-          <List.Item>
-            <strong>Purpose:</strong> Store JWT authentication tokens and "remember me" preferences
-          </List.Item>
-          <List.Item>
-            <strong>Duration:</strong> Persists until you log out or clear browser data
-          </List.Item>
-          <List.Item>
-            <strong>Control:</strong> You can clear localStorage through your browser settings
-          </List.Item>
-        </List>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              Right to Delete Your Data
+            </Title>
+            <Text mb="sm">
+              You can request deletion of your account and personal data. Go to Settings &gt;
+              Account &gt; Delete Account, or email{' '}
+              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>.
+            </Text>
+            <Text mb="sm">
+              <strong>Important limitations:</strong>
+            </Text>
+            <List mb="md">
+              <List.Item>
+                <strong>Pending applications:</strong> You can delete these at any time
+              </List.Item>
+              <List.Item>
+                <strong>Reviewed/rejected applications:</strong> You cannot delete these from our
+                system. Contact the employer directly if you want them to delete it.
+              </List.Item>
+              <List.Item>
+                <strong>Consent records:</strong> We must keep records showing that you consented
+                to data processing permanently for legal compliance.
+              </List.Item>
+            </List>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          9.2 sessionStorage
-        </Title>
-        <List mb="md">
-          <List.Item>
-            <strong>Purpose:</strong> Store temporary session state (Redux store)
-          </List.Item>
-          <List.Item>
-            <strong>Duration:</strong> Cleared when you close the browser tab
-          </List.Item>
-          <List.Item>
-            <strong>Control:</strong> Automatically cleared when closing the browser
-          </List.Item>
-        </List>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              Right to Data Portability
+            </Title>
+            <Text mb="md">
+              You can receive your data in a structured, commonly used format (JSON) that you can
+              transfer to another service. Go to Settings &gt; Privacy &gt; Download My Data.
+            </Text>
 
-        <Title order={3} size="h4" mb="xs" mt="md">
-          9.3 Future Analytics
-        </Title>
-        <Text>
-          We may implement analytics tools (such as Google Analytics) in the future to better
-          understand how users interact with our platform. If we do so, we will update this Privacy
-          Policy accordingly and may implement a cookie consent mechanism.
-        </Text>
-      </Box>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              Right to Lodge a Complaint
+            </Title>
+            <Text mb="sm">
+              If you believe we've violated your privacy rights, you can file a complaint with the
+              Israeli Privacy Protection Authority:
+            </Text>
+            <Paper p="md" withBorder mb="md">
+              <Text fw={700}>Israel Privacy Protection Authority</Text>
+              <Text>Ministry of Justice</Text>
+              <Text>29 Salah a-Din Street, Jerusalem</Text>
+              <Text>
+                Website:{' '}
+                <Anchor
+                  href="https://www.gov.il/he/departments/the_privacy_protection_authority"
+                  target="_blank"
+                >
+                  gov.il/he/departments/the_privacy_protection_authority
+                </Anchor>
+              </Text>
+            </Paper>
+            <Text>
+              Before filing a complaint, we encourage you to contact us first at{' '}
+              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>. We take
+              privacy concerns seriously and will work to resolve any issues.
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          10. Children's Privacy
-        </Title>
-        <Text mb="md">
-          JobRocket requires users to be at least 15 years old. We do not knowingly collect personal
-          information from individuals under 15. If we become aware that we have collected personal
-          information from someone under 15 without parental consent, we will take steps to delete
-          that information immediately.
-        </Text>
-        <Text>
-          If you believe we have inadvertently collected information from someone under 15, please
-          contact us at <Anchor href="mailto:admin@jobrocket.co.il">admin@jobrocket.co.il</Anchor>.
-        </Text>
-      </Box>
+        {/* Security */}
+        <Accordion.Item value="security">
+          <Accordion.Control>
+            <Title order={3} size="h4">
+              5. How We Protect Your Data
+            </Title>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Text mb="sm">
+              We take the security of your personal data seriously and implement multiple layers of
+              protection:
+            </Text>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          11. International Data Transfers
-        </Title>
-        <Text mb="sm">
-          While JobRocket primarily operates in Israel and serves the Israeli job market, some of
-          your data may be processed or stored outside of Israel:
-        </Text>
-        <List mb="md">
-          <List.Item>
-            <strong>OpenAI Processing:</strong> Data sent to OpenAI for embedding generation may be
-            processed in the United States or other countries where OpenAI operates
-          </List.Item>
-          <List.Item>
-            <strong>Cloud Services:</strong> MongoDB Atlas may store data in data centers outside of
-            Israel
-          </List.Item>
-          <List.Item>
-            <strong>Safeguards:</strong> We work with service providers that implement appropriate
-            security measures and comply with international data protection standards
-          </List.Item>
-        </List>
-        <Text>By using JobRocket, you consent to these international data transfers.</Text>
-      </Box>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              Technical Security Measures
+            </Title>
+            <List mb="md">
+              <List.Item>
+                <strong>Encrypted connections:</strong> All data transmitted between your browser
+                and our servers uses HTTPS/TLS encryption
+              </List.Item>
+              <List.Item>
+                <strong>Password security:</strong> Your password is never stored in plain text. We
+                use bcrypt hashing, an industry-standard method
+              </List.Item>
+              <List.Item>
+                <strong>Secure file storage:</strong> Resume files are stored on Cloudinary's
+                secure infrastructure with restricted access controls
+              </List.Item>
+              <List.Item>
+                <strong>Session management:</strong> Your login sessions use secure, HTTP-only
+                cookies that cannot be accessed by malicious scripts
+              </List.Item>
+              <List.Item>
+                <strong>Database security:</strong> Our database is hosted on encrypted servers
+                with restricted network access
+              </List.Item>
+            </List>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          12. Changes to This Privacy Policy
-        </Title>
-        <Text mb="sm">
-          We may update this Privacy Policy from time to time to reflect changes in our practices,
-          technology, legal requirements, or other factors. When we make changes:
-        </Text>
-        <List mb="md">
-          <List.Item>We will update the "Last Updated" date at the top of this policy</List.Item>
-          <List.Item>
-            Significant changes will be communicated through email or prominent notice on our
-            platform
-          </List.Item>
-          <List.Item>
-            Your continued use of JobRocket after changes become effective constitutes acceptance of
-            the updated policy
-          </List.Item>
-        </List>
-        <Text>
-          We encourage you to review this Privacy Policy periodically to stay informed about how we
-          protect your information.
-        </Text>
-      </Box>
+            <Paper p="md" withBorder bg="red.0" mb="md">
+              <Text fw={700} mb="xs">
+                Your Responsibility:
+              </Text>
+              <List size="sm">
+                <List.Item>Keep your password confidential and don't share it with others</List.Item>
+                <List.Item>Use a strong, unique password for your JobRocket account</List.Item>
+                <List.Item>Log out from shared or public computers</List.Item>
+                <List.Item>
+                  Report any suspicious activity to{' '}
+                  <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>{' '}
+                  immediately
+                </List.Item>
+              </List>
+            </Paper>
+          </Accordion.Panel>
+        </Accordion.Item>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          13. Data Breach Notification
-        </Title>
-        <Text mb="sm">
-          In the unlikely event of a data breach that may compromise your personal information:
-        </Text>
-        <List mb="md">
-          <List.Item>We will investigate the breach and assess its impact</List.Item>
-          <List.Item>
-            We will notify affected users via email within a reasonable timeframe
-          </List.Item>
-          <List.Item>We will notify relevant Israeli authorities as required by law</List.Item>
-          <List.Item>
-            We will take immediate steps to mitigate the breach and prevent future occurrences
-          </List.Item>
-        </List>
-      </Box>
+        {/* Data Retention */}
+        <Accordion.Item value="data-retention">
+          <Accordion.Control>
+            <Title order={3} size="h4">
+              6. How Long We Keep Your Data
+            </Title>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Text mb="md">
+              We only retain your personal data for as long as necessary to provide our services
+              and comply with legal obligations.
+            </Text>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          14. Your Responsibilities
-        </Title>
-        <Text mb="sm">To help protect your privacy and security:</Text>
-        <List mb="md">
-          <List.Item>Keep your password secure and do not share it with others</List.Item>
-          <List.Item>Use a strong, unique password for your JobRocket account</List.Item>
-          <List.Item>Log out of your account when using shared or public computers</List.Item>
-          <List.Item>
-            Be cautious about the information you include in your profile, job listings, and
-            applications
-          </List.Item>
-          <List.Item>Review your account settings and privacy preferences regularly</List.Item>
-          <List.Item>
-            Report any suspicious activity or security concerns to{' '}
-            <Anchor href="mailto:admin@jobrocket.co.il">admin@jobrocket.co.il</Anchor>
-          </List.Item>
-        </List>
-      </Box>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              Active Accounts
+            </Title>
+            <List mb="md">
+              <List.Item>
+                <strong>Profile data:</strong> Kept until you delete your account
+              </List.Item>
+              <List.Item>
+                <strong>Resume files:</strong> Kept until you delete your account or the specific
+                application
+              </List.Item>
+              <List.Item>
+                <strong>AI embeddings:</strong> Kept until you delete your account
+              </List.Item>
+              <List.Item>
+                <strong>Applications:</strong> Kept until you delete (if pending), employer
+                deletes, or 2 years after job closes
+              </List.Item>
+            </List>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          15. Contact Us
-        </Title>
-        <Paper p="md" withBorder mb="md">
-          <Text mb="sm">
-            If you have any questions, concerns, or requests regarding this Privacy Policy or our
-            data practices, please contact us:
-          </Text>
-          <Text>
-            <strong>Email:</strong>{' '}
-            <Anchor href="mailto:admin@jobrocket.co.il">admin@jobrocket.co.il</Anchor>
-          </Text>
-          <Text>
-            <strong>Service:</strong> JobRocket
-          </Text>
-          <Text>
-            <strong>Website:</strong>{' '}
-            <Anchor href="https://jobrocket-site.onrender.com" target="_blank">
-              https://jobrocket-site.onrender.com
-            </Anchor>
-          </Text>
-        </Paper>
-      </Box>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              After Account Deletion
+            </Title>
+            <Text mb="sm">
+              <strong>30-day grace period:</strong> When you delete your account, we retain your
+              data for 30 days in case you change your mind. Contact{' '}
+              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor> to
+              restore your account during this period.
+            </Text>
+            <Text mb="sm">
+              <strong>Permanent deletion:</strong> After 30 days, we permanently delete your
+              profile information, resume files, AI embeddings, and pending applications.
+            </Text>
+            <Text mb="md">
+              <strong>What we keep permanently:</strong> Consent records (timestamps, IP addresses)
+              - required by law to prove we obtained proper consent. These do not include your
+              profile data.
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          16. Israeli Privacy Protection Authority
-        </Title>
-        <Text mb="sm">
-          If you believe that your privacy rights have been violated or you have a complaint that we
-          have not adequately addressed, you have the right to lodge a complaint with the Israeli
-          Privacy Protection Authority:
-        </Text>
-        <Paper p="md" withBorder mb="md">
-          <Text fw={700}>Privacy Protection Authority</Text>
-          <Text>Ministry of Justice</Text>
-          <Text>
-            Email: <Anchor href="mailto:privacy@justice.gov.il">privacy@justice.gov.il</Anchor>
-          </Text>
-          <Text>
-            Website:{' '}
-            <Anchor
-              href="https://www.gov.il/en/departments/the_privacy_protection_authority"
-              target="_blank"
-            >
-              www.gov.il/en/departments/the_privacy_protection_authority
-            </Anchor>
-          </Text>
-        </Paper>
-      </Box>
+        {/* Cookies */}
+        <Accordion.Item value="cookies">
+          <Accordion.Control>
+            <Title order={3} size="h4">
+              7. Cookies and Tracking
+            </Title>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Text mb="md">
+              We currently use minimal cookies and do not track your browsing behavior.
+            </Text>
 
-      <Box mb="xl">
-        <Title order={2} size="h3" mb="sm">
-          17. Governing Law
-        </Title>
-        <Text>
-          This Privacy Policy is governed by and construed in accordance with the laws of the State
-          of Israel. Any disputes arising from this policy shall be subject to the exclusive
-          jurisdiction of the competent courts in Jerusalem, Israel.
-        </Text>
-      </Box>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              Cookies We Use
+            </Title>
+            <Text mb="sm">
+              <strong>Essential cookies only:</strong> We only use cookies that are strictly
+              necessary for the platform to function:
+            </Text>
+            <List mb="md">
+              <List.Item>
+                <strong>Session cookie:</strong> Keeps you logged in as you navigate the site
+              </List.Item>
+              <List.Item>
+                <strong>CSRF protection token:</strong> Prevents malicious websites from
+                impersonating you
+              </List.Item>
+            </List>
+            <Text mb="md">These cookies are essential and cannot be disabled.</Text>
 
-      <Box ta="center" c="dimmed" pt="xl" mt="xl" style={{ borderTop: '1px solid #e0e0e0' }}>
-        <Text size="sm">© {new Date().getFullYear()} JobRocket. All rights reserved.</Text>
-        <Text size="sm">
-          By using JobRocket, you acknowledge that you have read and understood this Privacy Policy.
-        </Text>
-      </Box>
+            <Title order={4} size="h5" mb="xs" mt="md">
+              What We Don't Use
+            </Title>
+            <List mb="md">
+              <List.Item>No analytics cookies (like Google Analytics)</List.Item>
+              <List.Item>No advertising cookies</List.Item>
+              <List.Item>No third-party tracking</List.Item>
+            </List>
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        {/* Children */}
+        <Accordion.Item value="children">
+          <Accordion.Control>
+            <Title order={3} size="h4">
+              8. Children's Privacy
+            </Title>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Paper p="md" withBorder bg="yellow.0" mb="md">
+              <Text fw={700} mb="xs">
+                Age Restriction:
+              </Text>
+              <Text>
+                JobRocket is not intended for children under the age of 18. We do not knowingly
+                collect personal information from anyone under 18 years old. By using JobRocket,
+                you confirm that you are at least 18 years old.
+              </Text>
+            </Paper>
+            <Text>
+              If you're a parent or guardian and believe your child has created an account on
+              JobRocket, please contact us immediately at{' '}
+              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor> and
+              we'll delete the account.
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        {/* Policy Changes */}
+        <Accordion.Item value="policy-changes">
+          <Accordion.Control>
+            <Title order={3} size="h4">
+              9. Changes to This Privacy Policy
+            </Title>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Text mb="md">
+              We may update this Privacy Policy from time to time to reflect changes in our
+              practices, technology, legal requirements, or other factors.
+            </Text>
+            <Text mb="sm">
+              <strong>For minor changes:</strong> We'll update the "Last Updated" date at the top
+              of this policy
+            </Text>
+            <Text mb="md">
+              <strong>For significant changes:</strong> We'll notify you via email and display a
+              prominent notice on the JobRocket website. You'll have 30 days to review the changes
+              before they take effect.
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        {/* Governing Law */}
+        <Accordion.Item value="governing-law">
+          <Accordion.Control>
+            <Title order={3} size="h4">
+              10. Governing Law and Legal Jurisdiction
+            </Title>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Text mb="md">
+              This Privacy Policy and our handling of your personal data are governed by the laws
+              of the State of Israel, including the Privacy Protection Law, 5741-1981, as amended
+              by Amendment 13 (effective August 14, 2025).
+            </Text>
+            <Text>
+              Any disputes arising from this Privacy Policy or our data practices will be subject
+              to the exclusive jurisdiction of the competent courts in Israel.
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        {/* Contact */}
+        <Accordion.Item value="contact">
+          <Accordion.Control>
+            <Title order={3} size="h4">
+              Questions or Concerns?
+            </Title>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Paper p="md" withBorder mb="md">
+              <Text mb="sm">
+                If you have any questions about this Privacy Policy or how we handle your personal
+                data:
+              </Text>
+              <Text>
+                <strong>Email:</strong>{' '}
+                <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>
+              </Text>
+              <Text>
+                <strong>Phone:</strong> 058-434-5797
+              </Text>
+              <Text>
+                <strong>Mail:</strong> Elazar Lapp, Beit Shemesh, Israel
+              </Text>
+              <Text mt="sm" size="sm" c="dimmed">
+                We'll respond to your inquiry within 30 days.
+              </Text>
+            </Paper>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
+
+      {/* Footer */}
+      <Text ta="center" c="dimmed" pt="xl" mt="xl" size="sm" style={{ borderTop: '1px solid #e0e0e0' }}>
+        © {new Date().getFullYear()} JobRocket. All rights reserved.
+        <br />
+        Thank you for trusting JobRocket with your personal information. We're committed to
+        protecting your privacy and handling your data responsibly.
+      </Text>
     </Container>
   );
 };

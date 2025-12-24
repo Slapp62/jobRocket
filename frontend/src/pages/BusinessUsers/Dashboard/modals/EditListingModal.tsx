@@ -25,12 +25,15 @@ import WORK_ARRANGEMENTS from '@/data/workArr';
 import { cleanedListingData } from '@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData';
 import { TListing } from '@/Types';
 import { listingSchema } from '@/validationRules/listing.joi';
+import { formatDate, formatDateForInput, parseLocalDate, addDays, toLocalMidnight } from '@/utils/dateUtils';
 
 interface EditListingModalProps {
   opened: boolean;
   onClose: () => void;
   listing: TListing | undefined;
   setListings: React.Dispatch<React.SetStateAction<TListing[]>>;
+  dateInputRef?: React.RefObject<HTMLInputElement | null>;
+  isExtendMode?: boolean;
 }
 
 type ListingFormValues = {
@@ -64,8 +67,28 @@ export const EditListingModal = ({
   onClose,
   listing,
   setListings,
+  dateInputRef,
+  isExtendMode,
 }: EditListingModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  // Calculate max expiration date (90 days from today at local midnight)
+  const maxListingExpiration = addDays(toLocalMidnight(new Date()), 90);
+
+  // Calculate current expiration info
+  const currentExpirationInfo = useMemo(() => {
+    if (!listing?.expiresAt) return null;
+
+    const expiresDate = new Date(listing.expiresAt);
+    const today = new Date();
+    const diffTime = expiresDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return {
+      date: formatDate(listing.expiresAt), // Now using DD/MM/YYYY format
+      daysRemaining: diffDays
+    };
+  }, [listing?.expiresAt]);
 
   const {
     register,
@@ -112,7 +135,8 @@ export const EditListingModal = ({
       setIsLoading(true);
       const updatedListing = await axios.put(`/api/listings/${listing?._id}`, {
         ...data,
-        expiresAt: data.expiresAt ? new Date(data.expiresAt).toISOString() : null,
+        // Parse date as local midnight to prevent timezone shifts
+        expiresAt: data.expiresAt ? parseLocalDate(data.expiresAt).toISOString() : null,
       });
 
       // set the updated listing in the listings state so its seen in UI immediatley
@@ -379,8 +403,16 @@ export const EditListingModal = ({
                 <TextInput
                   label="Expiration Date"
                   type="date"
+                  description={
+                    currentExpirationInfo
+                      ? `Currently expires on ${currentExpirationInfo.date} (in ${currentExpirationInfo.daysRemaining} day${currentExpirationInfo.daysRemaining !== 1 ? 's' : ''}). Maximum expiration is 90 days from today.`
+                      : 'Maximum expiration is 90 days from today.'
+                  }
+                  min={formatDateForInput(new Date())}
+                  max={formatDateForInput(maxListingExpiration)}
                   {...register('expiresAt')}
                   error={errors.expiresAt?.message as string}
+                  //ref={dateInputRef}
                 />
               </Stack>
             </Fieldset>

@@ -75,21 +75,39 @@ const normalizeListingResponse = (listing) => {
   return normalizedListingData;
 };
 
-const normalizeApplicationResponse = (application, listingId) => {
+const normalizeApplicationResponse = (application, listingId, options = {}) => {
+  // Default options - include all fields by default for backward compatibility
+  const {
+    includeMessage = true,
+    includeApplicantId = true,
+    includeConsent = false,
+  } = options;
+
   const normalizedApplicationData = {
     _id: application._id,
     listingId,
-    applicantId: application.applicantId,
     firstName: application.firstName,
     lastName: application.lastName,
     email: application.email,
     phone: application.phone,
     resumeUrl: application.resumeUrl,
-    message: application.message,
     status: application.status,
     matchScore: application.matchScore,
     createdAt: application.createdAt,
   };
+
+  // Conditionally include optional fields based on options
+  if (includeMessage && application.message !== undefined) {
+    normalizedApplicationData.message = application.message;
+  }
+
+  if (includeApplicantId && application.applicantId !== undefined) {
+    normalizedApplicationData.applicantId = application.applicantId;
+  }
+
+  if (includeConsent && application.applicationDataConsent !== undefined) {
+    normalizedApplicationData.applicationDataConsent = application.applicationDataConsent;
+  }
 
   return normalizedApplicationData;
 };

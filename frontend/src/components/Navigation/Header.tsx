@@ -168,6 +168,7 @@ export function Navbar() {
               {/* ACCESSIBILITY: Burger menu needs aria-label and aria-expanded for screen readers
                   aria-expanded tells screen readers if the mobile menu is currently open */}
               <Burger
+                c="white"
                 opened={drawerOpened}
                 onClick={toggleDrawer}
                 hiddenFrom="md"
@@ -205,6 +206,7 @@ export function Navbar() {
             <Button fz="md" variant="subtle" c="rocketRed" component={Link} to="/" onClick={closeDrawer}>
               Home
             </Button>
+
             <Button fz="md" variant="subtle" c="rocketRed" component={Link} to="/search" onClick={closeDrawer}>
               Job Board
             </Button>
