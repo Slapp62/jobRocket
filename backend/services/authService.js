@@ -46,7 +46,8 @@ async function verifyUserCredentials(email, password) {
   }
 
   // Check if account has been deleted (soft delete)
-  if (user.isDeleted) {
+  // Use === true to handle undefined/null for users created before schema update
+  if (user.isDeleted === true) {
     throwError(403, 'This account has been deleted. Contact support to restore your account.');
   }
 
