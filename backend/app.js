@@ -15,6 +15,7 @@ const errorLogger = require('./middleware/logging/errorLogger');
 const logger = require('./config/logger');
 const { scheduleListingCleanup } = require('./cronJobs/listingDeletion');
 const { scheduleApplicationCleanup } = require('./cronJobs/applicationDeletion');
+const { scheduleUserDeletion } = require('./cronJobs/userDeletion');
 const app = express();
 
 console.log('📱 app.js: Initializing Express app...');
@@ -96,6 +97,7 @@ if (process.env.NODE_ENV === 'production') {
 
 scheduleListingCleanup();
 scheduleApplicationCleanup();
+scheduleUserDeletion();
 // Global error handler
 app.use((error, req, res, _next) => {
   // Log the error with full context

@@ -199,7 +199,7 @@ const PrivacyPolicy: FC = () => {
             <List mb="md">
               <List.Item>Your name, email, phone number (if provided)</List.Item>
               <List.Item>Your resume file</List.Item>
-              <List.Item>Your cover letter/message (optional)</List.Item>
+              <List.Item>Your message (optional)</List.Item>
               <List.Item>Application timestamp</List.Item>
               <List.Item>Application status (pending, reviewed, rejected)</List.Item>
               <List.Item>The job and company you applied to</List.Item>
@@ -310,7 +310,7 @@ const PrivacyPolicy: FC = () => {
             <List mb="md">
               <List.Item>Your name, email, phone (if provided)</List.Item>
               <List.Item>Your resume file</List.Item>
-              <List.Item>Your cover letter/message</List.Item>
+              <List.Item>Your message (if provided)</List.Item>
               <List.Item>Your match score</List.Item>
             </List>
             <Paper p="md" withBorder bg="orange.0" mb="md">
@@ -377,8 +377,8 @@ const PrivacyPolicy: FC = () => {
               Right to Access Your Data
             </Title>
             <Text mb="md">
-              You can request a copy of all personal data we hold about you. Go to Settings &gt;
-              Privacy &gt; Download My Data, or email us at{' '}
+              You can request a copy of all personal data we hold about you. Go to My Account &gt;
+              Download My Data, or email us at{' '}
               <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>. We'll
               provide this within 30 days of your request.
             </Text>
@@ -387,8 +387,8 @@ const PrivacyPolicy: FC = () => {
               Right to Correct Your Data
             </Title>
             <Text mb="md">
-              You can update or correct inaccurate information in your profile. Go to Settings &gt;
-              Profile to update your information. For corrections we cannot provide through the
+              You can update or correct inaccurate information in your profile. Go to My Account
+              to update your information. For corrections we cannot provide through the
               interface, email{' '}
               <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>.
             </Text>
@@ -397,8 +397,8 @@ const PrivacyPolicy: FC = () => {
               Right to Delete Your Data
             </Title>
             <Text mb="sm">
-              You can request deletion of your account and personal data. Go to Settings &gt;
-              Account &gt; Delete Account, or email{' '}
+              You can request deletion of your account and personal data. Go to My Account &gt;
+              Delete Account, or email{' '}
               <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>.
             </Text>
             <Text mb="sm">
@@ -423,7 +423,7 @@ const PrivacyPolicy: FC = () => {
             </Title>
             <Text mb="md">
               You can receive your data in a structured, commonly used format (JSON) that you can
-              transfer to another service. Go to Settings &gt; Privacy &gt; Download My Data.
+              transfer to another service. Go to My Account &gt; Download My Data.
             </Text>
 
             <Title order={4} size="h5" mb="xs" mt="md">

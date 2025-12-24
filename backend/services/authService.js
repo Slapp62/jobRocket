@@ -45,6 +45,11 @@ async function verifyUserCredentials(email, password) {
     throwError(401, 'Invalid email or password.');
   }
 
+  // Check if account has been deleted (soft delete)
+  if (user.isDeleted) {
+    throwError(403, 'This account has been deleted. Contact support to restore your account.');
+  }
+
   const isPasswordValid = await verifyPassword(password, user.password);
   const loginAttempts = user.loginAttempts;
 
