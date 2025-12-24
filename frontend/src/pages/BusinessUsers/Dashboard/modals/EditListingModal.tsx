@@ -19,6 +19,7 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
+import { DateInput } from '@mantine/dates';
 import { notifications } from '@mantine/notifications';
 import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
 import WORK_ARRANGEMENTS from '@/data/workArr';
@@ -400,19 +401,35 @@ export const EditListingModal = ({
                   )}
                 />
 
-                <TextInput
-                  label="Expiration Date"
-                  type="date"
-                  description={
-                    currentExpirationInfo
-                      ? `Currently expires on ${currentExpirationInfo.date} (in ${currentExpirationInfo.daysRemaining} day${currentExpirationInfo.daysRemaining !== 1 ? 's' : ''}). Maximum expiration is 90 days from today.`
-                      : 'Maximum expiration is 90 days from today.'
-                  }
-                  min={formatDateForInput(new Date())}
-                  max={formatDateForInput(maxListingExpiration)}
-                  {...register('expiresAt')}
-                  error={errors.expiresAt?.message as string}
-                  //ref={dateInputRef}
+                <Controller
+                  name="expiresAt"
+                  control={control}
+                  render={({ field }) => (
+                    <DateInput
+                      label="Expiration Date"
+                      description={
+                        currentExpirationInfo
+                          ? `Currently expires on ${currentExpirationInfo.date} (in ${currentExpirationInfo.daysRemaining} day${currentExpirationInfo.daysRemaining !== 1 ? 's' : ''}). Maximum expiration is 90 days from today.`
+                          : 'Maximum expiration is 90 days from today.'
+                      }
+                      minDate={new Date()}
+                      maxDate={maxListingExpiration}
+                      valueFormat="DD/MM/YYYY"
+                      clearable
+                      placeholder="Select expiration date"
+                      value={field.value ? new Date(field.value) : null}
+                      onChange={(date) => {
+                        field.onChange(date ? formatDateForInput(date) : null);
+                      }}
+                      error={errors.expiresAt?.message as string}
+                      ref={(el) => {
+                        field.ref(el);
+                        if (dateInputRef) {
+                          dateInputRef.current = el;
+                        }
+                      }}
+                    />
+                  )}
                 />
               </Stack>
             </Fieldset>

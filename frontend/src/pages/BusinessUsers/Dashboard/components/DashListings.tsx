@@ -46,17 +46,19 @@ export const DashListings = ({
   const dateInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  // Calculate expiring listings (within 7 days)
-  const expiringListings = useMemo(() => {
+  // Helper function to check if a listing expires within 7 days
+  const isExpiringSoon = (expiresAt: string | null | undefined): boolean => {
+    if (!expiresAt) return false;
     const sevenDaysFromNow = new Date();
     sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
+    const expiresDate = new Date(expiresAt);
+    const now = new Date();
+    return expiresDate >= now && expiresDate <= sevenDaysFromNow;
+  };
 
-    return listings.filter((listing) => {
-      if (!listing.expiresAt) return false;
-      const expiresDate = new Date(listing.expiresAt);
-      const now = new Date();
-      return expiresDate >= now && expiresDate <= sevenDaysFromNow;
-    });
+  // Calculate expiring listings (within 7 days)
+  const expiringListings = useMemo(() => {
+    return listings.filter((listing) => isExpiringSoon(listing.expiresAt));
   }, [listings]);
 
   // Check localStorage for alert dismissal
@@ -266,8 +268,12 @@ export const DashListings = ({
                 </Group>
 
                 {listing.expiresAt && (
-                  <Text size="xs" c="dimmed">
-                    Expires: {listing.expiresAt && formatDate(listing.expiresAt)}
+                  <Text
+                    size="xs"
+                    c={isExpiringSoon(listing.expiresAt) ? 'red' : 'dimmed'}
+                    fw={isExpiringSoon(listing.expiresAt) ? 'bold' : 'normal'}
+                  >
+                    Expires: {formatDate(listing.expiresAt)}
                   </Text>
                 )}
 
@@ -348,12 +354,12 @@ export const DashListings = ({
                     </Table.Td>
 
                     <Table.Td>
-                      <Text 
+                      <Text
                         fz="sm"
-                        c={listing.expiresAt && listing.expiresAt < formatDate(listing.expiresAt) ? 'red' : 'dimmed'}
-                        fw={listing.expiresAt && listing.expiresAt < formatDate(listing.expiresAt) ? 'bold' : 'normal'}
+                        c={isExpiringSoon(listing.expiresAt) ? 'red' : 'dimmed'}
+                        fw={isExpiringSoon(listing.expiresAt) ? 'bold' : 'normal'}
                       >
-                        {listing.expiresAt && formatDate(listing.expiresAt)}
+                        {listing.expiresAt ? formatDate(listing.expiresAt) : 'No expiration'}
                       </Text>
                     </Table.Td>
 
