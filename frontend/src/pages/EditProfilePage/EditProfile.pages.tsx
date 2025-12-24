@@ -107,8 +107,9 @@ export function EditProfile() {
                 {userData?.isAdmin === false && isAdminView === false && (
                   <Fieldset legend="Delete Account" w={isMobile ? '100%' : '50%'}>
                     <Flex h="100%" justify="space-between" direction="column" gap={5}>
-                      <Text fw="bold" c="red" fz="sm">
-                        All data will be lost and you will be logged out.
+                      <Text fz="sm">
+                        Your account will be deactivated for 30 days. Contact support to restore
+                        it during this period. After 30 days, all data will be permanently deleted.
                       </Text>
                       <Button color="red" onClick={open}>
                         Delete Account
@@ -117,6 +118,44 @@ export function EditProfile() {
                   </Fieldset>
                 )}
               </Flex>
+
+              {userData?.isAdmin === false && isAdminView === false && (
+                <Fieldset legend="Download My Data" mt={10}>
+                  <Flex direction="column" gap={5}>
+                    <Text fz="sm">
+                      Download all your personal data in JSON format. This includes your profile
+                      information, applications, and consent records.
+                    </Text>
+                    <Button
+                      variant="outline"
+                      onClick={async () => {
+                        try {
+                          const response = await fetch('/api/users/export/data', {
+                            method: 'GET',
+                            credentials: 'include',
+                          });
+
+                          if (!response.ok) throw new Error('Failed to export data');
+
+                          const blob = await response.blob();
+                          const url = window.URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = `jobrocket-data-export-${Date.now()}.json`;
+                          document.body.appendChild(a);
+                          a.click();
+                          window.URL.revokeObjectURL(url);
+                          document.body.removeChild(a);
+                        } catch (error) {
+                          console.error('Failed to download data:', error);
+                        }
+                      }}
+                    >
+                      Download My Data
+                    </Button>
+                  </Flex>
+                </Fieldset>
+              )}
 
               <Button
                 disabled={!isValid || (!isDirty && !resumeFile) || !!resumeError}

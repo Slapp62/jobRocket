@@ -188,20 +188,100 @@ const toggleRole = async (userId) => {
 };
 
 const deleteUser = async (userId) => {
-  const deletedUser = await Users.findByIdAndDelete(userId);
-  if (!deletedUser) {
+  const user = await Users.findById(userId);
+  if (!user) {
     throwError(404, 'User not found');
   }
 
+  // Soft delete: Mark as deleted with timestamp (30-day grace period)
+  user.isDeleted = true;
+  user.deletedAt = new Date();
+  await user.save();
+
   // Log database operation
-  logDatabase('delete', 'Users', {
+  logDatabase('soft-delete', 'Users', {
     userId,
-    email: deletedUser.email,
-    profileType: deletedUser.profileType,
+    email: user.email,
+    profileType: user.profileType,
+    deletedAt: user.deletedAt,
   });
 
-  const normalizedUser = normalizeUserResponse(deletedUser);
+  const normalizedUser = normalizeUserResponse(user);
   return normalizedUser;
+};
+
+const exportUserData = async (userId) => {
+  const Applications = require('../models/Applications');
+
+  const user = await Users.findById(userId);
+  if (!user) {
+    throwError(404, 'User not found');
+  }
+
+  // Get all applications submitted by this user
+  const applications = await Applications.find({ applicantId: userId })
+    .populate('listingId', 'jobTitle companyName')
+    .lean();
+
+  // Build comprehensive data export
+  const exportData = {
+    exportDate: new Date().toISOString(),
+    exportVersion: '1.0',
+    user: {
+      account: {
+        email: user.email,
+        phone: user.phone,
+        profileType: user.profileType,
+        createdAt: user.createdAt,
+        isAdmin: user.isAdmin,
+      },
+      consents: {
+        dataProcessing: user.consents?.dataProcessing,
+      },
+    },
+    applications: applications.map(app => ({
+      id: app._id,
+      jobTitle: app.listingId?.jobTitle || 'Unknown',
+      companyName: app.listingId?.companyName || 'Unknown',
+      firstName: app.firstName,
+      lastName: app.lastName,
+      email: app.email,
+      phone: app.phone,
+      resumeUrl: app.resumeUrl,
+      message: app.message,
+      status: app.status,
+      matchScore: app.matchScore,
+      createdAt: app.createdAt,
+      consent: app.applicationDataConsent,
+    })),
+  };
+
+  // Add profile-specific data
+  if (user.profileType === 'jobseeker' && user.jobseekerProfile) {
+    exportData.user.jobseekerProfile = {
+      firstName: user.jobseekerProfile.firstName,
+      lastName: user.jobseekerProfile.lastName,
+      highestEducation: user.jobseekerProfile.highestEducation,
+      preferredWorkArrangement: user.jobseekerProfile.preferredWorkArrangement,
+      linkedinPage: user.jobseekerProfile.linkedinPage,
+      resume: user.jobseekerProfile.resume,
+      skills: user.jobseekerProfile.skills,
+      professionalSummary: user.jobseekerProfile.professionalSummary,
+    };
+  } else if (user.profileType === 'business' && user.businessProfile) {
+    exportData.user.businessProfile = {
+      companyName: user.businessProfile.companyName,
+      location: user.businessProfile.location,
+      numberOfEmployees: user.businessProfile.numberOfEmployees,
+      companyLogo: user.businessProfile.companyLogo,
+      companyDescription: user.businessProfile.companyDescription,
+      website: user.businessProfile.website,
+      contactEmail: user.businessProfile.contactEmail,
+      socialMedia: user.businessProfile.socialMedia,
+    };
+  }
+
+  return exportData;
 };
 
 module.exports = {
@@ -211,4 +291,5 @@ module.exports = {
   toggleRole,
   updateProfile,
   deleteUser,
+  exportUserData,
 };

@@ -172,6 +172,21 @@ async function deleteUser(req, res) {
   }
 }
 
+async function exportUserData(req, res) {
+  try {
+    const userId = req.user._id;
+    const exportData = await userService.exportUserData(userId);
+
+    // Set headers for file download
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', `attachment; filename="jobrocket-data-export-${Date.now()}.json"`);
+
+    handleSuccess(res, 200, exportData);
+  } catch (error) {
+    handleError(res, error.status, error.message);
+  }
+}
+
 module.exports = {
   registerUser,
   loginUser,
@@ -182,4 +197,5 @@ module.exports = {
   updateUserProfile,
   toggleUserRole,
   deleteUser,
+  exportUserData,
 };

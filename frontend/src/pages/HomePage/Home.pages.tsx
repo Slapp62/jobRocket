@@ -133,7 +133,7 @@ export function HomePage() {
           >
             <Group justify="center" align="center">
               <Title ta="center" c="rocketRed.9">Welcome to JobRocket</Title>
-              <Image src="/public/flavicon-180.png" h={100} w={100}/>
+              <Image src="/flavicon-180.png" h={100} w={100}/>
             </Group>
             <Text size="lg" mb="xl" ta={{base: 'justify', md: 'center'}}>
               At <strong>JobRocket</strong>, we connect job seekers with employers through intelligent

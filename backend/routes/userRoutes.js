@@ -9,6 +9,7 @@ const {
   toggleUserRole,
   deleteUser,
   getCurrentUser,
+  exportUserData,
 } = require('../controllers/userController.js');
 const {
   profileValidation,
@@ -73,5 +74,8 @@ router.patch('/:id', authenticateUser, userAdminAuth, toggleUserRole);
 
 // Delete user
 router.delete('/:id', authenticateUser, userAdminAuth, deleteUser);
+
+// Export user data (GDPR data portability)
+router.get('/export/data', authenticateUser, exportUserData);
 
 module.exports = router;

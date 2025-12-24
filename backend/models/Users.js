@@ -246,6 +246,15 @@ const userSchema = new Schema({
       userAgent: String,
     },
   },
+  // Soft delete fields for 30-day grace period
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
+  deletedAt: {
+    type: Date,
+    default: null,
+  },
 });
 
 // Custom validator: Either password OR googleId must exist
