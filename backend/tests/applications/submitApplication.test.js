@@ -23,8 +23,6 @@ describe('POST /api/applications/:listingId - Submit Application', () => {
     const applicationData = {
       resume:
         'Experienced software developer with 5 years of experience in full-stack development, specializing in React and Node.js.',
-      coverLetter:
-        'I am very interested in this position and believe my skills align well with the requirements.',
       message:
         'I would love to discuss this opportunity further and learn more about the role.',
     };
@@ -38,7 +36,6 @@ describe('POST /api/applications/:listingId - Submit Application', () => {
     expect(response.body).toMatchObject({
       listingId: activeListing._id.toString(),
       resume: applicationData.resume,
-      coverLetter: applicationData.coverLetter,
       message: applicationData.message,
       status: 'pending',
     });
@@ -59,13 +56,12 @@ describe('POST /api/applications/:listingId - Submit Application', () => {
       .expect(201);
 
     expect(response.body.resume).toBe(applicationData.resume);
-    expect(response.body.coverLetter).toBeUndefined();
     expect(response.body.message).toBeUndefined();
   });
 
   test('should fail when resume is missing', async () => {
     const applicationData = {
-      coverLetter: 'I am interested in this position.',
+      message: 'I am interested in this position.',
     };
 
     const response = await request(app)

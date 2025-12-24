@@ -65,7 +65,6 @@ const applicationSchema = new Schema({
       email: { type: Boolean, default: true },
       phone: { type: Boolean, default: false },
       resume: { type: Boolean, default: true },
-      coverLetter: { type: Boolean, default: true },
     },
     consentGranted: { type: Boolean, required: true },
     consentTimestamp: { type: Date, required: true },

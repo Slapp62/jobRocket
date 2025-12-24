@@ -32,7 +32,6 @@ async function createApplication(req, res) {
         email: true,
         phone: !!user.phone, // Convert to boolean: true if exists, false if null/undefined
         resume: true,
-        coverLetter: true,
       },
       consentGranted: true,
       consentTimestamp: new Date(),
