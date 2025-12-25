@@ -57,6 +57,17 @@ export const theme = createTheme({
     rocketYellow,
   },
 
+  // Dark mode color overrides
+  // These ensure the custom rocket colors work well in dark mode
+  // while maintaining brand identity and proper contrast
+  black: '#1a1b1e',
+  white: '#ffffff',
+
+  // Override default dark mode colors for better differentiation
+  // Mantine's default dark palette is used for backgrounds and surfaces in dark mode
+  // We enhance it to provide better section differentiation
+  autoContrast: true, // Automatically adjust text color for contrast
+
   variantColorResolver: (input) => {
     const defaultResolvedColors = defaultVariantColorsResolver(input);
 

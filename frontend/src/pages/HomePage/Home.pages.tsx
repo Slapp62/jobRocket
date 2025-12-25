@@ -132,7 +132,7 @@ export function HomePage() {
             p={{ base: 'md', sm: 'lg', md: 'xl' }}
           >
             <Group justify="center" align="center">
-              <Title ta="center" c="rocketRed.9">Welcome to JobRocket</Title>
+              <Title ta="center" c="rocketRed.9">Welcome to <strong>JobRocket</strong></Title>
               <Image src="/flavicon-180.png" h={100} w={100}/>
             </Group>
             <Text size="lg" mb="xl" ta={{base: 'justify', md: 'center'}}>

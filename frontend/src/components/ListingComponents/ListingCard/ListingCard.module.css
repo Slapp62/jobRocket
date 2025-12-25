@@ -2,7 +2,7 @@
   transition: all 0.3s ease;
 }
 .hover:hover {
-  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+  box-shadow: light-dark(0 8px 24px rgba(255, 107, 53, 0.3), 0 8px 24px rgba(255, 169, 77, 0.2));
   transform: translateY(-2px);
 }
 
@@ -13,5 +13,5 @@
 }
 
 .listing-card-wrapper.selected {
-  outline: 2px solid #FF6B35;
+  outline: 2px solid light-dark(#FF6B35, #FFA94D);
 }

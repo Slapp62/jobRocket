@@ -17,15 +17,16 @@ import {
   Stack,
   Text,
   Tooltip,
-  useMantineColorScheme,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { AppDispatch, RootState } from '@/store/store';
-import { clearUser } from '@/store/userSlice';
+import { clearUser, toggleAdminView } from '@/store/userSlice';
 import bgStyles from '@/styles/bgStyles.module.css';
 import { AvatarIcon } from './Avatar';
 import { Logo } from './Logo';
+import { LightDarkToggle } from './LightDarkToggle';
 import classes from '../ComponentStyles/Header.module.css';
 
 export function Navbar() {
@@ -34,9 +35,13 @@ export function Navbar() {
   const loggedIn = useSelector((state: RootState) => state.userSlice.isLoggedIn);
   const isBusinessUser = user?.profileType === 'business';
   const dispatch = useDispatch<AppDispatch>();
+  const computedColorScheme = useComputedColorScheme('light');
 
   const jumpTo = useNavigate();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+
+  // Theme-aware color for drawer links
+  const drawerLinkColor = computedColorScheme === 'light' ? 'rocketRed.6' : 'rocketOrange.4';
 
   const logoutHandler = async () => {
     try {
@@ -71,7 +76,11 @@ export function Navbar() {
   }, []);
 
   return (
-    <Box bg="rocketRed.7" pos="sticky" pt={5}>
+    <Box
+      bg={computedColorScheme === 'light' ? 'rocketRed.7' : 'dark.8'}
+      pos="sticky"
+      pt={5}
+    >
       <header>
         <Flex justify="space-between" align="center" h="100%" px="sm">
           <Logo />
@@ -119,6 +128,9 @@ export function Navbar() {
 
           <Group>
             <Group visibleFrom="xs">
+              {/* Light/Dark mode toggle */}
+              <LightDarkToggle />
+
               {!loggedIn && (
                 <Button component={Link} to="/login" variant="outline" color="white">
                   Login
@@ -164,11 +176,22 @@ export function Navbar() {
             </Group>
 
             <Group>
-              {loggedIn && !isMobile && <AvatarIcon />}
+              {loggedIn && !isMobile && 
+                <Button
+                    variant="outline"
+                    color="white"
+                    c="white"
+                    onClick={() => {
+                      dispatch(toggleAdminView(false));
+                      jumpTo(`/edit-profile/${user?._id}`);
+                    }}
+                  >
+                    My Account
+                </Button>}
               {/* ACCESSIBILITY: Burger menu needs aria-label and aria-expanded for screen readers
                   aria-expanded tells screen readers if the mobile menu is currently open */}
               <Burger
-                c="white"
+                color="white"
                 opened={drawerOpened}
                 onClick={toggleDrawer}
                 hiddenFrom="md"
@@ -203,38 +226,38 @@ export function Navbar() {
         <ScrollArea h="calc(100vh - 80px" mx="-sm">
           <Divider />
           <Stack my={20} gap={5}>
-            <Button fz="md" variant="subtle" c="rocketRed" component={Link} to="/" onClick={closeDrawer}>
+            <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/" onClick={closeDrawer}>
               Home
             </Button>
 
-            <Button fz="md" variant="subtle" c="rocketRed" component={Link} to="/search" onClick={closeDrawer}>
+            <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/search" onClick={closeDrawer}>
               Job Board
             </Button>
 
             {loggedIn && user?.profileType === 'jobseeker' && (
-              <Button fz="md" variant="subtle" c="rocketRed" component={Link} to="/favorites" onClick={closeDrawer}>
+              <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/favorites" onClick={closeDrawer}>
                 Favorites
               </Button>
             )}
 
             {loggedIn && user?.profileType === 'jobseeker' && (
-              <Button fz="md" variant="subtle" c="rocketRed" component={Link} to="/my-applications" onClick={closeDrawer}>
+              <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/my-applications" onClick={closeDrawer}>
                 Applications
               </Button>
             )}
 
             {loggedIn && user?.profileType === 'business' && (
-              <Button fz="md" variant="subtle" c="rocketRed" component={Link} to="/dashboard" onClick={closeDrawer}>
+              <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/dashboard" onClick={closeDrawer}>
                 Dashboard
               </Button>
             )}
 
-            <Button fz="md" variant="subtle" c="rocketRed" component={Link} to="/about" onClick={closeDrawer}>
+            <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/about" onClick={closeDrawer}>
               About Us
             </Button>
 
             {user?.isAdmin && (
-              <Button fz="md" variant="subtle" c="rocketRed" component={Link} to="/admin" onClick={closeDrawer}>
+              <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/admin" onClick={closeDrawer}>
                 Admin Controls
               </Button>
             )}
@@ -242,6 +265,11 @@ export function Navbar() {
           <Divider my="md" />
 
           <Flex justify="space-evenly" ta="center" p="sm" gap={5} direction="column">
+            {/* Light/Dark mode toggle for mobile */}
+            <Box style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
+              <LightDarkToggle />
+            </Box>
+
             {!loggedIn && (
               <Button
                 component={Link}
@@ -279,6 +307,21 @@ export function Navbar() {
                 Logout
               </Button>
             )}
+
+            {loggedIn && !isMobile && 
+              <Button
+                  variant="outline"
+                  color="white"
+                  c="white"
+                  onClick={() => {
+                    dispatch(toggleAdminView(false));
+                    jumpTo(`/edit-profile/${user?._id}`);
+                    closeDrawer();
+                  }}
+                >
+                  My Account
+              </Button>
+            }
           </Flex>
         </ScrollArea>
       </Drawer>

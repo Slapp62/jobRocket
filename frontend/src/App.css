@@ -16,7 +16,7 @@
 }
 
 .card-hover:hover {
-    background-color: rgb(238, 237, 237);
+    background-color: light-dark(rgb(238, 237, 237), var(--mantine-color-dark-6));
 }
 
 /* Rocket Theme Gradient Utilities */
@@ -77,7 +77,7 @@
 /* Global focus styles - visible focus indicators required by law
    All interactive elements must have a visible focus indicator for keyboard users */
 *:focus-visible {
-  outline: 3px solid #ff6b35; /* rocketOrange color for brand consistency */
+  outline: 3px solid light-dark(#ff6b35, #FFA94D); /* rocketOrange color for brand consistency */
   outline-offset: 2px;
   border-radius: 2px;
 }

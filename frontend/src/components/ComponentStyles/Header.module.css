@@ -30,7 +30,7 @@
     padding-left: var(--mantine-spacing-md);
     padding-right: var(--mantine-spacing-md);
     text-decoration: none;
-    color: white;
+    color: light-dark(white, var(--mantine-color-gray-2));
     font-weight: 400;
     font-size: var(--mantine-font-size-sm);
     height: 36px;
@@ -42,7 +42,7 @@
     }
 
     &:hover {
-      background-color: var(--mantine-color-rocketRed-6);
+      background-color: light-dark(var(--mantine-color-rocketRed-6), var(--mantine-color-dark-6));
       border-radius: 10px;
       color: white
     }
@@ -55,7 +55,7 @@
     padding-left: var(--mantine-spacing-md);
     padding-right: var(--mantine-spacing-md);
     text-decoration: none;
-    color: var(--mantine-color-rocketRed-6);
+    color: light-dark(var(--mantine-color-rocketRed-6), var(--mantine-color-rocketOrange-4));
     font-weight: 500;
     font-size: var(--mantine-font-size-sm);
     height: 36px;
@@ -67,7 +67,7 @@
     }
 
     &:hover {
-      background-color: var(--mantine-color-rocketRed-6);
+      background-color: light-dark(var(--mantine-color-rocketRed-6), var(--mantine-color-dark-6));
       border-radius: 10px;
       color: white
     }
