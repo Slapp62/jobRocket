@@ -10,6 +10,7 @@ const data = [
       { label: 'Login', link: '/login' },
       { label: 'Register', link: '/register' },
       { label: 'About', link: '/about' },
+      { label: 'Contact Us', link: '/about#contact' },
     ],
   },
   {

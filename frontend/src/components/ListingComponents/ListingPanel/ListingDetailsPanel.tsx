@@ -174,7 +174,7 @@ export function ListingDetailsPanel({
               )}
 
               <SocialIcons listingID={listing._id} />
-              <ApplicationModal opened={opened} onClose={close} listingID={listing._id} />
+              <ApplicationModal opened={opened} onClose={close} listingID={listing._id} jobTitle={listing.jobTitle} />
             </Group>
           </Box>
 

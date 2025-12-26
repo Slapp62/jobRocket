@@ -20,6 +20,7 @@ import DesktopSplitView from '@/components/ListingComponents/Views/DesktopSplitV
 import DesktopDefaultView from '@/components/ListingComponents/Views/ListingsGridView';
 import { PageMeta } from '@/SEO/PageMeta';
 import { announceToScreenReader } from '@/utils/accessibility';
+import { trackJobSearch } from '@/utils/analytics';
 import { getParamsInfo } from '@/utils/getParamsInfo';
 
 export function SearchPage() {
@@ -43,10 +44,48 @@ export function SearchPage() {
   // ACCESSIBILITY: Track previous result count for announcements
   const previousCountRef = useRef<number | null>(null);
 
+  // Track previous filter values to detect changes
+  const prevFiltersRef = useRef<{
+    region?: string | null;
+    city?: string | null;
+    workArrangement?: string | null;
+  }>({});
+
   // Sync searchText with URL params when they change externally
   useEffect(() => {
     setSearchText(searchParams.get('searchText') || '');
   }, [searchParams.get('searchText')]);
+
+  // Track when filters change (region, city, workArrangement)
+  useEffect(() => {
+    const region = searchParams.get('region');
+    const city = searchParams.get('city');
+    const workArrangement = searchParams.get('workArrangement');
+    const searchText = searchParams.get('searchText');
+
+    const prev = prevFiltersRef.current;
+
+    // Check if any filter has changed
+    const filtersChanged =
+      prev.region !== region ||
+      prev.city !== city ||
+      prev.workArrangement !== workArrangement;
+
+    if (filtersChanged) {
+      // Update tracking ref
+      prevFiltersRef.current = { region, city, workArrangement };
+
+      // Track search if any filters are applied
+      if (region || city || workArrangement) {
+        const filters: Record<string, any> = {};
+        if (region) filters.region = region;
+        if (city) filters.city = city;
+        if (workArrangement) filters.workArrangement = workArrangement;
+
+        trackJobSearch(searchText || '', filters);
+      }
+    }
+  }, [searchParams]);
 
   // ACCESSIBILITY: Announce search results to screen readers
   useEffect(() => {
@@ -78,12 +117,44 @@ export function SearchPage() {
   const handleSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       updateSearchParam('searchText', searchText);
+
+      // Track search event in Google Analytics
+      if (searchText.trim()) {
+        const filters: Record<string, any> = {};
+        const region = searchParams.get('region');
+        const cityParam = searchParams.get('city');
+        const workArrangement = searchParams.get('workArrangement');
+
+        if (region) filters.region = region;
+        if (cityParam) filters.city = cityParam;
+        if (workArrangement) filters.workArrangement = workArrangement;
+
+        trackJobSearch(searchText, filters);
+      }
     }
   };
 
   const handleClearSearch = () => {
     setSearchText('');
     updateSearchParam('searchText', '');
+  };
+
+  const handleSearchClick = () => {
+    updateSearchParam('searchText', searchText);
+
+    // Track search event in Google Analytics
+    if (searchText.trim()) {
+      const filters: Record<string, any> = {};
+      const region = searchParams.get('region');
+      const cityParam = searchParams.get('city');
+      const workArrangement = searchParams.get('workArrangement');
+
+      if (region) filters.region = region;
+      if (cityParam) filters.city = cityParam;
+      if (workArrangement) filters.workArrangement = workArrangement;
+
+      trackJobSearch(searchText, filters);
+    }
   };
 
   const buildTitle = () => {
@@ -137,7 +208,7 @@ export function SearchPage() {
                 size="lg"
                 c='white'
                 radius={isMobile ? 'md' : 0}
-                onClick={(e) => updateSearchParam('searchText', searchText)}
+                onClick={handleSearchClick}
               >
                 Search
               </Button>

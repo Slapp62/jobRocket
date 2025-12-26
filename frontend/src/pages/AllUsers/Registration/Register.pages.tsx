@@ -22,6 +22,7 @@ import { PageMeta } from '@/SEO/PageMeta';
 import styles from '@/styles/gradients.module.css';
 import { TUsers } from '@/Types';
 import { announceToScreenReader } from '@/utils/accessibility';
+import { trackRegistration } from '@/utils/analytics';
 import { registrationSchema } from '@/validationRules/register.joi';
 import { BusinessFields } from './registrationForms/businessFields';
 import { JobseekerFields } from './registrationForms/jobseekerFields';
@@ -144,6 +145,9 @@ export function RegisterForm() {
       }
 
       if (response.status === 201) {
+        // Track successful registration in Google Analytics
+        trackRegistration(payload.profileType as 'jobseeker' | 'business');
+
         // ACCESSIBILITY: Announce success to screen readers
         announceToScreenReader('Registration successful! Redirecting to login page', 'assertive');
 

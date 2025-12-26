@@ -63,25 +63,26 @@ export function AnnouncementBanner({
     >
       <Flex
         align="center"
-        justify="space-between"
+        justify="center"
         gap="md"
         maw={1200}
         mx="auto"
         wrap="wrap"
       >
-        <Flex align="center" gap="sm" style={{ flex: 1, minWidth: 0 }}>
+        <Flex align="center" gap="sm">
           <IconBell size={20} aria-hidden="true" />
-          <Text size="sm" style={{ flex: 1 }}>
+          <Text size="sm">
             {message}
           </Text>
         </Flex>
 
-        <Flex align="center" gap="xs">
+        <Flex align="center" gap="xs" justify="center">
           {actionText && onAction && (
             <Button
               size="xs"
               variant="outline"
               onClick={onAction}
+              c='red'
               color={computedColorScheme === 'light' ? 'rocketRed.7' : 'rocketOrange.4'}
             >
               {actionText}

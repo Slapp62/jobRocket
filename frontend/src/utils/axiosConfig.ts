@@ -2,6 +2,7 @@ import axios from 'axios';
 import { notifications } from '@mantine/notifications';
 import { AppDispatch, store } from '@/store/store';
 import { clearUser } from '@/store/userSlice';
+import { trackApiError } from './analytics';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL =
@@ -14,6 +15,24 @@ export const setupAxiosInterceptors = (
   axios.interceptors.response.use(
     (response) => response, // Pass successful responses through unchanged
     (error) => {
+      // Track API errors in Google Analytics
+      if (error.response) {
+        // Server responded with error status
+        trackApiError(
+          error.config?.url || 'unknown',
+          error.response.status,
+          error.response.data?.message || error.message
+        );
+      } else if (error.request) {
+        // Request was made but no response received (network error)
+        trackApiError(
+          error.config?.url || 'unknown',
+          0,
+          'Network error - no response received'
+        );
+      }
+
+      // Handle session expiration (existing logic)
       if (error.response?.status === 410) {
         dispatch(clearUser());
         navigate('/login');

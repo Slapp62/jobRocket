@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { Flex } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { MobileBottomNav } from '@/components/Navigation/MobileNav.tsx';
@@ -8,6 +8,7 @@ import { useAuthInit } from '@/hooks/UseAuthInit.ts';
 import { useScrollToTop } from '@/hooks/useScrollToTop.ts';
 import { AppDispatch, RootState } from '@/store/store.ts';
 import { setupAxiosInterceptors } from '@/utils/axiosConfig.ts';
+import { trackPageView } from '@/utils/analytics';
 import { AnnouncementBanner } from '../components/Navigation/AnnouncementBanner.tsx';
 import { Footer } from '../components/Navigation/Footer.tsx';
 import { Navbar } from '../components/Navigation/Header.tsx';
@@ -20,11 +21,17 @@ export function Layout() {
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Setup axios interceptors once on mount
   useEffect(() => {
     setupAxiosInterceptors(dispatch, navigate);
   }, [dispatch, navigate]);
+
+  // Track page views when route changes
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location.pathname, location.search]);
 
   // persist log in between sessions
   useAuthInit();
@@ -64,7 +71,9 @@ export function Layout() {
       {/* Announcement Banner - displayed site-wide above header */}
       <AnnouncementBanner
         id="welcome-2025"
-        message="Welcome to JobRocket! Find your dream job with our AI-powered job matching system."
+        message="Welcome to JobRocket! We are still testing features. If you notice something that doesn't work, please let us know."
+        actionText="Contact Us"
+        onAction={() => navigate('/about#contact')}
       />
 
       <Flex direction="column" mih="100vh">

@@ -7,6 +7,7 @@ import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
 import { announceToScreenReader } from '@/utils/accessibility';
+import { trackFavorite } from '@/utils/analytics';
 
 interface FavoritesButtonProps {
   listing: TListing;
@@ -41,6 +42,10 @@ export function FavoritesButton({ listing, width }: FavoritesButtonProps) {
 
     try {
       await axios.post(`/api/listings/${listing._id}/like`);
+
+      // Track favorite action in Google Analytics
+      trackFavorite(listing._id, newState ? 'add' : 'remove');
+
       notifications.show({
         title: 'Success',
         message: 'Favorite updated successfully',

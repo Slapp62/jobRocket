@@ -1,4 +1,5 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import { IconBriefcase, IconUsers, IconWorld } from '@tabler/icons-react';
 import {
@@ -23,6 +24,20 @@ import styles from '@/styles/gradients.module.css';
 
 const AboutPage: FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const location = useLocation();
+
+  // Scroll to contact form if hash is present in URL
+  useEffect(() => {
+    if (location.hash === '#contact') {
+      // Small delay to ensure the element is rendered
+      setTimeout(() => {
+        const element = document.getElementById('contact');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [location]);
 
   const form = useForm({
     initialValues: {
@@ -32,9 +47,14 @@ const AboutPage: FC = () => {
       message: '',
     },
     validate: {
-      name: (value) => value.trim().length < 2,
-      email: (value) => !/^\S+@\S+$/.test(value),
-      subject: (value) => value.trim().length === 0,
+      name: (value) =>
+        value.trim().length < 2 ? 'Name must be at least 2 characters' : null,
+      email: (value) =>
+        !/^\S+@\S+\.\S+$/.test(value) ? 'Please enter a valid email address' : null,
+      subject: (value) =>
+        value.trim().length === 0 ? 'Subject is required' : null,
+      message: (value) =>
+        value.trim().length < 10 ? 'Message must be at least 10 characters' : null,
     },
   });
 
@@ -74,9 +94,7 @@ const AboutPage: FC = () => {
           About Us
         </Title>
         <Text size="lg" mb="xl">
-          At <strong>JobRocket</strong>, we connect job seekers with employers through intelligent
-          AI-powered matching. Our platform uses advanced OpenAI embeddings to analyze your skills,
-          experience, and preferences to find the perfect job matches tailored to you.
+          In his search for a position as a web developer, a man by the name of Simcha Lapp noticed that no job board site targeted at English speakers contained both a simple, easy to use interface and an AI-powered matching system. Recognizing the need for such a platform, he decided to create <strong>JobRocket</strong>.
         </Text>
         <Grid gutter="xl" mb="xl">
           <Grid.Col span={{ base: 12, md: 6 }}>
@@ -96,7 +114,7 @@ const AboutPage: FC = () => {
                 We leverage cutting-edge AI technology to transform job searching and hiring. Our
                 intelligent matching system analyzes compatibility between job seekers and
                 positions, ensuring better fits and more successful placements for everyone
-                involved.
+                involved. We offer an intuitive job search platform for those seeking careers and a powerful management system for companies who choose to receive applications through our site.
               </Text>
             </Paper>
           </Grid.Col>
@@ -104,9 +122,9 @@ const AboutPage: FC = () => {
         <Flex direction={{ base: 'column', md: 'row' }} gap='lg' justify='center' align='stretch' >
           <Stat icon={<IconBriefcase size={24} />} label="AI-Powered Matching" value="Smart" />
           <Stat icon={<IconUsers size={24} />} label="Job Seekers & Employers" value="Connected" />
-          <Stat icon={<IconWorld size={24} />} label="Match Score Technology" value="OpenAI" />
+          <Stat icon={<IconWorld size={24} />} label="Intuitive & Easy to Use" value="Interface" />
         </Flex>
-        <form onSubmit={form.onSubmit(handleSubmit)}>
+        <form onSubmit={form.onSubmit(handleSubmit)} id="contact">
           <Title
             mt={30}
             order={2}
@@ -123,6 +141,8 @@ const AboutPage: FC = () => {
               placeholder="Your name"
               name="name"
               variant="filled"
+              required
+              withAsterisk
               {...form.getInputProps('name')}
             />
             <TextInput
@@ -130,6 +150,8 @@ const AboutPage: FC = () => {
               placeholder="Your email"
               name="email"
               variant="filled"
+              required
+              withAsterisk
               {...form.getInputProps('email')}
             />
           </SimpleGrid>
@@ -139,6 +161,8 @@ const AboutPage: FC = () => {
             mt="md"
             name="subject"
             variant="filled"
+            required
+            withAsterisk
             {...form.getInputProps('subject')}
           />
           <Textarea
@@ -150,6 +174,8 @@ const AboutPage: FC = () => {
             autosize
             name="message"
             variant="filled"
+            required
+            withAsterisk
             {...form.getInputProps('message')}
           />
           <Group justify="center" mt="xl">

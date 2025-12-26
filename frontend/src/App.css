@@ -45,7 +45,7 @@
 }
 
 .card-hover:hover {
-    background-color: light-dark(rgb(238, 237, 237), var(--mantine-color-dark-6));
+    background-color: light-dark(rgb(238, 237, 237), var(--mantine-color-rocketDark-6));
 }
 
 /* Rocket Theme Gradient Utilities */

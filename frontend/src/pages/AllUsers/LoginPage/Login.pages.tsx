@@ -24,6 +24,7 @@ import { AppDispatch } from '@/store/store';
 import { setUser } from '@/store/userSlice';
 import styles from '@/styles/gradients.module.css';
 import { announceToScreenReader, autocompleteValues } from '@/utils/accessibility';
+import { trackLogin } from '@/utils/analytics';
 import { loginSchema } from '@/validationRules/login.joi';
 import classes from './Login.module.css';
 
@@ -95,6 +96,9 @@ export function LoginPage() {
       });
       const userData = response.data; // Note: wrapped in .data.data because of backend handleSuccess format
       dispatch(setUser(userData));
+
+      // Track successful login in Google Analytics
+      trackLogin();
 
       // ACCESSIBILITY: Announce success to screen readers
       announceToScreenReader('Logged in successfully', 'assertive');

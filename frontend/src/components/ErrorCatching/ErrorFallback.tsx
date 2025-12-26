@@ -1,10 +1,22 @@
+import { useEffect } from 'react';
 import { useRouteError } from 'react-router-dom';
 import { Button, Flex, Paper, Stack, Text, Title } from '@mantine/core';
+import { trackError } from '@/utils/analytics';
 
 export default function ErrorFallback() {
   const error = useRouteError() as Error;
 
   console.error('Route error:', error);
+
+  // Track error in Google Analytics when component mounts
+  useEffect(() => {
+    if (error) {
+      trackError(error, {
+        component: 'ErrorBoundary',
+        error_type: 'route_error',
+      });
+    }
+  }, [error]);
 
   return (
     <Flex direction="column" gap="xl" justify="center" align="center" h="100vh">

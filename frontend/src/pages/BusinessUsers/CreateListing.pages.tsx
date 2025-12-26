@@ -25,6 +25,7 @@ import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
 import WORK_ARRANGEMENTS from '@/data/workArr.ts';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
+import { trackListingCreated } from '@/utils/analytics';
 import { listingSchema } from '@/validationRules/listing.joi';
 import { addDays, toLocalMidnight } from '@/utils/dateUtils';
 import { DurationPresetSelect } from '@/components/DurationPresetSelect';
@@ -139,6 +140,9 @@ export function CreateListing() {
       const response = await axios.post('/api/listings/', payload);
 
       if (response.status === 201) {
+        // Track successful listing creation in Google Analytics
+        trackListingCreated(response.data._id, data.jobTitle);
+
         notifications.show({
           title: 'Success',
           message: 'Listing created!',

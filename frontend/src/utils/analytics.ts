@@ -16,8 +16,8 @@
 
 import { hasAnalyticsConsent } from '../components/CookieBanner/cookieConsent';
 
-// TODO: Replace with your actual GA4 Measurement ID when ready
-const MEASUREMENT_ID = 'G-XXXXXXXXXX';
+// Google Analytics 4 Measurement ID
+const MEASUREMENT_ID = 'G-3YS5NFYEWD';
 
 // Extend Window interface to include gtag
 declare global {
@@ -56,14 +56,6 @@ export function initializeGoogleAnalytics(): void {
   // Don't initialize twice
   if (window.gtag) {
     console.log('Google Analytics already initialized');
-    return;
-  }
-
-  // Check if measurement ID is configured
-  if (MEASUREMENT_ID === 'G-XXXXXXXXXX') {
-    console.warn(
-      'Google Analytics not configured: Please replace MEASUREMENT_ID in analytics.ts with your GA4 ID'
-    );
     return;
   }
 
@@ -154,13 +146,19 @@ export function trackEvent(eventName: string, eventParams?: Record<string, any>)
 
 /**
  * Track when user searches for jobs
+ * Now supports filter-only searches without search text
  *
- * @param searchTerm - The search query
- * @param filters - Optional filters applied (location, type, etc.)
+ * @param searchTerm - The search query (can be empty for filter-only searches)
+ * @param filters - Filters applied (location, type, etc.)
  */
 export function trackJobSearch(searchTerm: string, filters?: Record<string, any>): void {
+  // Only track if there's either a search term OR filters applied
+  if (!searchTerm.trim() && (!filters || Object.keys(filters).length === 0)) {
+    return;
+  }
+
   trackEvent('search', {
-    search_term: searchTerm,
+    search_term: searchTerm || '(filter-only search)',
     ...filters,
   });
 }
@@ -222,5 +220,50 @@ export function trackRegistration(userType: 'jobseeker' | 'business'): void {
 export function trackLogin(): void {
   trackEvent('login', {
     method: 'email',
+  });
+}
+
+/**
+ * Track JavaScript errors
+ *
+ * @param error - Error object or message
+ * @param errorInfo - Additional context about the error
+ */
+export function trackError(error: Error | string, errorInfo?: Record<string, any>): void {
+  if (!hasAnalyticsConsent() || !window.gtag) {
+    return;
+  }
+
+  const errorMessage = typeof error === 'string' ? error : error.message;
+  const errorStack = typeof error === 'string' ? undefined : error.stack;
+
+  trackEvent('exception', {
+    description: errorMessage,
+    fatal: false,
+    stack_trace: errorStack?.substring(0, 150), // Limit stack trace length
+    ...errorInfo,
+  });
+}
+
+/**
+ * Track API errors
+ *
+ * @param endpoint - The API endpoint that failed
+ * @param statusCode - HTTP status code
+ * @param errorMessage - Error message
+ */
+export function trackApiError(
+  endpoint: string,
+  statusCode: number,
+  errorMessage: string
+): void {
+  if (!hasAnalyticsConsent() || !window.gtag) {
+    return;
+  }
+
+  trackEvent('api_error', {
+    endpoint: endpoint,
+    status_code: statusCode,
+    error_message: errorMessage.substring(0, 100), // Limit message length
   });
 }

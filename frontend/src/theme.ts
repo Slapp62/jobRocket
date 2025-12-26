@@ -201,6 +201,6 @@ export const cssVariablesResolver: CSSVariablesResolver = () => ({
   variables: {},
   light: {},
   dark: {
-    '--mantine-color-body': '#181717ff', // rocketBlack.9 - darkest background
+    '--mantine-color-body': '#222222ff', // rocketBlack.9 - darkest background
   },
 });

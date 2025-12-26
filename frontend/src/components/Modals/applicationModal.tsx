@@ -18,6 +18,7 @@ import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { TApplication } from '@/Types';
 import { announceToScreenReader, autocompleteValues } from '@/utils/accessibility';
+import { trackJobApplication } from '@/utils/analytics';
 import { validateRequiredPdfFile } from '@/utils/fileValidation';
 import { applicationSchema } from '@/validationRules/application.joi';
 
@@ -25,9 +26,10 @@ interface ApplicationModalProps {
   opened: boolean;
   onClose: () => void;
   listingID: string;
+  jobTitle?: string;
 }
 
-export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModalProps) => {
+export const ApplicationModal = ({ opened, onClose, listingID, jobTitle }: ApplicationModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeError, setResumeError] = useState<string | null>(null);
@@ -93,6 +95,11 @@ export const ApplicationModal = ({ opened, onClose, listingID }: ApplicationModa
 
       await axios.post(`/api/applications/${listingID}`, formData);
       reset();
+
+      // Track successful job application in Google Analytics
+      if (jobTitle) {
+        trackJobApplication(listingID, jobTitle);
+      }
 
       // ACCESSIBILITY: Announce success to screen readers
       announceToScreenReader('Application submitted successfully', 'assertive');

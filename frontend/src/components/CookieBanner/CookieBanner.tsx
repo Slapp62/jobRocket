@@ -53,8 +53,8 @@ export function CookieBanner() {
     setCookieConsent(consent);
     setIsVisible(false);
 
-    // When you add Google Analytics, initialize it here
-    // Example: initializeGoogleAnalytics();
+    // Notify app that consent was granted so GA can initialize immediately
+    window.dispatchEvent(new Event('cookieConsentUpdated'));
   };
 
   const handleDeclineAnalytics = () => {
