@@ -8,6 +8,7 @@ import { useAuthInit } from '@/hooks/UseAuthInit.ts';
 import { useScrollToTop } from '@/hooks/useScrollToTop.ts';
 import { AppDispatch, RootState } from '@/store/store.ts';
 import { setupAxiosInterceptors } from '@/utils/axiosConfig.ts';
+import { AnnouncementBanner } from '../components/Navigation/AnnouncementBanner.tsx';
 import { Footer } from '../components/Navigation/Footer.tsx';
 import { Navbar } from '../components/Navigation/Header.tsx';
 
@@ -59,6 +60,12 @@ export function Layout() {
       >
         Skip to main content
       </a>
+
+      {/* Announcement Banner - displayed site-wide above header */}
+      <AnnouncementBanner
+        id="welcome-2025"
+        message="Welcome to JobRocket! Find your dream job with our AI-powered job matching system."
+      />
 
       <Flex direction="column" mih="100vh">
         {/* ACCESSIBILITY: Header landmark - identifies the site banner/header region
