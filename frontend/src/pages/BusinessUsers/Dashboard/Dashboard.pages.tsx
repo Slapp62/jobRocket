@@ -206,7 +206,11 @@ export const Dashboard = () => {
               </Text>
             </div>
 
-            <DashMetrics dashboardMetrics={dashboardMetrics} listings={listings} />
+            <DashMetrics
+              dashboardMetrics={dashboardMetrics}
+              listings={listings}
+              applications={applications}
+            />
 
             <Tabs color="rocketOrange" variant="outline" defaultValue="applications">
               <Tabs.List mb={20} justify="center" fw={600}>

@@ -1,6 +1,6 @@
 import { IconPhone } from '@tabler/icons-react';
 import { Button, Fieldset, Flex, Text, TextInput, Title } from '@mantine/core';
-import { DeleteUserModal } from '@/components/Modals/DeleteUserModal';
+import { DeleteUserModal } from '../../components/Modals/DeleteUserModal';
 import { PageMeta } from '@/SEO/PageMeta';
 import { BusinessFields } from '../AllUsers/Registration/registrationForms/businessFields';
 import { JobseekerFields } from '../AllUsers/Registration/registrationForms/jobseekerFields';
@@ -37,7 +37,7 @@ export function EditProfile() {
   return (
     <>
       <PageMeta
-        title="My Profile | JobRocket"
+        title="Edit Profile | JobRocket"
         description="Manage your JobRocket profile and job search preferences"
         keywords="job seeker profile, manage account, profile settings"
       />

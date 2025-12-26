@@ -1,3 +1,32 @@
+/* Dark Mode Global Overrides for High Contrast */
+@mixin dark {
+  /* Mantine component backgrounds */
+  .mantine-Card-root,
+  .mantine-Paper-root {
+    background-color: var(--mantine-color-rocketDark-8) !important;
+    border-color: var(--mantine-color-rocketDark-6) !important;
+  }
+
+  .mantine-Modal-content,
+  .mantine-Modal-header {
+    background-color: var(--mantine-color-rocketDark-8) !important;
+  }
+
+  .mantine-Drawer-content,
+  .mantine-Drawer-header {
+    background-color: var(--mantine-color-rocketDark-9) !important;
+  }
+
+  .mantine-AppShell-root {
+    background-color: var(--mantine-color-rocketBlack-9) !important;
+  }
+
+  /* Ensure text is light colored in dark mode */
+  body {
+    background-color: var(--mantine-color-rocketBlack-9) !important;
+    color: var(--mantine-color-rocketDark-0) !important;
+  }
+}
 
 .custom-toast {
     margin-inline: 5px;

@@ -2,7 +2,7 @@ import { KeyboardEvent, useState } from 'react';
 import { IconCoffee, IconSearch, IconX } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { ActionIcon, Box, Button, Divider, Flex, Group, List, Stack, Image, Text, TextInput, Title } from '@mantine/core';
+import { ActionIcon, Box, Button, Divider, Flex, Group, List, Stack, Image, Text, TextInput, Title, useComputedColorScheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
@@ -13,6 +13,7 @@ export function HomePage() {
   const user = useSelector((state: RootState) => state.userSlice.user);
   const isBusiness = user?.profileType === 'business';
   const [searchText, setSearchText] = useState('');
+  const computedColorScheme = useComputedColorScheme('light');
 
   const searchListing = () => {
     // Build URL query params from searchObj
@@ -40,13 +41,13 @@ export function HomePage() {
   return (
     <>
       <PageMeta
-        title="English Job Board for Israel | JobRocket"
+        title="Home | JobRocket"
         description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
         keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
       />
 
       <Box h="85%" w="100%">
-        <Stack w="100%" h="100%" gap={20} pt={10} pb={20} bg="rocketRed.7">
+        <Stack w="100%" h="100%" gap={20} pt={10} pb={20} bg={computedColorScheme === 'dark' ? 'rocketDark.9' : 'rocketRed.7'}>
           <Stack w={{ base: '95%', sm: '85%', md: '40%' }} align="center" mx="auto">
             {/* Conditional Welcome Message */}
             {!user && (
@@ -123,6 +124,7 @@ export function HomePage() {
             )}
           </Stack>
         </Stack>
+        <Divider size="xs" color="rocketRed.3" />
 
         <Box my='50px' w={{ base: '95%', md: '70%' }} mx="auto">
           <Stack 
@@ -132,10 +134,10 @@ export function HomePage() {
             p={{ base: 'md', sm: 'lg', md: 'xl' }}
           >
             <Group justify="center" align="center">
-              <Title ta="center" c="rocketRed.9">Welcome to <strong>JobRocket</strong></Title>
+              <Title ta="center" c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}>Welcome to <strong>JobRocket</strong></Title>
               <Image src="/flavicon-180.png" h={100} w={100}/>
             </Group>
-            <Text size="lg" mb="xl" ta={{base: 'justify', md: 'center'}}>
+            <Text size="lg" mb="xl" ta={{base: 'justify', md: 'center'}} c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}>
               At <strong>JobRocket</strong>, we connect job seekers with employers through intelligent
               AI-powered matching. Our platform uses advanced OpenAI embeddings to analyze your skills,
               experience, and preferences to find the perfect job matches tailored to you. 
@@ -153,13 +155,13 @@ export function HomePage() {
             w="100%"
           >
             <Stack
-              c="rocketRed.9"
+              c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}
               h="auto"
-              bg='rocketOrange.1'
+              bg={computedColorScheme === 'light' ? 'rocketOrange.1' : 'rocketBlack.9'}
               w="100%"
               p={{ base: 'md', sm: 'lg', md: 'xl' }}
               style={{
-                border: '2px solid orange',
+                border: computedColorScheme === 'light' ? '2px solid orange' : '2px solid var(--mantine-color-rocketBlack-9)',
                 borderRadius: '10px',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               }}
@@ -168,7 +170,7 @@ export function HomePage() {
               <Text
                 fw={500}
                 size={isMobile ? 'sm' : 'md'}
-                c="rocketRed.8"
+                c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}
                 style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
               >
                 Find your perfect match with AI-powered job recommendations
@@ -215,13 +217,13 @@ export function HomePage() {
             </Stack>
 
             <Stack
-              c="rocketRed.9"
-              bg='rocketOrange.1'
+              c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}
               w="100%"
               h="auto"
+              bg={computedColorScheme === 'light' ? 'rocketOrange.1' : 'rocketBlack.9'}
               p={{ base: 'md', sm: 'lg', md: 'xl' }}
               style={{
-                border: '2px solid orange',
+                border: computedColorScheme === 'light' ? '2px solid orange' : '2px solid var(--mantine-color-rocketBlack-9)',
                 borderRadius: '10px',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               }}
@@ -230,7 +232,7 @@ export function HomePage() {
               <Text
                 fw={500}
                 size={isMobile ? 'sm' : 'md'}
-                c="rocketRed.8"
+                c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}
                 style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
               >
                 Connect with qualified candidates using intelligent matching
@@ -281,19 +283,19 @@ export function HomePage() {
             direction="column"
             mt="xl"
             gap={20}
-            bg='rocketOrange.1'
             p="lg"
             mx="auto"
+            bg={computedColorScheme === 'light' ? 'rocketOrange.1' : 'rocketBlack.9'}
             style={{
-              border: '2px solid orange',
+              border: computedColorScheme === 'light' ? '2px solid orange' : '2px solid var(--mantine-color-rocketBlack-9)',
               borderRadius: '10px',
               boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
             }}
           >
-            <Title order={1} fw={600} ta="center" c="rocketRed.9">
+            <Title order={1} fw={600} ta="center" c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}>
               Support JobRocket
             </Title>
-            <Text w="100%" mx="auto" c="rocketRed.9" ta='center' style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+            <Text w="100%" mx="auto" c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'} ta='center' style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
               This site was not built by a team. It isn't owned by a big company. It was built by
               one person in order to help other English speaking people in Israel find a job and
               support their families. 

@@ -3,7 +3,9 @@ import {
   createTheme,
   defaultVariantColorsResolver,
   MantineColorsTuple,
+  MantineTheme,
   Title,
+  CSSVariablesResolver,
 } from '@mantine/core';
 
 // Custom Rocket Orange color palette
@@ -22,12 +24,12 @@ const rocketOrange: MantineColorsTuple = [
 
 // Custom Rocket Red accent palette
 const rocketRed: MantineColorsTuple = [
-  '#FFE9EC', // 0 - Lightest
-  '#FFD4D9', // 1 - Very light
-  '#FFBFC6', // 2 - Light
-  '#FFA8B3', // 3 - Light-medium
-  '#FF8FA0', // 4 - Medium-light
-  '#FF758D', // 5 - Medium
+  '#ffe9e9ff', // 0 - Lightest
+  '#ffd4d4ff', // 1 - Very light
+  '#ffbfbfff', // 2 - Light
+  '#ffa8a8ff', // 3 - Light-medium
+  '#ff8f8fff', // 4 - Medium-light
+  '#ff7575ff', // 5 - Medium
   '#E63946', // 6 - Rocket Red (accent color)
   '#D62839', // 7 - Dark red
   '#C6172C', // 8 - Darker red
@@ -48,6 +50,36 @@ const rocketYellow: MantineColorsTuple = [
   '#e6b000ff', // 9 - Darkest (text on light backgrounds)
 ];
 
+// Custom Dark Mode palette for high contrast
+// This palette provides named references for all dark mode colors
+const rocketDark: MantineColorsTuple = [
+  '#f5f5f5', // 0 - Brightest text (primary text in dark mode)
+  '#e0e0e0', // 1 - Very light gray (secondary text)
+  '#c2c2c2', // 2 - Light gray (disabled text, placeholders)
+  '#a0a0a0', // 3 - Medium-light gray (muted text)
+  '#808080', // 4 - Medium gray (icons, dividers)
+  '#606060', // 5 - Medium-dark gray (subtle borders)
+  '#333333', // 6 - Dark gray (borders, separators)
+  '#1f1f1f', // 7 - Very dark gray (hover states, elevated cards)
+  '#1a1a1a', // 8 - Nearly black (cards, papers, modals)
+  '#0f0f0f', // 9 - Darkest (drawers, secondary backgrounds)
+];
+
+// Pure Black palette for page backgrounds in dark mode
+// Provides the deepest blacks for maximum contrast
+const rocketBlack: MantineColorsTuple = [
+  '#ffffff', // 0 - Pure white (for contrast reference)
+  '#f0f0f0', // 1 - Near white
+  '#d0d0d0', // 2 - Very light gray
+  '#b0b0b0', // 3 - Light gray
+  '#909090', // 4 - Medium gray
+  '#707070', // 5 - Gray
+  '#505050', // 6 - Dark gray
+  '#303030', // 7 - Very dark gray
+  '#121212', // 8 - Near black (alternative page background)
+  '#0a0a0a', // 9 - Pure black (primary page background in dark mode)
+];
+
 export const theme = createTheme({
   primaryColor: 'rocketOrange',
 
@@ -55,12 +87,14 @@ export const theme = createTheme({
     rocketOrange,
     rocketRed,
     rocketYellow,
+    rocketDark,
+    rocketBlack,
   },
 
   // Dark mode color overrides
   // These ensure the custom rocket colors work well in dark mode
   // while maintaining brand identity and proper contrast
-  black: '#1a1b1e',
+  black: '#0d0d0eff',
   white: '#ffffff',
 
   // Override default dark mode colors for better differentiation
@@ -108,6 +142,7 @@ export const theme = createTheme({
       defaultProps: {
         radius: 'md',
         fw: 400,
+        c: 'white'
       },
     },
     Card: {
@@ -115,6 +150,22 @@ export const theme = createTheme({
         radius: 'md',
         shadow: 'sm',
         fw: 400,
+      },
+    },
+    Paper: {
+      defaultProps: {
+        radius: 'md',
+        shadow: 'sm',
+      },
+    },
+    Modal: {
+      defaultProps: {
+        radius: 'md',
+      },
+    },
+    Drawer: {
+      defaultProps: {
+        radius: 'md',
       },
     },
     Text: {
@@ -142,5 +193,14 @@ export const theme = createTheme({
       launch: 'linear-gradient(135deg, #E63946 0%, #FF6B35 50%, #F77F00 100%)',
       subtle: 'linear-gradient(135deg, #FFF4E6 0%, #FFE8CC 100%)',
     },
+  },
+});
+
+// CSS Variables Resolver - Override default Mantine background colors
+export const cssVariablesResolver: CSSVariablesResolver = () => ({
+  variables: {},
+  light: {},
+  dark: {
+    '--mantine-color-body': '#181717ff', // rocketBlack.9 - darkest background
   },
 });

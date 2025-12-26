@@ -20,7 +20,7 @@ import {
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
-import { ApplicationModal } from '@/components/Modals/applicationModal';
+import { ApplicationModal } from '../../Modals/applicationModal';
 import SocialIcons from '@/components/SocialIcons';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';

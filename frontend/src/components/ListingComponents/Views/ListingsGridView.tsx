@@ -23,6 +23,7 @@ const DesktopDefaultView = ({
   handleSelectListing,
 }: DesktopDefaultViewProps) => {
   const { user } = useSelector((state: RootState) => state.userSlice);
+ 
   return (
     <motion.div
       key="grid-view"

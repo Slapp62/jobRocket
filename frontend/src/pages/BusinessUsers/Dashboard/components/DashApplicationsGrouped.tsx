@@ -11,6 +11,7 @@ import {
   Table,
   Text,
   TextInput,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { EmptyState } from '@/components/EmptyState';
@@ -54,6 +55,7 @@ export const DashApplicationsGrouped = ({
   const [applicationDelete, setApplicationDelete] = useState<{ id: string; title: string } | null>(
     null
   );
+  const computedColorScheme = useComputedColorScheme('light');
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
   const handleDeleteApplication = (id: string, title: string) => {
@@ -238,24 +240,24 @@ export const DashApplicationsGrouped = ({
                         <Text fw={600} size="lg">
                           {listingTitle}
                         </Text>
-                        <Badge color="blue" variant="light">
+                        <Badge color="blue" variant="light" c={computedColorScheme === 'light' ? 'black' : 'gray.4'}>
                           {applications.length} {applications.length === 1 ? 'applicant' : 'applicants'}
                         </Badge>
                       </Group>
 
                       <Group gap="xs">
                         {statusBreakdown.pending > 0 && (
-                          <Badge color="orange" variant="dot" size="sm">
+                          <Badge color="orange" c={computedColorScheme === 'light' ? 'black' : 'gray.4'} variant="dot" size="sm">
                             {statusBreakdown.pending} pending
                           </Badge>
                         )}
                         {statusBreakdown.reviewed > 0 && (
-                          <Badge color="green" variant="dot" size="sm">
+                          <Badge color="green" c={computedColorScheme === 'light' ? 'black' : 'gray.4'} variant="dot" size="sm">
                             {statusBreakdown.reviewed} reviewed
                           </Badge>
                         )}
                         {statusBreakdown.rejected > 0 && (
-                          <Badge color="red" variant="dot" size="sm">
+                          <Badge color="red" c={computedColorScheme === 'light' ? 'black' : 'gray.4'} variant="dot" size="sm">
                             {statusBreakdown.rejected} rejected
                           </Badge>
                         )}

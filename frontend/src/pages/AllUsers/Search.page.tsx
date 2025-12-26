@@ -11,6 +11,7 @@ import {
   Loader,
   Stack,
   TextInput,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { FilterBar } from '@/components/Filters/FilterBar';
@@ -22,6 +23,7 @@ import { announceToScreenReader } from '@/utils/accessibility';
 import { getParamsInfo } from '@/utils/getParamsInfo';
 
 export function SearchPage() {
+  const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true }); 
   const isMobile = useMediaQuery('(max-width: 500px)');
   const isDesktop = useMediaQuery('(min-width: 1024px)');
   const {
@@ -86,9 +88,9 @@ export function SearchPage() {
 
   const buildTitle = () => {
     if (city) {
-      return `Jobs in ${city} | JobRocket`;
+      return `Search: Jobs in ${city} | JobRocket`;
     }
-    return 'Job Search Results | JobRocket';
+    return 'Search | JobRocket';
   };
 
   return (
@@ -98,8 +100,8 @@ export function SearchPage() {
         description="Find English-speaking jobs in Israel. Browse tech, marketing, sales, and remote positions from top Israeli companies."
         keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
       />
-      <Box bg="white">
-        <Box bg="rocketRed.7">
+      <Box>
+        <Box bg={computedColorScheme === 'dark' ? 'rocketDark.9' : 'rocketRed.7'}>
           <Stack w={{ base: '100%', md: '70%' }} mx="auto" p={{base: 'xs', md: 'md'}} justify="center" align="center">
             <Flex
               w={{ base: '100%', md: '70%' }}
@@ -133,6 +135,7 @@ export function SearchPage() {
               <Button
                 w={{ base: '100%', md: '30%' }}
                 size="lg"
+                c='white'
                 radius={isMobile ? 'md' : 0}
                 onClick={(e) => updateSearchParam('searchText', searchText)}
               >

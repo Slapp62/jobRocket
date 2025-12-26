@@ -249,7 +249,7 @@ export default function RegisterAccountTypePage() {
               What type of account would you like to create?
             </Text>
 
-            <SimpleGrid cols={2} spacing="lg">
+            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg">
               {/* Job Seeker Card */}
               <Card
                 shadow="sm"
@@ -318,7 +318,7 @@ export default function RegisterAccountTypePage() {
               ) : (
                 <BusinessFields control={control} register={register} errors={errors} />
               )}
-
+            
               <Button type="submit" fullWidth size="lg" mt="xl" loading={loading}>
                 Complete Registration
               </Button>

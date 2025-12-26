@@ -26,7 +26,8 @@ import WORK_ARRANGEMENTS from '@/data/workArr.ts';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 import { listingSchema } from '@/validationRules/listing.joi';
-import { formatDateForInput, getDefaultListingExpiration, parseLocalDate, addDays, toLocalMidnight } from '@/utils/dateUtils';
+import { addDays, toLocalMidnight } from '@/utils/dateUtils';
+import { DurationPresetSelect } from '@/components/DurationPresetSelect';
 
 type ListingFormValues = {
   companyName: string;
@@ -51,7 +52,7 @@ type ListingFormValues = {
   };
   workArrangement: string;
   isActive: boolean;
-  expiresAt?: string | null;
+  expiresAt: number; // Duration in days (7, 14, 30, 60, 90)
 };
 
 export function CreateListing() {
@@ -59,13 +60,6 @@ export function CreateListing() {
   const isMobile = useMediaQuery('(max-width: 700px)');
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state: RootState) => state.userSlice.user);
-
-  // Get default expiration (30 days from today at local midnight)
-  const defaultListingExpiration = getDefaultListingExpiration();
-
-  // Calculate max expiration date (90 days from today at local midnight)
-  const maxListingExpiration = addDays(toLocalMidnight(new Date()), 90);
-
 
   const {
     reset,
@@ -95,7 +89,7 @@ export function CreateListing() {
       location: { region: '', city: '' },
       workArrangement: '',
       isActive: true,
-      expiresAt: formatDateForInput(defaultListingExpiration),
+      expiresAt: 30, // Default: 30 days
     },
   });
 
@@ -132,10 +126,12 @@ export function CreateListing() {
   }, [selectedRegion]);
 
   const onSubmit = async (data: ListingFormValues) => {
+    // Calculate expiration date from duration (in days)
+    const expirationDate = addDays(toLocalMidnight(new Date()), data.expiresAt);
+
     const payload = {
       ...data,
-      // Parse date as local midnight to prevent timezone shifts
-      expiresAt: data.expiresAt ? parseLocalDate(data.expiresAt).toISOString() : null,
+      expiresAt: expirationDate.toISOString(),
     };
 
     setIsLoading(true);
@@ -164,7 +160,7 @@ export function CreateListing() {
   return (
     <>
       <PageMeta
-        title="Post a Job | JobRocket"
+        title="Create Listing | JobRocket"
         description="Create a new job listing and reach English-speaking candidates in Israel"
         keywords="post job, create listing, hire employees, job posting"
       />
@@ -397,15 +393,19 @@ export function CreateListing() {
                   )}
                 />
 
-                <TextInput
-                  label="Expiration Date"
-                  withAsterisk
-                  description="By default, listings expire in 30 days. Maximum expiration is 90 days from today."
-                  type="date"
-                  min={formatDateForInput(new Date())}
-                  max={formatDateForInput(maxListingExpiration)}
-                  {...register('expiresAt')}
-                  error={errors.expiresAt?.message as string}
+                <Controller
+                  name="expiresAt"
+                  control={control}
+                  render={({ field }) => (
+                    <DurationPresetSelect
+                      value={field.value}
+                      onChange={field.onChange}
+                      label="Listing Duration"
+                      error={errors.expiresAt?.message as string}
+                      required
+                      showCalculatedDate
+                    />
+                  )}
                 />
                 </Stack>
             </Fieldset>

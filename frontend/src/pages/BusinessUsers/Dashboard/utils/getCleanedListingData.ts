@@ -1,5 +1,4 @@
 import { TListing, TUsers } from '@/Types';
-import { formatDateForInput } from '@/utils/dateUtils';
 
 export const cleanedUserData = (user: TUsers) => ({
   phone: user.phone,
@@ -53,6 +52,6 @@ export const cleanedListingData = (listing: TListing) => ({
   location: listing.location,
   workArrangement: listing.workArrangement,
   isActive: listing.isActive ?? true,
-  // Format date for input field (YYYY-MM-DD) without timezone shifts
-  expiresAt: listing?.expiresAt ? formatDateForInput(listing.expiresAt) : null,
+  // Default to 7 days for edit mode
+  expiresAt: 7,
 });

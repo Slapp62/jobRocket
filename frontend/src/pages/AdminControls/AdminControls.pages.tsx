@@ -17,7 +17,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { DeleteUserModal } from '@/components/Modals/DeleteUserModal';
+import { DeleteUserModal } from '../../components/Modals/DeleteUserModal';
 import { toggleAdminView } from '@/store/userSlice';
 import { formatDate } from '@/utils/dateUtils';
 import { useAdminControls } from './useAdminControls';

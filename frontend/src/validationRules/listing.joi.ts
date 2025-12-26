@@ -116,33 +116,12 @@ export const listingSchema = Joi.object({
       'any.required': 'Work arrangement is required',
     }),
   isActive: Joi.boolean().default(true),
-  expiresAt: Joi.string()
-    .allow('', null)
+  expiresAt: Joi.number()
     .required()
-    .custom((value, helpers) => {
-      if (!value) return value; // Allow empty/null
-
-      const selectedDate = new Date(value);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const maxDate = new Date();
-      maxDate.setDate(maxDate.getDate() + 90);
-      maxDate.setHours(23, 59, 59, 999);
-
-      if (selectedDate < today) {
-        return helpers.error('date.min');
-      }
-
-      if (selectedDate > maxDate) {
-        return helpers.error('date.max');
-      }
-
-      return value;
-    })
+    .valid(7, 14, 30, 60, 90)
     .messages({
-      'any.required': 'Expiration date is required',
-      'date.min': 'Expiration date cannot be in the past',
-      'date.max': 'Expiration date cannot exceed 90 days from today',
+      'any.required': 'Listing duration is required',
+      'any.only': 'Duration must be one of: 7, 14, 30, 60, or 90 days',
+      'number.base': 'Duration must be a number',
     }),
 });

@@ -86,25 +86,33 @@
   }
 }
 
-/* Mobile accordion - hidden on desktop, visible on mobile */
-.mobileAccordion {
+/* Mobile navigation - hidden on desktop, visible on mobile */
+.mobileNav {
   display: none;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
 
   @media (max-width: $mantine-breakpoint-sm) {
-    display: block;
+    display: flex;
   }
 }
 
-/* Mobile accordion link styling */
-.accordionLink {
+/* Mobile section title */
+.mobileTitle {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  text-align: center;
+  font-family: Outfit, var(--mantine-font-family);
+}
+
+/* Mobile link styling */
+.mobileLink {
   color: var(--mantine-color-gray-6);
   text-decoration: none;
   display: block;
+  text-align: center;
 
   &:hover {
     text-decoration: underline;
-    color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-gray-5));
+    color: light-dark(var(--mantine-color-gray-8), var(--mantine-color-gray-4));
   }
 }

@@ -1,11 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IconCalendarPlus, IconCircle, IconCircleFilled, IconPencil, IconTrash, IconX } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
-import { ActionIcon, Alert, Box, Card, Group, Select, Stack, Table, Text, TextInput } from '@mantine/core';
+import axios from 'axios';
+import { ActionIcon, Alert, Box, Button, Card, Group, Popover, Select, Stack, Table, Text, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { EmptyState } from '@/components/EmptyState';
+import { DurationPresetSelect } from '@/components/DurationPresetSelect';
 import { TListing } from '@/Types';
-import { formatDate } from '@/utils/dateUtils';
+import { addDays, formatDate, toLocalMidnight } from '@/utils/dateUtils';
+import { cleanedListingData } from '../utils/getCleanedListingData';
 import { DeleteListingModal } from '../modals/DeleteListingModal';
 import { EditListingModal } from '../modals/EditListingModal';
 
@@ -41,9 +45,11 @@ export const DashListings = ({
   const [listingDelete, setListingDelete] = useState<{ id: string; title: string } | null>(null);
   const [editOpened, { open: openEdit, close: closeEdit }] = useDisclosure(false);
   const [listingEdit, setListingEdit] = useState<TListing>();
-  const [isExtendMode, setIsExtendMode] = useState(false);
   const [alertDismissed, setAlertDismissed] = useState(false);
-  const dateInputRef = useRef<HTMLInputElement>(null);
+  const [extendPopoverOpened, setExtendPopoverOpened] = useState(false);
+  const [extendListing, setExtendListing] = useState<TListing | null>(null);
+  const [extendDuration, setExtendDuration] = useState(7); // Default 7 days
+  const [isExtending, setIsExtending] = useState(false);
   const navigate = useNavigate();
 
   // Helper function to check if a listing expires within 7 days
@@ -103,27 +109,57 @@ export const DashListings = ({
 
   const clickEditListing = (listing: TListing) => {
     setListingEdit(listing);
-    setIsExtendMode(false);
     openEdit();
   };
 
   const clickExtendListing = (listing: TListing) => {
-    setListingEdit(listing);
-    setIsExtendMode(true);
-    openEdit();
+    setExtendListing(listing);
+    setExtendDuration(7); // Reset to default
+    setExtendPopoverOpened(true);
   };
 
-  // Auto-scroll and focus date input when in extend mode
-  useEffect(() => {
-    if (editOpened && isExtendMode && dateInputRef.current) {
-      setTimeout(() => {
-        // Scroll to the date input
-        dateInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        // Focus the date input
-        dateInputRef.current?.focus();
-      }, 100);
+  const handleExtendConfirm = async () => {
+    if (!extendListing) return;
+
+    setIsExtending(true);
+    try {
+      // Calculate new expiration date from duration
+      const expirationDate = addDays(toLocalMidnight(new Date()), extendDuration);
+
+      // Get all listing data (cleaned for validation)
+      const { expiresAt: _unused, ...listingData } = cleanedListingData(extendListing);
+
+      const response = await axios.put(`/api/listings/${extendListing._id}`, {
+        ...listingData,
+        expiresAt: expirationDate.toISOString(),
+      });
+
+      // Update listing in state
+      setListings((prevListings: TListing[]) =>
+        prevListings.map((listing: TListing) =>
+          listing._id === response.data._id ? response.data : listing
+        )
+      );
+
+      notifications.show({
+        title: 'Success',
+        message: `Listing extended to ${formatDate(expirationDate)}`,
+        color: 'green',
+      });
+
+      setExtendPopoverOpened(false);
+      setExtendListing(null);
+    } catch (error) {
+      console.error('Error extending listing:', error);
+      notifications.show({
+        title: 'Error',
+        message: 'Failed to extend listing. Please try again.',
+        color: 'red',
+      });
+    } finally {
+      setIsExtending(false);
     }
-  }, [editOpened, isExtendMode]);
+  };
 
   // If no listings, show empty state
   if (listings.length === 0) {
@@ -279,15 +315,55 @@ export const DashListings = ({
 
                 {/* ACCESSIBILITY: Edit and Delete buttons need aria-labels */}
                 <Group gap="xs" mt="xs">
-                  <ActionIcon
-                    size={36}
-                    variant="outline"
-                    color="blue"
-                    onClick={() => clickExtendListing(listing)}
-                    aria-label={`Extend ${listing.jobTitle} listing expiration`}
+                  <Popover
+                    opened={extendPopoverOpened && extendListing?._id === listing._id}
+                    onClose={() => setExtendPopoverOpened(false)}
+                    position="bottom"
+                    withArrow
+                    shadow="md"
                   >
-                    <IconCalendarPlus size={20} aria-hidden="true" />
-                  </ActionIcon>
+                    <Popover.Target>
+                      <ActionIcon
+                        size={36}
+                        variant="outline"
+                        color="blue"
+                        onClick={() => clickExtendListing(listing)}
+                        aria-label={`Extend ${listing.jobTitle} listing expiration`}
+                      >
+                        <IconCalendarPlus size={20} aria-hidden="true" />
+                      </ActionIcon>
+                    </Popover.Target>
+                    <Popover.Dropdown>
+                      <Stack gap="md" w={300}>
+                        <Text size="sm" fw={600}>
+                          Extend Listing
+                        </Text>
+                        <DurationPresetSelect
+                          value={extendDuration}
+                          onChange={setExtendDuration}
+                          label="Extend Duration"
+                          showCalculatedDate
+                        />
+                        <Group justify="flex-end" gap="xs">
+                          <Button
+                            variant="subtle"
+                            size="xs"
+                            onClick={() => setExtendPopoverOpened(false)}
+                            disabled={isExtending}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            size="xs"
+                            onClick={handleExtendConfirm}
+                            loading={isExtending}
+                          >
+                            Confirm
+                          </Button>
+                        </Group>
+                      </Stack>
+                    </Popover.Dropdown>
+                  </Popover>
                   <ActionIcon
                     size={36}
                     variant="outline"
@@ -376,15 +452,55 @@ export const DashListings = ({
                     </Table.Td>
 
                     <Table.Td>
-                      <ActionIcon
-                        size={30}
-                        variant="outline"
-                        color="blue"
-                        onClick={() => clickExtendListing(listing)}
-                        aria-label={`Extend ${listing.jobTitle} listing expiration`}
+                      <Popover
+                        opened={extendPopoverOpened && extendListing?._id === listing._id}
+                        onClose={() => setExtendPopoverOpened(false)}
+                        position="bottom"
+                        withArrow
+                        shadow="md"
                       >
-                        <IconCalendarPlus size={25} stroke={1.5} aria-hidden="true" />
-                      </ActionIcon>
+                        <Popover.Target>
+                          <ActionIcon
+                            size={30}
+                            variant="outline"
+                            color="blue"
+                            onClick={() => clickExtendListing(listing)}
+                            aria-label={`Extend ${listing.jobTitle} listing expiration`}
+                          >
+                            <IconCalendarPlus size={25} stroke={1.5} aria-hidden="true" />
+                          </ActionIcon>
+                        </Popover.Target>
+                        <Popover.Dropdown>
+                          <Stack gap="md" w={300}>
+                            <Text size="sm" fw={600}>
+                              Extend Listing
+                            </Text>
+                            <DurationPresetSelect
+                              value={extendDuration}
+                              onChange={setExtendDuration}
+                              label="Extend Duration"
+                              showCalculatedDate
+                            />
+                            <Group justify="flex-end" gap="xs">
+                              <Button
+                                variant="subtle"
+                                size="xs"
+                                onClick={() => setExtendPopoverOpened(false)}
+                                disabled={isExtending}
+                              >
+                                Cancel
+                              </Button>
+                              <Button
+                                size="xs"
+                                onClick={handleExtendConfirm}
+                                loading={isExtending}
+                              >
+                                Confirm
+                              </Button>
+                            </Group>
+                          </Stack>
+                        </Popover.Dropdown>
+                      </Popover>
                     </Table.Td>
 
                     <Table.Td>
@@ -423,8 +539,6 @@ export const DashListings = ({
         onClose={closeEdit}
         listing={listingEdit}
         setListings={setListings}
-        dateInputRef={dateInputRef}
-        isExtendMode={isExtendMode}
       />
 
       <DeleteListingModal

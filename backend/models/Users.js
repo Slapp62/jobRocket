@@ -238,7 +238,17 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  lastLogin: {
+    type: Date,
+    default: Date.now,
+  },
   consents: {
+    ageConfirmation: {
+      granted: { type: Boolean, required: true },
+      timestamp: { type: Date, required: true },
+      ipAddress: String,
+      userAgent: String,
+    },
     dataProcessing: {
       granted: { type: Boolean, required: true },
       timestamp: { type: Date, required: true },

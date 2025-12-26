@@ -1,4 +1,4 @@
-import { Accordion, Container, Stack, Text } from '@mantine/core';
+import { Container, Stack, Text } from '@mantine/core';
 import { Logo } from './Logo';
 import classes from '../ComponentStyles/FooterStyles.module.css';
 
@@ -59,7 +59,7 @@ export function Footer() {
     );
   });
 
-  // Mobile accordion items (prioritized content: Legal, Quick Links, About Me)
+  // Mobile sections (prioritized content: Legal, Quick Links, About Me)
   const mobileData = [
     data[1], // Legal (highest priority)
     data[0], // Quick Links
@@ -67,25 +67,23 @@ export function Footer() {
     // Excluding data[2] (Project links - less critical for mobile)
   ];
 
-  const accordionItems = mobileData.map((group) => (
-    <Accordion.Item key={group.title} value={group.title}>
-      <Accordion.Control>{group.title}</Accordion.Control>
-      <Accordion.Panel>
-        <Stack gap="xs">
-          {group.links.map((link, index) => (
-            <Text<'a'>
-              key={index}
-              className={classes.accordionLink}
-              component="a"
-              href={link.link}
-              size="sm"
-            >
-              {link.label}
-            </Text>
-          ))}
-        </Stack>
-      </Accordion.Panel>
-    </Accordion.Item>
+  const mobileSections = mobileData.map((group) => (
+    <Stack key={group.title} gap="xs">
+      <Text className={classes.mobileTitle} fw={600} size="sm">
+        {group.title}
+      </Text>
+      {group.links.map((link, index) => (
+        <Text<'a'>
+          key={index}
+          className={classes.mobileLink}
+          component="a"
+          href={link.link}
+          size="xs"
+        >
+          {link.label}
+        </Text>
+      ))}
+    </Stack>
   ));
 
   return (
@@ -101,15 +99,10 @@ export function Footer() {
         {/* Desktop navigation - hidden on mobile */}
         <div className={classes.groups}>{groups}</div>
 
-        {/* Mobile accordion - hidden on desktop */}
-        <Accordion
-          className={classes.mobileAccordion}
-          variant="separated"
-          radius="md"
-          chevronPosition="right"
-        >
-          {accordionItems}
-        </Accordion>
+        {/* Mobile navigation - hidden on desktop */}
+        <Stack className={classes.mobileNav} gap="md">
+          {mobileSections}
+        </Stack>
       </Container>
 
       <Container className={classes.afterFooter}>

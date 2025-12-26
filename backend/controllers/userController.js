@@ -9,6 +9,12 @@ async function registerUser(req, res) {
 
     // Capture consent metadata for Amendment 13 compliance
     userData.consents = {
+      ageConfirmation: {
+        granted: true,
+        timestamp: new Date(),
+        ipAddress: req.ip,
+        userAgent: req.get('user-agent'),
+      },
       dataProcessing: {
         granted: true,
         timestamp: new Date(),
@@ -43,6 +49,11 @@ async function registerUser(req, res) {
 async function loginUser(req, res) {
   try {
     const user = req.user;
+
+    // Update lastLogin timestamp
+    user.lastLogin = new Date();
+    await user.save();
+
     // Create session
     req.session.userId = user._id.toString();
     req.session.isAdmin = user.isAdmin;

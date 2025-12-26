@@ -95,6 +95,7 @@ export type TUsers = {
   phone: string;
   terms: boolean;
   dataProcessingConsent?: boolean;
+  ageConfirmation?: boolean;
   profileType: 'jobseeker' | 'business';
   name?: {
     first: string;

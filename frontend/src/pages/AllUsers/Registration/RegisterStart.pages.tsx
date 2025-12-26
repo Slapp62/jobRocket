@@ -82,7 +82,8 @@ export default function RegisterPage() {
             variant="outline"
             leftSection={<IconBrandGoogle size={24} />}
             onClick={() => {
-              window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google/register`;
+              const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:8181' : '');
+              window.location.href = `${apiUrl}/api/auth/google/register`;
             }}
           >
             Sign up with Google

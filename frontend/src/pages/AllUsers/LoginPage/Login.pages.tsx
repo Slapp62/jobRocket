@@ -124,7 +124,7 @@ export function LoginPage() {
   return (
     <>
       <PageMeta
-        title="Log In | JobRocket"
+        title="Login | JobRocket"
         description="Log in to your JobRocket account"
         keywords="login, sign in, account access"
       />

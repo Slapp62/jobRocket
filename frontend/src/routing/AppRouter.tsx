@@ -35,7 +35,7 @@ const About = lazy(() => import('@/pages/Static/About.pages'));
 const PrivacyPolicy = lazy(() => import('@/pages/Static/PrivacyPolicy.pages'));
 const TermsOfService = lazy(() => import('@/pages/Static/TermsOfService.pages'));
 const AccessibilityStatement = lazy(() =>
-  import('@/pages/AllUsers/AccessibilityStatement.pages').then((m) => ({
+  import('@/pages/Static/AccessibilityStatement.pages').then((m) => ({
     default: m.AccessibilityStatement,
   }))
 );

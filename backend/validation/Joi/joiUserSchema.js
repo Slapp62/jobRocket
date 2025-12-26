@@ -42,10 +42,12 @@ const joiUserSchema = joi.object({
 
   phone: joi
     .string()
-    .pattern(
-      /^(\+972[-\s]?|972[-\s]?|0)((2|3|4|8|9)[-\s]?\d{7}|5[0-9][-\s]?\d{7})$/,
-    )
-    .required(),
+    .pattern(/^0(?:5[0-9]|[2-4689])(?:-?\d{3}(?:-?\d{4}))$/)
+    .required()
+    .messages({
+      'string.empty': 'Phone number is required',
+      'string.pattern.base': 'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
+    }),
 
   profileType: joi.string().valid('jobseeker', 'business').required(),
 
@@ -136,6 +138,16 @@ const joiUserSchema = joi.object({
     }),
 
   isAdmin: joi.boolean().optional(),
+
+  ageConfirmation: joi.boolean().valid(true).required().messages({
+    'any.only': 'You must confirm that you are at least 16 years old',
+    'any.required': 'Age confirmation is required',
+  }),
+
+  terms: joi.boolean().valid(true).required().messages({
+    'any.only': 'You must agree to the terms and conditions to register.',
+    'any.required': 'The terms and conditions checkbox is required.',
+  }),
 
   dataProcessingConsent: joi.boolean().valid(true).required().messages({
     'any.only': 'You must consent to data processing to create an account',

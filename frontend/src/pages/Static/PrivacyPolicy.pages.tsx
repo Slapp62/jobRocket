@@ -249,11 +249,48 @@ const PrivacyPolicy: FC = () => {
             </Text>
 
             <Title order={4} size="h5" mb="xs" mt="lg">
+              Cookies and Similar Technologies
+            </Title>
+            <Text mb="sm">
+              We use session cookies to keep you logged in. These are essential for the platform to
+              function and cannot be disabled.
+            </Text>
+            <Paper p="md" withBorder bg="yellow.0" mb="md">
+              <Text fw={700} mb="xs">
+                What are session cookies?
+              </Text>
+              <List size="sm">
+                <List.Item>Small text files stored in your browser</List.Item>
+                <List.Item>Used only to maintain your login session</List.Item>
+                <List.Item>
+                  Contain a random session ID (no personal information)
+                </List.Item>
+                <List.Item>
+                  Automatically deleted when you log out or after 24 hours of inactivity
+                </List.Item>
+              </List>
+            </Paper>
+            <Text mb="sm">
+              <strong>We do NOT use:</strong>
+            </Text>
+            <List mb="md">
+              <List.Item>Tracking cookies</List.Item>
+              <List.Item>Analytics cookies</List.Item>
+              <List.Item>Advertising cookies</List.Item>
+              <List.Item>Third-party cookies</List.Item>
+            </List>
+            <Text mb="md">
+              You cannot opt out of session cookies because they're required for basic functionality
+              (logging in, submitting applications). If you don't accept cookies, you cannot use
+              JobRocket.
+            </Text>
+
+            <Title order={4} size="h5" mb="xs" mt="lg">
               What We DON'T Collect
             </Title>
             <Text>
-              We do not use cookies for tracking or analytics. We do not collect sensitive data
-              such as race, religion, political opinions, health information, or financial data.
+              We do not collect sensitive data such as race, religion, political opinions, health
+              information, or financial data (beyond basic job salary ranges in listings).
             </Text>
           </Accordion.Panel>
         </Accordion.Item>
@@ -429,28 +466,43 @@ const PrivacyPolicy: FC = () => {
             <Title order={4} size="h5" mb="xs" mt="md">
               Right to Lodge a Complaint
             </Title>
-            <Text mb="sm">
-              If you believe we've violated your privacy rights, you can file a complaint with the
-              Israeli Privacy Protection Authority:
+            <Text mb="md">
+              If you believe your privacy rights have been violated or you're not satisfied with how
+              we've handled your data protection concerns, you have the right to lodge a complaint
+              with the Israeli Privacy Protection Authority (PPA).
             </Text>
             <Paper p="md" withBorder mb="md">
-              <Text fw={700}>Israel Privacy Protection Authority</Text>
-              <Text>Ministry of Justice</Text>
-              <Text>29 Salah a-Din Street, Jerusalem</Text>
-              <Text>
-                Website:{' '}
+              <Text fw={700} mb="xs">
+                Privacy Protection Authority
+              </Text>
+              <Text mb="xs">Ministry of Justice, Israel</Text>
+              <Text mb="xs">
+                <strong>Email:</strong>{' '}
+                <Anchor href="mailto:privacy@justice.gov.il">privacy@justice.gov.il</Anchor>
+              </Text>
+              <Text mb="xs">
+                <strong>Website:</strong>{' '}
                 <Anchor
-                  href="https://www.gov.il/he/departments/the_privacy_protection_authority"
+                  href="https://www.gov.il/en/departments/the_privacy_protection_authority"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  gov.il/he/departments/the_privacy_protection_authority
+                  gov.il/en/departments/the_privacy_protection_authority
                 </Anchor>
               </Text>
+              <Text>
+                <strong>Phone:</strong> *2539 (from Israel) or +972-2-646-6666
+              </Text>
             </Paper>
+            <Text mb="sm">
+              You can file a complaint without needing to prove you suffered harm. The PPA has the
+              authority to investigate complaints and enforce data protection laws.
+            </Text>
             <Text>
-              Before filing a complaint, we encourage you to contact us first at{' '}
-              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>. We take
-              privacy concerns seriously and will work to resolve any issues.
+              We encourage you to contact us first at{' '}
+              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor> so we can
+              try to resolve your concerns directly, but you have the right to contact the PPA at any
+              time.
             </Text>
           </Accordion.Panel>
         </Accordion.Item>
@@ -522,47 +574,112 @@ const PrivacyPolicy: FC = () => {
           <Accordion.Panel>
             <Text mb="md">
               We only retain your personal data for as long as necessary to provide our services
-              and comply with legal obligations.
+              and comply with legal obligations. Here are the specific retention periods for
+              different types of data:
             </Text>
 
             <Title order={4} size="h5" mb="xs" mt="md">
               Active Accounts
             </Title>
+            <Text mb="sm">
+              We keep your data as long as your account is active. You can delete your account
+              anytime from My Account &gt; Delete Account.
+            </Text>
+
+            <Title order={4} size="h5" mb="xs" mt="lg">
+              Inactive Accounts
+            </Title>
             <List mb="md">
               <List.Item>
-                <strong>Profile data:</strong> Kept until you delete your account
+                If you don't log in for <strong>24 consecutive months</strong>, we'll send you 2
+                email warnings (at 22 months and 23 months)
               </List.Item>
               <List.Item>
-                <strong>Resume files:</strong> Kept until you delete your account or the specific
-                application
+                After 24 months of inactivity, we'll automatically delete your account and all
+                associated data
               </List.Item>
               <List.Item>
-                <strong>AI embeddings:</strong> Kept until you delete your account
-              </List.Item>
-              <List.Item>
-                <strong>Applications:</strong> Kept until you delete (if pending), employer
-                deletes, or 2 years after job closes
+                <strong>Exception:</strong> Applications to jobs are controlled by the employer, not
+                deleted automatically
               </List.Item>
             </List>
 
-            <Title order={4} size="h5" mb="xs" mt="md">
-              After Account Deletion
+            <Title order={4} size="h5" mb="xs" mt="lg">
+              Deleted Accounts
+            </Title>
+            <List mb="md">
+              <List.Item>
+                When you delete your account, we <strong>immediately remove</strong> your profile
+                data
+              </List.Item>
+              <List.Item>
+                Resume files deleted from Cloudinary within <strong>24 hours</strong>
+              </List.Item>
+              <List.Item>
+                Email/phone kept for <strong>30 days</strong> to prevent immediate re-registration
+                fraud
+              </List.Item>
+              <List.Item>
+                After 30 days, all personal data <strong>permanently deleted</strong>
+              </List.Item>
+            </List>
+
+            <Title order={4} size="h5" mb="xs" mt="lg">
+              Application Data
             </Title>
             <Text mb="sm">
-              <strong>30-day grace period:</strong> When you delete your account, we retain your
-              data for 30 days in case you change your mind. Contact{' '}
-              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor> to
-              restore your account during this period.
+              Your applications remain accessible to employers even after you delete your account.
             </Text>
-            <Text mb="sm">
-              <strong>Permanent deletion:</strong> After 30 days, we permanently delete your
-              profile information, resume files, AI embeddings, and pending applications.
-            </Text>
-            <Text mb="md">
-              <strong>What we keep permanently:</strong> Consent records (timestamps, IP addresses)
-              - required by law to prove we obtained proper consent. These do not include your
-              profile data.
-            </Text>
+            <List mb="md">
+              <List.Item>Employers control retention of application data</List.Item>
+              <List.Item>
+                Recommend contacting employers directly if you want them to delete your applications
+              </List.Item>
+            </List>
+
+            <Title order={4} size="h5" mb="xs" mt="lg">
+              Security & Consent Logs
+            </Title>
+            <List mb="md">
+              <List.Item>
+                <strong>Login timestamps and IP addresses:</strong> 90 days
+              </List.Item>
+              <List.Item>
+                <strong>Consent records</strong> (when you agreed to privacy policy):{' '}
+                <strong>Kept permanently</strong> (legal requirement)
+              </List.Item>
+              <List.Item>
+                <strong>Browser user-agent</strong> at time of consent:{' '}
+                <strong>Kept permanently</strong> (legal requirement)
+              </List.Item>
+            </List>
+
+            <Title order={4} size="h5" mb="xs" mt="lg">
+              Business Listings
+            </Title>
+            <List mb="md">
+              <List.Item>
+                <strong>Active job listings:</strong> Until posting expires or business deletes it
+              </List.Item>
+              <List.Item>
+                <strong>Expired/deleted listings:</strong> Kept for 90 days then permanently deleted
+              </List.Item>
+              <List.Item>
+                <strong>Exception:</strong> If applications were received, kept until business
+                deletes or account closes
+              </List.Item>
+            </List>
+
+            <Paper p="md" withBorder bg="blue.0" mt="md">
+              <Text fw={700} mb="xs">
+                Need to restore a deleted account?
+              </Text>
+              <Text size="sm">
+                Contact{' '}
+                <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor> within
+                30 days of deletion. After 30 days, account restoration is not possible.
+              </Text>
+            </Paper>
           </Accordion.Panel>
         </Accordion.Item>
 
@@ -620,14 +737,14 @@ const PrivacyPolicy: FC = () => {
                 Age Restriction:
               </Text>
               <Text>
-                JobRocket is not intended for children under the age of 18. We do not knowingly
-                collect personal information from anyone under 18 years old. By using JobRocket,
-                you confirm that you are at least 18 years old.
+                JobRocket is not intended for children under the age of 16. We do not knowingly
+                collect personal information from anyone under 16 years old. By using JobRocket,
+                you confirm that you are at least 16 years old.
               </Text>
             </Paper>
             <Text>
-              If you're a parent or guardian and believe your child has created an account on
-              JobRocket, please contact us immediately at{' '}
+              If you're a parent or guardian and believe your child under 16 has created an account
+              on JobRocket, please contact us immediately at{' '}
               <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor> and
               we'll delete the account.
             </Text>
@@ -710,7 +827,7 @@ const PrivacyPolicy: FC = () => {
       </Accordion>
 
       {/* Footer */}
-      <Text ta="center" c="dimmed" pt="xl" mt="xl" size="sm" style={{ borderTop: '1px solid #e0e0e0' }}>
+      <Text ta="center" c="dimmed" pt="xl" mt="xl" size="sm" style={{ borderTop: '1px solid light-dark(#e0e0e0, var(--mantine-color-rocketDark-6))' }}>
         © {new Date().getFullYear()} JobRocket. All rights reserved.
         <br />
         Thank you for trusting JobRocket with your personal information. We're committed to

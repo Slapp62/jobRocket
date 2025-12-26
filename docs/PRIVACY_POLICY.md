@@ -575,55 +575,106 @@ We only retain your personal data for as long as necessary to provide our servic
 
 ## 7. Cookies and Tracking
 
-We currently use minimal cookies and do not track your browsing behavior.
+We use two types of cookies: essential cookies (required for the site to work) and optional analytics cookies (require your consent).
 
-### Cookies We Use
+### Essential Cookies (No Consent Required)
 
-**Essential cookies only:** We only use cookies that are strictly necessary for the platform to function:
+These cookies are strictly necessary for the platform to function and are automatically enabled:
 
-**Session cookie:** Keeps you logged in as you navigate the site. This cookie is deleted when you log out or close your browser.
+**Session cookie:** Keeps you logged in as you navigate the site. This cookie is deleted when you log out or after a period of inactivity (1 hour).
 
 **CSRF protection token:** Prevents malicious websites from impersonating you. This is a security measure, not tracking.
 
-**These cookies are essential and cannot be disabled.** Without them, you couldn't use JobRocket.
+**Legal basis:** Contractual necessity - these cookies are required to provide the service you requested.
+
+**Can you disable them?** No. Without essential cookies, you couldn't log in or use JobRocket securely. Amendment 13 of Israel's Privacy Protection Law recognizes that essential cookies don't require consent.
+
+---
+
+### Analytics Cookies (Requires Your Consent)
+
+**Google Analytics:** We use Google Analytics to understand how visitors use JobRocket, which pages are popular, and where we can improve the user experience.
+
+**What data is collected:**
+- Pages you visit and time spent on each page
+- How you arrived at JobRocket (search engine, direct link, etc.)
+- Your general location (city/country level, not precise location)
+- Device type and browser information
+- Anonymized IP address (last digits removed for privacy)
+
+**What data is NOT collected:**
+- Your name, email, or other personal identifying information
+- Your login credentials or account data
+- The content of your applications or profile
+
+**Legal basis:** Your explicit consent (you choose to accept or decline analytics cookies when you first visit the site)
+
+**Can you opt out?** Yes, absolutely. When you first visit JobRocket, you'll see a cookie banner asking for your consent. You can:
+- Accept all cookies (including analytics)
+- Decline analytics cookies (only essential cookies will be used)
+- Choose "Essential Only" (same as declining analytics)
+
+**Can you change your mind later?** Yes. You can change your cookie preferences at any time by clearing your browser's localStorage for JobRocket and refreshing the page. The cookie banner will appear again. (We'll add a settings page for this in the future.)
+
+**How long do analytics cookies last?** Google Analytics cookies expire after 2 years of inactivity.
+
+**Third-party processor:** Google LLC (United States) processes analytics data on our behalf. Google is contractually prohibited from using your data for their own purposes. Data is transmitted via encrypted connections.
+
+**Your rights:** You can withdraw consent by declining analytics cookies. This will not affect your ability to use JobRocket.
 
 ---
 
 ### What We Don't Use
 
-**No analytics cookies:** We don't currently use Google Analytics or similar services to track how you use the site.
-
 **No advertising cookies:** We don't use cookies for advertising or marketing purposes.
 
-**No third-party tracking:** We don't allow third parties to place tracking cookies on our site.
+**No cross-site tracking:** We don't track your browsing activity on other websites.
+
+**No social media tracking pixels:** We don't use Facebook Pixel, LinkedIn Insight Tag, or similar tracking tools.
 
 ---
 
-### Future Changes
+### Managing Your Cookie Preferences
 
-We may add analytics cookies in the future to understand how people use JobRocket and improve the platform. If we do, we'll update this Privacy Policy and provide you with the option to opt out of non-essential cookies.
+**On first visit:** You'll see a cookie consent banner asking you to accept or decline analytics cookies. Essential cookies are enabled automatically (required for site functionality).
+
+**Changing your preferences:** To change your cookie preferences after making a choice:
+1. Clear JobRocket's data from your browser's localStorage
+2. Refresh the page
+3. The cookie banner will appear again, allowing you to make a new choice
+
+(We plan to add a "Cookie Settings" page in the future for easier preference management.)
+
+**Browser controls:** You can also manage cookies through your browser settings, but note that disabling essential cookies will prevent you from logging in and using JobRocket.
 
 ---
 
-### Your Browser Controls
+### Amendment 13 Compliance
 
-You can disable cookies in your browser settings, but this will prevent you from logging in and using JobRocket.
+Our cookie consent mechanism complies with Israel's Privacy Protection Law (Amendment 13, effective August 14, 2025):
+
+- ✅ Essential cookies are clearly distinguished from optional cookies
+- ✅ Analytics cookies require explicit opt-in consent
+- ✅ You can easily decline analytics cookies
+- ✅ Analytics are not loaded until you consent
+- ✅ We explain what each type of cookie does and why
+- ✅ Consent choices are recorded with timestamp for audit purposes
 
 ---
 
 ## 8. Children's Privacy
 
-JobRocket is not intended for children under the age of 18.
+JobRocket is not intended for children under the age of 16.
 
-**We do not knowingly collect personal information from anyone under 18 years old.** By using JobRocket, you confirm that you are at least 18 years old.
+**We do not knowingly collect personal information from anyone under 16 years old.** By using JobRocket, you confirm that you are at least 16 years old.
 
-**If we discover that we've collected data from someone under 18:**
+**If we discover that we've collected data from someone under 16:**
 - We will delete that account and all associated data immediately
 - We will notify the account holder that their account has been removed
 
-**If you're a parent or guardian** and believe your child has created an account on JobRocket, please contact us immediately at support@jobrocket.work and we'll delete the account.
+**If you're a parent or guardian** and believe your child under 16 has created an account on JobRocket, please contact us immediately at support@jobrocket.work and we'll delete the account.
 
-**Why this policy exists:** Employment services involve contracts and legal agreements that require adult consent. Job seeking and hiring are adult activities under Israeli law.
+**Why this policy exists:** Employment services involve contracts and legal agreements that require mature consent. Job seeking and hiring require a level of maturity and understanding appropriate for ages 16 and above under Israeli law.
 
 ---
 

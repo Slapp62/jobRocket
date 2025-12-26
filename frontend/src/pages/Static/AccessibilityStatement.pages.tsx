@@ -1,8 +1,10 @@
-import { Anchor, Container, List, Stack, Text, Title } from '@mantine/core';
+import { Anchor, Container, List, Paper, Stack, Text, Title } from '@mantine/core';
 import { PageMeta } from '@/SEO/PageMeta';
 import { formatDate } from '@/utils/dateUtils';
+import { useComputedColorScheme } from '@mantine/core';
 
 export function AccessibilityStatement() {
+  const computedColorScheme = useComputedColorScheme('dark');
   return (
     <>
       <PageMeta
@@ -102,25 +104,37 @@ export function AccessibilityStatement() {
 
           <section>
             <Title order={2} size="h3" mb="md">
-              Feedback and Contact
+              Feedback and Contact Information
             </Title>
             <Text mb="sm">
               We welcome your feedback on the accessibility of JobRocket. If you encounter any accessibility barriers
-              or have suggestions for improvement, please contact us:
+              or have suggestions for improvement, please contact our Accessibility Coordinator:
             </Text>
-            <List spacing="sm">
-              <List.Item>
-                Accessibility Email:{' '}
+            <Paper p="md" withBorder bg={computedColorScheme === 'light' ? 'gray.3' : 'gray.8'} mb="md">
+              <Text fw={600} mb="xs">
+                Accessibility Coordinator
+              </Text>
+              <Text mb="xs">
+                <strong>Name:</strong> Elazar Lapp
+              </Text>
+              <Text mb="xs">
+                <strong>Email:</strong>{' '}
                 <Anchor href="mailto:accessibility@jobrocket.work">accessibility@jobrocket.work</Anchor>
-              </List.Item>
-              <List.Item>
-                General Support:{' '}
-                <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>
-              </List.Item>
-            </List>
-            <Text mt="md">
-              We aim to respond to accessibility feedback within 5 business days and to propose a solution within 10
-              business days.
+              </Text>
+              <Text mb="xs">
+                <strong>Phone:</strong> 058-434-5797
+              </Text>
+              <Text mt="md" size="sm">
+                <strong>Response Commitment:</strong>
+              </Text>
+              <List size="sm" spacing="xs">
+                <List.Item>Acknowledgment of your concern within 5 business days</List.Item>
+                <List.Item>Proposal for solution within 10 business days</List.Item>
+              </List>
+            </Paper>
+            <Text>
+              For general support inquiries, you can also reach us at{' '}
+              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>
             </Text>
           </section>
 

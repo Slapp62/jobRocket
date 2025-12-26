@@ -12,7 +12,7 @@ interface ConsentCheckboxesProps {
  * ConsentCheckboxes Component
  *
  * Renders Israeli Amendment 13 compliant consent checkboxes for registration.
- * Includes both data processing consent and terms & conditions acceptance.
+ * Includes age verification, data processing consent, and terms & conditions acceptance.
  *
  * @param control - React Hook Form control object
  * @param errors - Form validation errors
@@ -25,6 +25,23 @@ export const ConsentCheckboxes = ({
 }: ConsentCheckboxesProps) => {
   return (
     <>
+      {/* Age Verification - Required by Privacy Policy */}
+      <Fieldset legend="Age Verification" mt="md">
+        <Controller
+          name="ageConfirmation"
+          control={control}
+          render={({ field }) => (
+            <Checkbox
+              label="I confirm that I am at least 16 years old"
+              checked={field.value}
+              onChange={(event) => field.onChange(event.currentTarget.checked)}
+              error={errors.ageConfirmation?.message}
+              disabled={disabled}
+            />
+          )}
+        />
+      </Fieldset>
+
       {/* Data Processing Consent - Israeli Amendment 13 Compliance */}
       <Fieldset
         legend="Data Processing Consent"
@@ -69,7 +86,7 @@ export const ConsentCheckboxes = ({
               label={
                 <>
                   I agree to the{' '}
-                  <Anchor href="/terms" target="_blank">
+                  <Anchor href="/terms-of-service" target="_blank">
                     terms and conditions
                   </Anchor>
                 </>

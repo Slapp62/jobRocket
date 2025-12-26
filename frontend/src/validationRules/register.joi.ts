@@ -26,13 +26,18 @@ const registrationSchema = Joi.object({
     .pattern(/^0(?:5[0-9]|[2-4689])(?:-?\d{3}(?:-?\d{4}))$/)
     .messages({
       'string.empty': 'Phone number is required',
-      'string.pattern.base': 'Phone must be a valid Israeli phone number.',
+      'string.pattern.base': 'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
     }),
 
   profileType: Joi.string().valid('jobseeker', 'business').required().messages({
     'any.only': 'Profile type must be either jobseeker or business',
     'string.empty': 'Profile type is required',
     'any.required': 'Profile type is required',
+  }),
+
+  ageConfirmation: Joi.boolean().valid(true).required().messages({
+    'any.only': 'You must confirm that you are at least 16 years old',
+    'any.required': 'Age confirmation is required',
   }),
 
   terms: Joi.boolean().valid(true).required().messages({
@@ -198,13 +203,18 @@ const googleRegistrationSchema = Joi.object({
     .pattern(/^0(?:5[0-9]|[2-4689])(?:-?\d{3}(?:-?\d{4}))$/)
     .messages({
       'string.empty': 'Phone number is required',
-      'string.pattern.base': 'Phone must be a valid Israeli phone number.',
+      'string.pattern.base': 'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
     }),
 
   profileType: Joi.string().valid('jobseeker', 'business').required().messages({
     'any.only': 'Profile type must be either jobseeker or business',
     'string.empty': 'Profile type is required',
     'any.required': 'Profile type is required',
+  }),
+
+  ageConfirmation: Joi.boolean().valid(true).required().messages({
+    'any.only': 'You must confirm that you are at least 16 years old',
+    'any.required': 'Age confirmation is required',
   }),
 
   terms: Joi.boolean().valid(true).required().messages({

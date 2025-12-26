@@ -19,22 +19,20 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
-import { DateInput } from '@mantine/dates';
 import { notifications } from '@mantine/notifications';
 import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
 import WORK_ARRANGEMENTS from '@/data/workArr';
 import { cleanedListingData } from '@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData';
 import { TListing } from '@/Types';
 import { listingSchema } from '@/validationRules/listing.joi';
-import { formatDate, formatDateForInput, parseLocalDate, addDays, toLocalMidnight } from '@/utils/dateUtils';
+import { formatDate, addDays, toLocalMidnight } from '@/utils/dateUtils';
+import { DurationPresetSelect } from '@/components/DurationPresetSelect';
 
 interface EditListingModalProps {
   opened: boolean;
   onClose: () => void;
   listing: TListing | undefined;
   setListings: React.Dispatch<React.SetStateAction<TListing[]>>;
-  dateInputRef?: React.RefObject<HTMLInputElement | null>;
-  isExtendMode?: boolean;
 }
 
 type ListingFormValues = {
@@ -60,7 +58,7 @@ type ListingFormValues = {
   };
   workArrangement: string;
   isActive: boolean;
-  expiresAt?: string | null;
+  expiresAt: number; // Duration in days (7, 14, 30, 60, 90)
 };
 
 export const EditListingModal = ({
@@ -68,15 +66,10 @@ export const EditListingModal = ({
   onClose,
   listing,
   setListings,
-  dateInputRef,
-  isExtendMode,
 }: EditListingModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  // Calculate max expiration date (90 days from today at local midnight)
-  const maxListingExpiration = addDays(toLocalMidnight(new Date()), 90);
-
-  // Calculate current expiration info
+  // Calculate current expiration info for description
   const currentExpirationInfo = useMemo(() => {
     if (!listing?.expiresAt) return null;
 
@@ -86,7 +79,7 @@ export const EditListingModal = ({
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     return {
-      date: formatDate(listing.expiresAt), // Now using DD/MM/YYYY format
+      date: formatDate(listing.expiresAt), // DD/MM/YYYY format
       daysRemaining: diffDays
     };
   }, [listing?.expiresAt]);
@@ -134,10 +127,13 @@ export const EditListingModal = ({
   const onSubmit = async (data: ListingFormValues) => {
     try {
       setIsLoading(true);
+
+      // Calculate expiration date from duration (in days)
+      const expirationDate = addDays(toLocalMidnight(new Date()), data.expiresAt);
+
       const updatedListing = await axios.put(`/api/listings/${listing?._id}`, {
         ...data,
-        // Parse date as local midnight to prevent timezone shifts
-        expiresAt: data.expiresAt ? parseLocalDate(data.expiresAt).toISOString() : null,
+        expiresAt: expirationDate.toISOString(),
       });
 
       // set the updated listing in the listings state so its seen in UI immediatley
@@ -405,29 +401,13 @@ export const EditListingModal = ({
                   name="expiresAt"
                   control={control}
                   render={({ field }) => (
-                    <DateInput
-                      label="Expiration Date"
-                      description={
-                        currentExpirationInfo
-                          ? `Currently expires on ${currentExpirationInfo.date} (in ${currentExpirationInfo.daysRemaining} day${currentExpirationInfo.daysRemaining !== 1 ? 's' : ''}). Maximum expiration is 90 days from today.`
-                          : 'Maximum expiration is 90 days from today.'
-                      }
-                      minDate={new Date()}
-                      maxDate={maxListingExpiration}
-                      valueFormat="DD/MM/YYYY"
-                      clearable
-                      placeholder="Select expiration date"
-                      value={field.value ? new Date(field.value) : null}
-                      onChange={(date) => {
-                        field.onChange(date ? formatDateForInput(date) : null);
-                      }}
+                    <DurationPresetSelect
+                      value={field.value}
+                      onChange={field.onChange}
+                      label="Listing Duration"
                       error={errors.expiresAt?.message as string}
-                      ref={(el) => {
-                        field.ref(el);
-                        if (dateInputRef) {
-                          dateInputRef.current = el;
-                        }
-                      }}
+                      required
+                      showCalculatedDate
                     />
                   )}
                 />

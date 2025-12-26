@@ -48,7 +48,7 @@ export function FavoriteListings() {
   return (
     <>
       <PageMeta
-        title="My Saved Jobs | JobRocket"
+        title="Favorites | JobRocket"
         description="View and manage your saved job listings"
         keywords="saved jobs, favorites, bookmarked listings"
       />

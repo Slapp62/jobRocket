@@ -23,5 +23,5 @@
       "@test-utils": ["src/test-utils"]
     }
   },
-  "include": ["src", "src/test-utils"]
+  "include": ["src", "src/test-utils", "src/components/Modals"]
 }

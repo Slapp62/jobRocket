@@ -77,7 +77,7 @@ export function Navbar() {
 
   return (
     <Box
-      bg={computedColorScheme === 'light' ? 'rocketRed.7' : 'dark.8'}
+      bg={computedColorScheme === 'light' ? 'rocketRed.7' : 'rocketBlack.9'}
       pos="sticky"
       pt={5}
     >
@@ -128,7 +128,7 @@ export function Navbar() {
 
           <Group>
             <Group visibleFrom="xs">
-              {/* Light/Dark mode toggle */}
+              {/* Light/Dark mode toggle - desktop */}
               <LightDarkToggle />
 
               {!loggedIn && (
@@ -176,7 +176,7 @@ export function Navbar() {
             </Group>
 
             <Group>
-              {loggedIn && !isMobile && 
+              {loggedIn && !isMobile &&
                 <Button
                     variant="outline"
                     color="white"
@@ -188,6 +188,12 @@ export function Navbar() {
                   >
                     My Account
                 </Button>}
+
+              {/* Light/Dark mode toggle - mobile (next to burger) */}
+              <Box hiddenFrom="xs">
+                <LightDarkToggle />
+              </Box>
+
               {/* ACCESSIBILITY: Burger menu needs aria-label and aria-expanded for screen readers
                   aria-expanded tells screen readers if the mobile menu is currently open */}
               <Burger
@@ -265,11 +271,6 @@ export function Navbar() {
           <Divider my="md" />
 
           <Flex justify="space-evenly" ta="center" p="sm" gap={5} direction="column">
-            {/* Light/Dark mode toggle for mobile */}
-            <Box style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
-              <LightDarkToggle />
-            </Box>
-
             {!loggedIn && (
               <Button
                 component={Link}

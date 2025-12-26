@@ -107,8 +107,8 @@ const AboutPage: FC = () => {
           <Stat icon={<IconWorld size={24} />} label="Match Score Technology" value="OpenAI" />
         </Flex>
         <form onSubmit={form.onSubmit(handleSubmit)}>
-          `
           <Title
+            mt={30}
             order={2}
             size="h1"
             style={{ fontFamily: 'Outfit, var(--mantine-font-family)' }}
@@ -153,12 +153,11 @@ const AboutPage: FC = () => {
             {...form.getInputProps('message')}
           />
           <Group justify="center" mt="xl">
-            <Button type="submit" size="md" loading={isSubmitting}>
+            <Button type="submit" size="md" loading={isSubmitting} c='white'>
               Send message
             </Button>
           </Group>
         </form>
-        `
       </Container>
     </Box>
   );

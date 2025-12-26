@@ -58,6 +58,7 @@ export function RegisterForm() {
     shouldUnregister: false, // Keep data when switching tabs
     defaultValues: {
       profileType: 'jobseeker', // Default to jobseeker
+      ageConfirmation: false,
       terms: false,
       dataProcessingConsent: false,
     },
@@ -173,7 +174,7 @@ export function RegisterForm() {
   return (
     <>
       <PageMeta
-        title="Sign Up | JobRocket"
+        title="Register | JobRocket"
         description="Create your JobRocket account to start finding English-speaking jobs in Israel"
         keywords="register, sign up, create account, job seeker registration"
       />

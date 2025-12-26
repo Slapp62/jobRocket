@@ -5,8 +5,8 @@ import { Badge, Button, Card, Center, Flex, Loader, Stack, Text, Title } from '@
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { EmptyState } from '@/components/EmptyState';
-import { EditApplicationModal } from '@/components/Modals/EditApplicationModal';
-import { ListingDetailsModal } from '@/components/Modals/ListingDetailsModal';
+import { EditApplicationModal } from '../../components/Modals/EditApplicationModal';
+import { ListingDetailsModal } from '../../components/Modals/ListingDetailsModal';
 import { PageMeta } from '@/SEO/PageMeta';
 import { TApplication, TListing } from '@/Types';
 import { formatDate } from '@/utils/dateUtils';
@@ -77,7 +77,7 @@ export function MyApplications() {
   return (
     <>
       <PageMeta
-        title="Job Applications | JobRocket"
+        title="My Applications | JobRocket"
         description="Manage your job applications on JobRocket"
         keywords="job applications, manage job applications, job listings"
       />

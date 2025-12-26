@@ -21,7 +21,7 @@ const applicationSchema = Joi.object({
     .allow('') // allows empty string
     .optional()
     .messages({
-      'string.pattern.base': 'Phone must be a valid Israeli phone number.',
+      'string.pattern.base': 'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
     }),
   message: Joi.string().min(10).max(2000).allow('').optional().messages({
     'string.min': 'Message must be at least 10 characters',

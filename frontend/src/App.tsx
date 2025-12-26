@@ -9,7 +9,8 @@ import { useMediaQuery } from '@mantine/hooks';
 import { Notifications } from '@mantine/notifications';
 import { AppRouter } from './routing/AppRouter';
 import { persistor, store } from './store/store';
-import { theme } from './theme';
+import { theme, cssVariablesResolver } from './theme';
+import { CookieBanner } from './components/CookieBanner/CookieBanner';
 
 const colorSchemeManager = localStorageColorSchemeManager({
   key: 'jobrocket-color-scheme',
@@ -19,11 +20,12 @@ export default function App() {
   const isMobile = useMediaQuery('(max-width: 726px)');
 
   return (
-    <MantineProvider theme={theme} colorSchemeManager={colorSchemeManager} defaultColorScheme="auto">
+    <MantineProvider theme={theme} colorSchemeManager={colorSchemeManager} defaultColorScheme="auto" cssVariablesResolver={cssVariablesResolver}>
       <Notifications position={isMobile ? "top-center" : "bottom-right"} />
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <AppRouter />
+          <CookieBanner />
         </PersistGate>
       </Provider>
     </MantineProvider>

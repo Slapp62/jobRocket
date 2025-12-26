@@ -4,7 +4,7 @@
   min-height: 100vh;
   background: light-dark(
     linear-gradient(180deg, #FFE8CC 0%, #FFFFFF 30%, #FFFFFF 70%, #FFE8CC 100%),
-    linear-gradient(180deg, #1A0A05 0%, var(--mantine-color-dark-7) 30%, var(--mantine-color-dark-7) 70%, #1A0A05 100%)
+    linear-gradient(180deg, var(--mantine-color-rocketBlack-9) 0%, var(--mantine-color-rocketDark-9) 30%, var(--mantine-color-rocketDark-9) 70%, var(--mantine-color-rocketBlack-9) 100%)
   );
 }
 
@@ -12,42 +12,42 @@
   min-height: 100vh;
   background: light-dark(
     linear-gradient(180deg, #FFF4E6 0%, #FFFFFF 50%, #FFF4E6 100%),
-    linear-gradient(180deg, #2C1810 0%, var(--mantine-color-dark-7) 50%, #2C1810 100%)
+    linear-gradient(180deg, var(--mantine-color-rocketBlack-9) 0%, var(--mantine-color-rocketBlack-8) 50%, var(--mantine-color-rocketBlack-9) 100%)
   );
 }
 
 .cardGradientSubtle {
   background: light-dark(
     linear-gradient(135deg, #FFF4E6 0%, #FFE8CC 100%),
-    linear-gradient(135deg, var(--mantine-color-dark-6) 0%, var(--mantine-color-dark-5) 100%)
+    linear-gradient(135deg, var(--mantine-color-rocketDark-8) 0%, var(--mantine-color-rocketDark-7) 100%)
   );
-  border: 1px solid light-dark(#FFD8A8, var(--mantine-color-dark-4));
+  border: 1px solid light-dark(#FFD8A8, var(--mantine-color-rocketDark-6));
   box-shadow: light-dark(
     0 4px 12px rgba(255, 107, 53, 0.15),
-    0 4px 12px rgba(0, 0, 0, 0.3)
+    0 4px 12px rgba(0, 0, 0, 0.5)
   );
 }
 
 .cardGradientOrange {
   background: light-dark(
     linear-gradient(135deg, #FFE8CC 0%, #FFD8A8 100%),
-    linear-gradient(135deg, var(--mantine-color-dark-6) 0%, var(--mantine-color-dark-5) 100%)
+    linear-gradient(135deg, var(--mantine-color-rocketDark-8) 0%, var(--mantine-color-rocketDark-7) 100%)
   );
-  border: 1px solid light-dark(#FFC078, var(--mantine-color-dark-4));
+  border: 1px solid light-dark(#FFC078, var(--mantine-color-rocketDark-6));
   box-shadow: light-dark(
     0 4px 12px rgba(255, 107, 53, 0.15),
-    0 4px 12px rgba(0, 0, 0, 0.3)
+    0 4px 12px rgba(0, 0, 0, 0.5)
   );
 }
 
 .cardGradientRed {
   background: light-dark(
     linear-gradient(135deg, #FFE9EC 0%, #FFD4D9 100%),
-    linear-gradient(135deg, var(--mantine-color-dark-6) 0%, var(--mantine-color-dark-5) 100%)
+    linear-gradient(135deg, var(--mantine-color-rocketDark-8) 0%, var(--mantine-color-rocketDark-7) 100%)
   );
-  border: 1px solid light-dark(#FFBFC6, var(--mantine-color-dark-4));
+  border: 1px solid light-dark(#FFBFC6, var(--mantine-color-rocketDark-6));
   box-shadow: light-dark(
     0 4px 12px rgba(230, 57, 70, 0.15),
-    0 4px 12px rgba(0, 0, 0, 0.3)
+    0 4px 12px rgba(0, 0, 0, 0.5)
   );
 }

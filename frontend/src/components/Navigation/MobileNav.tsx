@@ -14,9 +14,9 @@ export const MobileBottomNav = () => {
   // Theme-aware colors for dark mode
   const isDark = computedColorScheme === 'dark';
   const textColor = isDark ? 'rocketOrange.4' : 'rocketRed.6';
-  const bgColor = isDark ? 'dark.6' : 'white';
-  const buttonBg = isDark ? 'dark.5' : 'rocketOrange.1';
-  const borderColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.11)';
+  const bgColor = isDark ? 'rocketBlack.9' : 'white';
+  const buttonBg = isDark ? 'rocketDark.8' : 'rocketOrange.1';
+  const borderColor = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.11)';
 
   return (
     // ACCESSIBILITY: Wrap mobile navigation in nav element with aria-label
