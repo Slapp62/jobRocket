@@ -1,7 +1,7 @@
 .footer {
   padding-top: calc(var(--mantine-spacing-md) * 1.5);
   padding-bottom: calc(var(--mantine-spacing-xs) * 1);
-  background: light-dark(var(--mantine-color-white), var(--mantine-color-dark-1));
+  background: light-dark(var(--mantine-color-white), var(--mantine-color-rocketBlack-9));
   border-top: 2px solid light-dark(#FFD8A8, #FF6B35);
 }
 
@@ -9,7 +9,9 @@
   max-width: 200px;
   border-radius: 10px;
   padding: 5px;
-  @media (max-width: 726px) {
+  @media (max-width: $mantine-breakpoint-sm) {
+    min-width: 100%;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,14 +19,14 @@
 }
 
 .description {
-  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-gray-3));
+  color: light-dark(var(--mantine-color-white), var(--mantine-color-rocketDark-1));
 }
 
 .inner {
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: 726px) {
+  @media (max-width: $mantine-breakpoint-sm) {
     width: 100%;
     flex-direction: column;
     gap: 15px;
@@ -71,7 +73,7 @@
   margin-top: var(--mantine-spacing-md);
   padding-top: var(--mantine-spacing-md);
   //padding-bottom: var(--mantine-spacing-xs);
-  border-top: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4));
+  border-top: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-rocketDark-6));
 
   @media (max-width: $mantine-breakpoint-sm) {
     flex-direction: column;
@@ -81,5 +83,28 @@
 .social {
   @media (max-width: $mantine-breakpoint-sm) {
     margin-top: var(--mantine-spacing-xs);
+  }
+}
+
+/* Mobile accordion - hidden on desktop, visible on mobile */
+.mobileAccordion {
+  display: none;
+  width: 100%;
+  max-width: 500px;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    display: block;
+  }
+}
+
+/* Mobile accordion link styling */
+.accordionLink {
+  color: var(--mantine-color-gray-6);
+  text-decoration: none;
+  display: block;
+
+  &:hover {
+    text-decoration: underline;
+    color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-gray-5));
   }
 }

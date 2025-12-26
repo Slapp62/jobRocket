@@ -1,6 +1,4 @@
-import { IconMailFilled, IconMapPinFilled, IconPhoneFilled } from '@tabler/icons-react';
-import { Container, Flex, Group, Stack, Text, Title } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { Accordion, Container, Stack, Text } from '@mantine/core';
 import { Logo } from './Logo';
 import classes from '../ComponentStyles/FooterStyles.module.css';
 
@@ -41,7 +39,7 @@ const data = [
 ];
 
 export function Footer() {
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  // Desktop footer groups (existing layout)
   const groups = data.map((group) => {
     const links = group.links.map((link, index) => (
       <li key={index}>
@@ -61,6 +59,35 @@ export function Footer() {
     );
   });
 
+  // Mobile accordion items (prioritized content: Legal, Quick Links, About Me)
+  const mobileData = [
+    data[1], // Legal (highest priority)
+    data[0], // Quick Links
+    data[3], // About Me
+    // Excluding data[2] (Project links - less critical for mobile)
+  ];
+
+  const accordionItems = mobileData.map((group) => (
+    <Accordion.Item key={group.title} value={group.title}>
+      <Accordion.Control>{group.title}</Accordion.Control>
+      <Accordion.Panel>
+        <Stack gap="xs">
+          {group.links.map((link, index) => (
+            <Text<'a'>
+              key={index}
+              className={classes.accordionLink}
+              component="a"
+              href={link.link}
+              size="sm"
+            >
+              {link.label}
+            </Text>
+          ))}
+        </Stack>
+      </Accordion.Panel>
+    </Accordion.Item>
+  ));
+
   return (
     <footer className={classes.footer}>
       <Container className={classes.inner}>
@@ -70,8 +97,21 @@ export function Footer() {
             Launch yourself into a world of possibility.
           </Text>
         </Stack>
+
+        {/* Desktop navigation - hidden on mobile */}
         <div className={classes.groups}>{groups}</div>
+
+        {/* Mobile accordion - hidden on desktop */}
+        <Accordion
+          className={classes.mobileAccordion}
+          variant="separated"
+          radius="md"
+          chevronPosition="right"
+        >
+          {accordionItems}
+        </Accordion>
       </Container>
+
       <Container className={classes.afterFooter}>
         <Text c="dimmed" size="sm">
           © {new Date().getFullYear()} - Developed by Simcha Lapp.
