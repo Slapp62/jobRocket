@@ -72,8 +72,18 @@ async function getApplicantApplications(applicantId) {
 
 async function getDashboardMetrics(businessId) {
   const listings = await Listings.find({ businessId });
+
+  // For new accounts with no listings, return zero metrics instead of error
   if (!listings || listings.length === 0) {
-    throwError(404, 'No listings found');
+    return {
+      metrics: {
+        totalListings: 0,
+        totalApplications: 0,
+        pendingApplications: 0,
+        reviewedApplications: 0,
+        rejectedApplications: 0,
+      },
+    };
   }
 
   const listingIds = listings.map((listing) => listing._id);

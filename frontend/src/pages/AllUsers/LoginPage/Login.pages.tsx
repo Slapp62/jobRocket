@@ -18,6 +18,7 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { PageMeta } from '@/SEO/PageMeta';
 import { AppDispatch } from '@/store/store';
@@ -32,6 +33,7 @@ export function LoginPage() {
   const jumpTo = useNavigate();
   const location = useLocation();
   const message = location.state?.message;
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState(false);
@@ -104,12 +106,15 @@ export function LoginPage() {
       announceToScreenReader('Logged in successfully', 'assertive');
 
       notifications.show({
-        title: 'Success',
-        message: 'Logged In!',
+        title: 'Welcome back!',
+        message: `Successfully logged in as ${userData.profileType === 'business' ? 'a business' : 'a job seeker'}. Let's get started!`,
         color: 'green',
+        autoClose: 5000,
       });
 
-      jumpTo('/search');
+      // Navigate to appropriate page based on user type
+      const redirectPath = userData.profileType === 'business' ? '/dashboard' : '/search';
+      jumpTo(redirectPath);
     } catch (error: any) {
       // ACCESSIBILITY: Announce error to screen readers
       announceToScreenReader(`Login failed: ${error.response?.data?.message || 'Please try again'}`, 'assertive');
@@ -133,7 +138,7 @@ export function LoginPage() {
         keywords="login, sign in, account access"
       />
 
-      <Container size={420} my={100}>
+      <Container size="xs" py="xl">
         {message && (
           <Title order={3} ta="center" c="red" mb={10}>
             {message}
@@ -177,6 +182,7 @@ export function LoginPage() {
             <Button
               fullWidth
               variant="filled"
+              size={isMobile ? 'md' : 'lg'}
               fz="md"
               onClick={() => {
                 window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`;
@@ -216,17 +222,18 @@ export function LoginPage() {
               id="login-password"
             />
 
-            <Group justify="center">
-              <Text c="dimmed" size="sm" ta="center" my="lg">
+            <Group justify="center" gap="xs" my="lg">
+              <Text c="dimmed" size="sm" ta="center">
                 Don't have an account yet?
               </Text>
-              <Button p={0} variant="transparent" component={Link} to="/register">
+              <Button p={0} variant="transparent" component={Link} to="/register" size="sm">
                 Create account
               </Button>
             </Group>
 
             <Button
               type="submit"
+              size={isMobile ? 'md' : 'lg'}
               fullWidth
               loading={isLoading}
               disabled={!isValid}

@@ -27,6 +27,7 @@ import { TListing } from '@/Types';
 import { listingSchema } from '@/validationRules/listing.joi';
 import { formatDate, addDays, toLocalMidnight } from '@/utils/dateUtils';
 import { DurationPresetSelect } from '@/components/DurationPresetSelect';
+import { formatRegionForDisplay } from '@/utils/formatters';
 
 interface EditListingModalProps {
   opened: boolean;
@@ -339,7 +340,7 @@ export const EditListingModal = ({
                       searchable
                       data={REGIONS.map((region: string) => ({
                         value: region,
-                        label: region,
+                        label: formatRegionForDisplay(region),
                       }))}
                       {...field}
                       error={errors.location?.region?.message}

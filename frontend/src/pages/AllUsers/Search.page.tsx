@@ -22,6 +22,7 @@ import { PageMeta } from '@/SEO/PageMeta';
 import { announceToScreenReader } from '@/utils/accessibility';
 import { trackJobSearch } from '@/utils/analytics';
 import { getParamsInfo } from '@/utils/getParamsInfo';
+import { formatRegionForDisplay } from '@/utils/formatters';
 
 export function SearchPage() {
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true }); 
@@ -101,12 +102,12 @@ export function SearchPage() {
         message = 'No job listings found';
         if (searchTerm) message += ` matching "${searchTerm}"`;
         if (cityParam) message += ` in ${cityParam}`;
-        else if (region) message += ` in ${region}`;
+        else if (region) message += ` in ${formatRegionForDisplay(region)}`;
       } else {
         message = `Found ${count} job listing${count === 1 ? '' : 's'}`;
         if (searchTerm) message += ` matching "${searchTerm}"`;
         if (cityParam) message += ` in ${cityParam}`;
-        else if (region) message += ` in ${region}`;
+        else if (region) message += ` in ${formatRegionForDisplay(region)}`;
       }
 
       announceToScreenReader(message, 'polite');

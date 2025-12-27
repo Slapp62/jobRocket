@@ -68,6 +68,7 @@ export type TBusinessProfile = {
     alt?: string;
     _id?: string;
   };
+  industry: 'Technology' | 'Healthcare' | 'Finance' | 'Education' | 'Retail' | 'Manufacturing' | 'Construction' | 'Transportation' | 'Hospitality' | 'Real Estate' | 'Media' | 'Telecommunications' | 'Energy' | 'Agriculture' | 'Professional Services' | 'Government' | 'Non-Profit' | 'Other';
   numberOfEmployees: '1-10' | '11-50' | '51-200' | '201-500' | '501-1000' | '1000+';
   website?: string;
   contactEmail?: string;

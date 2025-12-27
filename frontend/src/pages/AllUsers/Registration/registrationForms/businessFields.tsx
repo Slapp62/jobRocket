@@ -2,8 +2,10 @@ import { useMemo } from 'react';
 import { Control, Controller, FieldErrors, UseFormRegister, useWatch } from 'react-hook-form';
 import { Select, Textarea, TextInput } from '@mantine/core';
 import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
+import { INDUSTRIES } from '@/data/industries';
 import { TUsers } from '@/Types';
 import { ConsentCheckboxes } from './ConsentCheckboxes';
+import { formatRegionForDisplay } from '@/utils/formatters';
 
 type BusinessFieldsProps = {
   register: UseFormRegister<TUsers>;
@@ -22,11 +24,20 @@ export function BusinessFields({
   disabled = false,
   showConsentCheckboxes = true,
 }: BusinessFieldsProps) {
+  // Watch the selected country to determine if region/city fields should be shown
+  const selectedCountry = useWatch({
+    control,
+    name: 'businessProfile.location.country',
+  });
+
   // Watch the selected region to filter cities
   const selectedRegion = useWatch({
     control,
     name: 'businessProfile.location.region',
   });
+
+  // Check if the country is Israel (case-insensitive)
+  const isIsrael = selectedCountry?.toLowerCase().trim() === 'israel';
 
   // Get cities for the selected region
   const availableCities = useMemo(() => {
@@ -57,45 +68,68 @@ export function BusinessFields({
         placeholder="Israel"
         withAsterisk
         disabled={disabled}
+        defaultValue="Israel"
         {...register('businessProfile.location.country')}
         error={errors.businessProfile?.location?.country?.message}
       />
 
-      {/* Required: Location - Region */}
+      {/* Conditional: Location - Region (only shown for Israel) */}
+      {isIsrael && (
+        <Controller
+          name="businessProfile.location.region"
+          control={control}
+          render={({ field }) => (
+            <Select
+              label="Region"
+              placeholder="Select region"
+              withAsterisk
+              data={REGIONS.map((region: string) => ({
+                value: region,
+                label: formatRegionForDisplay(region),
+              }))}
+              searchable
+              disabled={disabled}
+              {...field}
+              error={errors.businessProfile?.location?.region?.message}
+            />
+          )}
+        />
+      )}
+
+      {/* Conditional: Location - City (only shown for Israel) */}
+      {isIsrael && (
+        <Controller
+          name="businessProfile.location.city"
+          control={control}
+          render={({ field }) => (
+            <Select
+              label="City"
+              placeholder={selectedRegion ? 'Select city' : 'Select region first'}
+              withAsterisk
+              data={availableCities}
+              searchable
+              disabled={!selectedRegion || disabled}
+              {...field}
+              error={errors.businessProfile?.location?.city?.message}
+            />
+          )}
+        />
+      )}
+
+      {/* Required: Industry */}
       <Controller
-        name="businessProfile.location.region"
+        name="businessProfile.industry"
         control={control}
         render={({ field }) => (
           <Select
-            label="Region"
-            placeholder="Select region"
+            label="Industry"
+            placeholder="Select your industry"
             withAsterisk
-            data={REGIONS.map((region: string) => ({
-              value: region,
-              label: region,
-            }))}
+            data={INDUSTRIES}
             searchable
             disabled={disabled}
             {...field}
-            error={errors.businessProfile?.location?.region?.message}
-          />
-        )}
-      />
-
-      {/* Required: Location - City */}
-      <Controller
-        name="businessProfile.location.city"
-        control={control}
-        render={({ field }) => (
-          <Select
-            label="City"
-            placeholder={selectedRegion ? 'Select city' : 'Select region first'}
-            withAsterisk
-            data={availableCities}
-            searchable
-            disabled={!selectedRegion || disabled}
-            {...field}
-            error={errors.businessProfile?.location?.city?.message}
+            error={errors.businessProfile?.industry?.message}
           />
         )}
       />
@@ -194,7 +228,7 @@ export function BusinessFields({
 
       {/* Consent and Legal Checkboxes - Only show during registration */}
       {showConsentCheckboxes && (
-        <ConsentCheckboxes control={control} errors={errors} disabled={disabled} />
+        <ConsentCheckboxes control={control} errors={errors} disabled={disabled} profileType="business" />
       )}
     </>
   );

@@ -25,6 +25,7 @@ import SocialIcons from '@/components/SocialIcons';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
 import { formatDate } from '@/utils/dateUtils';
+import { formatRegionForDisplay } from '@/utils/formatters';
 
 type ListingDetailPanelProps = {
   listingId: string;
@@ -186,7 +187,7 @@ export function ListingDetailsPanel({
               Location
             </Text>
             <Text size="sm">
-              {listing.location.city}, {listing.location.region}
+              {listing.location.city}, {formatRegionForDisplay(listing.location.region)}
             </Text>
           </Box>
 

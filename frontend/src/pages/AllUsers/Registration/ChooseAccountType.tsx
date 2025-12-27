@@ -81,6 +81,8 @@ export default function RegisterAccountTypePage() {
       password: method === 'google' ? undefined : storedPassword || '',
       phone: '',
       terms: false,
+      ageConfirmation: false,
+      dataProcessingConsent: false,
       ...(selectedType === 'jobseeker' &&
         method === 'google' && {
           jobseekerProfile: {
@@ -88,6 +90,13 @@ export default function RegisterAccountTypePage() {
             lastName: googleProfile?.lastName || '',
           },
         }),
+      ...(selectedType === 'business' && {
+        businessProfile: {
+          location: {
+            country: 'Israel',
+          },
+        },
+      }),
     },
   });
 
@@ -105,24 +114,12 @@ export default function RegisterAccountTypePage() {
     }
   }, [googleProfile, method, setValue]);
 
-  // Debug: Log validation errors
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      console.log('❌ VALIDATION ERRORS:', errors);
-    }
-  }, [errors]);
-
   const handleTypeSelect = (type: 'jobseeker' | 'business') => {
     setSelectedType(type);
     setValue('profileType', type);
   };
 
   const onSubmit = async (data: TUsers) => {
-    console.log('🔍 FORM SUBMISSION');
-    console.log('📋 Data:', JSON.stringify(data, null, 2));
-    console.log('📋 Method:', method);
-    console.log('📋 Selected Type:', selectedType);
-    console.log('❌ Form Errors:', errors);
 
     if (resumeError) {
       notifications.show({
@@ -133,33 +130,64 @@ export default function RegisterAccountTypePage() {
       return;
     }
 
+    // Transform consent booleans into proper objects with timestamps
+    const transformedData = {
+      ...data,
+      consents: {
+        dataProcessing: {
+          granted: data.dataProcessingConsent || false,
+          timestamp: new Date(),
+        },
+        ...(data.profileType === 'jobseeker' && data.ageConfirmation
+          ? {
+              ageConfirmation: {
+                granted: data.ageConfirmation,
+                timestamp: new Date(),
+              },
+            }
+          : {}),
+      },
+    };
+
     setLoading(true);
     try {
       let response;
 
       if (method === 'google') {
         // Google registration - send to Google complete endpoint
+        // Exclude password field for Google OAuth users
+        const { password, ageConfirmation, dataProcessingConsent, terms, ...googleData } = transformedData;
         response = await axios.post('/api/auth/google/register/complete', {
-          ...data,
+          ...googleData,
           profileType: selectedType,
         });
 
         dispatch(setUser(response.data.user));
+
+        // Show welcome notification
+        notifications.show({
+          title: 'Welcome to JobRocket!',
+          message: `Your ${selectedType === 'business' ? 'business' : 'job seeker'} account has been created successfully. Let's get started!`,
+          color: 'green',
+          autoClose: 6000,
+        });
+
         navigate(response.data.redirectPath);
       } else {
         // Email registration
         const payload: any = {
-          email: data.email,
-          password: data.password,
-          phone: data.phone,
-          profileType: data.profileType,
+          email: transformedData.email,
+          password: transformedData.password,
+          phone: transformedData.phone,
+          profileType: transformedData.profileType,
+          consents: transformedData.consents,
         };
 
         // Add ONLY the appropriate profile based on type
-        if (data.profileType === 'jobseeker') {
-          payload.jobseekerProfile = data.jobseekerProfile;
+        if (transformedData.profileType === 'jobseeker') {
+          payload.jobseekerProfile = transformedData.jobseekerProfile;
         } else {
-          payload.businessProfile = data.businessProfile;
+          payload.businessProfile = transformedData.businessProfile;
         }
 
         // If there's a resume file, use FormData
@@ -199,6 +227,9 @@ export default function RegisterAccountTypePage() {
               }
             });
           }
+
+          // Add consents
+          formData.append('consents', JSON.stringify(payload.consents));
 
           // Add the resume file
           formData.append('resume', resumeFile);

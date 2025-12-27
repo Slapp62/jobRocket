@@ -30,22 +30,26 @@ const joiUserSchema = joi.object({
     .email({ tlds: { allow: false } })
     .required(),
   password: joi
-    .string()
-    .required()
-    .pattern(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/,
+    .alternatives()
+    .try(
+      joi.string()
+        .pattern(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/,
+        )
+        .messages({
+          'string.pattern.base':
+            'Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character',
+        }),
+      joi.allow(null, ''), // Allow null or empty string for Google OAuth users
     )
-    .messages({
-      'string.pattern.base':
-        'Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character',
-    }),
+    .optional(),
 
   phone: joi
     .string()
     .pattern(/^0(?:5[0-9]|[2-4689])(?:-?\d{3}(?:-?\d{4}))$/)
-    .required()
+    .allow('')
+    .optional()
     .messages({
-      'string.empty': 'Phone number is required',
       'string.pattern.base': 'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
     }),
 
@@ -92,14 +96,32 @@ const joiUserSchema = joi.object({
       location: joi
         .object({
           country: joi.string().min(2).max(256).required(),
-          region: joi
-            .string()
-            .valid(...REGIONS)
-            .required(),
-          city: joi
-            .string()
-            .valid(...CITIES)
-            .required(),
+          region: joi.when('country', {
+            is: joi.string().pattern(/^israel$/i), // Case-insensitive match for "Israel"
+            then: joi
+              .string()
+              .valid(...REGIONS)
+              .required()
+              .messages({
+                'any.only': 'Please select a valid Israeli region',
+                'string.empty': 'Region is required for Israeli businesses',
+                'any.required': 'Region is required for Israeli businesses',
+              }),
+            otherwise: joi.any().strip(),
+          }),
+          city: joi.when('country', {
+            is: joi.string().pattern(/^israel$/i), // Case-insensitive match for "Israel"
+            then: joi
+              .string()
+              .valid(...CITIES)
+              .required()
+              .messages({
+                'any.only': 'Please select a valid Israeli city',
+                'string.empty': 'City is required for Israeli businesses',
+                'any.required': 'City is required for Israeli businesses',
+              }),
+            otherwise: joi.any().strip(),
+          }),
         })
         .required(),
       logo: joi
@@ -139,20 +161,36 @@ const joiUserSchema = joi.object({
 
   isAdmin: joi.boolean().optional(),
 
-  ageConfirmation: joi.boolean().valid(true).required().messages({
-    'any.only': 'You must confirm that you are at least 16 years old',
-    'any.required': 'Age confirmation is required',
-  }),
+  // Consent structure with timestamps for GDPR/Israeli Amendment 13 compliance
+  consents: joi
+    .object({
+      ageConfirmation: joi
+        .object({
+          granted: joi.boolean().valid(true).required(),
+          timestamp: joi.date().required(),
+          ipAddress: joi.string().optional(),
+          userAgent: joi.string().optional(),
+        })
+        .when('...profileType', {
+          is: 'jobseeker',
+          then: joi.required(),
+          otherwise: joi.optional(),
+        }),
+      dataProcessing: joi
+        .object({
+          granted: joi.boolean().valid(true).required(),
+          timestamp: joi.date().required(),
+          ipAddress: joi.string().optional(),
+          userAgent: joi.string().optional(),
+        })
+        .required(),
+    })
+    .required(),
 
-  terms: joi.boolean().valid(true).required().messages({
-    'any.only': 'You must agree to the terms and conditions to register.',
-    'any.required': 'The terms and conditions checkbox is required.',
-  }),
-
-  dataProcessingConsent: joi.boolean().valid(true).required().messages({
-    'any.only': 'You must consent to data processing to create an account',
-    'any.required': 'Data processing consent is required',
-  }),
+  // Legacy boolean fields for backward compatibility (will be removed in future)
+  ageConfirmation: joi.boolean().optional(),
+  terms: joi.boolean().optional(),
+  dataProcessingConsent: joi.boolean().optional(),
 });
 
 module.exports = joiUserSchema;

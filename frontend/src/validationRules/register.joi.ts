@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { CITIES, REGIONS } from '../data/israelCities';
+import { INDUSTRIES } from '../data/industries';
 
 const registrationSchema = Joi.object({
   email: Joi.string()
@@ -22,10 +23,10 @@ const registrationSchema = Joi.object({
     }),
 
   phone: Joi.string()
-    .required()
     .pattern(/^0(?:5[0-9]|[2-4689])(?:-?\d{3}(?:-?\d{4}))$/)
+    .allow('')
+    .optional()
     .messages({
-      'string.empty': 'Phone number is required',
       'string.pattern.base': 'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
     }),
 
@@ -35,9 +36,13 @@ const registrationSchema = Joi.object({
     'any.required': 'Profile type is required',
   }),
 
-  ageConfirmation: Joi.boolean().valid(true).required().messages({
-    'any.only': 'You must confirm that you are at least 16 years old',
-    'any.required': 'Age confirmation is required',
+  ageConfirmation: Joi.when('profileType', {
+    is: 'jobseeker',
+    then: Joi.boolean().valid(true).required().messages({
+      'any.only': 'You must confirm that you are at least 16 years old',
+      'any.required': 'Age confirmation is required',
+    }),
+    otherwise: Joi.optional(),
   }),
 
   terms: Joi.boolean().valid(true).required().messages({
@@ -118,22 +123,30 @@ const registrationSchema = Joi.object({
           'string.empty': 'Country is required',
           'any.required': 'Country is required',
         }),
-        region: Joi.string()
-          .valid(...REGIONS)
-          .required()
-          .messages({
-            'any.only': 'Please select a valid region',
-            'string.empty': 'Region is required',
-            'any.required': 'Region is required',
-          }),
-        city: Joi.string()
-          .valid(...CITIES)
-          .required()
-          .messages({
-            'any.only': 'Please select a valid city',
-            'string.empty': 'City is required',
-            'any.required': 'City is required',
-          }),
+        region: Joi.when('country', {
+          is: Joi.string().pattern(/^israel$/i), // Case-insensitive match for "Israel"
+          then: Joi.string()
+            .valid(...REGIONS)
+            .required()
+            .messages({
+              'any.only': 'Please select a valid region',
+              'string.empty': 'Region is required',
+              'any.required': 'Region is required',
+            }),
+          otherwise: Joi.any().strip(),
+        }),
+        city: Joi.when('country', {
+          is: Joi.string().pattern(/^israel$/i), // Case-insensitive match for "Israel"
+          then: Joi.string()
+            .valid(...CITIES)
+            .required()
+            .messages({
+              'any.only': 'Please select a valid city',
+              'string.empty': 'City is required',
+              'any.required': 'City is required',
+            }),
+          otherwise: Joi.any().strip(),
+        }),
       }).required(),
       logo: Joi.object({
         url: Joi.string().uri().allow('').optional().messages({
@@ -141,6 +154,14 @@ const registrationSchema = Joi.object({
         }),
         alt: Joi.string().max(256).allow('').optional(),
       }).optional(),
+      industry: Joi.string()
+        .valid(...INDUSTRIES)
+        .required()
+        .messages({
+          'any.only': 'Please select a valid industry',
+          'string.empty': 'Industry is required',
+          'any.required': 'Industry is required',
+        }),
       numberOfEmployees: Joi.string()
         .valid('1-10', '11-50', '51-200', '201-500', '501-1000', '1000+')
         .required()
@@ -199,10 +220,10 @@ const googleRegistrationSchema = Joi.object({
     }),
 
   phone: Joi.string()
-    .required()
     .pattern(/^0(?:5[0-9]|[2-4689])(?:-?\d{3}(?:-?\d{4}))$/)
+    .allow('')
+    .optional()
     .messages({
-      'string.empty': 'Phone number is required',
       'string.pattern.base': 'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
     }),
 
@@ -212,9 +233,13 @@ const googleRegistrationSchema = Joi.object({
     'any.required': 'Profile type is required',
   }),
 
-  ageConfirmation: Joi.boolean().valid(true).required().messages({
-    'any.only': 'You must confirm that you are at least 16 years old',
-    'any.required': 'Age confirmation is required',
+  ageConfirmation: Joi.when('profileType', {
+    is: 'jobseeker',
+    then: Joi.boolean().valid(true).required().messages({
+      'any.only': 'You must confirm that you are at least 16 years old',
+      'any.required': 'Age confirmation is required',
+    }),
+    otherwise: Joi.optional(),
   }),
 
   terms: Joi.boolean().valid(true).required().messages({
@@ -295,22 +320,30 @@ const googleRegistrationSchema = Joi.object({
           'string.empty': 'Country is required',
           'any.required': 'Country is required',
         }),
-        region: Joi.string()
-          .valid(...REGIONS)
-          .required()
-          .messages({
-            'any.only': 'Please select a valid region',
-            'string.empty': 'Region is required',
-            'any.required': 'Region is required',
-          }),
-        city: Joi.string()
-          .valid(...CITIES)
-          .required()
-          .messages({
-            'any.only': 'Please select a valid city',
-            'string.empty': 'City is required',
-            'any.required': 'City is required',
-          }),
+        region: Joi.when('country', {
+          is: Joi.string().pattern(/^israel$/i), // Case-insensitive match for "Israel"
+          then: Joi.string()
+            .valid(...REGIONS)
+            .required()
+            .messages({
+              'any.only': 'Please select a valid region',
+              'string.empty': 'Region is required',
+              'any.required': 'Region is required',
+            }),
+          otherwise: Joi.any().strip(),
+        }),
+        city: Joi.when('country', {
+          is: Joi.string().pattern(/^israel$/i), // Case-insensitive match for "Israel"
+          then: Joi.string()
+            .valid(...CITIES)
+            .required()
+            .messages({
+              'any.only': 'Please select a valid city',
+              'string.empty': 'City is required',
+              'any.required': 'City is required',
+            }),
+          otherwise: Joi.any().strip(),
+        }),
       }).required(),
       logo: Joi.object({
         url: Joi.string().uri().allow('').optional().messages({
@@ -318,6 +351,14 @@ const googleRegistrationSchema = Joi.object({
         }),
         alt: Joi.string().max(256).allow('').optional(),
       }).optional(),
+      industry: Joi.string()
+        .valid(...INDUSTRIES)
+        .required()
+        .messages({
+          'any.only': 'Please select a valid industry',
+          'string.empty': 'Industry is required',
+          'any.required': 'Industry is required',
+        }),
       numberOfEmployees: Joi.string()
         .valid('1-10', '11-50', '51-200', '201-500', '501-1000', '1000+')
         .required()

@@ -1,12 +1,11 @@
 const { Schema, model } = require('mongoose');
 const { WORK_ARRANGEMENTS } = require('../data/workArr');
 const { CITIES, REGIONS } = require('../data/israelCities.js');
+const { INDUSTRIES } = require('../data/industries.js');
 const {
   generateEmbedding,
   jobseekerToText,
 } = require('../services/embeddingService.js');
-
-// Industries removed - no longer used in business profiles
 
 const userSchema = new Schema({
   email: {
@@ -39,7 +38,7 @@ const userSchema = new Schema({
   },
   phone: {
     type: String,
-    required: true,
+    required: false,
     match: [
       /^(\+972[-\s]?|972[-\s]?|0)((2|3|4|8|9)[-\s]?\d{7}|5[0-9][-\s]?\d{7})$/,
       'Phone must be a valid Israeli phone number',
@@ -168,6 +167,13 @@ const userSchema = new Schema({
         auto: true,
       },
     },
+    industry: {
+      type: String,
+      required() {
+        return this.profileType === 'business';
+      },
+      enum: INDUSTRIES,
+    },
     numberOfEmployees: {
       type: String,
       required() {
@@ -244,8 +250,18 @@ const userSchema = new Schema({
   },
   consents: {
     ageConfirmation: {
-      granted: { type: Boolean, required: true },
-      timestamp: { type: Date, required: true },
+      granted: {
+        type: Boolean,
+        required() {
+          return this.profileType === 'jobseeker';
+        },
+      },
+      timestamp: {
+        type: Date,
+        required() {
+          return this.profileType === 'jobseeker';
+        },
+      },
       ipAddress: String,
       userAgent: String,
     },

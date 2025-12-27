@@ -28,6 +28,7 @@ import { RootState } from '@/store/store';
 import { trackListingCreated } from '@/utils/analytics';
 import { listingSchema } from '@/validationRules/listing.joi';
 import { addDays, toLocalMidnight } from '@/utils/dateUtils';
+import { formatRegionForDisplay } from '@/utils/formatters';
 import { DurationPresetSelect } from '@/components/DurationPresetSelect';
 
 type ListingFormValues = {
@@ -340,7 +341,7 @@ export function CreateListing() {
                     searchable
                     data={REGIONS.map((region: string) => ({
                       value: region,
-                      label: region,
+                      label: formatRegionForDisplay(region),
                     }))}
                     {...field}
                     error={errors.location?.region?.message}

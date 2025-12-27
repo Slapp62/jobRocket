@@ -16,6 +16,8 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import styles from '@/styles/gradients.module.css';
 
 // Simple validation schema for email/password only
 const credentialsSchema = Joi.object({
@@ -46,6 +48,7 @@ type Credentials = {
 export default function RegisterPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const {
     register,
@@ -66,7 +69,7 @@ export default function RegisterPage() {
 
   return (
     <Container size="xs" py="xl">
-      <Paper shadow="md" p="xl" radius="md">
+      <Paper withBorder shadow="lg" p="xl" radius="md" className={styles.cardGradientSubtle}>
         <Title order={1} ta="center" mb="md">
           Create Your Account
         </Title>
@@ -78,18 +81,20 @@ export default function RegisterPage() {
           {/* Google Sign Up */}
           <Button
             fullWidth
-            size="lg"
-            variant="outline"
-            leftSection={<IconBrandGoogle size={24} />}
+            size={isMobile ? 'md' : 'lg'}
+            variant="filled"
+            fz="md"
+            leftSection={<IconBrandGoogle size={20} aria-hidden="true" />}
             onClick={() => {
               const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:8181' : '');
               window.location.href = `${apiUrl}/api/auth/google/register`;
             }}
+            aria-label="Sign up with Google"
           >
             Sign up with Google
           </Button>
 
-          <Divider label="OR" labelPosition="center" />
+          <Divider label="Or continue with email" labelPosition="center" />
 
           {/* Email/Password Sign Up Form */}
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -98,6 +103,7 @@ export default function RegisterPage() {
                 label="Email"
                 placeholder="Enter your email"
                 type="email"
+                size={isMobile ? 'md' : 'lg'}
                 withAsterisk
                 {...register('email')}
                 error={errors.email?.message}
@@ -106,13 +112,19 @@ export default function RegisterPage() {
               <PasswordInput
                 label="Password"
                 placeholder="Enter your password"
+                size={isMobile ? 'md' : 'lg'}
                 withAsterisk
                 {...register('password')}
                 error={errors.password?.message}
                 description="8-20 characters, 1 uppercase, 1 number, 1 special character"
               />
 
-              <Button type="submit" fullWidth size="lg" variant="filled" loading={loading}>
+              <Button
+                type="submit"
+                fullWidth
+                size={isMobile ? 'md' : 'lg'}
+                loading={loading}
+                color="dark">
                 Continue
               </Button>
             </Stack>

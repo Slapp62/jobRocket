@@ -88,6 +88,35 @@ const registerUser = async (userData, resumeFile) => {
   return normalizedUser;
 };
 
+const registerGoogleUser = async (userData) => {
+  // Check if user already exists with this email or Google ID
+  const existingUser = await Users.findOne({
+    $or: [{ email: userData.email }, { googleId: userData.googleId }],
+  });
+  if (existingUser) {
+    const error = new Error('User already exists');
+    error.status = 400;
+    throw error;
+  }
+
+  // Google OAuth users don't have a password (it's set to null)
+  // No need to encrypt password for OAuth users
+
+  const newUser = new Users(userData);
+  const savedUser = await newUser.save();
+
+  // Log database operation
+  logDatabase('create', 'Users', {
+    userId: savedUser._id,
+    email: savedUser.email,
+    profileType: savedUser.profileType,
+    authMethod: 'google-oauth',
+  });
+
+  const normalizedUser = normalizeUserResponse(savedUser);
+  return normalizedUser;
+};
+
 const getUserById = async (userId) => {
   const user = await Users.findById(userId);
   if (!user) {
@@ -287,6 +316,7 @@ const exportUserData = async (userId) => {
 module.exports = {
   getAllUsers,
   registerUser,
+  registerGoogleUser,
   getUserById,
   toggleRole,
   updateProfile,

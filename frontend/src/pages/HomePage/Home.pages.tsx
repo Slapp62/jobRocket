@@ -47,7 +47,7 @@ export function HomePage() {
       />
 
       <Box h="85%" w="100%">
-        <Stack w="100%" h="100%" gap={20} pt={10} pb={20} bg={computedColorScheme === 'dark' ? 'rocketDark.9' : 'rocketRed.7'}>
+        <Stack w="100%" h="100%" gap={20} pt={10} pb={20} bg={computedColorScheme === 'dark' ? 'rocketBlack.9' : 'rocketRed.7'}>
           <Stack w={{ base: '95%', sm: '85%', md: '40%' }} align="center" mx="auto">
             {/* Conditional Welcome Message */}
             {!user && (

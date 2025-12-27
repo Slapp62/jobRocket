@@ -3,10 +3,12 @@ const passport = require('passport');
 const { handleSuccess, handleError } = require('../utils/functionHandlers');
 const router = express.Router();
 const { logAuth, logError } = require('../utils/logHelpers');
+const userService = require('../services/userService');
+const { profileValidation } = require('../middleware/userValidation');
+const config = require('config');
 
-// Frontend URL for OAuth redirects (defaults to production URL)
-const frontendUrl =
-  process.env.FRONTEND_URL || 'https://jobrocket.onrender.com';
+// Frontend URL for OAuth redirects (from environment-specific config)
+const frontendUrl = config.get('FRONTEND_URL');
 // Step 1: User clicks "Sign in with Google" - redirect them to Google
 router.get(
   '/google',
@@ -97,7 +99,11 @@ router.get(
 );
 
 // Sign up with Google - Step 3: Complete registration
-router.post('/google/register/complete', express.json(), async (req, res) => {
+router.post(
+  '/google/register/complete',
+  express.json(),
+  profileValidation,
+  async (req, res) => {
   try {
     // Get Google profile from session
     const googleProfile = req.session.tempGoogleProfile;
@@ -151,9 +157,15 @@ router.post('/google/register/complete', express.json(), async (req, res) => {
       });
     });
   } catch (error) {
+    logError(error, {
+      operation: 'google-register-complete',
+      tempProfileExists: !!req.session.tempGoogleProfile,
+      profileType: req.body.profileType,
+    });
     res.status(400).json({ error: error.message });
   }
-});
+  },
+);
 
 // Get temporary Google profile data (for registration completion page)
 router.get('/google/profile-temp', (req, res) => {

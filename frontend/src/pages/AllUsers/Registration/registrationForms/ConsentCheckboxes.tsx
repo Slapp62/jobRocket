@@ -6,48 +6,52 @@ interface ConsentCheckboxesProps {
   control: Control<TUsers> ;
   errors: FieldErrors<TUsers>;
   disabled?: boolean;
+  profileType?: 'jobseeker' | 'business';
 }
 
 /**
  * ConsentCheckboxes Component
  *
  * Renders Israeli Amendment 13 compliant consent checkboxes for registration.
- * Includes age verification, data processing consent, and terms & conditions acceptance.
+ * Includes age verification (jobseekers only), data processing consent, and terms & conditions acceptance.
  *
  * @param control - React Hook Form control object
  * @param errors - Form validation errors
  * @param disabled - Whether checkboxes should be disabled (default: false)
+ * @param profileType - User profile type (used to conditionally show age verification)
  */
 export const ConsentCheckboxes = ({
   control,
   errors,
   disabled = false,
+  profileType,
 }: ConsentCheckboxesProps) => {
   return (
     <>
-      {/* Age Verification - Required by Privacy Policy */}
-      <Fieldset legend="Age Verification" mt="md">
-        <Controller
-          name="ageConfirmation"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              label="I confirm that I am at least 16 years old"
-              checked={field.value}
-              onChange={(event) => field.onChange(event.currentTarget.checked)}
-              error={errors.ageConfirmation?.message}
-              disabled={disabled}
-            />
-          )}
-        />
-      </Fieldset>
+      {/* Age Verification - Required by Privacy Policy (Jobseekers only) */}
+      {profileType === 'jobseeker' && (
+        <Fieldset legend="Age Verification" mt="md">
+          <Controller
+            name="ageConfirmation"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                label="I confirm that I am at least 16 years old"
+                checked={field.value}
+                onChange={(event) => field.onChange(event.currentTarget.checked)}
+                error={errors.ageConfirmation?.message}
+                disabled={disabled}
+              />
+            )}
+          />
+        </Fieldset>
+      )}
 
       {/* Data Processing Consent - Israeli Amendment 13 Compliance */}
       <Fieldset
         legend="Data Processing Consent"
         mt="md"
         style={{
-          backgroundColor: '#FFF4E6',
           padding: '1rem',
           borderRadius: '8px',
         }}
