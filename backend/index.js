@@ -1,9 +1,16 @@
 const dotenv = require('dotenv');
 dotenv.config();
+
+// Set config directory path before loading config module
+// This ensures the config library finds the files in backend/config/
+const path = require('path');
+process.env.NODE_CONFIG_DIR = path.join(__dirname, 'config');
+
 // Emergency logging to catch startup issues
 console.log('🚀 index.js: Starting module load...');
 console.log('Environment:', process.env.NODE_ENV || 'undefined');
 console.log('PORT:', process.env.PORT || 'undefined');
+console.log('Config directory:', process.env.NODE_CONFIG_DIR);
 
 const chalk = require('chalk');
 console.log('✓ chalk loaded');
