@@ -114,6 +114,14 @@ export const theme = createTheme({
       };
     }
 
+    if (input.variant === 'outline') {
+      return {
+        ...defaultResolvedColors,
+        color: `light-dark(${input.theme.colors.rocketOrange[9]}, var(--mantine-color-white))`,
+        border: `1px solid light-dark(${input.theme.colors.rocketOrange[9]}, var(--mantine-color-white))`,
+      };
+    }
+
     return defaultResolvedColors;
   },
 
