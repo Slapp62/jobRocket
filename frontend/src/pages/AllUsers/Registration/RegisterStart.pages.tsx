@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { IconBrandGoogle } from '@tabler/icons-react';
 import Joi from 'joi';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Anchor,
   Button,
@@ -17,6 +17,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import styles from '@/styles/gradients.module.css';
 
 // Simple validation schema for email/password only
@@ -47,7 +48,9 @@ type Credentials = {
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
+  const [redirectCountdown, setRedirectCountdown] = useState<number | null>(null);
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   const {
@@ -58,6 +61,62 @@ export default function RegisterPage() {
     resolver: joiResolver(credentialsSchema),
     mode: 'onBlur',
   });
+
+  // Handle OAuth error redirects
+  useEffect(() => {
+    const error = searchParams.get('error');
+    const message = searchParams.get('message');
+
+    if (error) {
+      let notificationMessage = message || 'Registration failed';
+      let shouldRedirect = false;
+
+      if (error.includes('account_exists')) {
+        notificationMessage = decodeURIComponent(message || 'An account with this email already exists.');
+        shouldRedirect = true;
+
+        // Show notification with countdown
+        notifications.show({
+          title: 'Account Already Exists',
+          message: `${notificationMessage} Redirecting to login in 5 seconds...`,
+          color: 'orange',
+          autoClose: 5000,
+        });
+
+        // Start countdown
+        setRedirectCountdown(5);
+      } else {
+        // Generic error
+        notifications.show({
+          title: 'Registration Failed',
+          message: notificationMessage,
+          color: 'red',
+          autoClose: 5000,
+        });
+      }
+
+      // Clean up URL
+      searchParams.delete('error');
+      searchParams.delete('message');
+      navigate({ search: searchParams.toString() }, { replace: true });
+
+      // Handle redirect countdown
+      if (shouldRedirect) {
+        const interval = setInterval(() => {
+          setRedirectCountdown((prev) => {
+            if (prev === null || prev <= 1) {
+              clearInterval(interval);
+              navigate('/login');
+              return null;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+
+        return () => clearInterval(interval);
+      }
+    }
+  }, [searchParams, navigate]);
 
   const onSubmit = (data: Credentials) => {
     setLoading(true);
@@ -124,7 +183,7 @@ export default function RegisterPage() {
                 fullWidth
                 size={isMobile ? 'md' : 'lg'}
                 loading={loading}
-                color="dark">
+                aria-label="Continue">
                 Continue
               </Button>
             </Stack>

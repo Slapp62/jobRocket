@@ -23,8 +23,17 @@ const getAllUsers = async () => {
 const registerUser = async (userData, resumeFile) => {
   const existingUser = await Users.findOne({ email: userData.email });
   if (existingUser) {
-    const error = new Error('User already exists');
+    // Provide specific error message based on auth method
+    let errorMessage = 'User already exists';
+    if (existingUser.googleId) {
+      errorMessage = 'An account with this email already exists. Please login with Google.';
+    } else if (existingUser.password) {
+      errorMessage = 'An account with this email already exists. Please login with your email and password.';
+    }
+
+    const error = new Error(errorMessage);
     error.status = 400;
+    error.authMethod = existingUser.googleId ? 'google' : 'password';
     throw error;
   }
 
@@ -94,8 +103,17 @@ const registerGoogleUser = async (userData) => {
     $or: [{ email: userData.email }, { googleId: userData.googleId }],
   });
   if (existingUser) {
-    const error = new Error('User already exists');
+    // Provide specific error message based on auth method
+    let errorMessage = 'User already exists';
+    if (existingUser.googleId) {
+      errorMessage = 'An account with this email already exists. Please login with Google.';
+    } else if (existingUser.password) {
+      errorMessage = 'An account with this email already exists. Please login with your email and password.';
+    }
+
+    const error = new Error(errorMessage);
     error.status = 400;
+    error.authMethod = existingUser.googleId ? 'google' : 'password';
     throw error;
   }
 

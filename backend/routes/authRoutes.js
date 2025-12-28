@@ -20,10 +20,26 @@ router.get(
 // Step 2: Google redirects back here with authentication result
 router.get(
   '/google/callback',
-  passport.authenticate('google', {
-    session: false,
-    failureRedirect: `${frontendUrl}/login?error=no_account`,
-  }),
+  (req, res, next) => {
+    passport.authenticate('google', {
+      session: false,
+      failureRedirect: `${frontendUrl}/login?error=oauth_failed`,
+    }, (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        // Authentication failed - use specific error type from info
+        const errorType = info?.errorType || 'oauth_failed';
+        return res.redirect(`${frontendUrl}/login?error=${errorType}&message=${encodeURIComponent(info?.message || 'Authentication failed')}`);
+      }
+
+      // Success - attach user to request and continue
+      req.user = user;
+      next();
+    })(req, res, next);
+  },
   (req, res) => {
     const user = req.user;
 
@@ -72,10 +88,26 @@ router.get(
 // Sign up with Google - Step 2: Handle callback
 router.get(
   '/google/register/callback',
-  passport.authenticate('google-register', {
-    session: false,
-    failureRedirect: `${frontendUrl}/register?error=oauth_failed`,
-  }),
+  (req, res, next) => {
+    passport.authenticate('google-register', {
+      session: false,
+      failureRedirect: `${frontendUrl}/register?error=oauth_failed`,
+    }, (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        // Registration failed - use specific error type from info
+        const errorType = info?.errorType || 'oauth_failed';
+        return res.redirect(`${frontendUrl}/register?error=${errorType}&message=${encodeURIComponent(info?.message || 'Registration failed')}`);
+      }
+
+      // Success - attach user to request and continue
+      req.user = user;
+      next();
+    })(req, res, next);
+  },
   (req, res) => {
     // Store Google profile data temporarily in session
     req.session.tempGoogleProfile = {

@@ -68,7 +68,6 @@ export function BusinessFields({
         placeholder="Israel"
         withAsterisk
         disabled={disabled}
-        defaultValue="Israel"
         {...register('businessProfile.location.country')}
         error={errors.businessProfile?.location?.country?.message}
       />

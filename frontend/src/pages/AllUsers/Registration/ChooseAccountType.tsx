@@ -114,6 +114,13 @@ export default function RegisterAccountTypePage() {
     }
   }, [googleProfile, method, setValue]);
 
+  // Set default country to Israel when business type is selected
+  useEffect(() => {
+    if (selectedType === 'business') {
+      setValue('businessProfile.location.country', 'Israel');
+    }
+  }, [selectedType, setValue]);
+
   const handleTypeSelect = (type: 'jobseeker' | 'business') => {
     setSelectedType(type);
     setValue('profileType', type);
@@ -251,11 +258,34 @@ export default function RegisterAccountTypePage() {
       }
     } catch (error: any) {
       setLoading(false);
-      notifications.show({
-        title: 'Error',
-        message: error.response?.data?.message || error.message || 'Registration failed',
-        color: 'red',
-      });
+
+      const errorMessage = error.response?.data?.message || error.message || 'Registration failed';
+
+      // Check if this is an "account exists" error
+      if (errorMessage.toLowerCase().includes('already exists')) {
+        // Show notification with redirect message
+        notifications.show({
+          title: 'Account Already Exists',
+          message: `${errorMessage} Redirecting to login in 3 seconds...`,
+          color: 'orange',
+          autoClose: 3000,
+        });
+
+        // Get email for pre-filling login form
+        const emailToPreFill = transformedData.email || data.email;
+
+        // Redirect after 3 seconds
+        setTimeout(() => {
+          navigate(`/login?email=${encodeURIComponent(emailToPreFill)}`);
+        }, 3000);
+      } else {
+        // Generic error
+        notifications.show({
+          title: 'Error',
+          message: errorMessage,
+          color: 'red',
+        });
+      }
     }
   };
 

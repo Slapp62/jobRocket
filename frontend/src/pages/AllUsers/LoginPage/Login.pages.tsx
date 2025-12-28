@@ -60,14 +60,45 @@ export function LoginPage() {
 
   useEffect(() => {
     const error = searchParams.get('error');
+    const errorMessage = searchParams.get('message');
     const success = searchParams.get('success');
+    const prefilledEmail = searchParams.get('email');
 
-    if (error === 'account_exists') {
-      notifications.show({
-        title: 'Account Already Exists',
-        message: 'You already have an account. Please log in instead.',
-        color: 'blue',
-      });
+    // Handle OAuth errors
+    if (error) {
+      if (error === 'no_account') {
+        notifications.show({
+          title: 'No Account Found',
+          message: 'No account found with this email. Please register first.',
+          color: 'orange',
+          autoClose: 7000,
+        });
+      } else if (error === 'wrong_auth_method') {
+        notifications.show({
+          title: 'Wrong Login Method',
+          message: decodeURIComponent(errorMessage || 'This email is registered with password. Please use email/password login.'),
+          color: 'orange',
+          autoClose: 7000,
+        });
+      } else if (error === 'account_exists') {
+        notifications.show({
+          title: 'Account Already Exists',
+          message: 'You already have an account. Please log in instead.',
+          color: 'blue',
+        });
+      } else if (error === 'session_failed') {
+        notifications.show({
+          title: 'Session Error',
+          message: 'Failed to create session. Please try again.',
+          color: 'red',
+        });
+      } else if (errorMessage) {
+        notifications.show({
+          title: 'Login Failed',
+          message: decodeURIComponent(errorMessage),
+          color: 'red',
+        });
+      }
     }
 
     if (success === 'registration_complete') {
@@ -77,7 +108,12 @@ export function LoginPage() {
         color: 'green',
       });
     }
-  }, [searchParams]);
+
+    // Pre-fill email if provided
+    if (prefilledEmail) {
+      reset({ email: decodeURIComponent(prefilledEmail), password: '' });
+    }
+  }, [searchParams, reset]);
 
   // ACCESSIBILITY: Focus error summary when validation errors appear
   useEffect(() => {
@@ -241,6 +277,14 @@ export function LoginPage() {
             >
               {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>
+
+            {/* Registration link */}
+            <Text ta="center" mt="md" size="sm">
+              Don't have an account?{' '}
+              <Anchor href="/register" c="rocketOrange">
+                Create one now
+              </Anchor>
+            </Text>
           </form>
         </Paper>
       </Container>

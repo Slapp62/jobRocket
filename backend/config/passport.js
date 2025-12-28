@@ -15,9 +15,23 @@ module.exports = (passport) => {
           const user = await Users.findOne({ googleId: profile.id });
 
           if (!user) {
-            // No user found - we'll handle registration later
+            // Check if email exists with password (wrong auth method)
+            const emailUser = await Users.findOne({
+              email: profile.emails[0].value,
+            });
+
+            if (emailUser && emailUser.password) {
+              // Email registered with password, not Google
+              return done(null, false, {
+                message: 'This email is registered with password. Please use email/password login.',
+                errorType: 'wrong_auth_method',
+              });
+            }
+
+            // No user found at all - need to register
             return done(null, false, {
               message: 'No account found. Please register first.',
+              errorType: 'no_account',
             });
           }
 
@@ -58,9 +72,21 @@ module.exports = (passport) => {
           });
 
           if (existingUser) {
-            // User already has an account - reject registration
+            // Provide specific error message based on auth method
+            let message = 'Account already exists. Please use login instead.';
+            let errorType = 'oauth_account_exists';
+
+            if (existingUser.googleId) {
+              message = 'An account with this email already exists. Please login with Google.';
+              errorType = 'oauth_account_exists_google';
+            } else if (existingUser.password) {
+              message = 'An account with this email already exists. Please login with your email and password.';
+              errorType = 'oauth_account_exists_password';
+            }
+
             return done(null, false, {
-              message: 'Account already exists. Please use login instead.',
+              message,
+              errorType,
             });
           }
 
