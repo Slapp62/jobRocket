@@ -3,6 +3,7 @@ const userRouter = require('./userRoutes.js');
 const listingRouter = require('./listingRoutes.js');
 const applicationRouter = require('./applicationRoutes.js');
 const recommendationRouter = require('./recommendationRoutes.js');
+const analyticsRouter = require('./analyticsRoutes.js');
 require('../utils/functionHandlers.js');
 const router = Router();
 
@@ -11,5 +12,6 @@ router.use('/api/users', userRouter);
 router.use('/api/listings', listingRouter);
 router.use('/api/recommendations', recommendationRouter);
 router.use('/api/applications', applicationRouter);
+router.use('/api/analytics', analyticsRouter);
 
 module.exports = router;

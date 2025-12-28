@@ -134,7 +134,7 @@ export function ListingDetailsPanel({
               {listing.jobTitle}
             </Title>
             <Group gap="xs">
-              <Badge variant="filled" color="rocketOrange">
+              <Badge variant="filled" color="rocketDark.4" size='md' c='white'>
                 {listing.workArrangement}
               </Badge>
             </Group>
@@ -143,7 +143,7 @@ export function ListingDetailsPanel({
               {listing.apply.method.jobRocketSystem && (
                 <Button
                   variant="filled"
-                  color="rocketRed.6"
+                  color="rocketOrange"
                   onClick={open}
                   w={{ base: '100%', md: '30%' }}
                 >
@@ -156,7 +156,7 @@ export function ListingDetailsPanel({
                   href={`mailto:${listing.apply.contact.email}`}
                   style={{ textDecoration: 'none', width: isMobile ? '100%' : '30%' }}
                 >
-                  <Button variant="filled" color="rocketRed.6" fullWidth>
+                  <Button variant="filled" color="rocketOrange" fullWidth>
                     Email
                   </Button>
                 </Anchor>
@@ -168,13 +168,13 @@ export function ListingDetailsPanel({
                   target="_blank"
                   style={{ textDecoration: 'none', width: isMobile ? '100%' : '30%' }}
                 >
-                  <Button variant="filled" color="rocketRed.6" fullWidth>
+                  <Button variant="filled" color="rocketOrange" fullWidth>
                     Apply Externally
                   </Button>
                 </Anchor>
               )}
-
-              <SocialIcons listingID={listing._id} />
+              
+              <SocialIcons listing={listing} />
               <ApplicationModal opened={opened} onClose={close} listingID={listing._id} jobTitle={listing.jobTitle} />
             </Group>
           </Box>
@@ -234,8 +234,7 @@ export function ListingDetailsPanel({
           {/* Actions */}
           {user && (
             <Group mt="auto" grow>
-              <FavoritesButton listing={listing} />
-              <SocialIcons listingID={listing._id} />
+              <SocialIcons listing={listing} />
             </Group>
           )}
 

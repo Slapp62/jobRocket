@@ -205,7 +205,7 @@ export const AnalyticsDashboard = () => {
         <Title order={2} mb="md">
           Top Search Terms (Last 30 Days)
         </Title>
-        {searchInsights.length === 0 ? (
+        {!searchInsights || searchInsights.length === 0 ? (
           <Card withBorder padding="lg">
             <Text c="dimmed" ta="center">
               No search data available yet
@@ -248,7 +248,7 @@ export const AnalyticsDashboard = () => {
         <Title order={2} mb="md">
           Most Viewed Jobs (Last 30 Days)
         </Title>
-        {popularJobs.length === 0 ? (
+        {!popularJobs || popularJobs.length === 0 ? (
           <Card withBorder padding="lg">
             <Text c="dimmed" ta="center">
               No job view data available yet

@@ -166,7 +166,7 @@ export function CookieBanner() {
           <Button onClick={handleAcceptAll} size={isMobile ? 'xs' : 'sm'} variant="filled">
             {isMobile ? 'Accept' : 'Accept Analytics'}
           </Button>
-          <Button onClick={handleDeclineAnalytics} size={isMobile ? 'xs' : 'sm'} variant="light">
+          <Button onClick={handleDeclineAnalytics} size={isMobile ? 'xs' : 'sm'} variant="outline" c="rocketOrange">
             Decline
           </Button>
         </Group>

@@ -93,54 +93,54 @@ export const MobileBottomNav = () => {
       <Stack justify="center" align="center" gap={0}>
       <ActionIcon
         component={Link}
-        bg='rocketOrange.1'
+        bg={buttonBg}
         to="/favorites"
         variant="subtle"
-        color="rocketRed"
+        color={textColor}
         radius={10}
         size={40}
-        style={{ boxShadow: '0px 0px 5px 2px rgba(0, 0, 0, 0.11)' }}
+        style={{ boxShadow: `0px 0px 5px 2px ${borderColor}` }}
         aria-label="Favorites"
       >
         <IconHeart aria-hidden="true" />
       </ActionIcon>
-      <Text c="rocketRed" fz='xs' aria-hidden="true">Favorites</Text>
+      <Text c={textColor} fz='xs' aria-hidden="true">Favorites</Text>
       </Stack>}
 
       {isJobseeker &&
       <Stack justify="center" align="center" gap={0}>
       <ActionIcon
         component={Link}
-        bg='rocketOrange.1'
+        bg={buttonBg}
         to="/my-applications"
         variant="subtle"
-        color="rocketRed"
+        color={textColor}
         radius={10}
         size={40}
-        style={{ boxShadow: '0px 0px 5px 2px rgba(0, 0, 0, 0.11)' }}
+        style={{ boxShadow: `0px 0px 5px 2px ${borderColor}` }}
         aria-label="Applications"
       >
         <IconFile aria-hidden="true" />
       </ActionIcon>
-      <Text c="rocketRed" fz='xs' aria-hidden="true">Applications</Text>
+      <Text c={textColor} fz='xs' aria-hidden="true">Applications</Text>
       </Stack>}
 
       {isBusiness &&
       <Stack justify="center" align="center" gap={0}>
       <ActionIcon
         component={Link}
-        bg='rocketOrange.1'
+        bg={buttonBg}
         to="/dashboard"
         variant="subtle"
-        color="rocketRed"
+        color={textColor}
         radius={10}
         size={40}
-        style={{ boxShadow: '0px 0px 5px 2px rgba(0, 0, 0, 0.11)' }}
+        style={{ boxShadow: `0px 0px 5px 2px ${borderColor}` }}
         aria-label="Dashboard"
       >
         <IconLayoutDashboard aria-hidden="true" />
       </ActionIcon>
-      <Text c="rocketRed" fz='xs' aria-hidden="true">Dashboard</Text>
+      <Text c={textColor} fz='xs' aria-hidden="true">Dashboard</Text>
       </Stack>}
 
       {isBusiness &&
@@ -169,7 +169,7 @@ export const MobileBottomNav = () => {
             bg={buttonBg}
             to="/admin"
             variant="subtle"
-            color={isDark ? 'gray.3' : 'black'}
+            color={textColor}
             radius={10}
             size={40}
             style={{ boxShadow: `0px 0px 5px 2px ${borderColor}` }}

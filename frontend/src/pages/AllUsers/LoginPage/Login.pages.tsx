@@ -259,26 +259,20 @@ export function LoginPage() {
               id="login-password"
             />
 
-            <Group justify="center" gap="xs" my="lg">
-              <Text c="dimmed" size="sm" ta="center">
-                Don't have an account yet?
-              </Text>
-              <Button p={0} variant="transparent" component={Link} to="/register" size="sm">
-                Create account
-              </Button>
-            </Group>
-
             <Button
               type="submit"
+              variant="filled"
+              color="rocketDark.4"
+              mt="md"
               size={isMobile ? 'md' : 'lg'}
               fullWidth
               loading={isLoading}
-              disabled={!isValid}
               aria-label={isLoading ? 'Signing in...' : 'Sign in'}
             >
               {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>
 
+            <Divider my="md" />
             {/* Registration link */}
             <Text ta="center" mt="md" size="sm">
               Don't have an account?{' '}

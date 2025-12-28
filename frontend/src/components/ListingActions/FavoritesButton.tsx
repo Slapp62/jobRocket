@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, StyleProp } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
@@ -11,7 +11,7 @@ import { trackFavorite } from '@/utils/analytics';
 
 interface FavoritesButtonProps {
   listing: TListing;
-  width?: string;
+  width?: StyleProp<number | string>;
 }
 
 export function FavoritesButton({ listing, width }: FavoritesButtonProps) {
@@ -76,7 +76,6 @@ export function FavoritesButton({ listing, width }: FavoritesButtonProps) {
       color="red"
       size={40}
       onClick={handleToggleLike}
-      style={{ flex: 1 }}
       w={width}
       aria-label={isLiked ? 'Remove from favorites' : 'Add to favorites'}
       aria-pressed={isLiked}

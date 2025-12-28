@@ -41,7 +41,7 @@ export function Navbar() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
   // Theme-aware color for drawer links
-  const drawerLinkColor = computedColorScheme === 'light' ? 'rocketRed.6' : 'rocketOrange.4';
+  const drawerLinkColor = 'rocketOrange'
 
   const logoutHandler = async () => {
     try {
@@ -275,7 +275,7 @@ export function Navbar() {
               <Button
                 component={Link}
                 to="/login"
-                color="rocketOrange"
+                c="rocketOrange"
                 onClick={closeDrawer}
                 w="95%"
                 variant="outline"
@@ -287,7 +287,7 @@ export function Navbar() {
             {!loggedIn && (
               <Button
                 w="95%"
-                variant="rocketRedFilled"
+                variant="filled"
                 component={Link}
                 to="/register"
                 onClick={closeDrawer}

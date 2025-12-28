@@ -14,6 +14,8 @@ router.get(
   passport.authenticate('google', {
     scope: ['profile', 'email'],
     session: false, // We manage sessions ourselves
+    accessType: 'online', // Don't request offline access/refresh token - reduces 2FA prompts
+    prompt: 'select_account', // Allow smooth account selection
   }),
 );
 
@@ -82,6 +84,8 @@ router.get(
   passport.authenticate('google-register', {
     scope: ['profile', 'email'],
     session: false,
+    accessType: 'online', // Don't request offline access/refresh token - reduces 2FA prompts
+    prompt: 'select_account', // Allow smooth account selection
   }),
 );
 

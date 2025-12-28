@@ -31,7 +31,7 @@ export default function ErrorFallback() {
           <Button w="20%" onClick={() => history.back()}>
             Go Back
           </Button>
-          <Button w="20%" variant="outline" onClick={() => window.location.reload()}>
+          <Button w="20%" variant="outline" c='rocketOrange' onClick={() => window.location.reload()}>
             Refresh Page
           </Button>
           <Button w="20%" onClick={() => (window.location.href = '/')}>

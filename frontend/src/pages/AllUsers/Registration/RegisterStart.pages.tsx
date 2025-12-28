@@ -145,7 +145,7 @@ export default function RegisterPage() {
             fz="md"
             leftSection={<IconBrandGoogle size={20} aria-hidden="true" />}
             onClick={() => {
-              const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:8181' : '');
+              const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '');
               window.location.href = `${apiUrl}/api/auth/google/register`;
             }}
             aria-label="Sign up with Google"
@@ -180,6 +180,7 @@ export default function RegisterPage() {
 
               <Button
                 type="submit"
+                color="rocketDark.4"
                 fullWidth
                 size={isMobile ? 'md' : 'lg'}
                 loading={loading}

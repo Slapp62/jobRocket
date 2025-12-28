@@ -74,20 +74,19 @@ const DesktopDefaultView = ({
                     handleSelectListing={handleSelectListing}
                     listing={listing}
                     actions={
-                      <Group gap={10} w="100%">
+                      <Group gap={10} w="100%" justify="space-between">
                         <Button
                           onClick={() => {
                             if (!handleSelectListing) return null;
                             handleSelectListing(listing._id);
                             window.scrollTo({ top: 0, behavior: 'instant' });
                           }}
-                          color="rocketRed"
                           fullWidth
                           size="sm"
                         >
                           Learn More
                         </Button>
-                        {user?.profileType === 'jobseeker' && <FavoritesButton listing={listing} />}
+                        {user?.profileType === 'jobseeker' && <FavoritesButton listing={listing} width='40%'/>}
 
                         {user?.profileType !== 'business' && <MatchScore listing={listing} />}
                       </Group>

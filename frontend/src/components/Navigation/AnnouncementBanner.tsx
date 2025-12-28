@@ -68,6 +68,7 @@ export function AnnouncementBanner({
         maw={1200}
         mx="auto"
         wrap="wrap"
+        ta="justify"
       >
         <Flex align="center" gap="sm">
           <IconBell size={20} aria-hidden="true" />
@@ -80,10 +81,8 @@ export function AnnouncementBanner({
           {actionText && onAction && (
             <Button
               size="xs"
-              variant="outline"
+              variant="filled"
               onClick={onAction}
-              c='red'
-              color={computedColorScheme === 'light' ? 'rocketRed.7' : 'rocketOrange.4'}
             >
               {actionText}
             </Button>

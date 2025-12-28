@@ -6,7 +6,7 @@ import { trackApiError } from './analytics';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL =
-  import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:8181' : '');
+  import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '');
 
 export const setupAxiosInterceptors = (
   dispatch: AppDispatch,

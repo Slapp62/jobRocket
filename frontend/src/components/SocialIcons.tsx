@@ -1,8 +1,10 @@
 import { IconBrandLinkedin, IconBrandWhatsapp, IconBrandX } from '@tabler/icons-react';
 import { ActionIcon } from '@mantine/core';
+import { FavoritesButton } from './ListingActions/FavoritesButton';
+import { TListing } from '@/Types';
 
-const SocialIcons = (props: { listingID: string }) => {
-  const listingUrl = `${window.location.origin}/listing-details/${props.listingID}`;
+const SocialIcons = (props: { listing: TListing }) => {
+  const listingUrl = `${window.location.origin}/listing-details/${props.listing._id}`;
   const shareText = `Check out this job listing: ${listingUrl}`;
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
   const linkedInUrl =
@@ -44,6 +46,8 @@ const SocialIcons = (props: { listingID: string }) => {
       >
         <IconBrandX aria-hidden="true" />
       </ActionIcon>
+
+      <FavoritesButton listing={props.listing}/>
     </>
   );
 };
