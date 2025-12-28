@@ -1,18 +1,16 @@
 const dotenv = require('dotenv');
 dotenv.config();
+
 // Emergency logging to catch startup issues
 console.log('🚀 index.js: Starting module load...');
-console.log('Environment:', process.env.NODE_ENV || 'undefined');
-console.log('PORT:', process.env.PORT || 'undefined');
+console.log('Environment:', process.env.NODE_ENV || 'development');
+console.log('PORT:', process.env.PORT || '3000');
 
 const chalk = require('chalk');
 console.log('✓ chalk loaded');
 
 const { connectToDB } = require('./database/dbService');
 console.log('✓ dbService loaded');
-
-const config = require('config');
-console.log('✓ config loaded');
 
 const { seedDevData } = require('./seeding/seedingDataService');
 const dummyUsers = require('./seeding/seedingData/userSeedingData');
@@ -46,7 +44,7 @@ const startServer = async () => {
     }
 
     // 4. THEN start server
-    const PORT = process.env.PORT || config.get('PORT') || 3000;
+    const PORT = process.env.PORT || 3000;
     console.log(chalk.blue(`Attempting to bind to port ${PORT}...`));
 
     // calling app.listen loads app.js module

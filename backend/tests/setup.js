@@ -5,8 +5,7 @@ const dummyUsers = require('../seeding/seedingData/userSeedingData');
 const dummyListings = require('../seeding/seedingData/listingSeedingData');
 const dummyApplications = require('../seeding/seedingData/applicationSeedingData');
 const chalk = require('chalk');
-const config = require('config');
-const PORT = config.get('PORT') || 3000;
+const PORT = process.env.PORT || 3000;
 
 beforeAll(async () => {
   try {

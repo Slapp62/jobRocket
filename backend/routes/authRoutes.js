@@ -5,10 +5,9 @@ const router = express.Router();
 const { logAuth, logError } = require('../utils/logHelpers');
 const userService = require('../services/userService');
 const { profileValidation } = require('../middleware/userValidation');
-const config = require('config');
 
-// Frontend URL for OAuth redirects (from environment-specific config)
-const frontendUrl = config.get('FRONTEND_URL');
+// Frontend URL for OAuth redirects
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 // Step 1: User clicks "Sign in with Google" - redirect them to Google
 router.get(
   '/google',

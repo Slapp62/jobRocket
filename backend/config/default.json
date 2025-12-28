@@ -1,5 +1,0 @@
-{
-  "MONGO_LOCAL_URI": "mongodb://localhost:27017",
-  "MONGO_ATLAS_URI": "",
-  "TOKEN_GENERATOR": "jwt"
-}
