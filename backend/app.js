@@ -47,12 +47,12 @@ app.use((req, res, next) => {
   res.setHeader(
     'Content-Security-Policy',
     "default-src 'self'; " +
-      "script-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com; " +
+      "script-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com https://www.googletagmanager.com https://www.google-analytics.com; " +
       'frame-src https://ko-fi.com; ' +
       "img-src 'self' data: https:; " +
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://storage.ko-fi.com; " +
       "font-src 'self' https://fonts.gstatic.com; " +
-      "connect-src 'self' https://accounts.google.com https://jobrocket.work https://jobrocket.onrender.com; " +
+      "connect-src 'self' https://accounts.google.com https://jobrocket.work https://jobrocket.onrender.com https://www.google-analytics.com https://analytics.google.com; " +
       "form-action 'self' https://accounts.google.com;",
   );
   next();
