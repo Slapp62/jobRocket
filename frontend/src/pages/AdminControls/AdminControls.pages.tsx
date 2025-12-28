@@ -12,6 +12,7 @@ import {
   Select,
   Stack,
   Table,
+  Tabs,
   Text,
   TextInput,
   Title,
@@ -21,6 +22,7 @@ import { DeleteUserModal } from '../../components/Modals/DeleteUserModal';
 import { toggleAdminView } from '@/store/userSlice';
 import { formatDate } from '@/utils/dateUtils';
 import { useAdminControls } from './useAdminControls';
+import { AnalyticsDashboard } from './components/AnalyticsDashboard';
 
 const AdminControls = () => {
   const [id, setId] = useState('');
@@ -64,8 +66,17 @@ const AdminControls = () => {
     <>
       <Flex direction="column" w="100%">
         <Title fz={30} w="fit" mx="auto" my="sm">
-          Admin Control Table
+          Admin Dashboard
         </Title>
+
+        <Tabs defaultValue="users" mx="auto" w="95%" maw={1400}>
+          <Tabs.List>
+            <Tabs.Tab value="users">User Management</Tabs.Tab>
+            <Tabs.Tab value="analytics">Analytics</Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="users" pt="md">
+            {/* User Management Content */}
         {/* Mobile Filters */}
         <Stack gap="md" hiddenFrom="md" mx="auto" my="md" w="90%">
           <Select
@@ -292,6 +303,12 @@ const AdminControls = () => {
             m="auto"
           />
         )}
+          </Tabs.Panel>
+
+          <Tabs.Panel value="analytics" pt="md">
+            <AnalyticsDashboard />
+          </Tabs.Panel>
+        </Tabs>
       </Flex>
 
       <DeleteUserModal opened={opened} close={close} deleteUser={deleteUser} id={id} />

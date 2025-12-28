@@ -7,6 +7,7 @@ const {
 } = require('../utils/functionHandlers.js');
 const Users = require('../models/Users.js');
 const Listings = require('../models/Listings.js');
+const analyticsService = require('../services/analyticsService.js');
 
 async function createApplication(req, res) {
   try {
@@ -47,6 +48,17 @@ async function createApplication(req, res) {
       applicationData,
       resumeFile,
     );
+
+    // Track application submission (non-blocking - runs in background)
+    setImmediate(() => {
+      analyticsService.trackApplicationSubmit(
+        application._id,
+        listingId,
+        applicantId,
+        req.sessionID,
+        req.get('user-agent')
+      );
+    });
 
     handleSuccess(res, 201, application, 'Application submitted successfully.');
   } catch (error) {

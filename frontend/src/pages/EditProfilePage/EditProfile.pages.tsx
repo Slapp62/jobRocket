@@ -48,19 +48,21 @@ export function EditProfile() {
         <Flex my={10} justify="center" direction="column" w={isMobile ? '90%' : '50%'}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Flex gap={10} direction="column" m="auto">
-              <Fieldset legend="Contact">
-                <TextInput
-                  rightSection={<IconPhone />}
-                  label="Phone"
-                  required
-                  {...register('phone', {
-                    onChange: (e) => {
-                      e.target.value = e.target.value.replace(/[^\d-]/g, '');
-                    },
-                  })}
-                  error={errors.phone?.message}
-                />
-              </Fieldset>
+              {isJobseeker && (
+                <Fieldset legend="Contact">
+                  <TextInput
+                    rightSection={<IconPhone />}
+                    label="Phone"
+                    required
+                    {...register('phone', {
+                      onChange: (e) => {
+                        e.target.value = e.target.value.replace(/[^\d-]/g, '');
+                      },
+                    })}
+                    error={errors.phone?.message}
+                  />
+                </Fieldset>
+              )}
 
               {isJobseeker && (
                 <Fieldset legend="Jobseeker Details">

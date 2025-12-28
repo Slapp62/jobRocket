@@ -71,9 +71,18 @@ const jobListingSchema = new Schema({
   },
   likes: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
   isActive: { type: Boolean, default: true },
+  viewCount: {
+    type: Number,
+    default: 0,
+    min: 0, // Prevent negative view counts
+  },
+  lastViewedAt: {
+    type: Date,
+    default: null,
+  },
   createdAt: { type: Date, default: Date.now },
   expiresAt: {
-    type: Date, 
+    type: Date,
     default: () => {
       const date = new Date();
       date.setDate(date.getDate() + 30);

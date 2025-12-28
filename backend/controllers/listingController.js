@@ -2,6 +2,7 @@ const listingService = require('../services/listingService.js');
 const { handleSuccess, handleError } = require('../utils/functionHandlers.js');
 const normalizeListing = require('../utils/normalizeListing.js');
 const filterService = require('../services/filterService.js');
+const analyticsService = require('../services/analyticsService.js');
 
 async function getAllListings(req, res) {
   try {
@@ -20,6 +21,20 @@ async function getSearchedListings(req, res) {
       normalizedSearchParams,
       req.user._id,
     );
+
+    // Track search queries (non-blocking - only if there's actual search text)
+    if (normalizedSearchParams.searchText && normalizedSearchParams.searchText.trim() !== '') {
+      setImmediate(() => {
+        analyticsService.trackSearch(
+          normalizedSearchParams.searchText,
+          result.pagination.totalResults,
+          req.user?._id || null,
+          req.sessionID,
+          req.get('user-agent')
+        );
+      });
+    }
+
     res.json(result);
   } catch (error) {
     handleError(res, error.status || 500, error.message);
@@ -99,6 +114,18 @@ async function getListingById(req, res) {
   try {
     const listingId = req.params.id;
     const listing = await listingService.getListingById(listingId);
+
+    // Track job view (non-blocking - runs in background)
+    // This will increment viewCount on the listing and log analytics event
+    setImmediate(() => {
+      analyticsService.trackJobView(
+        listingId,
+        req.user?._id || null,
+        req.sessionID,
+        req.get('user-agent')
+      );
+    });
+
     handleSuccess(res, 200, listing, 'Listing fetched successfully');
   } catch (error) {
     handleError(res, error.status, error.message);

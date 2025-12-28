@@ -235,6 +235,8 @@ const toggleRole = async (userId) => {
 };
 
 const deleteUser = async (userId) => {
+  const AnalyticsEvent = require('../models/AnalyticsEvent');
+
   const user = await Users.findById(userId);
   if (!user) {
     throwError(404, 'User not found');
@@ -245,12 +247,21 @@ const deleteUser = async (userId) => {
   user.deletedAt = new Date();
   await user.save();
 
+  // PRIVACY COMPLIANCE: Anonymize analytics events
+  // Set userId to null while keeping aggregate data for platform metrics
+  // This allows us to maintain business intelligence while protecting user privacy
+  await AnalyticsEvent.updateMany(
+    { userId: userId },
+    { $set: { userId: null } }
+  );
+
   // Log database operation
   logDatabase('soft-delete', 'Users', {
     userId,
     email: user.email,
     profileType: user.profileType,
     deletedAt: user.deletedAt,
+    analyticsAnonymized: true,
   });
 
   const normalizedUser = normalizeUserResponse(user);
@@ -259,6 +270,7 @@ const deleteUser = async (userId) => {
 
 const exportUserData = async (userId) => {
   const Applications = require('../models/Applications');
+  const AnalyticsEvent = require('../models/AnalyticsEvent');
 
   const user = await Users.findById(userId);
   if (!user) {
@@ -269,6 +281,9 @@ const exportUserData = async (userId) => {
   const applications = await Applications.find({ applicantId: userId })
     .populate('listingId', 'jobTitle companyName')
     .lean();
+
+  // Get all analytics events for this user (for GDPR/Amendment 13 compliance)
+  const userEvents = await AnalyticsEvent.find({ userId }).lean();
 
   // Build comprehensive data export
   const exportData = {
@@ -327,6 +342,30 @@ const exportUserData = async (userId) => {
       socialMedia: user.businessProfile.socialMedia,
     };
   }
+
+  // Add analytics data (privacy-compliant operational data)
+  exportData.analytics = {
+    summary: {
+      totalSearches: userEvents.filter(e => e.eventType === 'search').length,
+      totalJobViews: userEvents.filter(e => e.eventType === 'job_view').length,
+      totalApplications: userEvents.filter(e => e.eventType === 'application_submit').length,
+    },
+    searchHistory: userEvents
+      .filter(e => e.eventType === 'search')
+      .map(e => ({
+        query: e.metadata?.searchQuery,
+        resultsCount: e.metadata?.resultsCount,
+        timestamp: e.timestamp,
+      }))
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)),
+    viewHistory: userEvents
+      .filter(e => e.eventType === 'job_view')
+      .map(e => ({
+        jobId: e.jobId,
+        timestamp: e.timestamp,
+      }))
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)),
+  };
 
   return exportData;
 };

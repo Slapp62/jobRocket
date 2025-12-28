@@ -7,6 +7,7 @@ const {
   uploadResumeToCloudinary,
 } = require('../utils/uploadResumeToCloudinary.js');
 const matchingService = require('./matchingService.js');
+const analyticsService = require('./analyticsService.js');
 
 async function createApplication(
   listingId,

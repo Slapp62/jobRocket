@@ -79,7 +79,7 @@ const seedDevData = async (users, listings, applications = []) => {
         phone: application.phone,
         applicantId: applicant._id,
         resumeUrl: application.resumeUrl,
-        message: application.message || '',
+        message: application.message || undefined, // Use undefined instead of '' to bypass minlength validation
         status: application.status,
         applicationDataConsent: application.applicationDataConsent,
       });
@@ -153,7 +153,7 @@ const seedTestData = async (users, listings, applications = []) => {
         phone: application.phone,
         applicantId: applicant._id,
         resumeUrl: application.resumeUrl,
-        message: application.message || '',
+        message: application.message || undefined, // Use undefined instead of '' to bypass minlength validation
         status: application.status,
         applicationDataConsent: application.applicationDataConsent,
       });

@@ -80,6 +80,9 @@ app.use((req, res, next) => {
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 
+const analyticsRoutes = require('./routes/analyticsRoutes');
+app.use('/api/analytics', analyticsRoutes);
+
 // Error logging (must be before routes to capture errors)
 app.use(errorLogger);
 
