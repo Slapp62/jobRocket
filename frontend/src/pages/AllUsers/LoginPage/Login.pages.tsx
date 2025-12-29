@@ -176,17 +176,6 @@ export function LoginPage() {
       />
 
       <Container size="xs" py="xl">
-        {message && (
-          <Title order={3} ta="center" c="red" mb={10}>
-            {message}
-          </Title>
-        )}
-        {!message && (
-          <Title ta="center" className={classes.title}>
-            Welcome back!
-          </Title>
-        )}
-
         <Paper
           withBorder
           p={30}
@@ -195,6 +184,17 @@ export function LoginPage() {
           shadow="lg"
           className={styles.cardGradientSubtle}
         >
+          {message && (
+          <Title order={3} ta="center" c="red" mb={10}>
+            {message}
+          </Title>
+          )}
+          {!message && (
+            <Title ta="center" className={classes.title}>
+              Welcome back!
+            </Title>
+          )}
+
           <form onSubmit={handleSubmit(onSubmit)} aria-label="Login form">
             {/* ACCESSIBILITY: Error summary - WCAG 3.3.1 */}
             {Object.keys(errors).length > 0 && (
@@ -219,12 +219,12 @@ export function LoginPage() {
             <Button
               fullWidth
               variant="filled"
-              size={isMobile ? 'md' : 'lg'}
+              size='md'
               fz="md"
               onClick={() => {
                 window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`;
               }}
-              mb="md"
+              my="md"
               leftSection={<IconBrandGoogle size={20} aria-hidden="true" />}
               aria-label="Sign in with Google"
             >
@@ -264,7 +264,7 @@ export function LoginPage() {
               variant="filled"
               color="rocketDark.4"
               mt="md"
-              size={isMobile ? 'md' : 'lg'}
+              size='md'
               fullWidth
               loading={isLoading}
               aria-label={isLoading ? 'Signing in...' : 'Sign in'}

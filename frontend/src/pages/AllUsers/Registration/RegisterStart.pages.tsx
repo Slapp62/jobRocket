@@ -140,7 +140,7 @@ export default function RegisterPage() {
           {/* Google Sign Up */}
           <Button
             fullWidth
-            size={isMobile ? 'md' : 'lg'}
+            size='md'
             variant="filled"
             fz="md"
             leftSection={<IconBrandGoogle size={20} aria-hidden="true" />}
@@ -162,7 +162,7 @@ export default function RegisterPage() {
                 label="Email"
                 placeholder="Enter your email"
                 type="email"
-                size={isMobile ? 'md' : 'lg'}
+                size='md'
                 withAsterisk
                 {...register('email')}
                 error={errors.email?.message}
@@ -171,7 +171,7 @@ export default function RegisterPage() {
               <PasswordInput
                 label="Password"
                 placeholder="Enter your password"
-                size={isMobile ? 'md' : 'lg'}
+                size='md'
                 withAsterisk
                 {...register('password')}
                 error={errors.password?.message}
@@ -182,7 +182,7 @@ export default function RegisterPage() {
                 type="submit"
                 color="rocketDark.4"
                 fullWidth
-                size={isMobile ? 'md' : 'lg'}
+                size='md'
                 loading={loading}
                 aria-label="Continue">
                 Continue

@@ -207,7 +207,9 @@ export const theme = createTheme({
 // CSS Variables Resolver - Override default Mantine background colors
 export const cssVariablesResolver: CSSVariablesResolver = () => ({
   variables: {},
-  light: {},
+  light: {
+    '--mantine-color-body': '#eeeeeeff', // rocketBlack.9 - darkest background
+  },
   dark: {
     '--mantine-color-body': '#222222ff', // rocketBlack.9 - darkest background
   },
