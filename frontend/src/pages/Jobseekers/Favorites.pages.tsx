@@ -1,7 +1,7 @@
 import { AnimatePresence } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Box, Flex, Stack, Title } from '@mantine/core';
+import { Box, Flex, Stack, Title, useComputedColorScheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { EmptyState } from '@/components/EmptyState';
 import { FilterBar } from '@/components/Filters/FilterBar';
@@ -17,6 +17,7 @@ export function FavoriteListings() {
   const user = useSelector((state: RootState) => state.userSlice.user);
   const navigate = useNavigate();
   const isMobile = useMediaQuery('(max-width: 500px)');
+  const computedColorScheme = useComputedColorScheme('light');
   const {
     searchParams,
     updateSearchParam,
@@ -28,6 +29,10 @@ export function FavoriteListings() {
     handleSelectListing,
     handleBackToAll,
   } = getParamsInfo(`favorites/${user?._id}`);
+
+  // Centralized theme-aware colors
+  const bgColor = computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9';
+  const textHeaderColor = computedColorScheme === 'light' ? 'rocketGray.9' : 'rocketBlack.1';
 
 
   if (noListings) {
@@ -54,7 +59,7 @@ export function FavoriteListings() {
       />
 
       {/* Filters at top */}
-      <Box mx="auto" bg='rocketRed.7'>
+      <Box mx="auto" bg={bgColor}>
         <FilterBar
           searchParams={searchParams}
           updateSearchParam={updateSearchParam}
@@ -78,7 +83,7 @@ export function FavoriteListings() {
         </Box>
         ) : (
         <Box>
-          <Title ta="center" order={2} mt='lg' c="rocketRed.9">
+          <Title ta="center" order={2} mt='lg' c={textHeaderColor}>
             Favorites
           </Title>
 

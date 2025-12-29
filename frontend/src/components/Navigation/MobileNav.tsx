@@ -11,11 +11,11 @@ export const MobileBottomNav = () => {
   const isLoggedIn = useSelector((state: RootState) => state.userSlice.user);
   const computedColorScheme = useComputedColorScheme('light');
 
-  // Theme-aware colors for dark mode
+  // Theme-aware colors
   const isDark = computedColorScheme === 'dark';
-  const textColor = isDark ? 'rocketOrange.4' : 'rocketRed.6';
+  const textColor = isDark ? 'rocketOrange.4' : 'rocketGray.9';
   const bgColor = isDark ? 'rocketBlack.9' : 'white';
-  const buttonBg = isDark ? 'rocketDark.8' : 'rocketOrange.1';
+  const buttonBg = isDark ? 'rocketBlack.8' : 'rocketOrange.1';
   const borderColor = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.11)';
 
   return (

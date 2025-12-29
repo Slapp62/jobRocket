@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Badge, Box, Button, Card, Stack, Text } from '@mantine/core';
+import { Badge, Box, Button, Card, Stack, Text, useComputedColorScheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { TListing } from '@/Types';
 import { formatRegionForDisplay } from '@/utils/formatters';
@@ -31,6 +31,10 @@ function ListingCard({
   handleSelectListing,
 }: ListingCardProps) {
   const isMobile = useMediaQuery('(max-width: 726px)');
+  const computedColorScheme = useComputedColorScheme('light');
+
+  // Theme-aware badge color
+  const badgeColor = computedColorScheme === 'light' ? 'rocketBlack.4' : 'rocketBlack.4';
 
   return (
     <motion.div
@@ -82,7 +86,7 @@ function ListingCard({
           </Text>
           {/* Badges */}
           <Box>
-            <Badge variant="filled" color="rocketDark.4" c="white" mr="xs" size="md">
+            <Badge variant="filled" color={badgeColor} c="white" mr="xs" size="md">
               {listing.workArrangement}
             </Badge>
           </Box>

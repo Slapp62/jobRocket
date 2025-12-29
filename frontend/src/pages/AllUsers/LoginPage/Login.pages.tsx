@@ -18,13 +18,13 @@ import {
   Text,
   TextInput,
   Title,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { PageMeta } from '@/SEO/PageMeta';
 import { AppDispatch } from '@/store/store';
 import { setUser } from '@/store/userSlice';
-import styles from '@/styles/gradients.module.css';
 import { announceToScreenReader, autocompleteValues } from '@/utils/accessibility';
 import { trackLogin } from '@/utils/analytics';
 import { loginSchema } from '@/validationRules/login.joi';
@@ -35,6 +35,11 @@ export function LoginPage() {
   const location = useLocation();
   const message = location.state?.message;
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const computedColorScheme = useComputedColorScheme('light');
+
+  // Theme-aware colors
+  const cardBg = computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9';
+  const textColor = computedColorScheme === 'light' ? 'rocketGray.9' : 'rocketBlack.1';
 
   const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState(false);
@@ -177,12 +182,15 @@ export function LoginPage() {
 
       <Container size="xs" py="xl">
         <Paper
-          withBorder
           p={30}
           mt={30}
           radius="md"
-          shadow="lg"
-          className={styles.cardGradientSubtle}
+          bg={cardBg}
+          style={{
+            border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+            borderRadius: '10px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+          }}
         >
           {message && (
           <Title order={3} ta="center" c="red" mb={10}>
@@ -190,7 +198,7 @@ export function LoginPage() {
           </Title>
           )}
           {!message && (
-            <Title ta="center" className={classes.title}>
+            <Title ta="center" c={textColor}>
               Welcome back!
             </Title>
           )}
@@ -262,7 +270,6 @@ export function LoginPage() {
             <Button
               type="submit"
               variant="filled"
-              color="rocketDark.4"
               mt="md"
               size='md'
               fullWidth

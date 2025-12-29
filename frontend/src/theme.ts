@@ -50,34 +50,32 @@ const rocketYellow: MantineColorsTuple = [
   '#e6b000ff', // 9 - Darkest (text on light backgrounds)
 ];
 
-// Custom Dark Mode palette for high contrast
-// This palette provides named references for all dark mode colors
-const rocketDark: MantineColorsTuple = [
-  '#f5f5f5', // 0 - Brightest text (primary text in dark mode)
-  '#e0e0e0', // 1 - Very light gray (secondary text)
-  '#c2c2c2', // 2 - Light gray (disabled text, placeholders)
-  '#a0a0a0', // 3 - Medium-light gray (muted text)
-  '#808080', // 4 - Medium gray (icons, dividers)
-  '#606060', // 5 - Medium-dark gray (subtle borders)
-  '#333333', // 6 - Dark gray (borders, separators)
-  '#1f1f1f', // 7 - Very dark gray (hover states, elevated cards)
-  '#1a1a1a', // 8 - Nearly black (cards, papers, modals)
-  '#0f0f0f', // 9 - Darkest (drawers, secondary backgrounds)
+// Custom Gray palette for light mode backgrounds and neutrals
+const rocketGray: MantineColorsTuple = [
+  '#fafafa', // 0 - Lightest background
+  '#f5f5f5', // 1 - Very light background
+  '#eeeeee', // 2 - Light background (primary use - headers, sections in light mode)
+  '#e0e0e0', // 3 - Medium-light (borders, dividers)
+  '#bdbdbd', // 4 - Medium gray (disabled states, hover backgrounds)
+  '#9e9e9e', // 5 - Medium-dark (muted text)
+  '#757575', // 6 - Dark gray (secondary text)
+  '#616161', // 7 - Darker (body text)
+  '#424242', // 8 - Very dark (emphasis text)
+  '#212121', // 9 - Darkest (headers, primary text in light mode)
 ];
 
-// Pure Black palette for page backgrounds in dark mode
-// Provides the deepest blacks for maximum contrast
+// Custom Black palette for dark mode text and backgrounds
 const rocketBlack: MantineColorsTuple = [
-  '#ffffff', // 0 - Pure white (for contrast reference)
-  '#f0f0f0', // 1 - Near white
-  '#d0d0d0', // 2 - Very light gray
-  '#b0b0b0', // 3 - Light gray
-  '#909090', // 4 - Medium gray
-  '#707070', // 5 - Gray
-  '#505050', // 6 - Dark gray
-  '#303030', // 7 - Very dark gray
-  '#121212', // 8 - Near black (alternative page background)
-  '#0a0a0a', // 9 - Pure black (primary page background in dark mode)
+  '#e8e8e8', // 0 - Light gray (brightest text in dark mode)
+  '#d0d0d0', // 1 - Medium-light gray (primary text in dark mode, light cards in light mode)
+  '#b8b8b8', // 2 - Medium gray (secondary text in dark mode)
+  '#a0a0a0', // 3 - Muted text (body text in dark mode)
+  '#888888', // 4 - Icons, tertiary text, buttons
+  '#505050', // 5 - Dividers, borders in dark mode
+  '#383838', // 6 - Elevated surfaces in dark mode
+  '#282828', // 7 - Cards, papers in dark mode (also used for text in light mode)
+  '#1a1a1a', // 8 - Secondary backgrounds in dark mode
+  '#0f0f0f', // 9 - Primary dark background (page background in dark mode)
 ];
 
 export const theme = createTheme({
@@ -87,7 +85,7 @@ export const theme = createTheme({
     rocketOrange,
     rocketRed,
     rocketYellow,
-    rocketDark,
+    rocketGray,
     rocketBlack,
   },
 
@@ -208,7 +206,7 @@ export const theme = createTheme({
 export const cssVariablesResolver: CSSVariablesResolver = () => ({
   variables: {},
   light: {
-    '--mantine-color-body': '#eeeeeeff', // rocketBlack.9 - darkest background
+    '--mantine-color-body': '#f7f7f7ff', 
   },
   dark: {
     '--mantine-color-body': '#222222ff', // rocketBlack.9 - darkest background

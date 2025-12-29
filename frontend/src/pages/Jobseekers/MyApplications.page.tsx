@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { Badge, Button, Card, Center, Flex, Loader, Stack, Text, Title } from '@mantine/core';
+import { Badge, Button, Card, Center, Flex, Loader, Stack, Text, Title, useComputedColorScheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { EmptyState } from '@/components/EmptyState';
@@ -20,6 +20,10 @@ export function MyApplications() {
   const [editOpened, { open: openEdit, close: closeEdit }] = useDisclosure(false);
   const [selectedApplication, setSelectedApplication] = useState<TApplication | null>(null);
   const navigate = useNavigate();
+  const computedColorScheme = useComputedColorScheme('light');
+
+  // Centralized theme-aware colors
+  const textHeaderColor = computedColorScheme === 'light' ? 'rocketGray.9' : 'rocketBlack.1';
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -88,7 +92,7 @@ export function MyApplications() {
         </Center>
       ) : (
         <Stack w="100%" gap="md">
-          <Title ta="center" order={2} my={15} c="rocketRed.9">
+          <Title ta="center" order={2} my={15} c={textHeaderColor}>
             Applications
           </Title>
 

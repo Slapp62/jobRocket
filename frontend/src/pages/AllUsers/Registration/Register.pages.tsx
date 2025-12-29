@@ -15,11 +15,11 @@ import {
   Stack,
   Tabs,
   Text,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { PageMeta } from '@/SEO/PageMeta';
-import styles from '@/styles/gradients.module.css';
 import { TUsers } from '@/Types';
 import { announceToScreenReader } from '@/utils/accessibility';
 import { trackRegistration } from '@/utils/analytics';
@@ -36,6 +36,10 @@ export function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeError, setResumeError] = useState<string | null>(null);
+  const computedColorScheme = useComputedColorScheme('light');
+
+  // Theme-aware colors
+  const fieldsetBg = computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9';
 
   const setControlRef = (val: string) => (node: HTMLButtonElement) => {
     controlsRefs[val] = node;
@@ -200,8 +204,12 @@ export function RegisterForm() {
 
             <Fieldset
               legend="Choose An Account Type"
-              className={styles.cardGradientSubtle}
-              style={{ borderRadius: '8px' }}
+              bg={fieldsetBg}
+              style={{
+                border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+                borderRadius: '10px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              }}
             >
               <Tabs
                 variant="none"

@@ -1,8 +1,8 @@
 
 .primaryBg {
-  background-color: light-dark(rgb(255, 97, 40), var(--mantine-color-rocketDark-8));
+  background-color: light-dark(var(--mantine-color-rocketGray-2), var(--mantine-color-rocketBlack-8));
 }
 
 .buttonBg{
-  background-color: light-dark(rgb(255, 97, 40), var(--mantine-color-rocketDark-8));
+  background-color: light-dark(var(--mantine-color-rocketGray-2), var(--mantine-color-rocketBlack-8));
 }

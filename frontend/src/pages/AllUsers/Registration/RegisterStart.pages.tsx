@@ -15,10 +15,10 @@ import {
   Text,
   TextInput,
   Title,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import styles from '@/styles/gradients.module.css';
 
 // Simple validation schema for email/password only
 const credentialsSchema = Joi.object({
@@ -52,6 +52,11 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [redirectCountdown, setRedirectCountdown] = useState<number | null>(null);
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const computedColorScheme = useComputedColorScheme('light');
+
+  // Theme-aware colors
+  const cardBg = computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9';
+  const textColor = computedColorScheme === 'light' ? 'rocketGray.9' : 'rocketBlack.1';
 
   const {
     register,
@@ -128,8 +133,17 @@ export default function RegisterPage() {
 
   return (
     <Container size="xs" py="xl">
-      <Paper withBorder shadow="lg" p="xl" radius="md" className={styles.cardGradientSubtle}>
-        <Title order={1} ta="center" mb="md">
+      <Paper
+        p="xl"
+        radius="md"
+        bg={cardBg}
+        style={{
+          border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+          borderRadius: '10px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+        }}
+      >
+        <Title order={1} ta="center" mb="md" c={textColor}>
           Create Your Account
         </Title>
         <Text ta="center" c="dimmed" mb="xl">
@@ -180,7 +194,6 @@ export default function RegisterPage() {
 
               <Button
                 type="submit"
-                color="rocketDark.4"
                 fullWidth
                 size='md'
                 loading={loading}

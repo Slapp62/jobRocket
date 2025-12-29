@@ -17,6 +17,8 @@ export function HomePage() {
 
   const textBodyColor = computedColorScheme === 'light' ? 'rocketBlack.7' : 'rocketBlack.3';
   const textHeaderColor = computedColorScheme === 'light' ? 'rocketBlack.7' : 'rocketBlack.1';
+  const buttonBorderColor = computedColorScheme === 'light' ? 'black' : 'white';
+
   const searchListing = () => {
     // Build URL query params from searchObj
     const params = new URLSearchParams();
@@ -49,16 +51,16 @@ export function HomePage() {
       />
 
       <Box h="85%" w="100%">
-        <Stack w="100%" h="100%" gap={20} pt={10} pb={20} bg={computedColorScheme === 'dark' ? 'rocketBlack.9' : 'rocketBlack.7'}>
+        <Stack w="100%" h="100%" gap={20} py={30} bg={computedColorScheme === 'dark' ? 'rocketBlack.9' : 'rocketGray.2'}>
           <Stack w={{ base: '95%', sm: '85%', md: '40%' }} align="center" mx="auto">
             {/* Conditional Welcome Message */}
             {!user && (
-              <Title order={2} c="white">
+              <Title order={2} c={textHeaderColor}>
                 Launch yourself into a world of possibility.
               </Title>
             )}
             {user && (
-              <Text ta="center" c="white" fz={30}>
+              <Text ta="center" c={textHeaderColor} fz={30}>
                 Welcome Back,{' '}
                 {user.jobseekerProfile?.firstName || user.businessProfile?.companyName}!
               </Text>
@@ -116,7 +118,8 @@ export function HomePage() {
                 w="40%"
                 mx="auto"
                 variant="outline"
-                color="white"
+                color={buttonBorderColor}
+                c={textHeaderColor}
                 size="md"
                 fz={20}
                 style={{ fontWeight: 700 }}
@@ -126,11 +129,10 @@ export function HomePage() {
             )}
           </Stack>
         </Stack>
-        <Divider size="xs" color="rocketRed.3" />
+        <Divider size="sm" color={computedColorScheme === 'light' ? 'lightgray' : 'var(--mantine-color-rocketOrange-6)'} />
 
-        <Box my='50px' w={{ base: '95%', md: '70%' }} mx="auto">
-          <Stack 
-            c="rocketRed.9"
+        <Box my='25px' w={{ base: '95%', md: '70%' }} mx="auto">
+          <Stack
             w="100%"
             h="auto"
             p={{ base: 'md', sm: 'lg', md: 'xl' }}
@@ -159,7 +161,7 @@ export function HomePage() {
             <Stack
               c={textBodyColor}
               h="auto"
-              bg={computedColorScheme === 'light' ? 'rocketBlack.1' : 'rocketBlack.9'}
+              bg={computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9'}
               w="100%"
               p={{ base: 'md', sm: 'lg', md: 'xl' }}
               style={{
@@ -222,7 +224,7 @@ export function HomePage() {
               c={textBodyColor}
               w="100%"
               h="auto"
-              bg={computedColorScheme === 'light' ? 'rocketBlack.1' : 'rocketBlack.9'}
+              bg={computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9'}
               p={{ base: 'md', sm: 'lg', md: 'xl' }}
               style={{
                 border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
@@ -287,7 +289,7 @@ export function HomePage() {
             gap={20}
             p="lg"
             mx="auto"
-            bg={computedColorScheme === 'light' ? 'rocketBlack.1' : 'rocketBlack.9'}
+            bg={computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9'}
             style={{
               border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
               borderRadius: '10px',

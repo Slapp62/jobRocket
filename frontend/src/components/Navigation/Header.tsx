@@ -40,9 +40,11 @@ export function Navbar() {
   const jumpTo = useNavigate();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
-  // Theme-aware color for drawer links
-  const drawerLinkColor = 'rocketDark.6'
-  const drawerButtonColor = 'rocketDark.4'
+  // Theme-aware colors
+  const drawerLinkColor = 'rocketBlack.6'
+  const drawerButtonColor = 'rocketBlack.4'
+  const buttonBorderColor = computedColorScheme === 'light' ? 'black' : 'white'
+  const buttonTextColor = computedColorScheme === 'light' ? 'black' : 'white'
 
   const logoutHandler = async () => {
     try {
@@ -78,7 +80,7 @@ export function Navbar() {
 
   return (
     <Box
-      bg={computedColorScheme === 'light' ? 'rocketBlack.7' : 'rocketBlack.9'}
+      bg={computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9'}
       pos="sticky"
       pt={5}
     >
@@ -90,37 +92,37 @@ export function Navbar() {
               This helps screen reader users identify and navigate to the main navigation */}
           <nav aria-label="Main navigation">
             <Group visibleFrom="md" gap={5}>
-              <Button fz="md" variant="subtle" c="white" component={Link} to="/">
+              <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/">
                 Home
               </Button>
-              <Button fz="md" variant="subtle" c="white" component={Link} to="/search">
+              <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/search">
                 Job Board
               </Button>
 
               {loggedIn && user?.profileType === 'jobseeker' && (
-                <Button fz="md" variant="subtle" c="white" component={Link} to="/favorites">
+                <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/favorites">
                   Favorites
                 </Button>
               )}
 
               {loggedIn && user?.profileType === 'jobseeker' && (
-                <Button fz="md" variant="subtle" c="white" component={Link} to="/my-applications">
+                <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/my-applications">
                   Applications
                 </Button>
               )}
 
               {loggedIn && user?.profileType === 'business' && (
-                <Button fz="md" variant="subtle" c="white" component={Link} to="/dashboard">
+                <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/dashboard">
                   Dashboard
                 </Button>
               )}
 
-              <Button fz="md" variant="subtle" c="white" component={Link} to="/about">
+              <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/about">
                 About Us
               </Button>
 
               {user?.isAdmin && (
-                <Button fz="md" variant="subtle" c="white" component={Link} to="/admin">
+                <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/admin">
                   Admin Controls
                 </Button>
               )}
@@ -133,7 +135,7 @@ export function Navbar() {
               <LightDarkToggle />
 
               {!loggedIn && (
-                <Button component={Link} to="/login" variant="outline" color="white">
+                <Button component={Link} to="/login" variant="outline" c={buttonTextColor} color={buttonBorderColor}>
                   Login
                 </Button>
               )}
@@ -148,7 +150,8 @@ export function Navbar() {
               {isBusinessUser && (
                 <ActionIcon
                   variant="outline"
-                  color="white"
+                  c={buttonTextColor}
+                  color={buttonBorderColor}
                   size="35px"
                   radius="md"
                   onClick={() => jumpTo('/create-listing')}
@@ -170,7 +173,7 @@ export function Navbar() {
               )}
 
               {loggedIn && (
-                <Button variant="outline" color="white" onClick={logoutHandler}>
+                <Button variant="outline" color={buttonBorderColor} c={buttonTextColor} onClick={logoutHandler}>
                   Logout
                 </Button>
               )}
@@ -180,8 +183,8 @@ export function Navbar() {
               {loggedIn && !isMobile &&
                 <Button
                     variant="outline"
-                    color="white"
-                    c="white"
+                    color={buttonBorderColor}
+                    c={buttonTextColor}
                     onClick={() => {
                       dispatch(toggleAdminView(false));
                       jumpTo(`/edit-profile/${user?._id}`);
@@ -198,7 +201,7 @@ export function Navbar() {
               {/* ACCESSIBILITY: Burger menu needs aria-label and aria-expanded for screen readers
                   aria-expanded tells screen readers if the mobile menu is currently open */}
               <Burger
-                color="white"
+                c={buttonTextColor}
                 opened={drawerOpened}
                 onClick={toggleDrawer}
                 hiddenFrom="md"
@@ -207,8 +210,9 @@ export function Navbar() {
                 aria-controls="mobile-navigation-drawer"
               />
             </Group>
-          </Group>
+          </Group> 
         </Flex>
+        <Divider size="xs" color={computedColorScheme === 'light' ? 'var(--mantine-color-rocketGray-4)' : 'var(--mantine-color-rocketBlack-6)'} />
       </header>
 
       {/* ACCESSIBILITY: Mobile navigation drawer needs proper ARIA attributes

@@ -2,13 +2,14 @@
   padding-top: calc(var(--mantine-spacing-md) * 1.5);
   padding-bottom: calc(var(--mantine-spacing-xs) * 1);
   background: light-dark(var(--mantine-color-white), var(--mantine-color-rocketBlack-9));
-  border-top: 2px solid light-dark(#FFD8A8, #FF6B35);
+  border-top: 1px solid light-dark(var(--mantine-color-rocketGray-4), var(--mantine-color-rocketBlack-6));
 }
 
 .logo {
   max-width: 200px;
   border-radius: 10px;
   padding: 5px;
+  background: light-dark(var(--mantine-color-rocketGray-3), var(--mantine-color-rocketBlack-7));
   @media (max-width: $mantine-breakpoint-sm) {
     min-width: 100%;
     padding: 15px;
@@ -19,7 +20,7 @@
 }
 
 .description {
-  color: light-dark(var(--mantine-color-white), var(--mantine-color-rocketDark-1));
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-rocketBlack-1));
 }
 
 .inner {
@@ -73,7 +74,6 @@
   margin-top: var(--mantine-spacing-md);
   padding-top: var(--mantine-spacing-md);
   //padding-bottom: var(--mantine-spacing-xs);
-  border-top: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-rocketDark-6));
 
   @media (max-width: $mantine-breakpoint-sm) {
     flex-direction: column;

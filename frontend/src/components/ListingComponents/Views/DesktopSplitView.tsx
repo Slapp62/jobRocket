@@ -1,6 +1,6 @@
 import { IconArrowLeft } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
-import { Box, Button, Flex, ScrollArea, Stack } from '@mantine/core';
+import { Box, Button, Flex, ScrollArea, Stack, useComputedColorScheme } from '@mantine/core';
 import ListingCard from '../ListingCard/ListingCard';
 import ListingDetailsPanel from '../ListingPanel/ListingDetailsPanel';
 
@@ -21,7 +21,12 @@ const DesktopSplitView = ({
 }: DesktopSplitViewProps) => {
   // Find the selected listing from the already-loaded displayListings
   const selectedListing = displayListings.find((listing) => listing._id === selectedId);
-  
+  const computedColorScheme = useComputedColorScheme('light');
+
+  // Theme-aware colors
+  const borderColor = computedColorScheme === 'light' ? '#dee2e6' : 'rgba(255, 255, 255, 0.1)';
+  const buttonTextColor = computedColorScheme === 'light' ? 'rocketOrange.6' : 'rocketOrange.4';
+  const outlineColor = computedColorScheme === 'light' ? '#228be6' : '#4dabf7';
 
   return isMobile ? (
     <ListingDetailsPanel listingId={selectedId} />
@@ -43,7 +48,7 @@ const DesktopSplitView = ({
           exit={{ width: 0, opacity: 0 }}
           transition={{ duration: 0.4, ease: 'easeInOut' }}
           style={{
-            borderRight: '1px solid #dee2e6',
+            borderRight: `1px solid ${borderColor}`,
             overflow: 'hidden',
           }}
         >
@@ -52,6 +57,7 @@ const DesktopSplitView = ({
               {/* Back button */}
               <Button
                 variant="subtle"
+                c={buttonTextColor}
                 leftSection={<IconArrowLeft size={16} />}
                 onClick={handleBackToAll}
                 mb="sm"
@@ -70,7 +76,7 @@ const DesktopSplitView = ({
                   }}
                   style={{
                     cursor: 'pointer',
-                    outline: selectedId === listing._id ? '2px solid #228be6' : 'none',
+                    outline: selectedId === listing._id ? `2px solid ${outlineColor}` : 'none',
                     borderRadius: '8px',
                     transition: 'outline 0.2s ease',
                   }}

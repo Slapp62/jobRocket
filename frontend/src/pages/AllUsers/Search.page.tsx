@@ -173,19 +173,19 @@ export function SearchPage() {
         keywords="English jobs Israel, Tel Aviv jobs, Jerusalem jobs, tech jobs Israel"
       />
       <Box>
-        <Box bg={computedColorScheme === 'dark' ? 'rocketDark.9' : 'rocketRed.7'}>
-          <Stack w={{ base: '100%', md: '70%' }} mx="auto" p={{base: 'xs', md: 'md'}} justify="center" align="center">
+        <Box bg={computedColorScheme === 'dark' ? 'rocketBlack.9' : 'rocketGray.2'}>
+          <Stack w={{ base: '100%', md: '60%' }} mx="auto" py={{base: 'xs', md: 'lg'}} justify="center" align="center">
             <Flex
-              w={{ base: '100%', md: '70%' }}
+              w={{ base: '95%', md: '70%' }}
               direction={isMobile ? 'column' : 'row'}
-              gap={isMobile ? 'xs' : 0}
+              gap={isMobile ? 5 : 0}
               justify="center"
               align="stretch"
             >
               <TextInput
                 w={{ base: '100%', md: '70%' }}
                 radius={isMobile ? 'md' : 0}
-                size="lg"
+                size="md"
                 variant="default"
                 placeholder="Search by skills, role, or keywords..."
                 value={searchText}
@@ -206,7 +206,7 @@ export function SearchPage() {
               />
               <Button
                 w={{ base: '100%', md: '30%' }}
-                size="lg"
+                size="md"
                 c='white'
                 radius={isMobile ? 'md' : 0}
                 onClick={handleSearchClick}
@@ -219,10 +219,11 @@ export function SearchPage() {
               searchParams={searchParams}
               updateSearchParam={updateSearchParam}
               isMobile={isMobile}
+              width={{ base: '100%', md: '80%' }}
             />
           </Stack>
         </Box>
-        <Divider size="xs" color="rocketRed.3" />
+        <Divider size="xs" />
 
         {/* ACCESSIBILITY: Screen reader announcement region for search results */}
         <div

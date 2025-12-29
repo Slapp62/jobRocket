@@ -30,7 +30,7 @@
     padding-left: var(--mantine-spacing-md);
     padding-right: var(--mantine-spacing-md);
     text-decoration: none;
-    color: light-dark(white, var(--mantine-color-rocketDark-0));
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-rocketBlack-0));
     font-weight: 400;
     font-size: var(--mantine-font-size-sm);
     height: 36px;
@@ -42,7 +42,7 @@
     }
 
     &:hover {
-      background-color: light-dark(var(--mantine-color-rocketRed-6), var(--mantine-color-rocketDark-7));
+      background-color: light-dark(var(--mantine-color-rocketGray-4), var(--mantine-color-rocketBlack-7));
       border-radius: 10px;
       color: white;
     }
@@ -55,7 +55,7 @@
     padding-left: var(--mantine-spacing-md);
     padding-right: var(--mantine-spacing-md);
     text-decoration: none;
-    color: light-dark(var(--mantine-color-rocketRed-6), var(--mantine-color-rocketOrange-4));
+    color: light-dark(var(--mantine-color-rocketGray-9), var(--mantine-color-rocketOrange-4));
     font-weight: 500;
     font-size: var(--mantine-font-size-sm);
     height: 36px;
@@ -67,7 +67,7 @@
     }
 
     &:hover {
-      background-color: light-dark(var(--mantine-color-rocketRed-6), var(--mantine-color-rocketDark-7));
+      background-color: light-dark(var(--mantine-color-rocketGray-4), var(--mantine-color-rocketBlack-7));
       border-radius: 10px;
       color: white;
     }

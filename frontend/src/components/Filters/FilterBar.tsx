@@ -103,7 +103,7 @@ export function FilterBar({ searchParams, updateSearchParam, isMobile, padding, 
             size="lg"
             w="50%"
             variant="light"
-            color="white"
+            color="gray"
             onClick={handleResetFilters}
             aria-label="Reset all filters"
             radius={50}

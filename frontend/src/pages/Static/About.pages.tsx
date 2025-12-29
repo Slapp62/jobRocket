@@ -17,14 +17,19 @@ import {
   TextInput,
   ThemeIcon,
   Title,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import styles from '@/styles/gradients.module.css';
 
 const AboutPage: FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const location = useLocation();
+  const computedColorScheme = useComputedColorScheme('light');
+
+  // Theme-aware colors
+  const cardBg = computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9';
+  const pageBg = computedColorScheme === 'light' ? 'white' : 'rocketBlack.8';
 
   // Scroll to contact form if hash is present in URL
   useEffect(() => {
@@ -88,7 +93,7 @@ const AboutPage: FC = () => {
   };
 
   return (
-    <Box className={styles.pageBackgroundAlt} style={{ paddingBottom: '40px' }}>
+    <Box bg={pageBg} style={{ paddingBottom: '40px' }}>
       <Container size="md" py="xl">
         <Title order={1} mb="md" ta="center">
           About Us
@@ -108,7 +113,17 @@ const AboutPage: FC = () => {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }}>
-            <Paper shadow="md" p="md" radius="md" className={styles.cardGradientSubtle}>
+            <Paper
+              shadow="md"
+              p="md"
+              radius="md"
+              bg={cardBg}
+              style={{
+                border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+                borderRadius: '10px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              }}
+            >
               <Title order={4}>Our Mission</Title>
               <Text mt="sm">
                 We leverage cutting-edge AI technology to transform job searching and hiring. Our
@@ -195,22 +210,38 @@ type StatProps = {
   value: string;
 };
 
-const Stat: FC<StatProps> = ({ icon, label, value }) => (
-  <Paper shadow="xs" p="md" radius="md" withBorder className={styles.cardGradientOrange}>
-    <Group>
-      <ThemeIcon variant="light" size="lg" radius="xl" color="rocketOrange">
-        {icon}
-      </ThemeIcon>
-      <div>
-        <Text size="lg" fw={500}>
-          {value}
-        </Text>
-        <Text size="sm" c="dimmed">
-          {label}
-        </Text>
-      </div>
-    </Group>
-  </Paper>
-);
+const Stat: FC<StatProps> = ({ icon, label, value }) => {
+  const computedColorScheme = useComputedColorScheme('light');
+  const cardBg = computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9';
+
+  return (
+    <Paper
+      shadow="xs"
+      p="md"
+      radius="md"
+      withBorder
+      bg={cardBg}
+      style={{
+        border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+        borderRadius: '10px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+      }}
+    >
+      <Group>
+        <ThemeIcon variant="light" size="lg" radius="xl" color="rocketOrange">
+          {icon}
+        </ThemeIcon>
+        <div>
+          <Text size="lg" fw={500}>
+            {value}
+          </Text>
+          <Text size="sm" c="dimmed">
+            {label}
+          </Text>
+        </div>
+      </Group>
+    </Paper>
+  );
+};
 
 export default AboutPage;

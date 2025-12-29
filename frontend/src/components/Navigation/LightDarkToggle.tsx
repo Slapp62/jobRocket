@@ -7,13 +7,16 @@ export function LightDarkToggle() {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
+  // Theme-aware color for the toggle icon
+  const iconColor = computedColorScheme === 'light' ? 'black' : 'white';
+
   return (
     <ActionIcon
       onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
       variant="subtle"
       size="xl"
       aria-label="Toggle color scheme"
-      color="white"
+      c={iconColor}
     >
       <IconSun className={cx(classes.icon, classes.light)} stroke={1.5} />
       <IconMoon className={cx(classes.icon, classes.dark)} stroke={1.5} />
