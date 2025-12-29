@@ -6,6 +6,7 @@ import { EmptyState } from '@/components/EmptyState';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import { RootState } from '@/store/store';
 import ListingCard from '../ListingCard/ListingCard';
+import { IconArrowRight, IconWindowMaximize } from '@tabler/icons-react';
 
 interface DesktopDefaultViewProps {
   isLoading: boolean;
@@ -83,8 +84,10 @@ const DesktopDefaultView = ({
                           }}
                           fullWidth
                           size="sm"
+                          variant="filled"
+                          rightSection={<IconWindowMaximize size={20} />}
                         >
-                          Learn More
+                          Details
                         </Button>
                         {user?.profileType === 'jobseeker' && <FavoritesButton listing={listing} width='40%'/>}
 

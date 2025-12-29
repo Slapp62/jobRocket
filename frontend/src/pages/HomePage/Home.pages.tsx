@@ -15,6 +15,8 @@ export function HomePage() {
   const [searchText, setSearchText] = useState('');
   const computedColorScheme = useComputedColorScheme('light');
 
+  const textBodyColor = computedColorScheme === 'light' ? 'rocketBlack.7' : 'rocketBlack.3';
+  const textHeaderColor = computedColorScheme === 'light' ? 'rocketBlack.7' : 'rocketBlack.1';
   const searchListing = () => {
     // Build URL query params from searchObj
     const params = new URLSearchParams();
@@ -134,10 +136,10 @@ export function HomePage() {
             p={{ base: 'md', sm: 'lg', md: 'xl' }}
           >
             <Group justify="center" align="center">
-              <Title ta="center" c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}>Welcome to <strong>JobRocket</strong></Title>
+              <Title ta="center" c={textHeaderColor}>Welcome to <strong>JobRocket</strong></Title>
               <Image src="/flavicon-180.png" h={100} w={100}/>
             </Group>
-            <Text size="lg" mb="xl" ta={{base: 'justify', md: 'center'}} c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}>
+            <Text size="lg" mb="xl" ta={{base: 'justify', md: 'center'}} c={textBodyColor}>
               At <strong>JobRocket</strong>, we connect job seekers with employers through intelligent
               AI-powered matching. Our platform uses advanced OpenAI embeddings to analyze your skills,
               experience, and preferences to find the perfect job matches tailored to you. 
@@ -155,13 +157,13 @@ export function HomePage() {
             w="100%"
           >
             <Stack
-              c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}
+              c={textBodyColor}
               h="auto"
-              bg={computedColorScheme === 'light' ? 'rocketOrange.1' : 'rocketBlack.9'}
+              bg={computedColorScheme === 'light' ? 'rocketBlack.1' : 'rocketBlack.9'}
               w="100%"
               p={{ base: 'md', sm: 'lg', md: 'xl' }}
               style={{
-                border: computedColorScheme === 'light' ? '2px solid orange' : '2px solid var(--mantine-color-rocketBlack-9)',
+                border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
                 borderRadius: '10px',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               }}
@@ -170,7 +172,7 @@ export function HomePage() {
               <Text
                 fw={500}
                 size={isMobile ? 'sm' : 'md'}
-                c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}
+                c={textBodyColor}
                 style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
               >
                 Find your perfect match with AI-powered job recommendations
@@ -202,7 +204,8 @@ export function HomePage() {
                 </List.Item>
               </List>
               <Button
-                variant="rocketRedFilled"
+                variant="filled"
+                color="rocketRed"
                 component={Link}
                 to="/register"
                 mx="auto"
@@ -217,13 +220,13 @@ export function HomePage() {
             </Stack>
 
             <Stack
-              c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}
+              c={textBodyColor}
               w="100%"
               h="auto"
-              bg={computedColorScheme === 'light' ? 'rocketOrange.1' : 'rocketBlack.9'}
+              bg={computedColorScheme === 'light' ? 'rocketBlack.1' : 'rocketBlack.9'}
               p={{ base: 'md', sm: 'lg', md: 'xl' }}
               style={{
-                border: computedColorScheme === 'light' ? '2px solid orange' : '2px solid var(--mantine-color-rocketBlack-9)',
+                border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
                 borderRadius: '10px',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               }}
@@ -232,7 +235,7 @@ export function HomePage() {
               <Text
                 fw={500}
                 size={isMobile ? 'sm' : 'md'}
-                c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}
+                c={textBodyColor}
                 style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
               >
                 Connect with qualified candidates using intelligent matching
@@ -264,7 +267,8 @@ export function HomePage() {
                 </List.Item>
               </List>
               <Button
-                variant="rocketRedFilled"
+                variant="filled"
+                color="rocketRed"
                 component={Link}
                 to="/register"
                 mx="auto"
@@ -285,17 +289,17 @@ export function HomePage() {
             gap={20}
             p="lg"
             mx="auto"
-            bg={computedColorScheme === 'light' ? 'rocketOrange.1' : 'rocketBlack.9'}
+            bg={computedColorScheme === 'light' ? 'rocketBlack.1' : 'rocketBlack.9'}
             style={{
-              border: computedColorScheme === 'light' ? '2px solid orange' : '2px solid var(--mantine-color-rocketBlack-9)',
+              border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
               borderRadius: '10px',
               boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
             }}
           >
-            <Title order={1} fw={600} ta="center" c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'}>
+            <Title order={1} fw={600} ta="center" c={textHeaderColor}>
               Support JobRocket
             </Title>
-            <Text w="100%" mx="auto" c={computedColorScheme === 'light' ? 'rocketRed.9' : 'rocketRed.5'} ta='center' style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+            <Text w="100%" mx="auto" c={textBodyColor} ta='center' style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
               This site was not built by a team. It isn't owned by a big company. It was built by
               one person in order to help other English speaking people in Israel find a job and
               support their families. 

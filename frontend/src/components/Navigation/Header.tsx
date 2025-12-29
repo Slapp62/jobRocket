@@ -41,7 +41,8 @@ export function Navbar() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
   // Theme-aware color for drawer links
-  const drawerLinkColor = 'rocketOrange'
+  const drawerLinkColor = 'rocketDark.6'
+  const drawerButtonColor = 'rocketDark.4'
 
   const logoutHandler = async () => {
     try {
@@ -270,14 +271,14 @@ export function Navbar() {
           </Stack>
           <Divider my="md" />
 
-          <Flex justify="space-evenly" ta="center" p="sm" gap={5} direction="column">
+          <Flex justify="space-evenly" ta="center" mx="auto" p="sm" gap={5} direction="column">
             {!loggedIn && (
               <Button
                 component={Link}
                 to="/login"
-                c="rocketOrange"
+                c={drawerButtonColor}
+                color={drawerButtonColor}
                 onClick={closeDrawer}
-                w="95%"
                 variant="outline"
               >
                 Login
@@ -286,8 +287,8 @@ export function Navbar() {
 
             {!loggedIn && (
               <Button
-                w="95%"
                 variant="filled"
+                color={drawerButtonColor}
                 component={Link}
                 to="/register"
                 onClick={closeDrawer}
@@ -298,8 +299,8 @@ export function Navbar() {
 
             {loggedIn && (
               <Button
-                color="dark"
-                variant="outline"
+                color={drawerButtonColor}
+                variant="filled"
                 onClick={() => {
                   logoutHandler();
                   closeDrawer();
@@ -312,8 +313,8 @@ export function Navbar() {
             {loggedIn && !isMobile && 
               <Button
                   variant="outline"
-                  color="white"
-                  c="white"
+                  color={drawerButtonColor}
+                  c={drawerButtonColor}
                   onClick={() => {
                     dispatch(toggleAdminView(false));
                     jumpTo(`/edit-profile/${user?._id}`);

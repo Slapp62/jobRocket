@@ -72,8 +72,6 @@ function ListingCard({
         })}
       >
         <Stack gap="sm" style={{ flex: 1 }} w="100%">
-          {/* Company Name */}
-
           {/* Job Title */}
           <Text fw={600} size="lg" lineClamp={2} mt={-8}>
             {listing.jobTitle}
