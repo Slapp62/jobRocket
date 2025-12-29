@@ -11,7 +11,7 @@ export function SocialShareActions({ listing }: SocialShareActionsProps) {
   return (
     <Group grow>
       <FavoritesButton listing={listing} />
-      <SocialIcons listingID={listing._id} />
+      <SocialIcons listing={listing} />
     </Group>
   );
 }
