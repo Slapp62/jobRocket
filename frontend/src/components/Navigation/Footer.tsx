@@ -90,7 +90,7 @@ export function Footer() {
   return (
     <footer className={classes.footer}>
       <Container className={classes.inner}>
-        <Stack className={classes.logo} bg="rocketRed.7">
+        <Stack className={classes.logo} bg="rocketOrange">
           <Logo />
           <Text size="xs" ta="center" className={classes.description}>
             Launch yourself into a world of possibility.

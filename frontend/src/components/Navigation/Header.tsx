@@ -78,7 +78,7 @@ export function Navbar() {
 
   return (
     <Box
-      bg={computedColorScheme === 'light' ? 'rocketRed.7' : 'rocketBlack.9'}
+      bg={computedColorScheme === 'light' ? 'rocketBlack.7' : 'rocketBlack.9'}
       pos="sticky"
       pt={5}
     >

@@ -49,7 +49,7 @@ export function HomePage() {
       />
 
       <Box h="85%" w="100%">
-        <Stack w="100%" h="100%" gap={20} pt={10} pb={20} bg={computedColorScheme === 'dark' ? 'rocketBlack.9' : 'rocketRed.7'}>
+        <Stack w="100%" h="100%" gap={20} pt={10} pb={20} bg={computedColorScheme === 'dark' ? 'rocketBlack.9' : 'rocketBlack.7'}>
           <Stack w={{ base: '95%', sm: '85%', md: '40%' }} align="center" mx="auto">
             {/* Conditional Welcome Message */}
             {!user && (
@@ -205,7 +205,6 @@ export function HomePage() {
               </List>
               <Button
                 variant="filled"
-                color="rocketRed"
                 component={Link}
                 to="/register"
                 mx="auto"
@@ -268,7 +267,6 @@ export function HomePage() {
               </List>
               <Button
                 variant="filled"
-                color="rocketRed"
                 component={Link}
                 to="/register"
                 mx="auto"
@@ -321,7 +319,6 @@ export function HomePage() {
               mx="auto"
               size="md"
               fw={500}
-              color="rocketRed"
             >
               Support JobRocket
             </Button>
