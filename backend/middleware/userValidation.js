@@ -3,6 +3,23 @@ const joiUserSchema = require('../validation/Joi/joiUserSchema');
 const { nextError } = require('../utils/functionHandlers');
 
 const profileValidation = (req, res, next) => {
+  // Parse JSON strings in FormData fields (e.g., skills array)
+  if (req.body.jobseekerProfile) {
+    // Parse skills if it's a JSON string
+    if (
+      typeof req.body.jobseekerProfile.skills === 'string' &&
+      req.body.jobseekerProfile.skills.startsWith('[')
+    ) {
+      try {
+        req.body.jobseekerProfile.skills = JSON.parse(
+          req.body.jobseekerProfile.skills
+        );
+      } catch (e) {
+        console.log('⚠️ Failed to parse skills array:', e.message);
+      }
+    }
+  }
+
   const { error } = joiUserSchema.validate(req.body, { abortEarly: false });
   if (error) {
     console.log('❌ BACKEND VALIDATION FAILED');

@@ -213,6 +213,13 @@ export const EditListingModal = ({
                       maxTags={20}
                       {...field}
                       error={errors.requirements?.message as string}
+                      onKeyDown={(e) => {
+                        // Prevent form submission when Enter is pressed in TagsInput
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }
+                      }}
                     />
                   )}
                 />
@@ -228,6 +235,13 @@ export const EditListingModal = ({
                       maxTags={20}
                       {...field}
                       error={errors.advantages?.message as string}
+                      onKeyDown={(e) => {
+                        // Prevent form submission when Enter is pressed in TagsInput
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }
+                      }}
                     />
                   )}
                 />

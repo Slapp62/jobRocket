@@ -66,6 +66,9 @@ export function RegisterForm() {
       ageConfirmation: false,
       terms: false,
       dataProcessingConsent: false,
+      jobseekerProfile: {
+        skills: [], // Initialize skills as empty array
+      },
     },
     criteriaMode: 'all', // Show all errors
   });
@@ -122,7 +125,10 @@ export function RegisterForm() {
             const value = payload.jobseekerProfile[key];
             if (value !== undefined && value !== null) {
               if (Array.isArray(value)) {
-                formData.append(`jobseekerProfile[${key}]`, JSON.stringify(value));
+                // Skip empty arrays - backend will use default value
+                if (value.length > 0) {
+                  formData.append(`jobseekerProfile[${key}]`, JSON.stringify(value));
+                }
               } else {
                 formData.append(`jobseekerProfile[${key}]`, String(value));
               }

@@ -170,6 +170,13 @@ export function JobseekerFields({
             maxTags={25}
             {...field}
             error={errors.jobseekerProfile?.skills?.message}
+            onKeyDown={(e) => {
+              // Prevent form submission when Enter is pressed in TagsInput
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+            }}
           />
         )}
       />
