@@ -211,7 +211,17 @@ export const EditListingModal = ({
                       placeholder="Type a requirement and press Enter"
                       description="Add job requirements (max 20)"
                       maxTags={20}
+                      splitChars={[',', 'Enter']}
                       {...field}
+                      onBlur={(e) => {
+                        // Commit any unfinished tag when the field loses focus (mobile fix)
+                        const inputValue = e.currentTarget.querySelector('input')?.value;
+                        if (inputValue && inputValue.trim()) {
+                          const newRequirements = [...(field.value || []), inputValue.trim()];
+                          field.onChange(newRequirements);
+                        }
+                        field.onBlur();
+                      }}
                       error={errors.requirements?.message as string}
                     />
                   )}
@@ -226,7 +236,17 @@ export const EditListingModal = ({
                       placeholder="Type an advantage and press Enter"
                       description="Add nice-to-have qualifications (max 20)"
                       maxTags={20}
+                      splitChars={[',', 'Enter']}
                       {...field}
+                      onBlur={(e) => {
+                        // Commit any unfinished tag when the field loses focus (mobile fix)
+                        const inputValue = e.currentTarget.querySelector('input')?.value;
+                        if (inputValue && inputValue.trim()) {
+                          const newAdvantages = [...(field.value || []), inputValue.trim()];
+                          field.onChange(newAdvantages);
+                        }
+                        field.onBlur();
+                      }}
                       error={errors.advantages?.message as string}
                     />
                   )}

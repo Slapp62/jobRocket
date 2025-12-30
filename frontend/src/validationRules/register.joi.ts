@@ -93,7 +93,8 @@ const registrationSchema = Joi.object({
       }),
       skills: Joi.array()
         .items(
-          Joi.string().max(50).messages({
+          Joi.string().trim().min(1).max(50).messages({
+            'string.min': 'Skills cannot be empty',
             'string.max': 'Each skill must be 50 characters or less',
           })
         )
@@ -291,7 +292,8 @@ const googleRegistrationSchema = Joi.object({
       }),
       skills: Joi.array()
         .items(
-          Joi.string().max(50).messages({
+          Joi.string().trim().min(1).max(50).messages({
+            'string.min': 'Skills cannot be empty',
             'string.max': 'Each skill must be 50 characters or less',
           })
         )

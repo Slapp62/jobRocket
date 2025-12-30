@@ -168,7 +168,17 @@ export function JobseekerFields({
             description="Add your professional skills (max 25)"
             disabled={disabled}
             maxTags={25}
+            splitChars={[',', 'Enter']}
             {...field}
+            onBlur={(e) => {
+              // Commit any unfinished tag when the field loses focus (mobile fix)
+              const inputValue = e.currentTarget.querySelector('input')?.value;
+              if (inputValue && inputValue.trim()) {
+                const newSkills = [...(field.value || []), inputValue.trim()];
+                field.onChange(newSkills);
+              }
+              field.onBlur();
+            }}
             error={errors.jobseekerProfile?.skills?.message}
           />
         )}

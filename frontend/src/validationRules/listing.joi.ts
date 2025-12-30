@@ -27,7 +27,8 @@ export const listingSchema = Joi.object({
   }),
   requirements: Joi.array()
     .items(
-      Joi.string().trim().max(100).messages({
+      Joi.string().trim().min(1).max(100).messages({
+        'string.min': 'Requirements cannot be empty',
         'string.max': 'Each requirement must be 100 characters or less',
       })
     )
@@ -38,7 +39,8 @@ export const listingSchema = Joi.object({
     }),
   advantages: Joi.array()
     .items(
-      Joi.string().trim().max(100).messages({
+      Joi.string().trim().min(1).max(100).messages({
+        'string.min': 'Advantages cannot be empty',
         'string.max': 'Each advantage must be 100 characters or less',
       })
     )
