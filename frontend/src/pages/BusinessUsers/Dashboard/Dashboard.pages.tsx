@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Center, Container, Loader, Stack, Tabs, Text, Title } from '@mantine/core';
+import { ActionIcon, Button, Center, Container, Group, Loader, Stack, Tabs, Text, Title } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { IconArrowUpRight, IconQuestionMark } from '@tabler/icons-react';
 import {
   deleteApplication,
   deleteListing,
@@ -8,6 +10,7 @@ import {
   updateApplicationStatus,
 } from '@/pages/BusinessUsers/Dashboard/utils/dashboardApi';
 import { PageMeta } from '@/SEO/PageMeta';
+import { DashboardGuideModal } from '@/components/Modals/DashboardGuideModal';
 import { DashApplicationsGrouped } from './components/DashApplicationsGrouped';
 import { DashListings } from './components/DashListings';
 import { DashMetrics } from './components/DashMetrics';
@@ -17,6 +20,7 @@ import { useDashboardMetrics } from './hooks/useDashboardMetrics';
 
 export const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [guideOpened, { open: openGuide, close: closeGuide }] = useDisclosure(false);
   const { dashboardMetrics, setDashboardMetrics, getDashboardMetrics } = useDashboardMetrics();
 
   const {
@@ -197,14 +201,24 @@ export const Dashboard = () => {
         <Container size="xl" py="xl" w={{ base: '100%', sm: '95%', md: '85%' }}>
           <Stack gap="xl">
             {/* Header */}
-            <div>
-              <Title order={1} mb="xs">
-                Dashboard
-              </Title>
-              <Text c="dimmed" size="lg">
-                Welcome back! Here's your overview
-              </Text>
-            </div>
+            <Group justify="space-between" align="flex-start">
+              <div>
+                <Title order={1} mb="xs">
+                  Dashboard
+                </Title>
+                <Text c="dimmed" size="lg">
+                  Welcome back! Here's your overview
+                </Text>
+              </div>
+              <Button
+                variant="light"
+                rightSection={<IconArrowUpRight size={18} />}
+                onClick={openGuide}
+                visibleFrom="sm"
+              >
+                Dashboard Guide
+              </Button>
+            </Group>
 
             <DashMetrics
               dashboardMetrics={dashboardMetrics}
@@ -260,6 +274,9 @@ export const Dashboard = () => {
           </Stack>
         </Container>
       )}
+
+      {/* Dashboard Guide Modal */}
+      <DashboardGuideModal opened={guideOpened} close={closeGuide} />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { IconArrowRight, IconWindowMaximize } from '@tabler/icons-react';
+import { IconArrowRight} from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { Box, Button, Flex, Group, Skeleton, Stack, Text } from '@mantine/core';
@@ -78,14 +78,14 @@ const DesktopDefaultView = ({
                       <Group gap={10} w="100%" justify="space-between">
                         <Button
                           onClick={() => {
-                            if (!handleSelectListing) return null;
+                            if (!handleSelectListing) {return null;}
                             handleSelectListing(listing._id);
                             window.scrollTo({ top: 0, behavior: 'instant' });
                           }}
                           fullWidth
                           size="sm"
                           variant="filled"
-                          rightSection={<IconWindowMaximize size={20} />}
+                          rightSection={<IconArrowRight size={20} />}
                         >
                           Details
                         </Button>

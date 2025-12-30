@@ -1,7 +1,4 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Badge, Loader } from '@mantine/core';
-import { TListing } from '@/Types';
+import { Badge } from '@mantine/core';
 
 interface MatchScoreProps {
   matchScore: number | null | undefined;
@@ -9,7 +6,7 @@ interface MatchScoreProps {
 
 export function ApplicationMatchScore({ matchScore }: MatchScoreProps) {
   if (!matchScore || matchScore === null || matchScore === undefined)
-    return (
+    {return (
       <Badge
         style={{ borderColor: 'gray' }}
         c="gray"
@@ -20,7 +17,7 @@ export function ApplicationMatchScore({ matchScore }: MatchScoreProps) {
       >
         N/A
       </Badge>
-    );
+    );}
 
   const percentage = Math.round(matchScore * 100);
   const color = percentage >= 80 ? 'green' : percentage >= 60 ? 'blue' : 'darkRed';

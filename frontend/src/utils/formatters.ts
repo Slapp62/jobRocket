@@ -8,6 +8,6 @@
  * @returns Formatted region string (e.g., "Jerusalem District", "West Bank")
  */
 export function formatRegionForDisplay(region: string): string {
-  if (!region) return '';
+  if (!region) {return '';}
   return region.replace(/_/g, ' ');
 }

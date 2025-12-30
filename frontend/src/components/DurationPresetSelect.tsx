@@ -47,7 +47,6 @@ export function DurationPresetSelect({
   required = false,
   disabled = false,
   showCalculatedDate = true,
-  currentExpirationDate,
 }: DurationPresetSelectProps) {
   const handleChange = (selectedValue: string | null) => {
     if (selectedValue) {

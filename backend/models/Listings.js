@@ -83,6 +83,7 @@ const jobListingSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   expiresAt: {
     type: Date,
+    required: true,
     default: () => {
       const date = new Date();
       date.setDate(date.getDate() + 30);

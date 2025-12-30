@@ -22,7 +22,7 @@ import {
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { AppDispatch, RootState } from '@/store/store';
-import { clearUser, toggleAdminView } from '@/store/userSlice';
+import { clearUser, setUser, toggleAdminView } from '@/store/userSlice';
 import bgStyles from '@/styles/bgStyles.module.css';
 import { AvatarIcon } from './Avatar';
 import { LightDarkToggle } from './LightDarkToggle';
@@ -69,6 +69,25 @@ export function Navbar() {
 
   const [scrolled, setScrolled] = useState(false);
 
+  // Defensive check: verify user state consistency
+  // Prevents race condition where wrong user type could briefly appear
+  useEffect(() => {
+    if (loggedIn && !user) {
+      // Logged in but no user data - re-fetch from backend to fix state
+      axios
+        .get('/api/users/current')
+        .then((res) => {
+          if (res.data) {
+            dispatch(setUser(res.data));
+          }
+        })
+        .catch(() => {
+          // If fetch fails, user session is invalid - clear state
+          dispatch(clearUser());
+        });
+    }
+  }, [loggedIn, user, dispatch]);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -92,17 +111,17 @@ export function Navbar() {
               This helps screen reader users identify and navigate to the main navigation */}
           <nav aria-label="Main navigation">
             <Group visibleFrom="md" gap={5}>
-              <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/">
+              <Button fz="md" variant="light" c={buttonTextColor} component={Link} to="/">
                 Home
               </Button>
-              <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/search">
+              <Button fz="md" variant="light" c={buttonTextColor} component={Link} to="/search">
                 Job Board
               </Button>
 
               {loggedIn && user?.profileType === 'jobseeker' && (
                 <Button
                   fz="md"
-                  variant="subtle"
+                  variant="light"
                   c={buttonTextColor}
                   component={Link}
                   to="/favorites"
@@ -114,7 +133,7 @@ export function Navbar() {
               {loggedIn && user?.profileType === 'jobseeker' && (
                 <Button
                   fz="md"
-                  variant="subtle"
+                  variant="light"
                   c={buttonTextColor}
                   component={Link}
                   to="/my-applications"
@@ -126,7 +145,7 @@ export function Navbar() {
               {loggedIn && user?.profileType === 'business' && (
                 <Button
                   fz="md"
-                  variant="subtle"
+                  variant="light"
                   c={buttonTextColor}
                   component={Link}
                   to="/dashboard"
@@ -135,12 +154,12 @@ export function Navbar() {
                 </Button>
               )}
 
-              <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/about">
+              <Button fz="md" variant="light" c={buttonTextColor} component={Link} to="/about">
                 About Us
               </Button>
 
               {user?.isAdmin && (
-                <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/admin">
+                <Button fz="md" variant="light" c={buttonTextColor} component={Link} to="/admin">
                   Admin Controls
                 </Button>
               )}
@@ -173,7 +192,7 @@ export function Navbar() {
                   The tooltip is visual-only and not accessible to keyboard/screen reader users */}
               {isBusinessUser && (
                 <ActionIcon
-                  variant="outline"
+                  variant="light"
                   c={buttonTextColor}
                   color={buttonBorderColor}
                   size="35px"
@@ -198,9 +217,7 @@ export function Navbar() {
 
               {loggedIn && (
                 <Button
-                  variant="outline"
-                  color={buttonBorderColor}
-                  c={buttonTextColor}
+                  variant="outline"                  
                   onClick={logoutHandler}
                 >
                   Logout
@@ -211,9 +228,7 @@ export function Navbar() {
             <Group>
               {loggedIn && !isMobile && (
                 <Button
-                  variant="outline"
-                  color={buttonBorderColor}
-                  c={buttonTextColor}
+                  variant="outline"  
                   onClick={() => {
                     dispatch(toggleAdminView(false));
                     jumpTo(`/edit-profile/${user?._id}`);
@@ -262,7 +277,7 @@ export function Navbar() {
         padding="md"
         title={
           <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
-            <img src="/flavicon-color.png" height={30} alt="JobRocket Logo" />
+            <img src="/rocketGradient-180px-square-noBG.png" height={30} alt="JobRocket Logo" />
             JobRocket
           </div>
         }
@@ -276,7 +291,7 @@ export function Navbar() {
           <Stack my={20} gap={5}>
             <Button
               fz="md"
-              variant="subtle"
+              variant="light"
               c={drawerLinkColor}
               component={Link}
               to="/"
@@ -287,7 +302,7 @@ export function Navbar() {
 
             <Button
               fz="md"
-              variant="subtle"
+              variant="light"
               c={drawerLinkColor}
               component={Link}
               to="/search"
@@ -299,7 +314,7 @@ export function Navbar() {
             {loggedIn && user?.profileType === 'jobseeker' && (
               <Button
                 fz="md"
-                variant="subtle"
+                variant="light"
                 c={drawerLinkColor}
                 component={Link}
                 to="/favorites"
@@ -312,7 +327,7 @@ export function Navbar() {
             {loggedIn && user?.profileType === 'jobseeker' && (
               <Button
                 fz="md"
-                variant="subtle"
+                variant="light"
                 c={drawerLinkColor}
                 component={Link}
                 to="/my-applications"
@@ -325,7 +340,7 @@ export function Navbar() {
             {loggedIn && user?.profileType === 'business' && (
               <Button
                 fz="md"
-                variant="subtle"
+                variant="light"
                 c={drawerLinkColor}
                 component={Link}
                 to="/dashboard"
@@ -337,7 +352,7 @@ export function Navbar() {
 
             <Button
               fz="md"
-              variant="subtle"
+              variant="light"
               c={drawerLinkColor}
               component={Link}
               to="/about"
@@ -349,7 +364,7 @@ export function Navbar() {
             {user?.isAdmin && (
               <Button
                 fz="md"
-                variant="subtle"
+                variant="light"
                 c={drawerLinkColor}
                 component={Link}
                 to="/admin"
@@ -364,12 +379,11 @@ export function Navbar() {
           <Flex justify="space-evenly" ta="center" mx="auto" p="sm" gap={5} direction="column">
             {!loggedIn && (
               <Button
+                variant="outline"
                 component={Link}
                 to="/login"
-                c={drawerButtonColor}
-                color={drawerButtonColor}
                 onClick={closeDrawer}
-                variant="outline"
+                
               >
                 Login
               </Button>
@@ -378,7 +392,6 @@ export function Navbar() {
             {!loggedIn && (
               <Button
                 variant="filled"
-                color={drawerButtonColor}
                 component={Link}
                 to="/register"
                 onClick={closeDrawer}
@@ -389,7 +402,6 @@ export function Navbar() {
 
             {loggedIn && (
               <Button
-                color={drawerButtonColor}
                 variant="filled"
                 onClick={() => {
                   logoutHandler();
@@ -400,11 +412,9 @@ export function Navbar() {
               </Button>
             )}
 
-            {loggedIn && !isMobile && (
+            {loggedIn && (
               <Button
                 variant="outline"
-                color={drawerButtonColor}
-                c={drawerButtonColor}
                 onClick={() => {
                   dispatch(toggleAdminView(false));
                   jumpTo(`/edit-profile/${user?._id}`);

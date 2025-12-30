@@ -24,7 +24,7 @@ import { addDays as addDaysFns, format, parseISO } from 'date-fns';
  * formatDate("2025-12-24T10:30:00.000Z") // "24/12/2025" (in user's timezone)
  */
 export const formatDate = (date: Date | string | null | undefined): string => {
-  if (!date) return '';
+  if (!date) {return '';}
 
   try {
     // If it's a string, parse it first
@@ -118,7 +118,7 @@ export const addDays = (date: Date | string, days: number): Date => {
  * formatDateForInput(new Date("2026-01-15")) // "2026-01-15"
  */
 export const formatDateForInput = (date: Date | string | null | undefined): string => {
-  if (!date) return '';
+  if (!date) {return '';}
 
   try {
     const dateObj = typeof date === 'string' ? parseISO(date) : date;

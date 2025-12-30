@@ -8,7 +8,7 @@ const PrivacyPolicy: FC = () => {
         Privacy Policy
       </Title>
       <Text c="dimmed" fs="italic" mb="xl">
-        Last Updated: December 24, 2025
+        Last Updated: December 30, 2025
         <br />
         Effective Date: January 1, 2026
       </Text>
@@ -605,22 +605,27 @@ const PrivacyPolicy: FC = () => {
             </List>
 
             <Title order={4} size="h5" mb="xs" mt="lg">
-              Deleted Accounts
+              Deleted Accounts (30-Day Grace Period)
             </Title>
+            <Text mb="sm">
+              When you delete your account, it enters a <strong>30-day grace period</strong> during which you can restore your account by contacting support.
+            </Text>
             <List mb="md">
               <List.Item>
-                When you delete your account, we <strong>immediately remove</strong> your profile
-                data
+                Your profile is <strong>immediately hidden</strong> from employers and job seekers
               </List.Item>
               <List.Item>
-                Resume files deleted from Cloudinary within <strong>24 hours</strong>
+                You cannot log in, but your account data is preserved for 30 days
               </List.Item>
               <List.Item>
-                Email/phone kept for <strong>30 days</strong> to prevent immediate re-registration
-                fraud
+                Pending job applications are withdrawn immediately
               </List.Item>
               <List.Item>
-                After 30 days, all personal data <strong>permanently deleted</strong>
+                To restore your account within 30 days, email{' '}
+                <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>
+              </List.Item>
+              <List.Item>
+                After 30 days: all personal data is <strong>permanently deleted</strong>, including profile data, resume files, and account information
               </List.Item>
             </List>
 
@@ -655,18 +660,23 @@ const PrivacyPolicy: FC = () => {
             </List>
 
             <Title order={4} size="h5" mb="xs" mt="lg">
-              Business Listings
+              Business Listings (7-Day Grace Period)
             </Title>
+            <Text mb="sm">
+              Job listings remain visible until their expiration date. After expiration, listings enter a <strong>7-day grace period</strong>.
+            </Text>
             <List mb="md">
               <List.Item>
-                <strong>Active job listings:</strong> Until posting expires or business deletes it
+                <strong>Active listings:</strong> Visible until the expiration date you set (maximum 90 days from creation)
               </List.Item>
               <List.Item>
-                <strong>Expired/deleted listings:</strong> Kept for 90 days then permanently deleted
+                <strong>Expired listings:</strong> After expiration, you have <strong>7 days</strong> to extend the listing through your dashboard. Expired listings remain in your dashboard with a warning indicator.
               </List.Item>
               <List.Item>
-                <strong>Exception:</strong> If applications were received, kept until business
-                deletes or account closes
+                <strong>Permanent deletion:</strong> If not extended, listings are permanently deleted <strong>7 days after expiration</strong>, along with all associated applications and resume files.
+              </List.Item>
+              <List.Item>
+                <strong>Manual deletion:</strong> If you manually delete a listing before it expires, it is permanently deleted immediately along with all applications.
               </List.Item>
             </List>
 

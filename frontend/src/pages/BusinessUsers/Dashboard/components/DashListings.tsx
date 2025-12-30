@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
+  IconAlertCircle,
   IconCalendarPlus,
   IconCircle,
   IconCircleFilled,
@@ -22,6 +23,7 @@ import {
   Table,
   Text,
   TextInput,
+  Tooltip,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
@@ -74,7 +76,7 @@ export const DashListings = ({
 
   // Helper function to check if a listing expires within 7 days
   const isExpiringSoon = (expiresAt: string | null | undefined): boolean => {
-    if (!expiresAt) return false;
+    if (!expiresAt) {return false;}
     const sevenDaysFromNow = new Date();
     sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
     const expiresDate = new Date(expiresAt);
@@ -82,9 +84,34 @@ export const DashListings = ({
     return expiresDate >= now && expiresDate <= sevenDaysFromNow;
   };
 
+  // Helper function to check if a listing is in grace period (expired but not yet deleted)
+  const isInGracePeriod = (expiresAt: string | null | undefined): boolean => {
+    if (!expiresAt) {return false;}
+    const expDate = new Date(expiresAt);
+    const now = new Date();
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    return expDate < now && expDate > sevenDaysAgo;
+  };
+
+  // Helper function to get days until deletion for expired listings
+  const getDaysUntilDeletion = (expiresAt: string | null | undefined): number => {
+    if (!expiresAt) {return 0;}
+    const expDate = new Date(expiresAt);
+    const deletionDate = new Date(expDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const now = new Date();
+    const daysLeft = Math.ceil((deletionDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+    return Math.max(0, daysLeft);
+  };
+
   // Calculate expiring listings (within 7 days)
   const expiringListings = useMemo(() => {
     return listings.filter((listing) => isExpiringSoon(listing.expiresAt));
+  }, [listings]);
+
+  // Calculate grace period listings (expired but not yet deleted)
+  const gracePeriodListings = useMemo(() => {
+    return listings.filter((listing) => isInGracePeriod(listing.expiresAt));
   }, [listings]);
 
   // Check localStorage for alert dismissal
@@ -139,7 +166,7 @@ export const DashListings = ({
   };
 
   const handleExtendConfirm = async () => {
-    if (!extendListing) return;
+    if (!extendListing) {return;}
 
     setIsExtending(true);
     try {
@@ -198,6 +225,19 @@ export const DashListings = ({
   return (
     <>
       <Stack>
+        {/* Grace Period Alert Banner (Expired Listings) */}
+        {gracePeriodListings.length > 0 && (
+          <Alert
+            variant="light"
+            color="red"
+            title={`⚠️ Warning: ${gracePeriodListings.length} expired listing${gracePeriodListings.length > 1 ? 's' : ''} will be deleted soon`}
+          >
+            <Text size="sm">
+              You have expired listing{gracePeriodListings.length > 1 ? 's' : ''} that will be permanently deleted soon. Extend them now to keep them active.
+            </Text>
+          </Alert>
+        )}
+
         {/* Expiration Alert Banner */}
         {expiringListings.length > 0 && !alertDismissed && (
           <Alert
@@ -299,11 +339,19 @@ export const DashListings = ({
             <Card key={listing._id} withBorder p="md">
               <Stack gap="xs">
                 <Group justify="space-between" align="start">
-                  <div>
+                  <Group gap="xs">
                     <Text fw={600} size="lg">
                       {listing.jobTitle}
                     </Text>
-                  </div>
+                    {isInGracePeriod(listing.expiresAt) && (
+                      <Tooltip
+                        label={`This listing expired. It will be deleted in ${getDaysUntilDeletion(listing.expiresAt)} day${getDaysUntilDeletion(listing.expiresAt) !== 1 ? 's' : ''} unless you extend it.`}
+                        withArrow
+                      >
+                        <IconAlertCircle size={20} color="red" />
+                      </Tooltip>
+                    )}
+                  </Group>
                   {listing.isActive ? (
                     <IconCircleFilled size={20} color="green" />
                   ) : (
@@ -326,10 +374,11 @@ export const DashListings = ({
                 {listing.expiresAt && (
                   <Text
                     size="xs"
-                    c={isExpiringSoon(listing.expiresAt) ? 'red' : 'dimmed'}
-                    fw={isExpiringSoon(listing.expiresAt) ? 'bold' : 'normal'}
+                    c={isInGracePeriod(listing.expiresAt) || isExpiringSoon(listing.expiresAt) ? 'red' : 'dimmed'}
+                    fw={isInGracePeriod(listing.expiresAt) || isExpiringSoon(listing.expiresAt) ? 'bold' : 'normal'}
                   >
-                    Expires: {formatDate(listing.expiresAt)}
+                    {isInGracePeriod(listing.expiresAt) && `EXPIRED: ${formatDate(listing.expiresAt)} (Deletes in ${getDaysUntilDeletion(listing.expiresAt)} day${getDaysUntilDeletion(listing.expiresAt) !== 1 ? 's' : ''})`}
+                    {!isInGracePeriod(listing.expiresAt) && `Expires: ${formatDate(listing.expiresAt)}`}
                   </Text>
                 )}
 
@@ -436,9 +485,19 @@ export const DashListings = ({
                     </Table.Td>
 
                     <Table.Td>
-                      <Text fz="sm" fw={500}>
-                        {listing.jobTitle}
-                      </Text>
+                      <Group gap="xs">
+                        <Text fz="sm" fw={500}>
+                          {listing.jobTitle}
+                        </Text>
+                        {isInGracePeriod(listing.expiresAt) && (
+                          <Tooltip
+                            label={`This listing expired. It will be deleted in ${getDaysUntilDeletion(listing.expiresAt)} day${getDaysUntilDeletion(listing.expiresAt) !== 1 ? 's' : ''} unless you extend it.`}
+                            withArrow
+                          >
+                            <IconAlertCircle size={16} color="red" />
+                          </Tooltip>
+                        )}
+                      </Group>
                     </Table.Td>
 
                     <Table.Td>{listing.createdAt && formatDate(listing.createdAt)}</Table.Td>
@@ -446,10 +505,12 @@ export const DashListings = ({
                     <Table.Td>
                       <Text
                         fz="sm"
-                        c={isExpiringSoon(listing.expiresAt) ? 'red' : 'dimmed'}
-                        fw={isExpiringSoon(listing.expiresAt) ? 'bold' : 'normal'}
+                        c={isInGracePeriod(listing.expiresAt) || isExpiringSoon(listing.expiresAt) ? 'red' : 'dimmed'}
+                        fw={isInGracePeriod(listing.expiresAt) || isExpiringSoon(listing.expiresAt) ? 'bold' : 'normal'}
                       >
-                        {listing.expiresAt ? formatDate(listing.expiresAt) : 'No expiration'}
+                        {isInGracePeriod(listing.expiresAt) && `EXPIRED: ${formatDate(listing.expiresAt)} (Deletes in ${getDaysUntilDeletion(listing.expiresAt)} day${getDaysUntilDeletion(listing.expiresAt) !== 1 ? 's' : ''})`}
+                        {!isInGracePeriod(listing.expiresAt) && listing.expiresAt && formatDate(listing.expiresAt)}
+                        {!isInGracePeriod(listing.expiresAt) && !listing.expiresAt && 'No expiration'}
                       </Text>
                     </Table.Td>
 

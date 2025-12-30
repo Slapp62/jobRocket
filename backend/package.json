@@ -10,6 +10,8 @@
     "test:my-cards": "cross-env NODE_ENV=test jest tests/cards/getMyCards.test.js --detectOpenHandles",
     "test:create-card": "cross-env NODE_ENV=test jest tests/cards/createCard.test.js --detectOpenHandles",
     "test:watch": "cross-env NODE_ENV=test jest --watch --detectOpenHandles",
+    "test:cron": "cross-env NODE_ENV=development node cronJobs/testCronJobs.js",
+    "test:cron:jest": "cross-env NODE_ENV=test jest tests/cronJobs --detectOpenHandles",
     "build": "npm install && cd ../frontend && npm install && npm run build && cd ../backend && node scripts/copy-build.js",
     "start": "node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",

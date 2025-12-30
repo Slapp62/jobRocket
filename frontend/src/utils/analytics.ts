@@ -198,7 +198,7 @@ export function trackListingCreated(listingId: string, jobTitle: string): void {
 export function trackFavorite(jobId: string, action: 'add' | 'remove'): void {
   trackEvent('favorite', {
     job_id: jobId,
-    action: action,
+    action,
   });
 }
 
@@ -258,7 +258,7 @@ export function trackApiError(endpoint: string, statusCode: number, errorMessage
   }
 
   trackEvent('api_error', {
-    endpoint: endpoint,
+    endpoint,
     status_code: statusCode,
     error_message: errorMessage.substring(0, 100), // Limit message length
   });

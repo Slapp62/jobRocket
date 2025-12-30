@@ -118,13 +118,15 @@ export function ListingDetailsPanel({
         <Stack gap="md">
           {isMobile && (
             <Button
-              variant="outline"
+              variant="light"
               leftSection={<IconArrowBack />}
               onClick={() => window.history.back()}
             >
               Go Back
             </Button>
           )}
+
+          <Divider  />
           {/* Header */}
           <Box>
             <Text fw={700} size="lg" c="dimmed" mb={5}>

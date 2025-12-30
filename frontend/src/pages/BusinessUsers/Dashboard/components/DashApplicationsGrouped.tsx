@@ -65,7 +65,7 @@ export const DashApplicationsGrouped = ({
 
   // Group applications by listing ID
   const groupedApplications = useMemo(() => {
-    if (!dashApplications || dashApplications.length === 0) return {};
+    if (!dashApplications || dashApplications.length === 0) {return {};}
 
     // Group by listing ID, handling both populated and unpopulated cases
     const grouped = groupBy(dashApplications, (app) => {

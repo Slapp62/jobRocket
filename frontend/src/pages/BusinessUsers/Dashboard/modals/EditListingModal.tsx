@@ -72,7 +72,7 @@ export const EditListingModal = ({
 
   // Calculate current expiration info for description
   const currentExpirationInfo = useMemo(() => {
-    if (!listing?.expiresAt) return null;
+    if (!listing?.expiresAt) {return null;}
 
     const expiresDate = new Date(listing.expiresAt);
     const today = new Date();

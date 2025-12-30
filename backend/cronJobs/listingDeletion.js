@@ -38,36 +38,28 @@ async function deleteResumeFromCloudinary(resumeUrl, applicationId) {
 }
 
 /**
- * JOB 1: Clean up expired listings
+ * JOB 1: Clean up expired listings (with 7-day grace period)
  * Runs daily at 2 AM
  *
- * Deletes listings that are:
- * - Past their expiresAt date, OR
- * - Have no expiresAt and are 30+ days old
+ * Deletes listings that expired MORE THAN 7 days ago.
+ * This gives business users a 7-day grace period to extend their listings.
  *
  * Also cascades deletion to:
  * - All applications for deleted listings
  * - All resumes for those applications (from Cloudinary)
  */
 async function cleanupExpiredListings() {
-  logger.info('Starting expired listings cleanup');
+  logger.info('Starting expired listings cleanup (7-day grace period)');
 
   try {
     const now = new Date();
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    // Find listings to delete
+    // Find listings to delete (expired more than 7 days ago)
+    // Note: All listings now have required expiresAt field
     const listingsToDelete = await Listings.find({
-      $or: [
-        // Has expiration date and it's passed
-        { expiresAt: { $exists: true, $lt: now } },
-        // No expiration date and older than 30 days
-        {
-          expiresAt: { $exists: false },
-          createdAt: { $lt: thirtyDaysAgo },
-        },
-      ],
+      expiresAt: { $lt: sevenDaysAgo },
     }).select('_id companyName jobTitle expiresAt createdAt');
 
     if (listingsToDelete.length === 0) {
@@ -112,7 +104,7 @@ async function cleanupExpiredListings() {
       _id: { $in: listingIds },
     });
 
-    logger.info('Expired listings cleanup complete', {
+    logger.info('Expired listings cleanup complete (7-day grace period expired)', {
       listingsDeleted: listingsResult.deletedCount,
       applicationsDeleted: appsResult.deletedCount,
       resumesDeleted: resumesDeletedCount,
@@ -127,7 +119,7 @@ async function cleanupExpiredListings() {
 
 function scheduleListingCleanup() {
   cron.schedule('0 2 * * *', cleanupExpiredListings);
-  logger.info('Scheduled: Expired listings cleanup (daily at 2 AM)');
+  logger.info('Scheduled: Expired listings cleanup with 7-day grace period (daily at 2 AM)');
 }
 
 module.exports = {

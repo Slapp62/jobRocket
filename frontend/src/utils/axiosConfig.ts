@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { notifications } from '@mantine/notifications';
-import { AppDispatch, store } from '@/store/store';
+import { AppDispatch } from '@/store/store';
 import { clearUser } from '@/store/userSlice';
 import { trackApiError } from './analytics';
 

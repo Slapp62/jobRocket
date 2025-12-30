@@ -14,9 +14,6 @@ const httpLogger = require('./middleware/logging/httpLogger');
 const errorLogger = require('./middleware/logging/errorLogger');
 const logger = require('./config/logger');
 const { scheduleListingCleanup } = require('./cronJobs/listingDeletion');
-const {
-  scheduleApplicationCleanup,
-} = require('./cronJobs/applicationDeletion');
 const { scheduleUserDeletion } = require('./cronJobs/userDeletion');
 const app = express();
 
@@ -101,7 +98,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 scheduleListingCleanup();
-scheduleApplicationCleanup();
 scheduleUserDeletion();
 // Global error handler
 app.use((error, req, res, _next) => {

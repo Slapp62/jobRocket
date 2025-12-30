@@ -1,11 +1,10 @@
 // theme.ts - Rocket Theme Configuration
 import {
+  Button,
   createTheme,
   CSSVariablesResolver,
   defaultVariantColorsResolver,
   MantineColorsTuple,
-  MantineTheme,
-  Title,
 } from '@mantine/core';
 
 // Custom Rocket Orange color palette
@@ -112,14 +111,6 @@ export const theme = createTheme({
       };
     }
 
-    // if (input.variant === 'outline') {
-    //   return {
-    //     ...defaultResolvedColors,
-    //     color: `light-dark(${input.theme.colors.rocketOrange[9]}, var(--mantine-color-white))`,
-    //     border: `1px solid light-dark(${input.theme.colors.rocketOrange[9]}, var(--mantine-color-white))`,
-    //   };
-    // }
-
     return defaultResolvedColors;
   },
 
@@ -144,13 +135,65 @@ export const theme = createTheme({
         c: 'black',
       },
     },
-    Button: {
+    Button: Button.extend({
       defaultProps: {
         radius: 'md',
         fw: 400,
-        c: 'white',
       },
-    },
+      styles: (theme, props) => {
+        // Provide default styles for variants
+        // Component-level c/color props will override these via inline styles (higher specificity)
+
+        if (props.variant === 'subtle') {
+          return {
+            root: {
+              backgroundColor: `light-dark(${theme.colors.rocketOrange[1]}, ${theme.colors.rocketBlack[7]})`,
+              color: `light-dark(${theme.colors.rocketOrange[9]}, var(--mantine-color-white))`,
+
+              '&:hover': {
+                backgroundColor: `light-dark(${theme.colors.rocketOrange[6]}, ${theme.colors.rocketBlack[8]})`,
+                color: 'var(--mantine-color-white)',
+              },
+            },
+          };
+        }
+
+        if (props.variant === 'outline') {
+          return {
+            root: {
+              borderWidth: '1px',
+              borderColor: `light-dark(${theme.colors.rocketOrange[9]}, var(--mantine-color-white))`,
+              color: `light-dark(${theme.colors.rocketOrange[9]}, var(--mantine-color-white))`,
+              backgroundColor: 'transparent',
+
+              '&:hover': {
+                backgroundColor: `light-dark(${theme.colors.rocketOrange[1]}, ${theme.colors.rocketBlack[8]})`,
+              },
+            },
+          };
+        }
+
+        if (props.variant === 'light') {
+          return {
+            root: {
+              backgroundColor: 'transparent',
+              color: `light-dark(${theme.colors.rocketOrange[9]}, var(--mantine-color-white))`,
+
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+            },
+          };
+        }
+
+        // For other variants (filled, etc), apply white color
+        return {
+          root: {
+            color: 'white',
+          },
+        };
+      },
+    }),
     Card: {
       defaultProps: {
         radius: 'md',

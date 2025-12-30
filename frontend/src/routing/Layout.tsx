@@ -15,9 +15,6 @@ import { Navbar } from '../components/Navigation/Header.tsx';
 
 export function Layout() {
   const isMobile = useMediaQuery('(max-width: 700px)');
-  const isBusiness = useSelector(
-    (state: RootState) => state.userSlice.user?.profileType === 'business'
-  );
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -71,7 +68,7 @@ export function Layout() {
       {/* Announcement Banner - displayed site-wide above header */}
       <AnnouncementBanner
         id="welcome-2025"
-        message="Welcome to JobRocket! We are still testing features. If you notice something that doesn't work, please let us know."
+        message="We are still testing features. If you notice something that doesn't work, please let us know."
         actionText="Contact Us"
         onAction={() => navigate('/about#contact')}
       />

@@ -63,7 +63,7 @@ export function FavoriteListings() {
           searchParams={searchParams}
           updateSearchParam={updateSearchParam}
           isMobile={isMobile}
-          padding={'lg'}
+          padding="lg"
           width={{ base: '100%', md: '70%' }}
         />
       </Box>

@@ -6,7 +6,6 @@ import RegisterStart from '@/pages/AllUsers/Registration/RegisterStart.pages';
 import { SearchPage } from '@/pages/AllUsers/Search.page';
 import ErrorFallback from '../components/ErrorCatching/ErrorFallback';
 import { LoginPage } from '../pages/AllUsers/LoginPage/Login.pages';
-import { RegisterForm } from '../pages/AllUsers/Registration/Register.pages';
 // Eager loaded routes (frequently accessed, small)
 import { HomePage } from '../pages/HomePage/Home.pages';
 import { Layout } from './Layout';

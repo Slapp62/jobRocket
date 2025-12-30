@@ -99,7 +99,7 @@ export function HomePage() {
                 radius={isMobile ? 'md' : 0}
                 size="lg"
                 variant="default"
-                placeholder={'Start finding jobs...'}
+                placeholder="Start finding jobs..."
                 value={searchText}
                 onChange={(event) => setSearchText(event.currentTarget.value)}
                 onKeyDown={handleSearchKeyDown}
@@ -137,9 +137,7 @@ export function HomePage() {
                 to="create-listing"
                 fullWidth
                 mx="auto"
-                variant="outline"
-                color={buttonBorderColor}
-                c={textHeaderColor}
+                variant="subtle"
                 size="md"
                 fz={20}
                 style={{ fontWeight: 700 }}

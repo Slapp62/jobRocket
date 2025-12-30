@@ -77,9 +77,9 @@ export function SearchPage() {
       // Track search if any filters are applied
       if (region || city || workArrangement) {
         const filters: Record<string, any> = {};
-        if (region) filters.region = region;
-        if (city) filters.city = city;
-        if (workArrangement) filters.workArrangement = workArrangement;
+        if (region) {filters.region = region;}
+        if (city) {filters.city = city;}
+        if (workArrangement) {filters.workArrangement = workArrangement;}
 
         trackJobSearch(searchText || '', filters);
       }
@@ -98,14 +98,14 @@ export function SearchPage() {
 
       if (count === 0) {
         message = 'No job listings found';
-        if (searchTerm) message += ` matching "${searchTerm}"`;
-        if (cityParam) message += ` in ${cityParam}`;
-        else if (region) message += ` in ${formatRegionForDisplay(region)}`;
+        if (searchTerm) {message += ` matching "${searchTerm}"`;}
+        if (cityParam) {message += ` in ${cityParam}`;}
+        else if (region) {message += ` in ${formatRegionForDisplay(region)}`;}
       } else {
         message = `Found ${count} job listing${count === 1 ? '' : 's'}`;
-        if (searchTerm) message += ` matching "${searchTerm}"`;
-        if (cityParam) message += ` in ${cityParam}`;
-        else if (region) message += ` in ${formatRegionForDisplay(region)}`;
+        if (searchTerm) {message += ` matching "${searchTerm}"`;}
+        if (cityParam) {message += ` in ${cityParam}`;}
+        else if (region) {message += ` in ${formatRegionForDisplay(region)}`;}
       }
 
       announceToScreenReader(message, 'polite');
@@ -124,9 +124,9 @@ export function SearchPage() {
         const cityParam = searchParams.get('city');
         const workArrangement = searchParams.get('workArrangement');
 
-        if (region) filters.region = region;
-        if (cityParam) filters.city = cityParam;
-        if (workArrangement) filters.workArrangement = workArrangement;
+        if (region) {filters.region = region;}
+        if (cityParam) {filters.city = cityParam;}
+        if (workArrangement) {filters.workArrangement = workArrangement;}
 
         trackJobSearch(searchText, filters);
       }
@@ -148,9 +148,9 @@ export function SearchPage() {
       const cityParam = searchParams.get('city');
       const workArrangement = searchParams.get('workArrangement');
 
-      if (region) filters.region = region;
-      if (cityParam) filters.city = cityParam;
-      if (workArrangement) filters.workArrangement = workArrangement;
+      if (region) {filters.region = region;}
+      if (cityParam) {filters.city = cityParam;}
+      if (workArrangement) {filters.workArrangement = workArrangement;}
 
       trackJobSearch(searchText, filters);
     }
@@ -223,7 +223,7 @@ export function SearchPage() {
               searchParams={searchParams}
               updateSearchParam={updateSearchParam}
               isMobile={isMobile}
-              width={{ base: '100%', md: '80%' }}
+              width='100%'
             />
           </Stack>
         </Box>

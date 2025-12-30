@@ -23,7 +23,7 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { PageMeta } from '@/SEO/PageMeta';
-import { AppDispatch } from '@/store/store';
+import { AppDispatch, persistor } from '@/store/store';
 import { setUser } from '@/store/userSlice';
 import { announceToScreenReader, autocompleteValues } from '@/utils/accessibility';
 import { trackLogin } from '@/utils/analytics';
@@ -160,11 +160,14 @@ export function LoginPage() {
       // Navigate to appropriate page based on user type
       const redirectPath = userData.profileType === 'business' ? '/dashboard' : '/search';
 
-      // Add small delay before redirect to ensure session is fully established
-      // This prevents race conditions on mobile where multiple API calls fire before session propagates
+      // Wait for Redux Persist to flush state to localStorage before navigating
+      // This prevents race condition where old user data could briefly appear on mobile
+      await persistor.flush();
+
+      // Small additional delay for session cookie propagation on slower mobile networks
       setTimeout(() => {
         jumpTo(redirectPath);
-      }, 150);
+      }, 100);
     } catch (error: any) {
       // ACCESSIBILITY: Announce error to screen readers
       announceToScreenReader(

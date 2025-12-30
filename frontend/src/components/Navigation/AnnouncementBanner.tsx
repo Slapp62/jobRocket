@@ -61,13 +61,13 @@ export function AnnouncementBanner({
         borderBottom: computedColorScheme === 'light' ? '1px solid #dee2e6' : '1px solid #373A40',
       }}
     >
-      <Flex align="center" justify="center" gap="md" maw={1200} mx="auto" wrap="wrap" ta="justify">
+      <Flex align="center" justify="center" gap="md" maw={1200} mx="auto" wrap="wrap">
         <Flex align="center" gap="sm">
-          <IconBell size={20} aria-hidden="true" />
-          <Text size="sm">{message}</Text>
+          <IconBell style={{flexShrink: 0, minWidth: '20px'}} aria-hidden="true" />
+          <Text size="sm" ta="justify">{message}</Text>
         </Flex>
 
-        <Flex align="center" gap="xs" justify="center">
+        <Flex align="center" gap="md" justify="center" >
           {actionText && onAction && (
             <Button size="xs" variant="filled" onClick={onAction}>
               {actionText}

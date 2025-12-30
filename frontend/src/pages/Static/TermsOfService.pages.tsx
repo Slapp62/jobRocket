@@ -16,7 +16,7 @@ const TermsOfService: FC = () => {
           Terms of Service
         </Title>
         <Text c="dimmed" fs="italic" mb="xl">
-          Last Updated: December 25, 2025
+          Last Updated: December 30, 2025
           <br />
           Effective Date: January 1, 2026
         </Text>
@@ -67,6 +67,40 @@ const TermsOfService: FC = () => {
                   job placements. Employment relationships are solely between you and the employer.
                 </Text>
               </Paper>
+
+              <Title order={4} size="h5" mb="xs" mt="lg">
+                Job Listing Expiration and Grace Period (Business Users)
+              </Title>
+              <Text mb="sm">
+                All job listings must have an expiration date (maximum 90 days from creation). When a
+                listing expires:
+              </Text>
+              <List mb="md">
+                <List.Item>
+                  The listing enters a <strong>7-day grace period</strong>
+                </List.Item>
+                <List.Item>
+                  You can extend the listing through your dashboard during this grace period
+                </List.Item>
+                <List.Item>
+                  Your dashboard will display a warning indicator showing days remaining until deletion
+                </List.Item>
+                <List.Item>
+                  If not extended within 7 days, the listing and all associated applications are
+                  permanently deleted
+                </List.Item>
+                <List.Item>
+                  If you manually delete a listing before expiration, it is deleted immediately along
+                  with all applications
+                </List.Item>
+              </List>
+              <Text mb="md" size="sm" c="dimmed">
+                See our{' '}
+                <Anchor href="/privacy-policy" target="_blank">
+                  Privacy Policy
+                </Anchor>{' '}
+                for details on data retention and deletion.
+              </Text>
             </Accordion.Panel>
           </Accordion.Item>
 
@@ -195,16 +229,32 @@ const TermsOfService: FC = () => {
               <Title order={4} size="h5" mb="xs" mt="md">
                 Your Right to Terminate
               </Title>
-              <Text mb="md">
+              <Text mb="sm">
                 You may delete your account at any time by going to My Account &gt; Delete Account
                 or by contacting us at{' '}
-                <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>. See
-                our{' '}
-                <Anchor href="/privacy-policy" target="_blank">
-                  Privacy Policy
-                </Anchor>{' '}
-                for information about what happens to your data after deletion.
+                <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>.
               </Text>
+              <Paper p="md" withBorder bg="blue.0" mb="md">
+                <Text fw={700} mb="xs">
+                  30-Day Grace Period for Account Deletion:
+                </Text>
+                <Text mb="sm">
+                  When you delete your account, it enters a <strong>30-day grace period</strong>:
+                </Text>
+                <List size="sm">
+                  <List.Item>Your profile is immediately hidden from all users</List.Item>
+                  <List.Item>You cannot log in during this period</List.Item>
+                  <List.Item>Your account data is preserved for 30 days</List.Item>
+                  <List.Item>
+                    You can restore your account by emailing{' '}
+                    <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>{' '}
+                    within 30 days
+                  </List.Item>
+                  <List.Item>
+                    After 30 days, all personal data is permanently deleted and cannot be recovered
+                  </List.Item>
+                </List>
+              </Paper>
 
               <Title order={4} size="h5" mb="xs" mt="md">
                 Our Right to Terminate

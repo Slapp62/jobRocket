@@ -117,11 +117,11 @@ const joiListingSchema = joi.object({
     .date()
     .min('now')
     .max(joi.ref('$maxExpirationDate'))
-    .optional()
-    .allow(null)
+    .required()
     .messages({
       'date.min': 'Expiration date cannot be in the past',
       'date.max': 'Expiration date cannot exceed 90 days from today',
+      'any.required': 'Expiration date is required',
     }),
 });
 

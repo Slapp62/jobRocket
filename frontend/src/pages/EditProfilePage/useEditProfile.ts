@@ -208,9 +208,10 @@ export const useEditProfile = () => {
       if (response.status === 200) {
         !isAdminView ? dispatch(clearUser()) : jumpTo('/admin');
         notifications.show({
-          title: 'Warning',
-          message: 'Account Deleted.',
+          title: 'Account Deactivated',
+          message: 'Your account has been deactivated. You have 30 days to restore it by contacting support@jobrocket.work. After 30 days, all data will be permanently deleted.',
           color: 'orange',
+          autoClose: 10000, // Longer duration for important message
         });
       }
     } catch (error: any) {

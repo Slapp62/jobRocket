@@ -28,7 +28,7 @@ const KofiWidget: React.FC = () => {
     };
   }, []);
 
-  return <div id="kofi-widget-container"></div>;
+  return <div id="kofi-widget-container" />;
 };
 
 export default KofiWidget;

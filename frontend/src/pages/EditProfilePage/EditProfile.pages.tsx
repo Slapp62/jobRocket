@@ -137,7 +137,7 @@ export function EditProfile() {
                             credentials: 'include',
                           });
 
-                          if (!response.ok) throw new Error('Failed to export data');
+                          if (!response.ok) {throw new Error('Failed to export data');}
 
                           const blob = await response.blob();
                           const url = window.URL.createObjectURL(blob);

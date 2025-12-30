@@ -34,9 +34,10 @@ const userSlice = createSlice({
         }
       }
     },
-    clearUser(state) {
-      state.isLoggedIn = false;
-      state.user = null;
+    clearUser() {
+      // Return to complete initial state to prevent data from previous user persisting
+      // This fixes race condition where old user data could briefly appear after re-login
+      return initialState;
     },
     removeUser(state, action: PayloadAction<string>) {
       if (state.allUsers) {

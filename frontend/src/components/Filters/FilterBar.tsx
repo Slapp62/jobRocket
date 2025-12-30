@@ -1,4 +1,3 @@
-import { IconFilterOff } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { ActionIcon, Flex, StyleProp, Tooltip } from '@mantine/core';
 import { RootState } from '@/store/store';
