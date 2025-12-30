@@ -100,14 +100,21 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
     ) {
       throwError(
         400,
-        'User profile incomplete - cannot calculate match scores. Please complete your profile.',
+        'User profile incomplete - cannot calculate match scores. Please complete your profile.'
       );
     }
 
     // Fetch ALL listings matching the filters (before pagination)
     const allListings = await Listing.find(query).lean();
 
-    if (allListings.length === 0) {
+    // Only throw error if user performed an actual search (not for empty business dashboard)
+    const hasSearchCriteria =
+      filterParams.searchText ||
+      filterParams.region ||
+      filterParams.city ||
+      filterParams.workArrangement;
+
+    if (allListings.length === 0 && (hasSearchCriteria || !businessId)) {
       throwError(404, 'No jobs match your search. Try adjusting your filters.');
     }
 
@@ -117,7 +124,7 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
     const sortedListings = sortListingsByMatchScore(
       allListings,
       user.jobseekerProfile.embedding,
-      sortOrder,
+      sortOrder
     );
 
     // Apply pagination AFTER sorting
@@ -176,7 +183,14 @@ const getFilteredListings = async (filterParams, userId, businessId = null) => {
     Listing.countDocuments(query), // Get total count for pagination info
   ]);
 
-  if (listings.length === 0) {
+  // Only throw error if user performed an actual search (not for empty business dashboard)
+  const hasSearchCriteria =
+    filterParams.searchText ||
+    filterParams.region ||
+    filterParams.city ||
+    filterParams.workArrangement;
+
+  if (listings.length === 0 && (hasSearchCriteria || !businessId)) {
     throwError(404, 'No jobs match your search. Try adjusting your filters.');
   }
 
@@ -288,7 +302,7 @@ async function getFilteredApplications(businessId, filterParams) {
       includeMessage: false, // Message not displayed on dashboard
       includeApplicantId: false, // Internal field not displayed
       includeConsent: false, // Privacy metadata not needed on frontend
-    }),
+    })
   );
 
   return {

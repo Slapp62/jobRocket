@@ -1,4 +1,4 @@
-import icon from '/flavicon-180.png';
+import icon from '/rocketGradient-180px-square-noBG.png';
 import { Link } from 'react-router-dom';
 import { Group, Image, Title, useComputedColorScheme } from '@mantine/core';
 

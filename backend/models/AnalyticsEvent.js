@@ -22,7 +22,13 @@ const analyticsEventSchema = new Schema({
   eventType: {
     type: String,
     required: true,
-    enum: ['job_view', 'application_submit', 'search', 'signup', 'profile_view'],
+    enum: [
+      'job_view',
+      'application_submit',
+      'search',
+      'signup',
+      'profile_view',
+    ],
     index: true, // Fast filtering by event type
   },
 

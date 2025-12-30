@@ -13,7 +13,7 @@ async function createApplication(
   listingId,
   applicantId,
   applicationData,
-  resumeFile,
+  resumeFile
 ) {
   // Check if listing exists and is active
   const listing = await Listings.findById(listingId);
@@ -34,14 +34,14 @@ async function createApplication(
     }
     const matchScore = matchingService.calculateMatchScore(
       user.jobseekerProfile.embedding,
-      listing.embedding,
+      listing.embedding
     );
     applicationData.matchScore = matchScore;
   }
 
   const resumeUrl = await uploadResumeToCloudinary(
     resumeFile.buffer,
-    applicationData.email,
+    applicationData.email
   );
 
   // Create application
@@ -128,7 +128,7 @@ async function getListingApplications(listingId, requesterId) {
   const applications = await Applications.find({ listingId })
     .populate(
       'applicantId',
-      'jobseekerProfile.firstName jobseekerProfile.lastName jobseekerProfile.email jobseekerProfile.phone jobseekerProfile.resume jobseekerProfile.message',
+      'jobseekerProfile.firstName jobseekerProfile.lastName jobseekerProfile.email jobseekerProfile.phone jobseekerProfile.resume jobseekerProfile.message'
     )
     .sort({ createdAt: -1 });
 
@@ -157,7 +157,7 @@ async function updateApplicationData(
   applicationId,
   applicationData,
   requesterId,
-  resumeFile,
+  resumeFile
 ) {
   const application = await Applications.findById(applicationId);
 
@@ -180,7 +180,7 @@ async function updateApplicationData(
     try {
       const resumeUrl = await uploadResumeToCloudinary(
         resumeFile.buffer,
-        applicationData.email || application.email,
+        applicationData.email || application.email
       );
       application.resumeUrl = resumeUrl.secure_url;
     } catch (error) {
@@ -192,7 +192,7 @@ async function updateApplicationData(
       ) {
         throwError(
           503,
-          'Failed to upload resume due to a network issue. Please try again in a moment.',
+          'Failed to upload resume due to a network issue. Please try again in a moment.'
         );
       }
       // Re-throw other errors to preserve original error handling

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { notifications } from '@mantine/notifications';
 
@@ -81,17 +81,13 @@ export const useAnalytics = () => {
         setError(null);
 
         // Fetch all analytics endpoints in parallel
-        const [
-          platformResponse,
-          searchResponse,
-          jobsResponse,
-          applicationsResponse,
-        ] = await Promise.all([
-          axios.get('/api/analytics/platform-metrics'),
-          axios.get('/api/analytics/search-insights?limit=10&days=30'),
-          axios.get('/api/analytics/popular-jobs?limit=10&days=30'),
-          axios.get('/api/analytics/application-metrics?days=30'),
-        ]);
+        const [platformResponse, searchResponse, jobsResponse, applicationsResponse] =
+          await Promise.all([
+            axios.get('/api/analytics/platform-metrics'),
+            axios.get('/api/analytics/search-insights?limit=10&days=30'),
+            axios.get('/api/analytics/popular-jobs?limit=10&days=30'),
+            axios.get('/api/analytics/application-metrics?days=30'),
+          ]);
 
         // Extract data from responses
         setPlatformMetrics(platformResponse.data.data);

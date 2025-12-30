@@ -54,7 +54,10 @@ function sanitizeUserAgent(userAgentString) {
  * @param {Object} options.metadata - Additional event-specific data
  * @param {string} options.userAgent - Full user agent string (will be sanitized)
  */
-async function logEvent(eventType, { userId, jobId, sessionId, metadata = {}, userAgent }) {
+async function logEvent(
+  eventType,
+  { userId, jobId, sessionId, metadata = {}, userAgent }
+) {
   try {
     // Sanitize user agent if provided
     if (userAgent) {
@@ -99,7 +102,7 @@ async function trackJobView(jobId, userId, sessionId, userAgent) {
         $inc: { viewCount: 1 },
         $set: { lastViewedAt: new Date() },
       },
-      { new: false }, // Don't need to return the updated document
+      { new: false } // Don't need to return the updated document
     );
 
     // Log analytics event (non-blocking)
@@ -127,7 +130,13 @@ async function trackJobView(jobId, userId, sessionId, userAgent) {
  * @param {string} sessionId - Session ID
  * @param {string} userAgent - User agent string
  */
-async function trackApplicationSubmit(applicationId, jobId, userId, sessionId, userAgent) {
+async function trackApplicationSubmit(
+  applicationId,
+  jobId,
+  userId,
+  sessionId,
+  userAgent
+) {
   try {
     await logEvent('application_submit', {
       userId,
@@ -205,8 +214,14 @@ async function getPlatformMetrics(_days = 30) {
       Listing.countDocuments({ isActive: true }),
       Applications.countDocuments({}),
       User.countDocuments({ isDeleted: { $ne: true } }),
-      User.countDocuments({ profileType: 'jobseeker', isDeleted: { $ne: true } }),
-      User.countDocuments({ profileType: 'business', isDeleted: { $ne: true } }),
+      User.countDocuments({
+        profileType: 'jobseeker',
+        isDeleted: { $ne: true },
+      }),
+      User.countDocuments({
+        profileType: 'business',
+        isDeleted: { $ne: true },
+      }),
     ]);
 
     // Get time-based counts from analytics events
@@ -245,9 +260,8 @@ async function getPlatformMetrics(_days = 30) {
     ]);
 
     // Calculate conversion rate (applications per view)
-    const conversionRate30d = jobViews30d > 0
-      ? ((applications30d / jobViews30d) * 100).toFixed(2)
-      : 0;
+    const conversionRate30d =
+      jobViews30d > 0 ? ((applications30d / jobViews30d) * 100).toFixed(2) : 0;
 
     return {
       jobs: {
@@ -367,16 +381,16 @@ async function getPopularJobs(limit = 10, days = 30) {
     ]);
 
     // Fetch job details for top jobs
-    const jobIds = jobViewCounts.map(item => item._id);
+    const jobIds = jobViewCounts.map((item) => item._id);
     const jobs = await Listing.find({ _id: { $in: jobIds } })
       .select('jobTitle companyName location.city createdAt viewCount')
       .lean();
 
     // Merge view counts with job details
-    const jobsMap = new Map(jobs.map(job => [job._id.toString(), job]));
+    const jobsMap = new Map(jobs.map((job) => [job._id.toString(), job]));
 
     const popularJobs = jobViewCounts
-      .map(item => {
+      .map((item) => {
         const job = jobsMap.get(item._id.toString());
         if (!job) return null;
 
@@ -390,7 +404,7 @@ async function getPopularJobs(limit = 10, days = 30) {
           createdAt: job.createdAt,
         };
       })
-      .filter(job => job !== null);
+      .filter((job) => job !== null);
 
     return popularJobs;
   } catch (error) {
@@ -412,33 +426,30 @@ async function getApplicationMetrics(days = 30) {
   try {
     const cutoffDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
 
-    const [
-      totalViews,
-      totalApplications,
-      applicationsByStatus,
-    ] = await Promise.all([
-      AnalyticsEvent.countDocuments({
-        eventType: 'job_view',
-        timestamp: { $gte: cutoffDate },
-      }),
-      AnalyticsEvent.countDocuments({
-        eventType: 'application_submit',
-        timestamp: { $gte: cutoffDate },
-      }),
-      Applications.aggregate([
-        {
-          $match: {
-            createdAt: { $gte: cutoffDate },
+    const [totalViews, totalApplications, applicationsByStatus] =
+      await Promise.all([
+        AnalyticsEvent.countDocuments({
+          eventType: 'job_view',
+          timestamp: { $gte: cutoffDate },
+        }),
+        AnalyticsEvent.countDocuments({
+          eventType: 'application_submit',
+          timestamp: { $gte: cutoffDate },
+        }),
+        Applications.aggregate([
+          {
+            $match: {
+              createdAt: { $gte: cutoffDate },
+            },
           },
-        },
-        {
-          $group: {
-            _id: '$status',
-            count: { $sum: 1 },
+          {
+            $group: {
+              _id: '$status',
+              count: { $sum: 1 },
+            },
           },
-        },
-      ]),
-    ]);
+        ]),
+      ]);
 
     const statusCounts = {
       pending: 0,
@@ -446,13 +457,12 @@ async function getApplicationMetrics(days = 30) {
       rejected: 0,
     };
 
-    applicationsByStatus.forEach(item => {
+    applicationsByStatus.forEach((item) => {
       statusCounts[item._id] = item.count;
     });
 
-    const viewToApplicationRate = totalViews > 0
-      ? ((totalApplications / totalViews) * 100).toFixed(2)
-      : 0;
+    const viewToApplicationRate =
+      totalViews > 0 ? ((totalApplications / totalViews) * 100).toFixed(2) : 0;
 
     return {
       totalViews,

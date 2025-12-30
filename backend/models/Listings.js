@@ -111,7 +111,7 @@ jobListingSchema.index(
       'location.region': 2, // Lower priority - region is filterable separately
     },
     name: 'listing_text_search',
-  },
+  }
 );
 
 // Validation: Exactly one application method must be selected
@@ -125,7 +125,7 @@ jobListingSchema.pre('validate', function (next) {
     if (count !== 1) {
       this.invalidate(
         'apply.method',
-        'Exactly one application method must be selected',
+        'Exactly one application method must be selected'
       );
     }
   }

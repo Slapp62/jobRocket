@@ -1,6 +1,6 @@
 import Joi from 'joi';
-import { CITIES, REGIONS } from '../data/israelCities';
 import { INDUSTRIES } from '../data/industries';
+import { CITIES, REGIONS } from '../data/israelCities';
 
 const registrationSchema = Joi.object({
   email: Joi.string()
@@ -27,7 +27,8 @@ const registrationSchema = Joi.object({
     .allow('')
     .optional()
     .messages({
-      'string.pattern.base': 'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
+      'string.pattern.base':
+        'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
     }),
 
   profileType: Joi.string().valid('jobseeker', 'business').required().messages({
@@ -224,7 +225,8 @@ const googleRegistrationSchema = Joi.object({
     .allow('')
     .optional()
     .messages({
-      'string.pattern.base': 'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
+      'string.pattern.base':
+        'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
     }),
 
   profileType: Joi.string().valid('jobseeker', 'business').required().messages({

@@ -1,7 +1,7 @@
 import { IconPhone } from '@tabler/icons-react';
 import { Button, Fieldset, Flex, Text, TextInput, Title } from '@mantine/core';
-import { DeleteUserModal } from '../../components/Modals/DeleteUserModal';
 import { PageMeta } from '@/SEO/PageMeta';
+import { DeleteUserModal } from '../../components/Modals/DeleteUserModal';
 import { BusinessFields } from '../AllUsers/Registration/registrationForms/businessFields';
 import { JobseekerFields } from '../AllUsers/Registration/registrationForms/jobseekerFields';
 import { useEditProfile } from './useEditProfile';
@@ -110,8 +110,8 @@ export function EditProfile() {
                   <Fieldset legend="Delete Account" w={isMobile ? '100%' : '50%'}>
                     <Flex h="100%" justify="space-between" direction="column" gap={5}>
                       <Text fz="sm">
-                        Your account will be deactivated for 30 days. Contact support to restore
-                        it during this period. After 30 days, all data will be permanently deleted.
+                        Your account will be deactivated for 30 days. Contact support to restore it
+                        during this period. After 30 days, all data will be permanently deleted.
                       </Text>
                       <Button color="red" onClick={open}>
                         Delete Account

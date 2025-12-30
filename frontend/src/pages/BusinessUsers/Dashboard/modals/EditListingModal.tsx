@@ -20,14 +20,14 @@ import {
   Title,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { DurationPresetSelect } from '@/components/DurationPresetSelect';
 import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
 import WORK_ARRANGEMENTS from '@/data/workArr';
 import { cleanedListingData } from '@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData';
 import { TListing } from '@/Types';
-import { listingSchema } from '@/validationRules/listing.joi';
-import { formatDate, addDays, toLocalMidnight } from '@/utils/dateUtils';
-import { DurationPresetSelect } from '@/components/DurationPresetSelect';
+import { addDays, formatDate, toLocalMidnight } from '@/utils/dateUtils';
 import { formatRegionForDisplay } from '@/utils/formatters';
+import { listingSchema } from '@/validationRules/listing.joi';
 
 interface EditListingModalProps {
   opened: boolean;
@@ -81,7 +81,7 @@ export const EditListingModal = ({
 
     return {
       date: formatDate(listing.expiresAt), // DD/MM/YYYY format
-      daysRemaining: diffDays
+      daysRemaining: diffDays,
     };
   }, [listing?.expiresAt]);
 

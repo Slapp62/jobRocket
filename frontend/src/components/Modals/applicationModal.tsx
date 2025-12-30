@@ -29,7 +29,12 @@ interface ApplicationModalProps {
   jobTitle?: string;
 }
 
-export const ApplicationModal = ({ opened, onClose, listingID, jobTitle }: ApplicationModalProps) => {
+export const ApplicationModal = ({
+  opened,
+  onClose,
+  listingID,
+  jobTitle,
+}: ApplicationModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeError, setResumeError] = useState<string | null>(null);
@@ -127,7 +132,7 @@ export const ApplicationModal = ({ opened, onClose, listingID, jobTitle }: Appli
   };
 
   return (
-    <Modal opened={opened} onClose={onClose} title="Application" zIndex={1000} size='md'>
+    <Modal opened={opened} onClose={onClose} title="Application" zIndex={1000} size="md">
       <form onSubmit={handleSubmit(onSubmit)} aria-label="Job application form">
         <Stack w={{ base: '100%', md: '95%' }} mx="auto">
           <TextInput
@@ -210,7 +215,8 @@ export const ApplicationModal = ({ opened, onClose, listingID, jobTitle }: Appli
                 onChange={(event) => field.onChange(event.currentTarget.checked)}
                 label={
                   <Text size="sm">
-                    I consent to JobRocket sharing my data (full name, email, phone number, and resume via Cloudinary) as described in the{' '}
+                    I consent to JobRocket sharing my data (full name, email, phone number, and
+                    resume via Cloudinary) as described in the{' '}
                     <Anchor href="/privacy-policy" target="_blank">
                       Privacy Policy.
                     </Anchor>

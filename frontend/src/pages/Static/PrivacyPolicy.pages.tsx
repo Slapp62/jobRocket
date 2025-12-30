@@ -24,8 +24,8 @@ const PrivacyPolicy: FC = () => {
         don't agree, please don't use our services.
       </Text>
       <Text mb="xl">
-        This policy complies with Israeli Privacy Protection Law (Amendment 13, effective August
-        14, 2025).
+        This policy complies with Israeli Privacy Protection Law (Amendment 13, effective August 14,
+        2025).
       </Text>
 
       <Accordion variant="separated" radius="md">
@@ -83,8 +83,8 @@ const PrivacyPolicy: FC = () => {
               <List.Item>Account status</List.Item>
             </List>
             <Text mb="sm">
-              <strong>Why we collect it:</strong> Create and authenticate your account, allow you
-              to log in, contact you about your account or applications
+              <strong>Why we collect it:</strong> Create and authenticate your account, allow you to
+              log in, contact you about your account or applications
             </Text>
             <Text mb="sm">
               <strong>Legal basis:</strong> Contractual necessity (we need this to provide the
@@ -117,8 +117,7 @@ const PrivacyPolicy: FC = () => {
               relevant job listings, allow employers to evaluate your applications
             </Text>
             <Text mb="sm">
-              <strong>Legal basis:</strong> Your consent (you provided this information
-              voluntarily)
+              <strong>Legal basis:</strong> Your consent (you provided this information voluntarily)
             </Text>
             <Text mb="sm">
               <strong>Mandatory:</strong> Only name, education, and work arrangement are required.
@@ -181,8 +180,8 @@ const PrivacyPolicy: FC = () => {
               <Text>
                 No - AI job matching is a fundamental feature of our platform, not an optional
                 add-on. Without it, we cannot provide you with personalized job recommendations or
-                match scores. If you prefer not to use AI-powered matching, you may want to
-                consider other job platforms.
+                match scores. If you prefer not to use AI-powered matching, you may want to consider
+                other job platforms.
               </Text>
             </Paper>
             <Text mb="sm">
@@ -219,7 +218,9 @@ const PrivacyPolicy: FC = () => {
                 <List.Item>
                   The employer needs records for their hiring process and legal compliance
                 </List.Item>
-                <List.Item>The application becomes part of the employer's business records</List.Item>
+                <List.Item>
+                  The application becomes part of the employer's business records
+                </List.Item>
               </List>
               <Text size="sm" mt="sm">
                 If you want an employer to delete your reviewed application, contact them directly
@@ -240,12 +241,12 @@ const PrivacyPolicy: FC = () => {
               <List.Item>Session information</List.Item>
             </List>
             <Text mb="sm">
-              <strong>Why we collect it:</strong> Prove you consented to data processing
-              (regulatory requirement), prevent fraud and unauthorized access, secure your account
+              <strong>Why we collect it:</strong> Prove you consented to data processing (regulatory
+              requirement), prevent fraud and unauthorized access, secure your account
             </Text>
             <Text mb="md">
-              <strong>How long we keep it:</strong> Consent records permanently (legal
-              requirement), security logs for 90 days
+              <strong>How long we keep it:</strong> Consent records permanently (legal requirement),
+              security logs for 90 days
             </Text>
 
             <Title order={4} size="h5" mb="xs" mt="lg">
@@ -262,9 +263,7 @@ const PrivacyPolicy: FC = () => {
               <List size="sm">
                 <List.Item>Small text files stored in your browser</List.Item>
                 <List.Item>Used only to maintain your login session</List.Item>
-                <List.Item>
-                  Contain a random session ID (no personal information)
-                </List.Item>
+                <List.Item>Contain a random session ID (no personal information)</List.Item>
                 <List.Item>
                   Automatically deleted when you log out or after 24 hours of inactivity
                 </List.Item>
@@ -329,8 +328,8 @@ const PrivacyPolicy: FC = () => {
               file
             </Text>
             <Text mb="sm">
-              <strong>Why:</strong> We use OpenAI's API to generate AI embeddings that power our
-              job matching algorithm.
+              <strong>Why:</strong> We use OpenAI's API to generate AI embeddings that power our job
+              matching algorithm.
             </Text>
             <Text mb="md">
               <strong>Your control:</strong> AI embeddings are deleted from our system when you
@@ -355,9 +354,9 @@ const PrivacyPolicy: FC = () => {
                 Important:
               </Text>
               <Text>
-                Once an employer receives your application through JobRocket's internal system,
-                they become independently responsible for handling your data according to privacy
-                laws. We cannot control what they do with your application after you submit it.
+                Once an employer receives your application through JobRocket's internal system, they
+                become independently responsible for handling your data according to privacy laws.
+                We cannot control what they do with your application after you submit it.
               </Text>
             </Paper>
 
@@ -406,8 +405,8 @@ const PrivacyPolicy: FC = () => {
           </Accordion.Control>
           <Accordion.Panel>
             <Text mb="md">
-              Under Israeli privacy law (Amendment 13), you have the following rights regarding
-              your personal data:
+              Under Israeli privacy law (Amendment 13), you have the following rights regarding your
+              personal data:
             </Text>
 
             <Title order={4} size="h5" mb="xs" mt="md">
@@ -424,10 +423,9 @@ const PrivacyPolicy: FC = () => {
               Right to Correct Your Data
             </Title>
             <Text mb="md">
-              You can update or correct inaccurate information in your profile. Go to My Account
-              to update your information. For corrections we cannot provide through the
-              interface, email{' '}
-              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>.
+              You can update or correct inaccurate information in your profile. Go to My Account to
+              update your information. For corrections we cannot provide through the interface,
+              email <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>.
             </Text>
 
             <Title order={4} size="h5" mb="xs" mt="md">
@@ -450,8 +448,8 @@ const PrivacyPolicy: FC = () => {
                 system. Contact the employer directly if you want them to delete it.
               </List.Item>
               <List.Item>
-                <strong>Consent records:</strong> We must keep records showing that you consented
-                to data processing permanently for legal compliance.
+                <strong>Consent records:</strong> We must keep records showing that you consented to
+                data processing permanently for legal compliance.
               </List.Item>
             </List>
 
@@ -501,8 +499,8 @@ const PrivacyPolicy: FC = () => {
             <Text>
               We encourage you to contact us first at{' '}
               <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor> so we can
-              try to resolve your concerns directly, but you have the right to contact the PPA at any
-              time.
+              try to resolve your concerns directly, but you have the right to contact the PPA at
+              any time.
             </Text>
           </Accordion.Panel>
         </Accordion.Item>
@@ -533,16 +531,16 @@ const PrivacyPolicy: FC = () => {
                 use bcrypt hashing, an industry-standard method
               </List.Item>
               <List.Item>
-                <strong>Secure file storage:</strong> Resume files are stored on Cloudinary's
-                secure infrastructure with restricted access controls
+                <strong>Secure file storage:</strong> Resume files are stored on Cloudinary's secure
+                infrastructure with restricted access controls
               </List.Item>
               <List.Item>
                 <strong>Session management:</strong> Your login sessions use secure, HTTP-only
                 cookies that cannot be accessed by malicious scripts
               </List.Item>
               <List.Item>
-                <strong>Database security:</strong> Our database is hosted on encrypted servers
-                with restricted network access
+                <strong>Database security:</strong> Our database is hosted on encrypted servers with
+                restricted network access
               </List.Item>
             </List>
 
@@ -551,7 +549,9 @@ const PrivacyPolicy: FC = () => {
                 Your Responsibility:
               </Text>
               <List size="sm">
-                <List.Item>Keep your password confidential and don't share it with others</List.Item>
+                <List.Item>
+                  Keep your password confidential and don't share it with others
+                </List.Item>
                 <List.Item>Use a strong, unique password for your JobRocket account</List.Item>
                 <List.Item>Log out from shared or public computers</List.Item>
                 <List.Item>
@@ -573,9 +573,9 @@ const PrivacyPolicy: FC = () => {
           </Accordion.Control>
           <Accordion.Panel>
             <Text mb="md">
-              We only retain your personal data for as long as necessary to provide our services
-              and comply with legal obligations. Here are the specific retention periods for
-              different types of data:
+              We only retain your personal data for as long as necessary to provide our services and
+              comply with legal obligations. Here are the specific retention periods for different
+              types of data:
             </Text>
 
             <Title order={4} size="h5" mb="xs" mt="md">
@@ -675,9 +675,8 @@ const PrivacyPolicy: FC = () => {
                 Need to restore a deleted account?
               </Text>
               <Text size="sm">
-                Contact{' '}
-                <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor> within
-                30 days of deletion. After 30 days, account restoration is not possible.
+                Contact <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor>{' '}
+                within 30 days of deletion. After 30 days, account restoration is not possible.
               </Text>
             </Paper>
           </Accordion.Panel>
@@ -738,15 +737,15 @@ const PrivacyPolicy: FC = () => {
               </Text>
               <Text>
                 JobRocket is not intended for children under the age of 16. We do not knowingly
-                collect personal information from anyone under 16 years old. By using JobRocket,
-                you confirm that you are at least 16 years old.
+                collect personal information from anyone under 16 years old. By using JobRocket, you
+                confirm that you are at least 16 years old.
               </Text>
             </Paper>
             <Text>
               If you're a parent or guardian and believe your child under 16 has created an account
               on JobRocket, please contact us immediately at{' '}
-              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor> and
-              we'll delete the account.
+              <Anchor href="mailto:support@jobrocket.work">support@jobrocket.work</Anchor> and we'll
+              delete the account.
             </Text>
           </Accordion.Panel>
         </Accordion.Item>
@@ -764,8 +763,8 @@ const PrivacyPolicy: FC = () => {
               practices, technology, legal requirements, or other factors.
             </Text>
             <Text mb="sm">
-              <strong>For minor changes:</strong> We'll update the "Last Updated" date at the top
-              of this policy
+              <strong>For minor changes:</strong> We'll update the "Last Updated" date at the top of
+              this policy
             </Text>
             <Text mb="md">
               <strong>For significant changes:</strong> We'll notify you via email and display a
@@ -784,13 +783,13 @@ const PrivacyPolicy: FC = () => {
           </Accordion.Control>
           <Accordion.Panel>
             <Text mb="md">
-              This Privacy Policy and our handling of your personal data are governed by the laws
-              of the State of Israel, including the Privacy Protection Law, 5741-1981, as amended
-              by Amendment 13 (effective August 14, 2025).
+              This Privacy Policy and our handling of your personal data are governed by the laws of
+              the State of Israel, including the Privacy Protection Law, 5741-1981, as amended by
+              Amendment 13 (effective August 14, 2025).
             </Text>
             <Text>
-              Any disputes arising from this Privacy Policy or our data practices will be subject
-              to the exclusive jurisdiction of the competent courts in Israel.
+              Any disputes arising from this Privacy Policy or our data practices will be subject to
+              the exclusive jurisdiction of the competent courts in Israel.
             </Text>
           </Accordion.Panel>
         </Accordion.Item>
@@ -827,7 +826,14 @@ const PrivacyPolicy: FC = () => {
       </Accordion>
 
       {/* Footer */}
-      <Text ta="center" c="dimmed" pt="xl" mt="xl" size="sm" style={{ borderTop: '1px solid light-dark(#e0e0e0, var(--mantine-color-rocketDark-6))' }}>
+      <Text
+        ta="center"
+        c="dimmed"
+        pt="xl"
+        mt="xl"
+        size="sm"
+        style={{ borderTop: '1px solid light-dark(#e0e0e0, var(--mantine-color-rocketDark-6))' }}
+      >
         © {new Date().getFullYear()} JobRocket. All rights reserved.
         <br />
         Thank you for trusting JobRocket with your personal information. We're committed to

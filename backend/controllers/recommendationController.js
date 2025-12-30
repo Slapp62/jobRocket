@@ -8,7 +8,7 @@ async function getMatchScore(req, res) {
 
     const score = await recommendationService.getMatchScoreForListing(
       userId,
-      listingId,
+      listingId
     );
     res.json({ matchScore: score });
   } catch (error) {

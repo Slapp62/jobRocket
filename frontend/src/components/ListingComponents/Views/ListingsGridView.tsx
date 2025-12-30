@@ -1,3 +1,4 @@
+import { IconArrowRight, IconWindowMaximize } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { Box, Button, Flex, Group, Skeleton, Stack, Text } from '@mantine/core';
@@ -6,7 +7,6 @@ import { EmptyState } from '@/components/EmptyState';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
 import { RootState } from '@/store/store';
 import ListingCard from '../ListingCard/ListingCard';
-import { IconArrowRight, IconWindowMaximize } from '@tabler/icons-react';
 
 interface DesktopDefaultViewProps {
   isLoading: boolean;
@@ -24,7 +24,7 @@ const DesktopDefaultView = ({
   handleSelectListing,
 }: DesktopDefaultViewProps) => {
   const { user } = useSelector((state: RootState) => state.userSlice);
- 
+
   return (
     <motion.div
       key="grid-view"
@@ -89,7 +89,9 @@ const DesktopDefaultView = ({
                         >
                           Details
                         </Button>
-                        {user?.profileType === 'jobseeker' && <FavoritesButton listing={listing} width='40%'/>}
+                        {user?.profileType === 'jobseeker' && (
+                          <FavoritesButton listing={listing} width="40%" />
+                        )}
 
                         {user?.profileType !== 'business' && <MatchScore listing={listing} />}
                       </Group>

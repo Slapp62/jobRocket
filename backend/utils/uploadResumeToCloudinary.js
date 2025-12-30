@@ -16,7 +16,7 @@ async function uploadResumeToCloudinary(fileBuffer, applicantEmail) {
         } else {
           resolve(result);
         }
-      },
+      }
     );
 
     uploadStream.end(fileBuffer);

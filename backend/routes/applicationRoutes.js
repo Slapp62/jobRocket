@@ -24,7 +24,7 @@ router.post(
   applicationsLimiter,
   applicationValidation,
   upload.single('resume'),
-  createApplication,
+  createApplication
 );
 
 router.get('/my-applications', authenticateUser, getApplicationsByID);
@@ -33,14 +33,14 @@ router.get(
   '/business/dashboard/metrics',
   authenticateUser,
   businessAuth,
-  getDashboardMetrics,
+  getDashboardMetrics
 );
 
 router.get(
   '/business-applications',
   authenticateUser,
   businessAuth,
-  getBusinessApplications,
+  getBusinessApplications
 );
 
 router.get('/listing/:listingId', authenticateUser, getListingApplications);
@@ -52,7 +52,7 @@ router.put(
   authenticateUser,
   upload.single('resume'),
   applicationValidation,
-  updateApplicationData,
+  updateApplicationData
 );
 
 router.delete('/:id', authenticateUser, deleteApplication);

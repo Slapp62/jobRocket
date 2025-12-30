@@ -25,11 +25,19 @@ export const useDashboardListings = () => {
       });
       setListings(data.listings);
     } catch (error: any) {
-      notifications.show({
-        title: 'Error',
-        message: error.response?.data?.message || 'Failed to load listings',
-        color: 'red',
-      });
+      // Don't show error notification for 404 errors (empty state is expected for new businesses)
+      // Only show errors for actual failures (500, network errors, etc.)
+      if (error.response?.status !== 404) {
+        notifications.show({
+          title: 'Error',
+          message: error.response?.data?.message || 'Failed to load listings',
+          color: 'red',
+        });
+      }
+      // Set empty array for 404 errors
+      if (error.response?.status === 404) {
+        setListings([]);
+      }
     } finally {
       setIsLoading(false);
     }

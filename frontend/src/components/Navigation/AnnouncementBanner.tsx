@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Box, Button, Text, Flex, CloseButton, useComputedColorScheme } from '@mantine/core';
+import { useEffect, useState } from 'react';
 import { IconBell } from '@tabler/icons-react';
+import { Box, Button, CloseButton, Flex, Text, useComputedColorScheme } from '@mantine/core';
 
 interface AnnouncementBannerProps {
   /** Unique identifier for this announcement - change this to show a new announcement */
@@ -61,37 +61,19 @@ export function AnnouncementBanner({
         borderBottom: computedColorScheme === 'light' ? '1px solid #dee2e6' : '1px solid #373A40',
       }}
     >
-      <Flex
-        align="center"
-        justify="center"
-        gap="md"
-        maw={1200}
-        mx="auto"
-        wrap="wrap"
-        ta="justify"
-      >
+      <Flex align="center" justify="center" gap="md" maw={1200} mx="auto" wrap="wrap" ta="justify">
         <Flex align="center" gap="sm">
           <IconBell size={20} aria-hidden="true" />
-          <Text size="sm">
-            {message}
-          </Text>
+          <Text size="sm">{message}</Text>
         </Flex>
 
         <Flex align="center" gap="xs" justify="center">
           {actionText && onAction && (
-            <Button
-              size="xs"
-              variant="filled"
-              onClick={onAction}
-            >
+            <Button size="xs" variant="filled" onClick={onAction}>
               {actionText}
             </Button>
           )}
-          <CloseButton
-            onClick={handleDismiss}
-            aria-label="Dismiss announcement"
-            size="sm"
-          />
+          <CloseButton onClick={handleDismiss} aria-label="Dismiss announcement" size="sm" />
         </Flex>
       </Flex>
     </Box>

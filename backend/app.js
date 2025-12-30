@@ -14,7 +14,9 @@ const httpLogger = require('./middleware/logging/httpLogger');
 const errorLogger = require('./middleware/logging/errorLogger');
 const logger = require('./config/logger');
 const { scheduleListingCleanup } = require('./cronJobs/listingDeletion');
-const { scheduleApplicationCleanup } = require('./cronJobs/applicationDeletion');
+const {
+  scheduleApplicationCleanup,
+} = require('./cronJobs/applicationDeletion');
 const { scheduleUserDeletion } = require('./cronJobs/userDeletion');
 const app = express();
 
@@ -34,7 +36,7 @@ if (process.env.NODE_ENV === 'development') {
     cors({
       origin: ['http://localhost:5173', 'http://localhost:5174'],
       credentials: true,
-    }),
+    })
   );
 }
 
@@ -53,7 +55,7 @@ app.use((req, res, next) => {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://storage.ko-fi.com; " +
       "font-src 'self' https://fonts.gstatic.com; " +
       "connect-src 'self' https://accounts.google.com https://jobrocket.work https://jobrocket.onrender.com https://www.google-analytics.com https://analytics.google.com; " +
-      "form-action 'self' https://accounts.google.com;",
+      "form-action 'self' https://accounts.google.com;"
   );
   next();
 });

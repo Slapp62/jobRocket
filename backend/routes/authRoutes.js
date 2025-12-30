@@ -16,31 +16,37 @@ router.get(
     session: false, // We manage sessions ourselves
     accessType: 'online', // Don't request offline access/refresh token - reduces 2FA prompts
     prompt: 'select_account', // Allow smooth account selection
-  }),
+  })
 );
 
 // Step 2: Google redirects back here with authentication result
 router.get(
   '/google/callback',
   (req, res, next) => {
-    passport.authenticate('google', {
-      session: false,
-      failureRedirect: `${frontendUrl}/login?error=oauth_failed`,
-    }, (err, user, info) => {
-      if (err) {
-        return next(err);
-      }
+    passport.authenticate(
+      'google',
+      {
+        session: false,
+        failureRedirect: `${frontendUrl}/login?error=oauth_failed`,
+      },
+      (err, user, info) => {
+        if (err) {
+          return next(err);
+        }
 
-      if (!user) {
-        // Authentication failed - use specific error type from info
-        const errorType = info?.errorType || 'oauth_failed';
-        return res.redirect(`${frontendUrl}/login?error=${errorType}&message=${encodeURIComponent(info?.message || 'Authentication failed')}`);
-      }
+        if (!user) {
+          // Authentication failed - use specific error type from info
+          const errorType = info?.errorType || 'oauth_failed';
+          return res.redirect(
+            `${frontendUrl}/login?error=${errorType}&message=${encodeURIComponent(info?.message || 'Authentication failed')}`
+          );
+        }
 
-      // Success - attach user to request and continue
-      req.user = user;
-      next();
-    })(req, res, next);
+        // Success - attach user to request and continue
+        req.user = user;
+        next();
+      }
+    )(req, res, next);
   },
   (req, res) => {
     const user = req.user;
@@ -75,7 +81,7 @@ router.get(
         user.profileType === 'business' ? '/dashboard' : '/search';
       res.redirect(`${frontendUrl}${redirectPath}`);
     });
-  },
+  }
 );
 
 // Sign up with Google - Step 1: Initiate OAuth
@@ -86,31 +92,37 @@ router.get(
     session: false,
     accessType: 'online', // Don't request offline access/refresh token - reduces 2FA prompts
     prompt: 'select_account', // Allow smooth account selection
-  }),
+  })
 );
 
 // Sign up with Google - Step 2: Handle callback
 router.get(
   '/google/register/callback',
   (req, res, next) => {
-    passport.authenticate('google-register', {
-      session: false,
-      failureRedirect: `${frontendUrl}/register?error=oauth_failed`,
-    }, (err, user, info) => {
-      if (err) {
-        return next(err);
-      }
+    passport.authenticate(
+      'google-register',
+      {
+        session: false,
+        failureRedirect: `${frontendUrl}/register?error=oauth_failed`,
+      },
+      (err, user, info) => {
+        if (err) {
+          return next(err);
+        }
 
-      if (!user) {
-        // Registration failed - use specific error type from info
-        const errorType = info?.errorType || 'oauth_failed';
-        return res.redirect(`${frontendUrl}/register?error=${errorType}&message=${encodeURIComponent(info?.message || 'Registration failed')}`);
-      }
+        if (!user) {
+          // Registration failed - use specific error type from info
+          const errorType = info?.errorType || 'oauth_failed';
+          return res.redirect(
+            `${frontendUrl}/register?error=${errorType}&message=${encodeURIComponent(info?.message || 'Registration failed')}`
+          );
+        }
 
-      // Success - attach user to request and continue
-      req.user = user;
-      next();
-    })(req, res, next);
+        // Success - attach user to request and continue
+        req.user = user;
+        next();
+      }
+    )(req, res, next);
   },
   (req, res) => {
     // Store Google profile data temporarily in session
@@ -130,7 +142,7 @@ router.get(
       // Redirect to account type selection page
       res.redirect(`${frontendUrl}/register/account-type?method=google`);
     });
-  },
+  }
 );
 
 // Sign up with Google - Step 3: Complete registration
@@ -139,67 +151,68 @@ router.post(
   express.json(),
   profileValidation,
   async (req, res) => {
-  try {
-    // Get Google profile from session
-    const googleProfile = req.session.tempGoogleProfile;
+    try {
+      // Get Google profile from session
+      const googleProfile = req.session.tempGoogleProfile;
 
-    if (!googleProfile) {
-      return res.status(400).json({
-        error: 'No Google profile found. Please start registration again.',
-      });
-    }
-
-    // Merge Google data with user-provided data
-    const userData = {
-      email: googleProfile.email,
-      googleId: googleProfile.googleId,
-      password: null, // No password for OAuth users
-      ...req.body, // User-provided fields from form
-    };
-
-    // If jobseeker, merge Google names into profile
-    if (req.body.profileType === 'jobseeker') {
-      userData.jobseekerProfile = {
-        firstName:
-          req.body.jobseekerProfile?.firstName || googleProfile.firstName,
-        lastName: req.body.jobseekerProfile?.lastName || googleProfile.lastName,
-        ...req.body.jobseekerProfile,
-      };
-    }
-
-    // Delegate to existing user service
-    const newUser = await userService.registerGoogleUser(userData);
-
-    // Clear temp data
-    delete req.session.tempGoogleProfile;
-
-    // Create session for the new user
-    req.session.userId = newUser._id.toString();
-    req.session.isAdmin = newUser.isAdmin;
-    req.session.profileType = newUser.profileType;
-    req.session.lastActivity = Date.now();
-
-    req.session.save((err) => {
-      if (err) {
-        return res.status(500).json({ error: 'Session creation failed' });
+      if (!googleProfile) {
+        return res.status(400).json({
+          error: 'No Google profile found. Please start registration again.',
+        });
       }
 
-      res.status(201).json({
-        success: true,
-        user: newUser,
-        redirectPath:
-          newUser.profileType === 'business' ? '/dashboard' : '/search',
+      // Merge Google data with user-provided data
+      const userData = {
+        email: googleProfile.email,
+        googleId: googleProfile.googleId,
+        password: null, // No password for OAuth users
+        ...req.body, // User-provided fields from form
+      };
+
+      // If jobseeker, merge Google names into profile
+      if (req.body.profileType === 'jobseeker') {
+        userData.jobseekerProfile = {
+          firstName:
+            req.body.jobseekerProfile?.firstName || googleProfile.firstName,
+          lastName:
+            req.body.jobseekerProfile?.lastName || googleProfile.lastName,
+          ...req.body.jobseekerProfile,
+        };
+      }
+
+      // Delegate to existing user service
+      const newUser = await userService.registerGoogleUser(userData);
+
+      // Clear temp data
+      delete req.session.tempGoogleProfile;
+
+      // Create session for the new user
+      req.session.userId = newUser._id.toString();
+      req.session.isAdmin = newUser.isAdmin;
+      req.session.profileType = newUser.profileType;
+      req.session.lastActivity = Date.now();
+
+      req.session.save((err) => {
+        if (err) {
+          return res.status(500).json({ error: 'Session creation failed' });
+        }
+
+        res.status(201).json({
+          success: true,
+          user: newUser,
+          redirectPath:
+            newUser.profileType === 'business' ? '/dashboard' : '/search',
+        });
       });
-    });
-  } catch (error) {
-    logError(error, {
-      operation: 'google-register-complete',
-      tempProfileExists: !!req.session.tempGoogleProfile,
-      profileType: req.body.profileType,
-    });
-    res.status(400).json({ error: error.message });
+    } catch (error) {
+      logError(error, {
+        operation: 'google-register-complete',
+        tempProfileExists: !!req.session.tempGoogleProfile,
+        profileType: req.body.profileType,
+      });
+      res.status(400).json({ error: error.message });
+    }
   }
-  },
 );
 
 // Get temporary Google profile data (for registration completion page)

@@ -25,11 +25,7 @@ export const setupAxiosInterceptors = (
         );
       } else if (error.request) {
         // Request was made but no response received (network error)
-        trackApiError(
-          error.config?.url || 'unknown',
-          0,
-          'Network error - no response received'
-        );
+        trackApiError(error.config?.url || 'unknown', 0, 'Network error - no response received');
       }
 
       // Handle session expiration (existing logic)
@@ -43,9 +39,16 @@ export const setupAxiosInterceptors = (
         });
         // Return a rejected promise with a flag so catch blocks know this error is already handled
         return Promise.reject({ handled: true, status: 410 });
-      } else {
-        return Promise.reject(error); // Re-throw all other errors to component catch blocks
       }
+
+      // Mark 404 errors as handled to prevent redundant notifications
+      // Component-level catch blocks can choose to show their own error message if needed
+      if (error.response?.status === 404) {
+        return Promise.reject({ ...error, handled: true, status: 404 });
+      }
+
+      // Re-throw all other errors to component catch blocks
+      return Promise.reject(error);
     }
   );
 };

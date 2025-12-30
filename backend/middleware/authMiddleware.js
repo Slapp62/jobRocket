@@ -20,7 +20,7 @@ const lockoutCheck = async (req, _res, next) => {
 
       throwError(
         403,
-        `Access denied. You have been locked out. Time remaining: ${lockoutTime}s`,
+        `Access denied. You have been locked out. Time remaining: ${lockoutTime}s`
       );
     }
     next();

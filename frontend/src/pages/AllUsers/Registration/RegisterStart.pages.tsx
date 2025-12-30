@@ -77,7 +77,9 @@ export default function RegisterPage() {
       let shouldRedirect = false;
 
       if (error.includes('account_exists')) {
-        notificationMessage = decodeURIComponent(message || 'An account with this email already exists.');
+        notificationMessage = decodeURIComponent(
+          message || 'An account with this email already exists.'
+        );
         shouldRedirect = true;
 
         // Show notification with countdown
@@ -138,7 +140,10 @@ export default function RegisterPage() {
         radius="md"
         bg={cardBg}
         style={{
-          border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+          border:
+            computedColorScheme === 'light'
+              ? '1px solid lightgray'
+              : '2px solid var(--mantine-color-rocketBlack-9)',
           borderRadius: '10px',
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
         }}
@@ -154,12 +159,14 @@ export default function RegisterPage() {
           {/* Google Sign Up */}
           <Button
             fullWidth
-            size='md'
+            size="md"
             variant="filled"
             fz="md"
             leftSection={<IconBrandGoogle size={20} aria-hidden="true" />}
             onClick={() => {
-              const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '');
+              const apiUrl =
+                import.meta.env.VITE_API_URL ||
+                (import.meta.env.DEV ? 'http://localhost:3000' : '');
               window.location.href = `${apiUrl}/api/auth/google/register`;
             }}
             aria-label="Sign up with Google"
@@ -176,7 +183,7 @@ export default function RegisterPage() {
                 label="Email"
                 placeholder="Enter your email"
                 type="email"
-                size='md'
+                size="md"
                 withAsterisk
                 {...register('email')}
                 error={errors.email?.message}
@@ -185,19 +192,14 @@ export default function RegisterPage() {
               <PasswordInput
                 label="Password"
                 placeholder="Enter your password"
-                size='md'
+                size="md"
                 withAsterisk
                 {...register('password')}
                 error={errors.password?.message}
                 description="8-20 characters, 1 uppercase, 1 number, 1 special character"
               />
 
-              <Button
-                type="submit"
-                fullWidth
-                size='md'
-                loading={loading}
-                aria-label="Continue">
+              <Button type="submit" fullWidth size="md" loading={loading} aria-label="Continue">
                 Continue
               </Button>
             </Stack>

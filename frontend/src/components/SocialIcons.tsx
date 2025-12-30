@@ -1,7 +1,7 @@
 import { IconBrandLinkedin, IconBrandWhatsapp, IconBrandX } from '@tabler/icons-react';
 import { ActionIcon } from '@mantine/core';
-import { FavoritesButton } from './ListingActions/FavoritesButton';
 import { TListing } from '@/Types';
+import { FavoritesButton } from './ListingActions/FavoritesButton';
 
 const SocialIcons = (props: { listing: TListing }) => {
   const listingUrl = `${window.location.origin}/listing-details/${props.listing._id}`;
@@ -47,7 +47,7 @@ const SocialIcons = (props: { listing: TListing }) => {
         <IconBrandX aria-hidden="true" />
       </ActionIcon>
 
-      <FavoritesButton listing={props.listing}/>
+      <FavoritesButton listing={props.listing} />
     </>
   );
 };

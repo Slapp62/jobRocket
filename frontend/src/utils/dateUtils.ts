@@ -11,7 +11,7 @@
  * - Date inputs (like listing expiration) are interpreted as local midnight
  */
 
-import { format, parseISO, addDays as addDaysFns } from 'date-fns';
+import { addDays as addDaysFns, format, parseISO } from 'date-fns';
 
 /**
  * Formats a date to DD/MM/YYYY format in the user's local timezone
@@ -87,12 +87,7 @@ export const parseLocalDate = (dateString: string): Date => {
 export const toLocalMidnight = (date: Date | string): Date => {
   const dateObj = typeof date === 'string' ? parseISO(date) : date;
 
-  return new Date(
-    dateObj.getFullYear(),
-    dateObj.getMonth(),
-    dateObj.getDate(),
-    0, 0, 0, 0
-  );
+  return new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 0, 0, 0, 0);
 };
 
 /**

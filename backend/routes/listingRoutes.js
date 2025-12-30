@@ -53,7 +53,7 @@ router.post(
   businessAuth,
   listingsLimiter,
   listingValidation,
-  createListing,
+  createListing
 );
 
 // Update listing by ID
@@ -62,7 +62,7 @@ router.put(
   authenticateUser,
   listingCreatorAuth,
   listingValidation,
-  updateListing,
+  updateListing
 );
 
 // Toggle like on listing (legacy PATCH endpoint)

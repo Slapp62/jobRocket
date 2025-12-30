@@ -21,11 +21,11 @@ import DesktopDefaultView from '@/components/ListingComponents/Views/ListingsGri
 import { PageMeta } from '@/SEO/PageMeta';
 import { announceToScreenReader } from '@/utils/accessibility';
 import { trackJobSearch } from '@/utils/analytics';
-import { getParamsInfo } from '@/utils/getParamsInfo';
 import { formatRegionForDisplay } from '@/utils/formatters';
+import { getParamsInfo } from '@/utils/getParamsInfo';
 
 export function SearchPage() {
-  const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true }); 
+  const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
   const isMobile = useMediaQuery('(max-width: 500px)');
   const isDesktop = useMediaQuery('(min-width: 1024px)');
   const {
@@ -68,9 +68,7 @@ export function SearchPage() {
 
     // Check if any filter has changed
     const filtersChanged =
-      prev.region !== region ||
-      prev.city !== city ||
-      prev.workArrangement !== workArrangement;
+      prev.region !== region || prev.city !== city || prev.workArrangement !== workArrangement;
 
     if (filtersChanged) {
       // Update tracking ref
@@ -174,7 +172,13 @@ export function SearchPage() {
       />
       <Box>
         <Box bg={computedColorScheme === 'dark' ? 'rocketBlack.9' : 'rocketGray.2'}>
-          <Stack w={{ base: '100%', md: '60%' }} mx="auto" py={{base: 'xs', md: 'lg'}} justify="center" align="center">
+          <Stack
+            w={{ base: '100%', md: '60%' }}
+            mx="auto"
+            py={{ base: 'xs', md: 'lg' }}
+            justify="center"
+            align="center"
+          >
             <Flex
               w={{ base: '95%', md: '70%' }}
               direction={isMobile ? 'column' : 'row'}
@@ -207,7 +211,7 @@ export function SearchPage() {
               <Button
                 w={{ base: '100%', md: '30%' }}
                 size="md"
-                c='white'
+                c="white"
                 radius={isMobile ? 'md' : 0}
                 onClick={handleSearchClick}
               >
@@ -242,11 +246,11 @@ export function SearchPage() {
             borderWidth: 0,
           }}
         >
-          {!isLoading && totalCurrentListings !== null && (
-            totalCurrentListings === 0
+          {!isLoading &&
+            totalCurrentListings !== null &&
+            (totalCurrentListings === 0
               ? 'No job listings found'
-              : `Showing ${totalCurrentListings} job listing${totalCurrentListings === 1 ? '' : 's'}`
-          )}
+              : `Showing ${totalCurrentListings} job listing${totalCurrentListings === 1 ? '' : 's'}`)}
         </div>
 
         {isLoading ? (

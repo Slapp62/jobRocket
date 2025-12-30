@@ -10,7 +10,7 @@ const getAllListings = async () => {
     throwError(404, 'No job listings available at the moment.');
   }
   const normalizedListings = listings.map((listing) =>
-    normalizeListingResponse(listing),
+    normalizeListingResponse(listing)
   );
   return normalizedListings;
 };
@@ -67,7 +67,7 @@ const getLikedListings = async (userId) => {
   }
 
   const normalizedLikedListings = listingsWithScores.map((listing) =>
-    normalizeListingResponse(listing),
+    normalizeListingResponse(listing)
   );
   return normalizedLikedListings;
 };
@@ -78,12 +78,12 @@ const editListingById = async (listingId, updateData) => {
     updateData,
     {
       new: true,
-    },
+    }
   );
   if (!updatedListing) {
     throwError(
       404,
-      "This job listing couldn't be updated. It may have been removed.",
+      "This job listing couldn't be updated. It may have been removed."
     );
   }
 
@@ -96,7 +96,7 @@ const deleteListingById = async (listingId) => {
   if (!deletedListing) {
     throwError(
       404,
-      "This job listing couldn't be deleted. It may have already been removed.",
+      "This job listing couldn't be deleted. It may have already been removed."
     );
   }
   const normalizedDeletedListing = normalizeListingResponse(deletedListing);

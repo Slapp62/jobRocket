@@ -32,15 +32,16 @@ const joiUserSchema = joi.object({
   password: joi
     .alternatives()
     .try(
-      joi.string()
+      joi
+        .string()
         .pattern(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/,
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/
         )
         .messages({
           'string.pattern.base':
             'Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character',
         }),
-      joi.allow(null, ''), // Allow null or empty string for Google OAuth users
+      joi.allow(null, '') // Allow null or empty string for Google OAuth users
     )
     .optional(),
 
@@ -50,7 +51,8 @@ const joiUserSchema = joi.object({
     .allow('')
     .optional()
     .messages({
-      'string.pattern.base': 'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
+      'string.pattern.base':
+        'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
     }),
 
   profileType: joi.string().valid('jobseeker', 'business').required(),
@@ -67,7 +69,7 @@ const joiUserSchema = joi.object({
           "Bachelor's Degree",
           "Master's Degree",
           'Doctorate',
-          'Other',
+          'Other'
         )
         .required(),
       preferredWorkArrangement: joi

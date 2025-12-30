@@ -155,7 +155,7 @@ async function updateUserProfile(req, res) {
     const updatedUser = await userService.updateProfile(
       userId,
       updateData,
-      resumeFile,
+      resumeFile
     );
     handleSuccess(res, 200, updatedUser, 'Profile updated successfully.');
   } catch (error) {
@@ -190,7 +190,10 @@ async function exportUserData(req, res) {
 
     // Set headers for file download
     res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Content-Disposition', `attachment; filename="jobrocket-data-export-${Date.now()}.json"`);
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="jobrocket-data-export-${Date.now()}.json"`
+    );
 
     handleSuccess(res, 200, exportData);
   } catch (error) {

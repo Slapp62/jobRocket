@@ -155,12 +155,16 @@ export function RegisterForm() {
         // ACCESSIBILITY: Announce success to screen readers
         announceToScreenReader('Registration successful! Redirecting to login page', 'assertive');
 
-        jumpTo('/login');
         notifications.show({
           title: 'Success',
           message: 'Registration successful!',
           color: 'green',
         });
+
+        // Small delay before redirect for better UX
+        setTimeout(() => {
+          jumpTo('/login');
+        }, 150);
       }
     } catch (error: any) {
       // ACCESSIBILITY: Announce error to screen readers
@@ -206,7 +210,10 @@ export function RegisterForm() {
               legend="Choose An Account Type"
               bg={fieldsetBg}
               style={{
-                border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+                border:
+                  computedColorScheme === 'light'
+                    ? '1px solid lightgray'
+                    : '2px solid var(--mantine-color-rocketBlack-9)',
                 borderRadius: '10px',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               }}
@@ -225,7 +232,11 @@ export function RegisterForm() {
                   );
                 }}
               >
-                <Tabs.List ref={setRootRef} className={classes.list} aria-label="Account type selection">
+                <Tabs.List
+                  ref={setRootRef}
+                  className={classes.list}
+                  aria-label="Account type selection"
+                >
                   <Tabs.Tab
                     value="jobseeker"
                     ref={setControlRef('jobseeker')}

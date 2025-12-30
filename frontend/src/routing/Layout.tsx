@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Flex } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { MobileBottomNav } from '@/components/Navigation/MobileNav.tsx';
 import { useAuthInit } from '@/hooks/UseAuthInit.ts';
 import { useScrollToTop } from '@/hooks/useScrollToTop.ts';
 import { AppDispatch, RootState } from '@/store/store.ts';
-import { setupAxiosInterceptors } from '@/utils/axiosConfig.ts';
 import { trackPageView } from '@/utils/analytics';
+import { setupAxiosInterceptors } from '@/utils/axiosConfig.ts';
 import { AnnouncementBanner } from '../components/Navigation/AnnouncementBanner.tsx';
 import { Footer } from '../components/Navigation/Footer.tsx';
 import { Navbar } from '../components/Navigation/Header.tsx';
@@ -55,7 +55,7 @@ export function Layout() {
           border: '2px solid #000',
           textDecoration: 'none',
           fontWeight: 'bold',
-          color: '#000'
+          color: '#000',
         }}
         onFocus={(e) => {
           e.currentTarget.style.left = '0';

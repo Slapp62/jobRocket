@@ -1,16 +1,6 @@
-import {
-  Card,
-  Flex,
-  Grid,
-  Group,
-  Loader,
-  Stack,
-  Table,
-  Text,
-  Title,
-} from '@mantine/core';
-import { useAnalytics } from '../hooks/useAnalytics';
+import { Card, Flex, Grid, Group, Loader, Stack, Table, Text, Title } from '@mantine/core';
 import { formatDate } from '@/utils/dateUtils';
+import { useAnalytics } from '../hooks/useAnalytics';
 
 /**
  * AnalyticsDashboard Component
@@ -24,14 +14,8 @@ import { formatDate } from '@/utils/dateUtils';
  * Data is fetched via the useAnalytics hook which calls the backend analytics API.
  */
 export const AnalyticsDashboard = () => {
-  const {
-    platformMetrics,
-    searchInsights,
-    popularJobs,
-    applicationMetrics,
-    isLoading,
-    error,
-  } = useAnalytics();
+  const { platformMetrics, searchInsights, popularJobs, applicationMetrics, isLoading, error } =
+    useAnalytics();
 
   // Loading state
   if (isLoading) {

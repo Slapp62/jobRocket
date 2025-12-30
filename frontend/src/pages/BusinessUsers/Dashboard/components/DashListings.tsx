@@ -1,17 +1,37 @@
 import { useEffect, useMemo, useState } from 'react';
-import { IconCalendarPlus, IconCircle, IconCircleFilled, IconPencil, IconTrash, IconX } from '@tabler/icons-react';
-import { useNavigate } from 'react-router';
+import {
+  IconCalendarPlus,
+  IconCircle,
+  IconCircleFilled,
+  IconPencil,
+  IconTrash,
+  IconX,
+} from '@tabler/icons-react';
 import axios from 'axios';
-import { ActionIcon, Alert, Box, Button, Card, Group, Popover, Select, Stack, Table, Text, TextInput } from '@mantine/core';
+import { useNavigate } from 'react-router';
+import {
+  ActionIcon,
+  Alert,
+  Box,
+  Button,
+  Card,
+  Group,
+  Popover,
+  Select,
+  Stack,
+  Table,
+  Text,
+  TextInput,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { EmptyState } from '@/components/EmptyState';
 import { DurationPresetSelect } from '@/components/DurationPresetSelect';
+import { EmptyState } from '@/components/EmptyState';
 import { TListing } from '@/Types';
 import { addDays, formatDate, toLocalMidnight } from '@/utils/dateUtils';
-import { cleanedListingData } from '../utils/getCleanedListingData';
 import { DeleteListingModal } from '../modals/DeleteListingModal';
 import { EditListingModal } from '../modals/EditListingModal';
+import { cleanedListingData } from '../utils/getCleanedListingData';
 
 interface DashListingsProps {
   listings: TListing[];
@@ -353,11 +373,7 @@ export const DashListings = ({
                           >
                             Cancel
                           </Button>
-                          <Button
-                            size="xs"
-                            onClick={handleExtendConfirm}
-                            loading={isExtending}
-                          >
+                          <Button size="xs" onClick={handleExtendConfirm} loading={isExtending}>
                             Confirm
                           </Button>
                         </Group>
@@ -425,9 +441,7 @@ export const DashListings = ({
                       </Text>
                     </Table.Td>
 
-                    <Table.Td>
-                      {listing.createdAt && formatDate(listing.createdAt)}
-                    </Table.Td>
+                    <Table.Td>{listing.createdAt && formatDate(listing.createdAt)}</Table.Td>
 
                     <Table.Td>
                       <Text
@@ -490,11 +504,7 @@ export const DashListings = ({
                               >
                                 Cancel
                               </Button>
-                              <Button
-                                size="xs"
-                                onClick={handleExtendConfirm}
-                                loading={isExtending}
-                              >
+                              <Button size="xs" onClick={handleExtendConfirm} loading={isExtending}>
                                 Confirm
                               </Button>
                             </Group>

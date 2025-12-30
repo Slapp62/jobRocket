@@ -3,7 +3,7 @@ import { Anchor, Checkbox, Fieldset, Text } from '@mantine/core';
 import { TUsers } from '@/Types';
 
 interface ConsentCheckboxesProps {
-  control: Control<TUsers> ;
+  control: Control<TUsers>;
   errors: FieldErrors<TUsers>;
   disabled?: boolean;
   profileType?: 'jobseeker' | 'business';

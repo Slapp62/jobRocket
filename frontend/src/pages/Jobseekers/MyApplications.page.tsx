@@ -1,15 +1,26 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { Badge, Button, Card, Center, Flex, Loader, Stack, Text, Title, useComputedColorScheme } from '@mantine/core';
+import {
+  Badge,
+  Button,
+  Card,
+  Center,
+  Flex,
+  Loader,
+  Stack,
+  Text,
+  Title,
+  useComputedColorScheme,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { EmptyState } from '@/components/EmptyState';
-import { EditApplicationModal } from '../../components/Modals/EditApplicationModal';
-import { ListingDetailsModal } from '../../components/Modals/ListingDetailsModal';
 import { PageMeta } from '@/SEO/PageMeta';
 import { TApplication, TListing } from '@/Types';
 import { formatDate } from '@/utils/dateUtils';
+import { EditApplicationModal } from '../../components/Modals/EditApplicationModal';
+import { ListingDetailsModal } from '../../components/Modals/ListingDetailsModal';
 
 export function MyApplications() {
   const [isLoading, setIsLoading] = useState(false);
@@ -109,7 +120,13 @@ export function MyApplications() {
 
           <Flex w="100%" gap="md" wrap="wrap" align="stretch" justify="center">
             {applications.map((application, index) => (
-              <Card withBorder key={index} p="md" w={{ base: '90%', md: '250px' }} style={{ display: 'flex' }}>
+              <Card
+                withBorder
+                key={index}
+                p="md"
+                w={{ base: '90%', md: '250px' }}
+                style={{ display: 'flex' }}
+              >
                 <Stack h="100%" w="100%" justify="space-between" style={{ flex: 1 }}>
                   {typeof application.listingId === 'object' && (
                     <Title order={5}>{application.listingId.companyName}</Title>

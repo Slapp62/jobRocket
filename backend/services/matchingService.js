@@ -4,7 +4,7 @@ function calculateMatchScore(
   embedding1,
   embedding2,
   jobseekerId = null,
-  listingId = null,
+  listingId = null
 ) {
   const endTimer = createTimer('calculate-match-score');
 

@@ -9,7 +9,7 @@ const applicationValidation = (req, res, next) => {
     return nextError(
       next,
       400,
-      `applicationValidation: ${error.details[0].message}`,
+      `applicationValidation: ${error.details[0].message}`
     );
   }
   next();

@@ -19,13 +19,13 @@ const dummyUsers = [
     consents: {
       ageConfirmation: {
         granted: true,
-        timestamp: new Date("2025-12-16T20:47:31.297Z"),
+        timestamp: new Date('2025-12-16T20:47:31.297Z'),
         ipAddress: '',
         userAgent: '',
       },
       dataProcessing: {
         granted: true,
-        timestamp: new Date("2025-12-16T20:47:31.297Z"),
+        timestamp: new Date('2025-12-16T20:47:31.297Z'),
         ipAddress: '',
         userAgent: '',
       },
@@ -63,13 +63,13 @@ const dummyUsers = [
     consents: {
       ageConfirmation: {
         granted: true,
-        timestamp: new Date("2025-12-16T20:47:31.297Z"),
+        timestamp: new Date('2025-12-16T20:47:31.297Z'),
         ipAddress: '',
         userAgent: '',
       },
       dataProcessing: {
         granted: true,
-        timestamp: new Date("2025-12-16T20:47:31.297Z"),
+        timestamp: new Date('2025-12-16T20:47:31.297Z'),
         ipAddress: '',
         userAgent: '',
       },
@@ -87,13 +87,13 @@ const dummyUsers = [
     consents: {
       ageConfirmation: {
         granted: true,
-        timestamp: new Date("2025-12-16T20:47:31.297Z"),
+        timestamp: new Date('2025-12-16T20:47:31.297Z'),
         ipAddress: '',
         userAgent: '',
       },
       dataProcessing: {
         granted: true,
-        timestamp: new Date("2025-12-16T20:47:31.297Z"),
+        timestamp: new Date('2025-12-16T20:47:31.297Z'),
         ipAddress: '',
         userAgent: '',
       },

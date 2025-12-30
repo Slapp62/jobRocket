@@ -40,7 +40,7 @@ const DesktopSplitView = ({
       transition={{ duration: 0.3 }}
       style={{ width: '80vw', margin: 'auto' }}
     >
-      <Flex h="calc(100vh-200px)" gap={0} >
+      <Flex h="calc(100vh-200px)" gap={0}>
         {/* LEFT SIDE: Condensed listing cards */}
         <motion.div
           initial={{ width: 0, opacity: 0 }}

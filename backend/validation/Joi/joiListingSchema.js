@@ -113,7 +113,8 @@ const joiListingSchema = joi.object({
       'any.required': 'Work arrangement is required',
     }),
   isActive: joi.boolean().optional(),
-  expiresAt: joi.date()
+  expiresAt: joi
+    .date()
     .min('now')
     .max(joi.ref('$maxExpirationDate'))
     .optional()

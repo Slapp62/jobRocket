@@ -310,9 +310,7 @@ export const DashApplications = ({
                           <Text fz="sm">{app.email}</Text>
                         </Table.Td>
 
-                        <Table.Td>
-                          {app.createdAt && formatDate(app.createdAt)}
-                        </Table.Td>
+                        <Table.Td>{app.createdAt && formatDate(app.createdAt)}</Table.Td>
 
                         <Table.Td>
                           <Anchor href={app.resumeUrl} target="_blank">

@@ -8,10 +8,10 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { localStorageColorSchemeManager, MantineProvider } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { Notifications } from '@mantine/notifications';
+import { CookieBanner } from './components/CookieBanner/CookieBanner';
 import { AppRouter } from './routing/AppRouter';
 import { persistor, store } from './store/store';
-import { theme, cssVariablesResolver } from './theme';
-import { CookieBanner } from './components/CookieBanner/CookieBanner';
+import { cssVariablesResolver, theme } from './theme';
 import { initializeGoogleAnalytics, trackError } from './utils/analytics';
 
 const colorSchemeManager = localStorageColorSchemeManager({
@@ -60,8 +60,13 @@ export default function App() {
   }, []);
 
   return (
-    <MantineProvider theme={theme} colorSchemeManager={colorSchemeManager} defaultColorScheme="auto" cssVariablesResolver={cssVariablesResolver}>
-      <Notifications position={isMobile ? "top-center" : "bottom-right"} />
+    <MantineProvider
+      theme={theme}
+      colorSchemeManager={colorSchemeManager}
+      defaultColorScheme="auto"
+      cssVariablesResolver={cssVariablesResolver}
+    >
+      <Notifications position={isMobile ? 'top-center' : 'bottom-right'} />
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <AppRouter />

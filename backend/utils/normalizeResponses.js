@@ -106,7 +106,8 @@ const normalizeApplicationResponse = (application, listingId, options = {}) => {
   }
 
   if (includeConsent && application.applicationDataConsent !== undefined) {
-    normalizedApplicationData.applicationDataConsent = application.applicationDataConsent;
+    normalizedApplicationData.applicationDataConsent =
+      application.applicationDataConsent;
   }
 
   return normalizedApplicationData;

@@ -7,7 +7,8 @@ const editProfileSchema = Joi.object({
     .pattern(/^0(?:5[0-9]|[2-4689])(?:-?\d{3}(?:-?\d{4}))$/)
     .messages({
       'string.empty': 'Phone number is required',
-      'string.pattern.base': 'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
+      'string.pattern.base':
+        'Phone must be a valid Israeli phone number (e.g., 052-1234567 or 02-1234567)',
     }),
 
   profileType: Joi.string().valid('jobseeker', 'business').required().messages({

@@ -66,7 +66,7 @@ async function permanentlyDeleteUsers() {
     }
 
     logger.info(`Found ${usersToDelete.length} users to permanently delete`, {
-      userIds: usersToDelete.map(u => u._id.toString()),
+      userIds: usersToDelete.map((u) => u._id.toString()),
     });
 
     for (const user of usersToDelete) {
@@ -114,7 +114,6 @@ async function permanentlyDeleteUsers() {
     logger.info('Permanent user deletion complete', {
       usersProcessed: usersToDelete.length,
     });
-
   } catch (error) {
     logger.error('Permanent user deletion job failed', {
       error: error.message,

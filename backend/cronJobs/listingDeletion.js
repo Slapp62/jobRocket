@@ -40,11 +40,11 @@ async function deleteResumeFromCloudinary(resumeUrl, applicationId) {
 /**
  * JOB 1: Clean up expired listings
  * Runs daily at 2 AM
- * 
+ *
  * Deletes listings that are:
  * - Past their expiresAt date, OR
  * - Have no expiresAt and are 30+ days old
- * 
+ *
  * Also cascades deletion to:
  * - All applications for deleted listings
  * - All resumes for those applications (from Cloudinary)
@@ -63,7 +63,7 @@ async function cleanupExpiredListings() {
         // Has expiration date and it's passed
         { expiresAt: { $exists: true, $lt: now } },
         // No expiration date and older than 30 days
-        { 
+        {
           expiresAt: { $exists: false },
           createdAt: { $lt: thirtyDaysAgo },
         },
@@ -75,10 +75,10 @@ async function cleanupExpiredListings() {
       return;
     }
 
-    const listingIds = listingsToDelete.map(l => l._id);
+    const listingIds = listingsToDelete.map((l) => l._id);
 
     logger.info(`Found ${listingsToDelete.length} expired listings to delete`, {
-      listingIds: listingIds.map(id => id.toString()),
+      listingIds: listingIds.map((id) => id.toString()),
     });
 
     // Find all applications for these listings (need resume URLs)
@@ -86,13 +86,18 @@ async function cleanupExpiredListings() {
       listingId: { $in: listingIds },
     });
 
-    logger.info(`Found ${applicationsToDelete.length} applications to delete with listings`);
+    logger.info(
+      `Found ${applicationsToDelete.length} applications to delete with listings`
+    );
 
     // Delete resumes from Cloudinary
     let resumesDeletedCount = 0;
     for (const app of applicationsToDelete) {
       if (app.resumeUrl) {
-        const deleted = await deleteResumeFromCloudinary(app.resumeUrl, app._id);
+        const deleted = await deleteResumeFromCloudinary(
+          app.resumeUrl,
+          app._id
+        );
         if (deleted) resumesDeletedCount++;
       }
     }
@@ -112,7 +117,6 @@ async function cleanupExpiredListings() {
       applicationsDeleted: appsResult.deletedCount,
       resumesDeleted: resumesDeletedCount,
     });
-
   } catch (error) {
     logger.error('Expired listings cleanup job failed', {
       error: error.message,
@@ -126,7 +130,7 @@ function scheduleListingCleanup() {
   logger.info('Scheduled: Expired listings cleanup (daily at 2 AM)');
 }
 
-module.exports = { 
+module.exports = {
   scheduleListingCleanup,
   cleanupExpiredListings,
 };

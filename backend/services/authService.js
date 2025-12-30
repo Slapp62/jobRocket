@@ -48,12 +48,18 @@ async function verifyUserCredentials(email, password) {
   // Check if account has been deleted (soft delete)
   // Use === true to handle undefined/null for users created before schema update
   if (user.isDeleted === true) {
-    throwError(403, 'This account has been deleted. Contact support to restore your account.');
+    throwError(
+      403,
+      'This account has been deleted. Contact support to restore your account.'
+    );
   }
 
   // Check if user has a password (not a Google OAuth user)
   if (!user.password) {
-    throwError(401, 'This account uses Google sign-in. Please sign in with Google.');
+    throwError(
+      401,
+      'This account uses Google sign-in. Please sign in with Google.'
+    );
   }
 
   const isPasswordValid = await verifyPassword(password, user.password);

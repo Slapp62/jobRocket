@@ -95,9 +95,7 @@ export const announceToScreenReader = (
  * const focusableElements = getFocusableElements(modal);
  * focusableElements[0].focus(); // Focus first element
  */
-export const getFocusableElements = (
-  container: HTMLElement
-): NodeListOf<HTMLElement> => {
+export const getFocusableElements = (container: HTMLElement): NodeListOf<HTMLElement> => {
   return container.querySelectorAll(
     'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
   );
@@ -166,14 +164,9 @@ export const trapFocus = (container: HTMLElement): (() => void) => {
  * @param prefix - Optional prefix to distinguish forms (e.g., "jobseeker", "business")
  * @returns Unique ID string
  */
-export const generateFieldId = (
-  fieldName: string,
-  prefix?: string
-): string => {
+export const generateFieldId = (fieldName: string, prefix?: string): string => {
   const randomSuffix = Math.random().toString(36).substring(2, 8);
-  return prefix
-    ? `${prefix}-${fieldName}-${randomSuffix}`
-    : `${fieldName}-${randomSuffix}`;
+  return prefix ? `${prefix}-${fieldName}-${randomSuffix}` : `${fieldName}-${randomSuffix}`;
 };
 
 /**
@@ -222,14 +215,20 @@ export const autocompleteValues = {
  * @param element - DOM element to validate
  * @returns Object with validation results and warnings
  */
-export const validateAccessibility = (element: HTMLElement): {
+export const validateAccessibility = (
+  element: HTMLElement
+): {
   isValid: boolean;
   warnings: string[];
 } => {
   const warnings: string[] = [];
 
   // Check buttons have accessible names
-  if (element.tagName === 'BUTTON' && !element.textContent?.trim() && !element.getAttribute('aria-label')) {
+  if (
+    element.tagName === 'BUTTON' &&
+    !element.textContent?.trim() &&
+    !element.getAttribute('aria-label')
+  ) {
     warnings.push('Button has no accessible name (needs text content or aria-label)');
   }
 

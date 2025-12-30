@@ -15,7 +15,7 @@ const openai =
 async function generateEmbedding(
   text,
   entityType = 'unknown',
-  entityId = null,
+  entityId = null
 ) {
   const endTimer = createTimer('generate-embedding');
 

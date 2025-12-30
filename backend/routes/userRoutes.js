@@ -36,7 +36,7 @@ router.post(
   registrationLimiter,
   upload.single('resume'),
   profileValidation,
-  registerUser,
+  registerUser
 );
 
 // User login
@@ -46,7 +46,7 @@ router.post(
   loginValidation,
   lockoutCheck,
   verifyCredentials,
-  loginUser,
+  loginUser
 );
 
 // Get current user
@@ -66,7 +66,7 @@ router.put(
   authenticateUser,
   userAdminAuth,
   upload.single('resume'),
-  updateUserProfile,
+  updateUserProfile
 );
 
 // Toggle user role

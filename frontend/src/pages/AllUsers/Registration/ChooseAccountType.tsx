@@ -127,7 +127,6 @@ export default function RegisterAccountTypePage() {
   };
 
   const onSubmit = async (data: TUsers) => {
-
     if (resumeError) {
       notifications.show({
         title: 'Error',
@@ -163,7 +162,8 @@ export default function RegisterAccountTypePage() {
       if (method === 'google') {
         // Google registration - send to Google complete endpoint
         // Exclude password field for Google OAuth users
-        const { password, ageConfirmation, dataProcessingConsent, terms, ...googleData } = transformedData;
+        const { password, ageConfirmation, dataProcessingConsent, terms, ...googleData } =
+          transformedData;
         response = await axios.post('/api/auth/google/register/complete', {
           ...googleData,
           profileType: selectedType,
@@ -379,7 +379,7 @@ export default function RegisterAccountTypePage() {
               ) : (
                 <BusinessFields control={control} register={register} errors={errors} />
               )}
-            
+
               <Button type="submit" fullWidth size="lg" mt="xl" loading={loading}>
                 Complete Registration
               </Button>

@@ -17,7 +17,7 @@ const loginUser = async (email, password = 'Password123!') => {
 
   if (response.status !== 200) {
     throw new Error(
-      `Login failed for ${email}: ${response.body.message || response.status}`,
+      `Login failed for ${email}: ${response.body.message || response.status}`
     );
   }
 

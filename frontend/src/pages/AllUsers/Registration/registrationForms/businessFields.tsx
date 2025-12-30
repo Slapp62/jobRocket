@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { Control, Controller, FieldErrors, UseFormRegister, useWatch } from 'react-hook-form';
 import { Select, Textarea, TextInput } from '@mantine/core';
-import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
 import { INDUSTRIES } from '@/data/industries';
+import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
 import { TUsers } from '@/Types';
-import { ConsentCheckboxes } from './ConsentCheckboxes';
 import { formatRegionForDisplay } from '@/utils/formatters';
+import { ConsentCheckboxes } from './ConsentCheckboxes';
 
 type BusinessFieldsProps = {
   register: UseFormRegister<TUsers>;
@@ -227,7 +227,12 @@ export function BusinessFields({
 
       {/* Consent and Legal Checkboxes - Only show during registration */}
       {showConsentCheckboxes && (
-        <ConsentCheckboxes control={control} errors={errors} disabled={disabled} profileType="business" />
+        <ConsentCheckboxes
+          control={control}
+          errors={errors}
+          disabled={disabled}
+          profileType="business"
+        />
       )}
     </>
   );

@@ -252,11 +252,7 @@ export function trackError(error: Error | string, errorInfo?: Record<string, any
  * @param statusCode - HTTP status code
  * @param errorMessage - Error message
  */
-export function trackApiError(
-  endpoint: string,
-  statusCode: number,
-  errorMessage: string
-): void {
+export function trackApiError(endpoint: string, statusCode: number, errorMessage: string): void {
   if (!hasAnalyticsConsent() || !window.gtag) {
     return;
   }

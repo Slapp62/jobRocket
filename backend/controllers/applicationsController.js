@@ -25,7 +25,7 @@ async function createApplication(req, res) {
 
     // Fetch listing to get employer name for audit trail
     const listing = await Listings.findById(listingId);
-    
+
     // Capture consent metadata for Amendment 13 compliance
     applicationData.applicationDataConsent = {
       sharedFields: {
@@ -41,12 +41,12 @@ async function createApplication(req, res) {
       employerName: listing?.companyName || 'Unknown',
     };
     console.log(applicationData.applicationDataConsent);
-    
+
     const application = await applicationsService.createApplication(
       listingId,
       applicantId,
       applicationData,
-      resumeFile,
+      resumeFile
     );
 
     // Track application submission (non-blocking - runs in background)
@@ -65,7 +65,7 @@ async function createApplication(req, res) {
     handleError(
       res,
       error.status,
-      `createApplicationController: ${error.message}`,
+      `createApplicationController: ${error.message}`
     );
   }
 }
@@ -86,7 +86,7 @@ async function getBusinessApplications(req, res) {
     const filterParams = req.query;
     const applications = await getFilteredApplications(
       businessId,
-      filterParams,
+      filterParams
     );
     handleSuccess(res, 200, applications);
   } catch (error) {
@@ -111,7 +111,7 @@ async function getListingApplications(req, res) {
     const requesterId = req.user._id;
     const applications = await applicationsService.getListingApplications(
       listingId,
-      requesterId,
+      requesterId
     );
     handleSuccess(res, 200, applications);
   } catch (error) {
@@ -128,7 +128,7 @@ async function updateApplicationStatus(req, res) {
     const application = await applicationsService.updateApplicationStatus(
       id,
       status,
-      requesterId,
+      requesterId
     );
     handleSuccess(res, 200, application, 'Application status updated');
   } catch (error) {
@@ -147,7 +147,7 @@ async function updateApplicationData(req, res) {
       id,
       applicationData,
       requesterId,
-      resumeFile,
+      resumeFile
     );
     handleSuccess(res, 200, application, 'Application updated successfully');
   } catch (error) {

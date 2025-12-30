@@ -21,15 +21,15 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { DurationPresetSelect } from '@/components/DurationPresetSelect';
 import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
 import WORK_ARRANGEMENTS from '@/data/workArr.ts';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
 import { trackListingCreated } from '@/utils/analytics';
-import { listingSchema } from '@/validationRules/listing.joi';
 import { addDays, toLocalMidnight } from '@/utils/dateUtils';
 import { formatRegionForDisplay } from '@/utils/formatters';
-import { DurationPresetSelect } from '@/components/DurationPresetSelect';
+import { listingSchema } from '@/validationRules/listing.joi';
 
 type ListingFormValues = {
   companyName: string;
@@ -412,7 +412,7 @@ export function CreateListing() {
                     />
                   )}
                 />
-                </Stack>
+              </Stack>
             </Fieldset>
           </Flex>
 

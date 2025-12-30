@@ -15,7 +15,13 @@ type FilterBarProps = {
   width?: StyleProp<string | number>;
 };
 
-export function FilterBar({ searchParams, updateSearchParam, isMobile, padding, width }: FilterBarProps) {
+export function FilterBar({
+  searchParams,
+  updateSearchParam,
+  isMobile,
+  padding,
+  width,
+}: FilterBarProps) {
   const isLoggedIn = useSelector((state: RootState) => state.userSlice.isLoggedIn);
   const isSearchActive = !!searchParams.get('searchText')?.trim();
 

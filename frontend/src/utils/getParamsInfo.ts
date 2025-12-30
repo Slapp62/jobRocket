@@ -4,6 +4,10 @@ import { useSearchParams } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { TListing } from '@/Types';
 
+// Debounce helper to prevent multiple error notifications
+let lastErrorTime = 0;
+const ERROR_DEBOUNCE_MS = 500;
+
 export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
   const [searchParams, setSearchParams] = useSearchParams();
   // Local state for search results
@@ -56,13 +60,18 @@ export const getParamsInfo = (endpoint: string, isDesktop?: boolean) => {
         setListings(response.data.listings);
         setPaginationInfo(response.data.pagination);
       } catch (error: any) {
-        // Skip showing notification if the error was already handled (e.g., 410 session expired)
+        // Skip showing notification if the error was already handled (e.g., 410 session expired, 404 not found)
         if (!error.handled) {
-          notifications.show({
-            title: 'Error',
-            message: error.response?.data?.message || error.message,
-            color: 'red',
-          });
+          // Debounce error notifications to prevent multiple errors from firing simultaneously
+          const now = Date.now();
+          if (now - lastErrorTime > ERROR_DEBOUNCE_MS) {
+            lastErrorTime = now;
+            notifications.show({
+              title: 'Error',
+              message: error.response?.data?.message || error.message,
+              color: 'red',
+            });
+          }
         }
         setListings([]);
       } finally {

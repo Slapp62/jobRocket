@@ -113,7 +113,12 @@ router.get('/application-metrics', async (req, res) => {
   try {
     const days = parseInt(req.query.days) || 30;
     const metrics = await analyticsService.getApplicationMetrics(days);
-    handleSuccess(res, 200, metrics, 'Application metrics fetched successfully');
+    handleSuccess(
+      res,
+      200,
+      metrics,
+      'Application metrics fetched successfully'
+    );
   } catch (error) {
     handleError(res, error.status || 500, error.message);
   }

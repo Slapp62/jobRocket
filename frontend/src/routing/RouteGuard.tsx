@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import axios from 'axios';
 import { Center, Loader } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { setUser } from '@/store/userSlice';

@@ -82,7 +82,10 @@ export function LoginPage() {
       } else if (error === 'wrong_auth_method') {
         notifications.show({
           title: 'Wrong Login Method',
-          message: decodeURIComponent(errorMessage || 'This email is registered with password. Please use email/password login.'),
+          message: decodeURIComponent(
+            errorMessage ||
+              'This email is registered with password. Please use email/password login.'
+          ),
           color: 'orange',
           autoClose: 7000,
         });
@@ -156,10 +159,18 @@ export function LoginPage() {
 
       // Navigate to appropriate page based on user type
       const redirectPath = userData.profileType === 'business' ? '/dashboard' : '/search';
-      jumpTo(redirectPath);
+
+      // Add small delay before redirect to ensure session is fully established
+      // This prevents race conditions on mobile where multiple API calls fire before session propagates
+      setTimeout(() => {
+        jumpTo(redirectPath);
+      }, 150);
     } catch (error: any) {
       // ACCESSIBILITY: Announce error to screen readers
-      announceToScreenReader(`Login failed: ${error.response?.data?.message || 'Please try again'}`, 'assertive');
+      announceToScreenReader(
+        `Login failed: ${error.response?.data?.message || 'Please try again'}`,
+        'assertive'
+      );
 
       notifications.show({
         title: 'Error',
@@ -187,15 +198,18 @@ export function LoginPage() {
           radius="md"
           bg={cardBg}
           style={{
-            border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+            border:
+              computedColorScheme === 'light'
+                ? '1px solid lightgray'
+                : '2px solid var(--mantine-color-rocketBlack-9)',
             borderRadius: '10px',
             boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
           }}
         >
           {message && (
-          <Title order={3} ta="center" c="red" mb={10}>
-            {message}
-          </Title>
+            <Title order={3} ta="center" c="red" mb={10}>
+              {message}
+            </Title>
           )}
           {!message && (
             <Title ta="center" c={textColor}>
@@ -227,7 +241,7 @@ export function LoginPage() {
             <Button
               fullWidth
               variant="filled"
-              size='md'
+              size="md"
               fz="md"
               onClick={() => {
                 window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`;
@@ -271,7 +285,7 @@ export function LoginPage() {
               type="submit"
               variant="filled"
               mt="md"
-              size='md'
+              size="md"
               fullWidth
               loading={isLoading}
               aria-label={isLoading ? 'Signing in...' : 'Sign in'}

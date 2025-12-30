@@ -25,8 +25,8 @@ import { AppDispatch, RootState } from '@/store/store';
 import { clearUser, toggleAdminView } from '@/store/userSlice';
 import bgStyles from '@/styles/bgStyles.module.css';
 import { AvatarIcon } from './Avatar';
-import { Logo } from './Logo';
 import { LightDarkToggle } from './LightDarkToggle';
+import { Logo } from './Logo';
 import classes from '../ComponentStyles/Header.module.css';
 
 export function Navbar() {
@@ -41,10 +41,10 @@ export function Navbar() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
   // Theme-aware colors
-  const drawerLinkColor = 'rocketBlack.6'
-  const drawerButtonColor = 'rocketBlack.4'
-  const buttonBorderColor = computedColorScheme === 'light' ? 'black' : 'white'
-  const buttonTextColor = computedColorScheme === 'light' ? 'black' : 'white'
+  const drawerLinkColor = 'rocketBlack.6';
+  const drawerButtonColor = 'rocketBlack.4';
+  const buttonBorderColor = computedColorScheme === 'light' ? 'black' : 'white';
+  const buttonTextColor = computedColorScheme === 'light' ? 'black' : 'white';
 
   const logoutHandler = async () => {
     try {
@@ -100,19 +100,37 @@ export function Navbar() {
               </Button>
 
               {loggedIn && user?.profileType === 'jobseeker' && (
-                <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/favorites">
+                <Button
+                  fz="md"
+                  variant="subtle"
+                  c={buttonTextColor}
+                  component={Link}
+                  to="/favorites"
+                >
                   Favorites
                 </Button>
               )}
 
               {loggedIn && user?.profileType === 'jobseeker' && (
-                <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/my-applications">
+                <Button
+                  fz="md"
+                  variant="subtle"
+                  c={buttonTextColor}
+                  component={Link}
+                  to="/my-applications"
+                >
                   Applications
                 </Button>
               )}
 
               {loggedIn && user?.profileType === 'business' && (
-                <Button fz="md" variant="subtle" c={buttonTextColor} component={Link} to="/dashboard">
+                <Button
+                  fz="md"
+                  variant="subtle"
+                  c={buttonTextColor}
+                  component={Link}
+                  to="/dashboard"
+                >
                   Dashboard
                 </Button>
               )}
@@ -135,7 +153,13 @@ export function Navbar() {
               <LightDarkToggle />
 
               {!loggedIn && (
-                <Button component={Link} to="/login" variant="outline" c={buttonTextColor} color={buttonBorderColor}>
+                <Button
+                  component={Link}
+                  to="/login"
+                  variant="outline"
+                  c={buttonTextColor}
+                  color={buttonBorderColor}
+                >
                   Login
                 </Button>
               )}
@@ -173,25 +197,31 @@ export function Navbar() {
               )}
 
               {loggedIn && (
-                <Button variant="outline" color={buttonBorderColor} c={buttonTextColor} onClick={logoutHandler}>
+                <Button
+                  variant="outline"
+                  color={buttonBorderColor}
+                  c={buttonTextColor}
+                  onClick={logoutHandler}
+                >
                   Logout
                 </Button>
               )}
             </Group>
 
             <Group>
-              {loggedIn && !isMobile &&
+              {loggedIn && !isMobile && (
                 <Button
-                    variant="outline"
-                    color={buttonBorderColor}
-                    c={buttonTextColor}
-                    onClick={() => {
-                      dispatch(toggleAdminView(false));
-                      jumpTo(`/edit-profile/${user?._id}`);
-                    }}
-                  >
-                    My Account
-                </Button>}
+                  variant="outline"
+                  color={buttonBorderColor}
+                  c={buttonTextColor}
+                  onClick={() => {
+                    dispatch(toggleAdminView(false));
+                    jumpTo(`/edit-profile/${user?._id}`);
+                  }}
+                >
+                  My Account
+                </Button>
+              )}
 
               {/* Light/Dark mode toggle - mobile (next to burger) */}
               <Box hiddenFrom="xs">
@@ -210,9 +240,16 @@ export function Navbar() {
                 aria-controls="mobile-navigation-drawer"
               />
             </Group>
-          </Group> 
+          </Group>
         </Flex>
-        <Divider size="xs" color={computedColorScheme === 'light' ? 'var(--mantine-color-rocketGray-4)' : 'var(--mantine-color-rocketBlack-6)'} />
+        <Divider
+          size="xs"
+          color={
+            computedColorScheme === 'light'
+              ? 'var(--mantine-color-rocketGray-4)'
+              : 'var(--mantine-color-rocketBlack-6)'
+          }
+        />
       </header>
 
       {/* ACCESSIBILITY: Mobile navigation drawer needs proper ARIA attributes
@@ -237,38 +274,87 @@ export function Navbar() {
         <ScrollArea h="calc(100vh - 80px" mx="-sm">
           <Divider />
           <Stack my={20} gap={5}>
-            <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/" onClick={closeDrawer}>
+            <Button
+              fz="md"
+              variant="subtle"
+              c={drawerLinkColor}
+              component={Link}
+              to="/"
+              onClick={closeDrawer}
+            >
               Home
             </Button>
 
-            <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/search" onClick={closeDrawer}>
+            <Button
+              fz="md"
+              variant="subtle"
+              c={drawerLinkColor}
+              component={Link}
+              to="/search"
+              onClick={closeDrawer}
+            >
               Job Board
             </Button>
 
             {loggedIn && user?.profileType === 'jobseeker' && (
-              <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/favorites" onClick={closeDrawer}>
+              <Button
+                fz="md"
+                variant="subtle"
+                c={drawerLinkColor}
+                component={Link}
+                to="/favorites"
+                onClick={closeDrawer}
+              >
                 Favorites
               </Button>
             )}
 
             {loggedIn && user?.profileType === 'jobseeker' && (
-              <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/my-applications" onClick={closeDrawer}>
+              <Button
+                fz="md"
+                variant="subtle"
+                c={drawerLinkColor}
+                component={Link}
+                to="/my-applications"
+                onClick={closeDrawer}
+              >
                 Applications
               </Button>
             )}
 
             {loggedIn && user?.profileType === 'business' && (
-              <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/dashboard" onClick={closeDrawer}>
+              <Button
+                fz="md"
+                variant="subtle"
+                c={drawerLinkColor}
+                component={Link}
+                to="/dashboard"
+                onClick={closeDrawer}
+              >
                 Dashboard
               </Button>
             )}
 
-            <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/about" onClick={closeDrawer}>
+            <Button
+              fz="md"
+              variant="subtle"
+              c={drawerLinkColor}
+              component={Link}
+              to="/about"
+              onClick={closeDrawer}
+            >
               About Us
             </Button>
 
             {user?.isAdmin && (
-              <Button fz="md" variant="subtle" c={drawerLinkColor} component={Link} to="/admin" onClick={closeDrawer}>
+              <Button
+                fz="md"
+                variant="subtle"
+                c={drawerLinkColor}
+                component={Link}
+                to="/admin"
+                onClick={closeDrawer}
+              >
                 Admin Controls
               </Button>
             )}
@@ -314,20 +400,20 @@ export function Navbar() {
               </Button>
             )}
 
-            {loggedIn && !isMobile && 
+            {loggedIn && !isMobile && (
               <Button
-                  variant="outline"
-                  color={drawerButtonColor}
-                  c={drawerButtonColor}
-                  onClick={() => {
-                    dispatch(toggleAdminView(false));
-                    jumpTo(`/edit-profile/${user?._id}`);
-                    closeDrawer();
-                  }}
-                >
-                  My Account
+                variant="outline"
+                color={drawerButtonColor}
+                c={drawerButtonColor}
+                onClick={() => {
+                  dispatch(toggleAdminView(false));
+                  jumpTo(`/edit-profile/${user?._id}`);
+                  closeDrawer();
+                }}
+              >
+                My Account
               </Button>
-            }
+            )}
           </Flex>
         </ScrollArea>
       </Drawer>

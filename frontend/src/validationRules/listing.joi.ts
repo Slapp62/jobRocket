@@ -116,12 +116,9 @@ export const listingSchema = Joi.object({
       'any.required': 'Work arrangement is required',
     }),
   isActive: Joi.boolean().default(true),
-  expiresAt: Joi.number()
-    .required()
-    .valid(7, 14, 30, 60, 90)
-    .messages({
-      'any.required': 'Listing duration is required',
-      'any.only': 'Duration must be one of: 7, 14, 30, 60, or 90 days',
-      'number.base': 'Duration must be a number',
-    }),
+  expiresAt: Joi.number().required().valid(7, 14, 30, 60, 90).messages({
+    'any.required': 'Listing duration is required',
+    'any.only': 'Duration must be one of: 7, 14, 30, 60, or 90 days',
+    'number.base': 'Duration must be a number',
+  }),
 });

@@ -26,9 +26,11 @@ const registerUser = async (userData, resumeFile) => {
     // Provide specific error message based on auth method
     let errorMessage = 'User already exists';
     if (existingUser.googleId) {
-      errorMessage = 'An account with this email already exists. Please login with Google.';
+      errorMessage =
+        'An account with this email already exists. Please login with Google.';
     } else if (existingUser.password) {
-      errorMessage = 'An account with this email already exists. Please login with your email and password.';
+      errorMessage =
+        'An account with this email already exists. Please login with your email and password.';
     }
 
     const error = new Error(errorMessage);
@@ -41,7 +43,7 @@ const registerUser = async (userData, resumeFile) => {
     try {
       const resumeUrl = await uploadResumeToCloudinary(
         resumeFile.buffer,
-        userData.email,
+        userData.email
       );
       if (!userData.jobseekerProfile) {
         userData.jobseekerProfile = {};
@@ -71,7 +73,7 @@ const registerUser = async (userData, resumeFile) => {
       ) {
         throwError(
           503,
-          'Failed to upload resume due to a network issue. Please try again in a moment.',
+          'Failed to upload resume due to a network issue. Please try again in a moment.'
         );
       }
       // Re-throw other errors to preserve original error handling
@@ -106,9 +108,11 @@ const registerGoogleUser = async (userData) => {
     // Provide specific error message based on auth method
     let errorMessage = 'User already exists';
     if (existingUser.googleId) {
-      errorMessage = 'An account with this email already exists. Please login with Google.';
+      errorMessage =
+        'An account with this email already exists. Please login with Google.';
     } else if (existingUser.password) {
-      errorMessage = 'An account with this email already exists. Please login with your email and password.';
+      errorMessage =
+        'An account with this email already exists. Please login with your email and password.';
     }
 
     const error = new Error(errorMessage);
@@ -154,7 +158,7 @@ const updateProfile = async (userId, updateData, resumeFile) => {
     try {
       const resumeUrl = await uploadResumeToCloudinary(
         resumeFile.buffer,
-        user.email,
+        user.email
       );
 
       // Add the Cloudinary URL to the update data
@@ -187,7 +191,7 @@ const updateProfile = async (userId, updateData, resumeFile) => {
       ) {
         throwError(
           503,
-          'Failed to upload resume due to a network issue. Please try again in a moment.',
+          'Failed to upload resume due to a network issue. Please try again in a moment.'
         );
       }
       // Re-throw other errors to preserve original error handling
@@ -200,7 +204,7 @@ const updateProfile = async (userId, updateData, resumeFile) => {
   if (!updatedUser) {
     throwError(
       404,
-      "Your profile couldn't be updated. Please try logging in again.",
+      "Your profile couldn't be updated. Please try logging in again."
     );
   }
 
@@ -220,7 +224,7 @@ const toggleRole = async (userId) => {
   if (!user) {
     throwError(
       404,
-      "Your account couldn't be found. Please try logging in again.",
+      "Your account couldn't be found. Please try logging in again."
     );
   }
   const newProfileType =
@@ -228,7 +232,7 @@ const toggleRole = async (userId) => {
   const updatedUser = await Users.findByIdAndUpdate(
     userId,
     { profileType: newProfileType },
-    { new: true },
+    { new: true }
   );
   const normalizedUser = normalizeUserResponse(updatedUser);
   return normalizedUser;
@@ -250,10 +254,7 @@ const deleteUser = async (userId) => {
   // PRIVACY COMPLIANCE: Anonymize analytics events
   // Set userId to null while keeping aggregate data for platform metrics
   // This allows us to maintain business intelligence while protecting user privacy
-  await AnalyticsEvent.updateMany(
-    { userId: userId },
-    { $set: { userId: null } }
-  );
+  await AnalyticsEvent.updateMany({ userId }, { $set: { userId: null } });
 
   // Log database operation
   logDatabase('soft-delete', 'Users', {
@@ -301,7 +302,7 @@ const exportUserData = async (userId) => {
         dataProcessing: user.consents?.dataProcessing,
       },
     },
-    applications: applications.map(app => ({
+    applications: applications.map((app) => ({
       id: app._id,
       jobTitle: app.listingId?.jobTitle || 'Unknown',
       companyName: app.listingId?.companyName || 'Unknown',
@@ -346,21 +347,24 @@ const exportUserData = async (userId) => {
   // Add analytics data (privacy-compliant operational data)
   exportData.analytics = {
     summary: {
-      totalSearches: userEvents.filter(e => e.eventType === 'search').length,
-      totalJobViews: userEvents.filter(e => e.eventType === 'job_view').length,
-      totalApplications: userEvents.filter(e => e.eventType === 'application_submit').length,
+      totalSearches: userEvents.filter((e) => e.eventType === 'search').length,
+      totalJobViews: userEvents.filter((e) => e.eventType === 'job_view')
+        .length,
+      totalApplications: userEvents.filter(
+        (e) => e.eventType === 'application_submit'
+      ).length,
     },
     searchHistory: userEvents
-      .filter(e => e.eventType === 'search')
-      .map(e => ({
+      .filter((e) => e.eventType === 'search')
+      .map((e) => ({
         query: e.metadata?.searchQuery,
         resultsCount: e.metadata?.resultsCount,
         timestamp: e.timestamp,
       }))
       .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)),
     viewHistory: userEvents
-      .filter(e => e.eventType === 'job_view')
-      .map(e => ({
+      .filter((e) => e.eventType === 'job_view')
+      .map((e) => ({
         jobId: e.jobId,
         timestamp: e.timestamp,
       }))

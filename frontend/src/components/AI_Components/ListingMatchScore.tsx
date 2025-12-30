@@ -49,13 +49,7 @@ export function MatchScore({ listing }: MatchScoreProps) {
   const color = percentage >= 80 ? 'green' : percentage >= 60 ? 'blue' : 'darkRed';
 
   return (
-    <Badge
-      style={{ borderColor: color }}
-      c={color}
-      size="xl"
-      variant="outline"
-      radius="md"
-    >
+    <Badge style={{ borderColor: color }} c={color} size="xl" variant="outline" radius="md">
       {percentage}% Match
     </Badge>
   );

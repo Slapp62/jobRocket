@@ -1,7 +1,7 @@
-import { FC, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { FC, useEffect, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { IconBriefcase, IconUsers, IconWorld } from '@tabler/icons-react';
+import { useLocation } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -52,12 +52,10 @@ const AboutPage: FC = () => {
       message: '',
     },
     validate: {
-      name: (value) =>
-        value.trim().length < 2 ? 'Name must be at least 2 characters' : null,
+      name: (value) => (value.trim().length < 2 ? 'Name must be at least 2 characters' : null),
       email: (value) =>
         !/^\S+@\S+\.\S+$/.test(value) ? 'Please enter a valid email address' : null,
-      subject: (value) =>
-        value.trim().length === 0 ? 'Subject is required' : null,
+      subject: (value) => (value.trim().length === 0 ? 'Subject is required' : null),
       message: (value) =>
         value.trim().length < 10 ? 'Message must be at least 10 characters' : null,
     },
@@ -99,7 +97,10 @@ const AboutPage: FC = () => {
           About Us
         </Title>
         <Text size="lg" mb="xl">
-          In his search for a position as a web developer, a man by the name of Simcha Lapp noticed that no job board site targeted at English speakers contained both a simple, easy to use interface and an AI-powered matching system. Recognizing the need for such a platform, he decided to create <strong>JobRocket</strong>.
+          In his search for a position as a web developer, a man by the name of Simcha Lapp noticed
+          that no job board site targeted at English speakers contained both a simple, easy to use
+          interface and an AI-powered matching system. Recognizing the need for such a platform, he
+          decided to create <strong>JobRocket</strong>.
         </Text>
         <Grid gutter="xl" mb="xl">
           <Grid.Col span={{ base: 12, md: 6 }}>
@@ -119,7 +120,10 @@ const AboutPage: FC = () => {
               radius="md"
               bg={cardBg}
               style={{
-                border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+                border:
+                  computedColorScheme === 'light'
+                    ? '1px solid lightgray'
+                    : '2px solid var(--mantine-color-rocketBlack-9)',
                 borderRadius: '10px',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               }}
@@ -129,12 +133,14 @@ const AboutPage: FC = () => {
                 We leverage cutting-edge AI technology to transform job searching and hiring. Our
                 intelligent matching system analyzes compatibility between job seekers and
                 positions, ensuring better fits and more successful placements for everyone
-                involved. We offer an intuitive job search platform for those seeking careers and a powerful management system for companies who choose to receive applications through our site.
+                involved. We offer an intuitive job search platform for those seeking careers and a
+                powerful management system for companies who choose to receive applications through
+                our site.
               </Text>
             </Paper>
           </Grid.Col>
         </Grid>
-        <Flex direction={{ base: 'column', md: 'row' }} gap='lg' justify='center' align='stretch' >
+        <Flex direction={{ base: 'column', md: 'row' }} gap="lg" justify="center" align="stretch">
           <Stat icon={<IconBriefcase size={24} />} label="AI-Powered Matching" value="Smart" />
           <Stat icon={<IconUsers size={24} />} label="Job Seekers & Employers" value="Connected" />
           <Stat icon={<IconWorld size={24} />} label="Intuitive & Easy to Use" value="Interface" />
@@ -194,7 +200,7 @@ const AboutPage: FC = () => {
             {...form.getInputProps('message')}
           />
           <Group justify="center" mt="xl">
-            <Button type="submit" size="md" loading={isSubmitting} c='white'>
+            <Button type="submit" size="md" loading={isSubmitting} c="white">
               Send message
             </Button>
           </Group>
@@ -222,7 +228,10 @@ const Stat: FC<StatProps> = ({ icon, label, value }) => {
       withBorder
       bg={cardBg}
       style={{
-        border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+        border:
+          computedColorScheme === 'light'
+            ? '1px solid lightgray'
+            : '2px solid var(--mantine-color-rocketBlack-9)',
         borderRadius: '10px',
         boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
       }}

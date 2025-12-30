@@ -1,7 +1,15 @@
-import { Anchor, Container, List, Paper, Stack, Text, Title } from '@mantine/core';
+import {
+  Anchor,
+  Container,
+  List,
+  Paper,
+  Stack,
+  Text,
+  Title,
+  useComputedColorScheme,
+} from '@mantine/core';
 import { PageMeta } from '@/SEO/PageMeta';
 import { formatDate } from '@/utils/dateUtils';
-import { useComputedColorScheme } from '@mantine/core';
 
 export function AccessibilityStatement() {
   const computedColorScheme = useComputedColorScheme('dark');
@@ -26,9 +34,10 @@ export function AccessibilityStatement() {
               Our Commitment to Accessibility
             </Title>
             <Text>
-              JobRocket is committed to ensuring digital accessibility for people with disabilities. We are continually
-              improving the user experience for everyone and applying the relevant accessibility standards to ensure we
-              provide equal access to all of our users.
+              JobRocket is committed to ensuring digital accessibility for people with disabilities.
+              We are continually improving the user experience for everyone and applying the
+              relevant accessibility standards to ensure we provide equal access to all of our
+              users.
             </Text>
           </section>
 
@@ -38,7 +47,11 @@ export function AccessibilityStatement() {
             </Title>
             <Text mb="sm">
               JobRocket conforms to{' '}
-              <Anchor href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer">
+              <Anchor
+                href="https://www.w3.org/WAI/WCAG21/quickref/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 WCAG 2.0 Level AA
               </Anchor>{' '}
               and{' '}
@@ -49,8 +62,8 @@ export function AccessibilityStatement() {
               >
                 Israeli Standard 5568
               </Anchor>
-              . These guidelines explain how to make web content more accessible for people with disabilities, and user
-              friendly for everyone.
+              . These guidelines explain how to make web content more accessible for people with
+              disabilities, and user friendly for everyone.
             </Text>
           </section>
 
@@ -62,10 +75,16 @@ export function AccessibilityStatement() {
             <List spacing="sm">
               <List.Item>Keyboard navigation support for all interactive elements</List.Item>
               <List.Item>Screen reader compatibility (NVDA, JAWS, VoiceOver)</List.Item>
-              <List.Item>Descriptive ARIA labels and roles for all interactive components</List.Item>
+              <List.Item>
+                Descriptive ARIA labels and roles for all interactive components
+              </List.Item>
               <List.Item>Semantic HTML structure with proper heading hierarchy</List.Item>
-              <List.Item>Form fields with clear labels, error messages, and autocomplete attributes</List.Item>
-              <List.Item>Sufficient color contrast ratios (4.5:1 for normal text, 3:1 for large text)</List.Item>
+              <List.Item>
+                Form fields with clear labels, error messages, and autocomplete attributes
+              </List.Item>
+              <List.Item>
+                Sufficient color contrast ratios (4.5:1 for normal text, 3:1 for large text)
+              </List.Item>
               <List.Item>Visible focus indicators for keyboard navigation</List.Item>
               <List.Item>Mobile zoom enabled (up to 500% without loss of functionality)</List.Item>
               <List.Item>Alternative text for images and icons</List.Item>
@@ -78,7 +97,9 @@ export function AccessibilityStatement() {
             <Title order={2} size="h3" mb="md">
               Assistive Technologies
             </Title>
-            <Text mb="sm">JobRocket is designed to be compatible with the following assistive technologies:</Text>
+            <Text mb="sm">
+              JobRocket is designed to be compatible with the following assistive technologies:
+            </Text>
             <List spacing="sm">
               <List.Item>Screen readers (NVDA, JAWS, VoiceOver, TalkBack)</List.Item>
               <List.Item>Browser zoom functionality (up to 500%)</List.Item>
@@ -93,11 +114,13 @@ export function AccessibilityStatement() {
               Known Limitations
             </Title>
             <Text mb="sm">
-              We are continually working to improve accessibility across all areas of our platform. Current areas of
-              active development include:
+              We are continually working to improve accessibility across all areas of our platform.
+              Current areas of active development include:
             </Text>
             <List spacing="sm">
-              <List.Item>Enhanced mobile touch target sizing on complex dashboard interfaces</List.Item>
+              <List.Item>
+                Enhanced mobile touch target sizing on complex dashboard interfaces
+              </List.Item>
               <List.Item>Continued refinement of dynamic content announcements</List.Item>
             </List>
           </section>
@@ -107,10 +130,16 @@ export function AccessibilityStatement() {
               Feedback and Contact Information
             </Title>
             <Text mb="sm">
-              We welcome your feedback on the accessibility of JobRocket. If you encounter any accessibility barriers
-              or have suggestions for improvement, please contact our Accessibility Coordinator:
+              We welcome your feedback on the accessibility of JobRocket. If you encounter any
+              accessibility barriers or have suggestions for improvement, please contact our
+              Accessibility Coordinator:
             </Text>
-            <Paper p="md" withBorder bg={computedColorScheme === 'light' ? 'gray.3' : 'gray.8'} mb="md">
+            <Paper
+              p="md"
+              withBorder
+              bg={computedColorScheme === 'light' ? 'gray.3' : 'gray.8'}
+              mb="md"
+            >
               <Text fw={600} mb="xs">
                 Accessibility Coordinator
               </Text>
@@ -119,7 +148,9 @@ export function AccessibilityStatement() {
               </Text>
               <Text mb="xs">
                 <strong>Email:</strong>{' '}
-                <Anchor href="mailto:accessibility@jobrocket.work">accessibility@jobrocket.work</Anchor>
+                <Anchor href="mailto:accessibility@jobrocket.work">
+                  accessibility@jobrocket.work
+                </Anchor>
               </Text>
               <Text mb="xs">
                 <strong>Phone:</strong> 058-434-5797
@@ -144,8 +175,9 @@ export function AccessibilityStatement() {
               Formal Complaints
             </Title>
             <Text mb="sm">
-              If you believe your rights have been violated or have a complaint that we have not adequately addressed,
-              you have the right to lodge a complaint with the Israeli Privacy Protection Authority:
+              If you believe your rights have been violated or have a complaint that we have not
+              adequately addressed, you have the right to lodge a complaint with the Israeli Privacy
+              Protection Authority:
             </Text>
             <Text fw={600} mb="xs">
               Privacy Protection Authority
@@ -171,8 +203,8 @@ export function AccessibilityStatement() {
               Technical Specifications
             </Title>
             <Text>
-              Accessibility of JobRocket relies on the following technologies to work with your web browser and any
-              assistive technologies or plugins installed on your computer:
+              Accessibility of JobRocket relies on the following technologies to work with your web
+              browser and any assistive technologies or plugins installed on your computer:
             </Text>
             <List spacing="sm" mt="sm">
               <List.Item>HTML5</List.Item>
@@ -181,7 +213,8 @@ export function AccessibilityStatement() {
               <List.Item>ARIA (Accessible Rich Internet Applications)</List.Item>
             </List>
             <Text mt="md">
-              These technologies are relied upon for conformance with the accessibility standards used.
+              These technologies are relied upon for conformance with the accessibility standards
+              used.
             </Text>
           </section>
 
@@ -190,9 +223,9 @@ export function AccessibilityStatement() {
               Assessment and Testing
             </Title>
             <Text>
-              JobRocket has been tested using a combination of automated accessibility testing tools and manual testing
-              with keyboard navigation and screen readers. We conduct regular accessibility audits to maintain and
-              improve our conformance level.
+              JobRocket has been tested using a combination of automated accessibility testing tools
+              and manual testing with keyboard navigation and screen readers. We conduct regular
+              accessibility audits to maintain and improve our conformance level.
             </Text>
           </section>
 
@@ -201,9 +234,10 @@ export function AccessibilityStatement() {
               Legal Compliance
             </Title>
             <Text>
-              This website is in compliance with the Israeli Equal Rights for Persons with Disabilities Act (1998) and
-              Israeli Standard 5568 for web accessibility. We are committed to maintaining this compliance and
-              continuously improving the accessibility of our digital services.
+              This website is in compliance with the Israeli Equal Rights for Persons with
+              Disabilities Act (1998) and Israeli Standard 5568 for web accessibility. We are
+              committed to maintaining this compliance and continuously improving the accessibility
+              of our digital services.
             </Text>
           </section>
         </Stack>

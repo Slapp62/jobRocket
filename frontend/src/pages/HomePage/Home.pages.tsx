@@ -2,7 +2,21 @@ import { KeyboardEvent, useState } from 'react';
 import { IconCoffee, IconSearch, IconX } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { ActionIcon, Box, Button, Divider, Flex, Group, List, Stack, Image, Text, TextInput, Title, useComputedColorScheme } from '@mantine/core';
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Group,
+  Image,
+  List,
+  Stack,
+  Text,
+  TextInput,
+  Title,
+  useComputedColorScheme,
+} from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { PageMeta } from '@/SEO/PageMeta';
 import { RootState } from '@/store/store';
@@ -51,7 +65,13 @@ export function HomePage() {
       />
 
       <Box h="85%" w="100%">
-        <Stack w="100%" h="100%" gap={20} py={30} bg={computedColorScheme === 'dark' ? 'rocketBlack.9' : 'rocketGray.2'}>
+        <Stack
+          w="100%"
+          h="100%"
+          gap={20}
+          py={30}
+          bg={computedColorScheme === 'dark' ? 'rocketBlack.9' : 'rocketGray.2'}
+        >
           <Stack w={{ base: '95%', sm: '85%', md: '40%' }} align="center" mx="auto">
             {/* Conditional Welcome Message */}
             {!user && (
@@ -115,7 +135,7 @@ export function HomePage() {
               <Button
                 component={Link}
                 to="create-listing"
-                w="40%"
+                fullWidth
                 mx="auto"
                 variant="outline"
                 color={buttonBorderColor}
@@ -129,26 +149,30 @@ export function HomePage() {
             )}
           </Stack>
         </Stack>
-        <Divider size="sm" color={computedColorScheme === 'light' ? 'lightgray' : 'var(--mantine-color-rocketOrange-6)'} />
+        <Divider
+          size="sm"
+          color={
+            computedColorScheme === 'light' ? 'lightgray' : 'var(--mantine-color-rocketOrange-6)'
+          }
+        />
 
-        <Box my='25px' w={{ base: '95%', md: '70%' }} mx="auto">
-          <Stack
-            w="100%"
-            h="auto"
-            p={{ base: 'md', sm: 'lg', md: 'xl' }}
-          >
+        <Box my="25px" w={{ base: '95%', md: '70%' }} mx="auto">
+          <Stack w="100%" h="auto" p={{ base: 'md', sm: 'lg', md: 'xl' }}>
             <Group justify="center" align="center">
-              <Title ta="center" c={textHeaderColor}>Welcome to <strong>JobRocket</strong></Title>
-              <Image src="/flavicon-180.png" h={100} w={100}/>
+              <Title ta="center" c={textHeaderColor}>
+                Welcome to <strong>JobRocket</strong>
+              </Title>
+              <Image src="/rocketGradient-180px-square-noBG.png" h={100} w={100} />
             </Group>
-            <Text size="lg" mb="xl" ta={{base: 'justify', md: 'center'}} c={textBodyColor}>
-              At <strong>JobRocket</strong>, we connect job seekers with employers through intelligent
-              AI-powered matching. Our platform uses advanced OpenAI embeddings to analyze your skills,
-              experience, and preferences to find the perfect job matches tailored to you. 
-              Additionally, we provide business with a powerful in-house management system for applications and listings.
+            <Text size="lg" mb="xl" ta={{ base: 'justify', md: 'center' }} c={textBodyColor}>
+              At <strong>JobRocket</strong>, we connect job seekers with employers through
+              intelligent AI-powered matching. Our platform uses advanced OpenAI embeddings to
+              analyze your skills, experience, and preferences to find the perfect job matches
+              tailored to you. Additionally, we provide business with a powerful in-house management
+              system for applications and listings.
             </Text>
           </Stack>
-            
+
           <Flex
             gap={30}
             mt="xl"
@@ -165,7 +189,10 @@ export function HomePage() {
               w="100%"
               p={{ base: 'md', sm: 'lg', md: 'xl' }}
               style={{
-                border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+                border:
+                  computedColorScheme === 'light'
+                    ? '1px solid lightgray'
+                    : '2px solid var(--mantine-color-rocketBlack-9)',
                 borderRadius: '10px',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               }}
@@ -227,7 +254,10 @@ export function HomePage() {
               bg={computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9'}
               p={{ base: 'md', sm: 'lg', md: 'xl' }}
               style={{
-                border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+                border:
+                  computedColorScheme === 'light'
+                    ? '1px solid lightgray'
+                    : '2px solid var(--mantine-color-rocketBlack-9)',
                 borderRadius: '10px',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               }}
@@ -291,7 +321,10 @@ export function HomePage() {
             mx="auto"
             bg={computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9'}
             style={{
-              border: computedColorScheme === 'light' ? '1px solid lightgray' : '2px solid var(--mantine-color-rocketBlack-9)',
+              border:
+                computedColorScheme === 'light'
+                  ? '1px solid lightgray'
+                  : '2px solid var(--mantine-color-rocketBlack-9)',
               borderRadius: '10px',
               boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
             }}
@@ -299,17 +332,22 @@ export function HomePage() {
             <Title order={1} fw={600} ta="center" c={textHeaderColor}>
               Support JobRocket
             </Title>
-            <Text w="100%" mx="auto" c={textBodyColor} ta='center' style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+            <Text
+              w="100%"
+              mx="auto"
+              c={textBodyColor}
+              ta="center"
+              style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
+            >
               This site was not built by a team. It isn't owned by a big company. It was built by
               one person in order to help other English speaking people in Israel find a job and
-              support their families. 
+              support their families.
               <br />
               <br />
-              My goal was, and still is, to create a platform that is
-              user-friendly and efficient. It takes a serious amount of time and effort in order to
-              maintain such a platform. As of now, the entire site is free to use, which means I am
-              funding it out of my own pocket. Any donations made help me maintain, improve, and
-              expand the platform.
+              My goal was, and still is, to create a platform that is user-friendly and efficient.
+              It takes a serious amount of time and effort in order to maintain such a platform. As
+              of now, the entire site is free to use, which means I am funding it out of my own
+              pocket. Any donations made help me maintain, improve, and expand the platform.
             </Text>
             <Button
               component="a"

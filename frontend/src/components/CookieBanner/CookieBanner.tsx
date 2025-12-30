@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Paper, Text, Anchor, Button, Stack, Group, Collapse } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { useEffect, useState } from 'react';
 import { IconCookie } from '@tabler/icons-react';
+import { Anchor, Button, Collapse, Group, Paper, Stack, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { getCookieConsent, setCookieConsent, type CookieConsent } from './cookieConsent';
 
 /**
@@ -109,19 +109,20 @@ export function CookieBanner() {
         {/* Main content - simplified on mobile */}
         {!isMobile ? (
           <Text size="xs">
-            We use <strong>Google Analytics</strong> to understand how you use JobRocket
-            and improve the platform. You can accept or decline - it won't affect your ability to use
-            the site.
+            We use <strong>Google Analytics</strong> to understand how you use JobRocket and improve
+            the platform. You can accept or decline - it won't affect your ability to use the site.
           </Text>
         ) : (
-          <Text size="xs">
-            We use analytics to improve JobRocket. Accept or decline below.
-          </Text>
+          <Text size="xs">We use analytics to improve JobRocket. Accept or decline below.</Text>
         )}
 
         {/* Details section (collapsible) */}
         <Collapse in={showDetails}>
-          <Stack gap="xs" p="xs" style={{ backgroundColor: 'var(--mantine-color-default-hover)', borderRadius: '4px' }}>
+          <Stack
+            gap="xs"
+            p="xs"
+            style={{ backgroundColor: 'var(--mantine-color-default-hover)', borderRadius: '4px' }}
+          >
             <Text size="xs" fw={500}>
               What we'll track if you accept:
             </Text>
@@ -131,8 +132,7 @@ export function CookieBanner() {
               • How you found JobRocket
               <br />
               • Your general location (city/country)
-              <br />
-              • Device and browser type
+              <br />• Device and browser type
             </Text>
 
             <Text size="xs" fw={500} mt="xs">
@@ -166,7 +166,12 @@ export function CookieBanner() {
           <Button onClick={handleAcceptAll} size={isMobile ? 'xs' : 'sm'} variant="filled">
             {isMobile ? 'Accept' : 'Accept Analytics'}
           </Button>
-          <Button onClick={handleDeclineAnalytics} size={isMobile ? 'xs' : 'sm'} variant="outline" c="rocketOrange">
+          <Button
+            onClick={handleDeclineAnalytics}
+            size={isMobile ? 'xs' : 'sm'}
+            variant="outline"
+            c="rocketOrange"
+          >
             Decline
           </Button>
         </Group>

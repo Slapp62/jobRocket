@@ -20,12 +20,12 @@ import {
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { FavoritesButton } from '@/components/ListingActions/FavoritesButton';
-import { ApplicationModal } from '../../Modals/applicationModal';
 import SocialIcons from '@/components/SocialIcons';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
 import { formatDate } from '@/utils/dateUtils';
 import { formatRegionForDisplay } from '@/utils/formatters';
+import { ApplicationModal } from '../../Modals/applicationModal';
 
 type ListingDetailPanelProps = {
   listingId: string;
@@ -134,7 +134,7 @@ export function ListingDetailsPanel({
               {listing.jobTitle}
             </Title>
             <Group gap="xs">
-              <Badge variant="filled" color="rocketDark.4" size='md' c='white'>
+              <Badge variant="filled" color="rocketDark.4" size="md" c="white">
                 {listing.workArrangement}
               </Badge>
             </Group>
@@ -173,9 +173,14 @@ export function ListingDetailsPanel({
                   </Button>
                 </Anchor>
               )}
-              
+
               <SocialIcons listing={listing} />
-              <ApplicationModal opened={opened} onClose={close} listingID={listing._id} jobTitle={listing.jobTitle} />
+              <ApplicationModal
+                opened={opened}
+                onClose={close}
+                listingID={listing._id}
+                jobTitle={listing.jobTitle}
+              />
             </Group>
           </Box>
 

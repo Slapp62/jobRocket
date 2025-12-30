@@ -187,7 +187,12 @@ export function JobseekerFields({
 
       {/* Consent and Legal Checkboxes - Only show during registration */}
       {showConsentCheckboxes && (
-        <ConsentCheckboxes control={control} errors={errors} disabled={disabled} profileType="jobseeker" />
+        <ConsentCheckboxes
+          control={control}
+          errors={errors}
+          disabled={disabled}
+          profileType="jobseeker"
+        />
       )}
     </Flex>
   );

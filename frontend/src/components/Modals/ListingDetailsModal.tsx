@@ -1,8 +1,8 @@
 import { Anchor, Badge, Box, Divider, Group, List, Modal, Stack, Text, Title } from '@mantine/core';
 import styles from '@/styles/gradients.module.css';
 import { TListing } from '@/Types';
-import { formatRegionForDisplay } from '@/utils/formatters';
 import { formatDate } from '@/utils/dateUtils';
+import { formatRegionForDisplay } from '@/utils/formatters';
 
 type ListingDetailsModalProps = {
   opened: boolean;

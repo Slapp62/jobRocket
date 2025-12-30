@@ -23,7 +23,8 @@ module.exports = (passport) => {
             if (emailUser && emailUser.password) {
               // Email registered with password, not Google
               return done(null, false, {
-                message: 'This email is registered with password. Please use email/password login.',
+                message:
+                  'This email is registered with password. Please use email/password login.',
                 errorType: 'wrong_auth_method',
               });
             }
@@ -40,8 +41,8 @@ module.exports = (passport) => {
         } catch (err) {
           return done(err, null);
         }
-      },
-    ),
+      }
+    )
   );
   passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -77,10 +78,12 @@ module.exports = (passport) => {
             let errorType = 'oauth_account_exists';
 
             if (existingUser.googleId) {
-              message = 'An account with this email already exists. Please login with Google.';
+              message =
+                'An account with this email already exists. Please login with Google.';
               errorType = 'oauth_account_exists_google';
             } else if (existingUser.password) {
-              message = 'An account with this email already exists. Please login with your email and password.';
+              message =
+                'An account with this email already exists. Please login with your email and password.';
               errorType = 'oauth_account_exists_password';
             }
 
@@ -104,7 +107,7 @@ module.exports = (passport) => {
         } catch (err) {
           return done(err, null);
         }
-      },
-    ),
+      }
+    )
   );
 };

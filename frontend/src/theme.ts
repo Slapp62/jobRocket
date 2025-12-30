@@ -1,11 +1,11 @@
 // theme.ts - Rocket Theme Configuration
 import {
   createTheme,
+  CSSVariablesResolver,
   defaultVariantColorsResolver,
   MantineColorsTuple,
   MantineTheme,
   Title,
-  CSSVariablesResolver,
 } from '@mantine/core';
 
 // Custom Rocket Orange color palette
@@ -148,7 +148,7 @@ export const theme = createTheme({
       defaultProps: {
         radius: 'md',
         fw: 400,
-        c: 'white'
+        c: 'white',
       },
     },
     Card: {
@@ -206,7 +206,7 @@ export const theme = createTheme({
 export const cssVariablesResolver: CSSVariablesResolver = () => ({
   variables: {},
   light: {
-    '--mantine-color-body': '#f7f7f7ff', 
+    '--mantine-color-body': '#f7f7f7ff',
   },
   dark: {
     '--mantine-color-body': '#222222ff', // rocketBlack.9 - darkest background

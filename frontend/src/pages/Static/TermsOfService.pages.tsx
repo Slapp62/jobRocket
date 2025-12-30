@@ -63,9 +63,8 @@ const TermsOfService: FC = () => {
                 </Text>
                 <Text>
                   JobRocket is a platform that facilitates connections between job seekers and
-                  employers. We do not employ job seekers, hire on behalf of employers, or
-                  guarantee job placements. Employment relationships are solely between you and the
-                  employer.
+                  employers. We do not employ job seekers, hire on behalf of employers, or guarantee
+                  job placements. Employment relationships are solely between you and the employer.
                 </Text>
               </Paper>
             </Accordion.Panel>
@@ -89,8 +88,8 @@ const TermsOfService: FC = () => {
                 </List.Item>
                 <List.Item>Provide accurate and truthful information in your profile</List.Item>
                 <List.Item>
-                  <strong>Job Seekers:</strong> Have the legal right to work in the locations
-                  you're applying to (e.g., valid work visa, citizenship, or work permit)
+                  <strong>Job Seekers:</strong> Have the legal right to work in the locations you're
+                  applying to (e.g., valid work visa, citizenship, or work permit)
                 </List.Item>
                 <List.Item>
                   <strong>Business Users:</strong> Be authorized to post job listings on behalf of
@@ -244,10 +243,9 @@ const TermsOfService: FC = () => {
                 "As-Is" Service
               </Title>
               <Text mb="md">
-                JobRocket is provided <strong>"as is"</strong> and{' '}
-                <strong>"as available"</strong> without warranties of any kind, either express or
-                implied. We do not guarantee that the platform will be uninterrupted, error-free, or
-                completely secure.
+                JobRocket is provided <strong>"as is"</strong> and <strong>"as available"</strong>{' '}
+                without warranties of any kind, either express or implied. We do not guarantee that
+                the platform will be uninterrupted, error-free, or completely secure.
               </Text>
 
               <Title order={4} size="h5" mb="xs" mt="md">

@@ -34,7 +34,6 @@ export function FavoriteListings() {
   const bgColor = computedColorScheme === 'light' ? 'rocketGray.2' : 'rocketBlack.9';
   const textHeaderColor = computedColorScheme === 'light' ? 'rocketGray.9' : 'rocketBlack.1';
 
-
   if (noListings) {
     return (
       <Box className={styles.pageBackground}>
@@ -65,7 +64,7 @@ export function FavoriteListings() {
           updateSearchParam={updateSearchParam}
           isMobile={isMobile}
           padding={'lg'}
-          width={{base: '100%', md: '70%'}}
+          width={{ base: '100%', md: '70%' }}
         />
       </Box>
 
@@ -81,9 +80,9 @@ export function FavoriteListings() {
             </Flex>
           </Flex>
         </Box>
-        ) : (
+      ) : (
         <Box>
-          <Title ta="center" order={2} mt='lg' c={textHeaderColor}>
+          <Title ta="center" order={2} mt="lg" c={textHeaderColor}>
             Favorites
           </Title>
 

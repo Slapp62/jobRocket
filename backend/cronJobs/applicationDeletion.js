@@ -40,7 +40,7 @@ async function deleteResumeFromCloudinary(resumeUrl, applicationId) {
 /**
  * JOB 2: Clean up old applications
  * Runs daily at 3 AM
- * 
+ *
  * Deletes applications where the listing expired 2+ years ago
  * (This handles the legal retention requirement)
  */
@@ -61,20 +61,25 @@ async function cleanupOldApplications() {
       return;
     }
 
-    const listingIds = oldExpiredListings.map(l => l._id);
+    const listingIds = oldExpiredListings.map((l) => l._id);
 
     // Find applications for these very old listings
     const applicationsToDelete = await Applications.find({
       listingId: { $in: listingIds },
     });
 
-    logger.info(`Found ${applicationsToDelete.length} applications past 2-year retention`);
+    logger.info(
+      `Found ${applicationsToDelete.length} applications past 2-year retention`
+    );
 
     // Delete resumes from Cloudinary
     let resumesDeletedCount = 0;
     for (const app of applicationsToDelete) {
       if (app.resumeUrl) {
-        const deleted = await deleteResumeFromCloudinary(app.resumeUrl, app._id);
+        const deleted = await deleteResumeFromCloudinary(
+          app.resumeUrl,
+          app._id
+        );
         if (deleted) resumesDeletedCount++;
       }
     }
@@ -89,7 +94,6 @@ async function cleanupOldApplications() {
       resumesDeleted: resumesDeletedCount,
       oldListingsCount: oldExpiredListings.length,
     });
-
   } catch (error) {
     logger.error('Old applications cleanup job failed', {
       error: error.message,
@@ -108,7 +112,7 @@ function scheduleApplicationCleanup() {
   logger.info('Scheduled: Old applications cleanup (daily at 3 AM)');
 }
 
-module.exports = { 
+module.exports = {
   scheduleApplicationCleanup,
   cleanupOldApplications,
 };
