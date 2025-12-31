@@ -5,6 +5,10 @@ import {
   CSSVariablesResolver,
   defaultVariantColorsResolver,
   MantineColorsTuple,
+  parseThemeColor,
+  rgba,
+  darken,
+  rem,
 } from '@mantine/core';
 
 // Custom Rocket Orange color palette
@@ -102,11 +106,50 @@ export const theme = createTheme({
   variantColorResolver: (input) => {
     const defaultResolvedColors = defaultVariantColorsResolver(input);
 
+    // Parse the color - if no color prop, use primaryColor (rocketOrange)
+    const parsedColor = parseThemeColor({
+      color: input.color || input.theme.primaryColor,
+      theme: input.theme,
+    });
+
+    // Custom variant - rocket red filled
     if (input.variant === 'rocketRedFilled') {
       return {
         background: input.theme.colors.rocketRed[8],
         hover: input.theme.colors.rocketRed[9],
-        color: '#ffffffff',
+        color: input.theme.white,
+        border: 'none',
+      };
+    }
+
+    // Override outline variant to use our custom styling
+    if (input.variant === 'outline') {
+      return {
+        ...defaultResolvedColors,
+        background: 'transparent',
+        hover: rgba(parsedColor.value, 0.1),
+        color: parsedColor.value,
+        border: `${rem(1)} solid ${parsedColor.value}`,
+      };
+    }
+
+    // Override light variant to be completely transparent with just text color
+    if (input.variant === 'light') {
+      return {
+        background: 'transparent',
+        hover: 'transparent',
+        color: parsedColor.value,
+        border: 'none',
+      };
+    }
+
+    // Override subtle variant
+    if (input.variant === 'subtle') {
+      return {
+        background: rgba(parsedColor.value, 0.1),
+        hover: parsedColor.value,
+        hoverColor: input.theme.white,
+        color: darken(parsedColor.value, 0.1),
         border: 'none',
       };
     }
@@ -139,59 +182,7 @@ export const theme = createTheme({
       defaultProps: {
         radius: 'md',
         fw: 400,
-      },
-      styles: (theme, props) => {
-        // Provide default styles for variants
-        // Component-level c/color props will override these via inline styles (higher specificity)
-
-        if (props.variant === 'subtle') {
-          return {
-            root: {
-              backgroundColor: `light-dark(${theme.colors.rocketOrange[1]}, ${theme.colors.rocketBlack[7]})`,
-              color: `light-dark(${theme.colors.rocketOrange[9]}, var(--mantine-color-white))`,
-
-              '&:hover': {
-                backgroundColor: `light-dark(${theme.colors.rocketOrange[6]}, ${theme.colors.rocketBlack[8]})`,
-                color: 'var(--mantine-color-white)',
-              },
-            },
-          };
-        }
-
-        if (props.variant === 'outline') {
-          return {
-            root: {
-              borderWidth: '1px',
-              borderColor: `light-dark(${theme.colors.rocketOrange[9]}, var(--mantine-color-white))`,
-              color: `light-dark(${theme.colors.rocketOrange[9]}, var(--mantine-color-white))`,
-              backgroundColor: 'transparent',
-
-              '&:hover': {
-                backgroundColor: `light-dark(${theme.colors.rocketOrange[1]}, ${theme.colors.rocketBlack[8]})`,
-              },
-            },
-          };
-        }
-
-        if (props.variant === 'light') {
-          return {
-            root: {
-              backgroundColor: 'transparent',
-              color: `light-dark(${theme.colors.rocketOrange[9]}, var(--mantine-color-white))`,
-
-              '&:hover': {
-                backgroundColor: 'transparent',
-              },
-            },
-          };
-        }
-
-        // For other variants (filled, etc), apply white color
-        return {
-          root: {
-            color: 'white',
-          },
-        };
+        color: 'rocketOrange', // Default color for all buttons
       },
     }),
     Card: {

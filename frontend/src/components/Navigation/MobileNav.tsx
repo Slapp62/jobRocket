@@ -53,7 +53,7 @@ export const MobileBottomNav = () => {
         {!isLoggedIn && (
           <>
             <MobileNavIcon icon={IconLogin} label="Login" to="/login" />
-            <MobileNavIcon icon={IconUser} label="Register" to="/register" />
+            <MobileNavIcon icon={IconUser} label="Register" to="/register"  />
           </>
         )}
 

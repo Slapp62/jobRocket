@@ -176,8 +176,6 @@ export function Navbar() {
                   component={Link}
                   to="/login"
                   variant="outline"
-                  c={buttonTextColor}
-                  color={buttonBorderColor}
                 >
                   Login
                 </Button>
@@ -228,7 +226,7 @@ export function Navbar() {
             <Group>
               {loggedIn && !isMobile && (
                 <Button
-                  variant="outline"  
+                  variant="outline"
                   onClick={() => {
                     dispatch(toggleAdminView(false));
                     jumpTo(`/edit-profile/${user?._id}`);

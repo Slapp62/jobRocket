@@ -44,7 +44,7 @@ export function MobileNavIcon({
   const borderColor = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.11)';
 
   return (
-    <Stack justify="center" align="center" gap={4}>
+    <Stack justify="center" align="center" gap={2}>
       <ActionIcon
         component={Link}
         to={to}
@@ -52,7 +52,7 @@ export function MobileNavIcon({
         color={textColor}
         bg={isActive ? activeBg : buttonBg}
         radius={10}
-        size={size}
+        size={30}
         style={{
           boxShadow: `0px 0px 5px 2px ${borderColor}`,
           transition: 'all 0.2s ease',
