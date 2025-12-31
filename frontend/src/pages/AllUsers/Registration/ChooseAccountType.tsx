@@ -352,7 +352,7 @@ export default function RegisterAccountTypePage() {
               </Card>
             </SimpleGrid>
 
-            <Button variant="subtle" fullWidth mt="xl" onClick={() => navigate('/register')}>
+            <Button variant="rocketSubtle" fullWidth mt="xl" onClick={() => navigate('/register')}>
               ← Back to sign up options
             </Button>
           </>
@@ -384,7 +384,7 @@ export default function RegisterAccountTypePage() {
                 Complete Registration
               </Button>
 
-              <Button variant="subtle" fullWidth onClick={() => setSelectedType(null)}>
+              <Button variant="rocketSubtle" fullWidth onClick={() => setSelectedType(null)}>
                 ← Change account type
               </Button>
             </Stack>

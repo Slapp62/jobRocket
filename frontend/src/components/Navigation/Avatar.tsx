@@ -11,7 +11,7 @@ export function AvatarIcon(props: { closeDrawer?: () => void }) {
 
   return (
     <Button
-      variant="outline"
+      variant="rocketOutline"
       color="white"
       c="white"
       onClick={() => {

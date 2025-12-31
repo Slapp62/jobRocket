@@ -28,7 +28,7 @@ export const DeleteListingModal = ({
         listing?
       </Text>
       <Group mt={20} justify="flex-end" gap="sm">
-        <Button variant="outline" onClick={onClose}>
+        <Button variant="rocketOutline" onClick={onClose}>
           Cancel
         </Button>
         <Button

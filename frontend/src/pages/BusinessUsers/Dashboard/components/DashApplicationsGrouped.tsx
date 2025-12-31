@@ -203,7 +203,7 @@ export const DashApplicationsGrouped = ({
         {/* Expand/Collapse All Button */}
         {Object.keys(groupedApplications).length > 0 && (
           <Group justify="flex-end">
-            <Button variant="subtle" size="xs" onClick={handleExpandAll}>
+            <Button variant="rocketSubtle" size="xs" onClick={handleExpandAll}>
               {allExpanded ? 'Collapse All' : 'Expand All'}
             </Button>
           </Group>

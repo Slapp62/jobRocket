@@ -339,7 +339,7 @@ export const DashApplications = ({
                           <Group gap="xs">
                             <ActionIcon
                               size={30}
-                              variant="outline"
+                              variant="rocketOutline"
                               color="red"
                               onClick={() => {
                                 handleDeleteApplication(

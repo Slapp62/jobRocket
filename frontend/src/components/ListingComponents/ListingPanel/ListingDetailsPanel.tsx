@@ -136,15 +136,18 @@ export function ListingDetailsPanel({
               {listing.jobTitle}
             </Title>
             <Group gap="xs">
-              <Badge variant="filled" color="rocketDark.4" size="md" c="white">
+              <Badge variant="rocketBadge" size="md" fw={500} fz={10}>
                 {listing.workArrangement}
+              </Badge>
+              <Badge variant="rocketBadge" size="md" fw={500} fz={10}>
+                {listing.requiredExperience}
               </Badge>
             </Group>
 
             <Group justify="start" align="center" gap="xs" mt="sm">
               {listing.apply.method.jobRocketSystem && (
                 <Button
-                  variant="filled"
+                  variant="rocketFilled"
                   color="rocketOrange"
                   onClick={open}
                   w={{ base: '100%', md: '30%' }}
@@ -158,7 +161,7 @@ export function ListingDetailsPanel({
                   href={`mailto:${listing.apply.contact.email}`}
                   style={{ textDecoration: 'none', width: isMobile ? '100%' : '30%' }}
                 >
-                  <Button variant="filled" color="rocketOrange" fullWidth>
+                  <Button variant="rocketFilled" color="rocketOrange" fullWidth>
                     Email
                   </Button>
                 </Anchor>
@@ -170,7 +173,7 @@ export function ListingDetailsPanel({
                   target="_blank"
                   style={{ textDecoration: 'none', width: isMobile ? '100%' : '30%' }}
                 >
-                  <Button variant="filled" color="rocketOrange" fullWidth>
+                  <Button variant="rocketFilled" color="rocketOrange" fullWidth>
                     Apply Externally
                   </Button>
                 </Anchor>

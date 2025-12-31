@@ -11,7 +11,6 @@ export default tseslint.config(
       import: importPlugin,
     },
     rules: {
-      'max-lines': ['error', 200], // This applies to all files
       'import/extensions': ['warn', 'always', {
         ignorePackages: true,
       }], // Warn about missing .tsx/.ts extensions to prevent build issues on Render

@@ -40,8 +40,11 @@ export const ListingDetailsModal = ({ opened, onClose, listing }: ListingDetails
               {listing.jobTitle}
             </Title>
             <Group gap="xs">
-              <Badge variant="filled" color="rocketOrange">
+              <Badge variant="rocketFilled" color="rocketOrange">
                 {listing.workArrangement}
+              </Badge>
+              <Badge variant="rocketFilled" color="rocketDark.4">
+                {listing.requiredExperience}
               </Badge>
             </Group>
           </Box>

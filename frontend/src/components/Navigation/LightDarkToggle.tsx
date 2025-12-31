@@ -13,7 +13,7 @@ export function LightDarkToggle() {
   return (
     <ActionIcon
       onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
-      variant="subtle"
+      variant="rocketAction"
       size="xl"
       aria-label="Toggle color scheme"
       c={iconColor}

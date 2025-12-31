@@ -415,7 +415,7 @@ export const DashListings = ({
                         />
                         <Group justify="flex-end" gap="xs">
                           <Button
-                            variant="subtle"
+                            variant="rocketSubtle"
                             size="xs"
                             onClick={() => setExtendPopoverOpened(false)}
                             disabled={isExtending}
@@ -558,7 +558,7 @@ export const DashListings = ({
                             />
                             <Group justify="flex-end" gap="xs">
                               <Button
-                                variant="subtle"
+                                variant="rocketSubtle"
                                 size="xs"
                                 onClick={() => setExtendPopoverOpened(false)}
                                 disabled={isExtending}

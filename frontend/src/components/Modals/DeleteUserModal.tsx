@@ -40,7 +40,7 @@ export const DeleteUserModal = ({
         <Button color="red" onClick={handleDelete} loading={isDeleting}>
           Yes, Delete Account
         </Button>
-        <Button variant="outline" onClick={close}>
+        <Button variant="rocketOutline" onClick={close}>
           No, Keep Account
         </Button>
       </Group>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { IconPlus } from '@tabler/icons-react';
 import axios from 'axios';
-import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -15,7 +14,6 @@ import {
   Group,
   ScrollArea,
   Stack,
-  Text,
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
@@ -23,11 +21,8 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { AppDispatch, RootState } from '@/store/store';
 import { clearUser, setUser, toggleAdminView } from '@/store/userSlice';
-import bgStyles from '@/styles/bgStyles.module.css';
-import { AvatarIcon } from './Avatar';
-import { LightDarkToggle } from './LightDarkToggle';
 import { Logo } from './Logo';
-import classes from '../ComponentStyles/Header.module.css';
+import { LightDarkToggle } from './LightDarkToggle';
 
 export function Navbar() {
   const user = useSelector((state: RootState) => state.userSlice.user);
@@ -42,7 +37,6 @@ export function Navbar() {
 
   // Theme-aware colors
   const drawerLinkColor = 'rocketBlack.6';
-  const drawerButtonColor = 'rocketBlack.4';
   const buttonBorderColor = computedColorScheme === 'light' ? 'black' : 'white';
   const buttonTextColor = computedColorScheme === 'light' ? 'black' : 'white';
 
@@ -111,17 +105,17 @@ export function Navbar() {
               This helps screen reader users identify and navigate to the main navigation */}
           <nav aria-label="Main navigation">
             <Group visibleFrom="md" gap={5}>
-              <Button fz="md" variant="light" c={buttonTextColor} component={Link} to="/">
+              <Button fz="md" variant="rocketSubtle" c={buttonTextColor} component={Link} to="/">
                 Home
               </Button>
-              <Button fz="md" variant="light" c={buttonTextColor} component={Link} to="/search">
+              <Button fz="md" variant="rocketSubtle" c={buttonTextColor} component={Link} to="/search">
                 Job Board
               </Button>
 
               {loggedIn && user?.profileType === 'jobseeker' && (
                 <Button
                   fz="md"
-                  variant="light"
+                  variant="rocketSubtle"
                   c={buttonTextColor}
                   component={Link}
                   to="/favorites"
@@ -133,7 +127,7 @@ export function Navbar() {
               {loggedIn && user?.profileType === 'jobseeker' && (
                 <Button
                   fz="md"
-                  variant="light"
+                  variant="rocketSubtle"
                   c={buttonTextColor}
                   component={Link}
                   to="/my-applications"
@@ -145,7 +139,7 @@ export function Navbar() {
               {loggedIn && user?.profileType === 'business' && (
                 <Button
                   fz="md"
-                  variant="light"
+                  variant="rocketSubtle"
                   c={buttonTextColor}
                   component={Link}
                   to="/dashboard"
@@ -154,12 +148,12 @@ export function Navbar() {
                 </Button>
               )}
 
-              <Button fz="md" variant="light" c={buttonTextColor} component={Link} to="/about">
+              <Button fz="md" variant="rocketSubtle" c={buttonTextColor} component={Link} to="/about">
                 About Us
               </Button>
 
               {user?.isAdmin && (
-                <Button fz="md" variant="light" c={buttonTextColor} component={Link} to="/admin">
+                <Button fz="md" variant="rocketSubtle" c={buttonTextColor} component={Link} to="/admin">
                   Admin Controls
                 </Button>
               )}
@@ -168,20 +162,20 @@ export function Navbar() {
 
           <Group>
             <Group visibleFrom="xs">
-              {/* Light/Dark mode toggle - desktop */}
+              {/* rocketSubtle/Dark mode toggle - desktop */}
               <LightDarkToggle />
 
               {!loggedIn && (
                 <Button
                   component={Link}
                   to="/login"
-                  variant="outline"
+                  variant="rocketOutline"
                 >
                   Login
                 </Button>
               )}
               {!loggedIn && (
-                <Button component={Link} to="/register" variant="rocketOrangeFilled">
+                <Button component={Link} to="/register" variant="rocketFilled">
                   Register
                 </Button>
               )}
@@ -190,9 +184,7 @@ export function Navbar() {
                   The tooltip is visual-only and not accessible to keyboard/screen reader users */}
               {isBusinessUser && (
                 <ActionIcon
-                  variant="light"
-                  c={buttonTextColor}
-                  color={buttonBorderColor}
+                  variant="subtle"
                   size="35px"
                   radius="md"
                   onClick={() => jumpTo('/create-listing')}
@@ -215,7 +207,7 @@ export function Navbar() {
 
               {loggedIn && (
                 <Button
-                  variant="outline"                  
+                  variant="rocketOutline"                  
                   onClick={logoutHandler}
                 >
                   Logout
@@ -226,7 +218,7 @@ export function Navbar() {
             <Group>
               {loggedIn && !isMobile && (
                 <Button
-                  variant="outline"
+                  variant="rocketOutline"
                   onClick={() => {
                     dispatch(toggleAdminView(false));
                     jumpTo(`/edit-profile/${user?._id}`);
@@ -236,7 +228,7 @@ export function Navbar() {
                 </Button>
               )}
 
-              {/* Light/Dark mode toggle - mobile (next to burger) */}
+              {/* rocketSubtle/Dark mode toggle - mobile (next to burger) */}
               <Box hiddenFrom="xs">
                 <LightDarkToggle />
               </Box>
@@ -289,8 +281,7 @@ export function Navbar() {
           <Stack my={20} gap={5}>
             <Button
               fz="md"
-              variant="light"
-              c={drawerLinkColor}
+              variant="rocketSubtle"
               component={Link}
               to="/"
               onClick={closeDrawer}
@@ -300,8 +291,7 @@ export function Navbar() {
 
             <Button
               fz="md"
-              variant="light"
-              c={drawerLinkColor}
+              variant="rocketSubtle"
               component={Link}
               to="/search"
               onClick={closeDrawer}
@@ -312,8 +302,7 @@ export function Navbar() {
             {loggedIn && user?.profileType === 'jobseeker' && (
               <Button
                 fz="md"
-                variant="light"
-                c={drawerLinkColor}
+                variant="rocketSubtle"
                 component={Link}
                 to="/favorites"
                 onClick={closeDrawer}
@@ -325,8 +314,7 @@ export function Navbar() {
             {loggedIn && user?.profileType === 'jobseeker' && (
               <Button
                 fz="md"
-                variant="light"
-                c={drawerLinkColor}
+                variant="rocketSubtle"
                 component={Link}
                 to="/my-applications"
                 onClick={closeDrawer}
@@ -338,8 +326,7 @@ export function Navbar() {
             {loggedIn && user?.profileType === 'business' && (
               <Button
                 fz="md"
-                variant="light"
-                c={drawerLinkColor}
+                variant="rocketSubtle"
                 component={Link}
                 to="/dashboard"
                 onClick={closeDrawer}
@@ -350,8 +337,7 @@ export function Navbar() {
 
             <Button
               fz="md"
-              variant="light"
-              c={drawerLinkColor}
+              variant="rocketSubtle"
               component={Link}
               to="/about"
               onClick={closeDrawer}
@@ -362,8 +348,7 @@ export function Navbar() {
             {user?.isAdmin && (
               <Button
                 fz="md"
-                variant="light"
-                c={drawerLinkColor}
+                variant="rocketSubtle"
                 component={Link}
                 to="/admin"
                 onClick={closeDrawer}
@@ -377,7 +362,7 @@ export function Navbar() {
           <Flex justify="space-evenly" ta="center" mx="auto" p="sm" gap={5} direction="column">
             {!loggedIn && (
               <Button
-                variant="outline"
+                variant="rocketOutline"
                 component={Link}
                 to="/login"
                 onClick={closeDrawer}
@@ -389,7 +374,7 @@ export function Navbar() {
 
             {!loggedIn && (
               <Button
-                variant="filled"
+                variant="rocketFilled"
                 component={Link}
                 to="/register"
                 onClick={closeDrawer}
@@ -400,7 +385,7 @@ export function Navbar() {
 
             {loggedIn && (
               <Button
-                variant="filled"
+                variant="rocketFilled"
                 onClick={() => {
                   logoutHandler();
                   closeDrawer();
@@ -412,7 +397,7 @@ export function Navbar() {
 
             {loggedIn && (
               <Button
-                variant="outline"
+                variant="rocketOutline"
                 onClick={() => {
                   dispatch(toggleAdminView(false));
                   jumpTo(`/edit-profile/${user?._id}`);

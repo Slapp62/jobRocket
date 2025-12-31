@@ -135,8 +135,8 @@ export function MyApplications() {
                     <Text>{application.listingId.jobTitle}</Text>
                   )}
                   <Badge
-                    variant="outline"
-                    c={
+                    variant="rocketStatus"
+                    color={
                       application.status === 'rejected'
                         ? 'red'
                         : application.status === 'pending'
@@ -150,14 +150,14 @@ export function MyApplications() {
                     Submitted on {formatDate(application.createdAt)}
                   </Text>
                   <Button
-                    variant="outline"
+                    variant="light"
                     onClick={() => handleViewListing(application.listingId)}
                   >
                     View Listing
                   </Button>
 
                   <Button
-                    variant="outline"
+                    variant="rocketFilled"
                     onClick={() => handleEditApplication(application)}
                     disabled={application.status !== 'pending'}
                   >

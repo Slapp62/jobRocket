@@ -69,7 +69,7 @@ export function AnnouncementBanner({
 
         <Flex align="center" gap="md" justify="center" >
           {actionText && onAction && (
-            <Button size="xs" variant="filled" onClick={onAction}>
+            <Button size="xs" variant="rocketFilled" onClick={onAction}>
               {actionText}
             </Button>
           )}

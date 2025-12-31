@@ -74,14 +74,14 @@ export function FavoritesButton({ listing, width }: FavoritesButtonProps) {
     <ActionIcon
       variant="light"
       color="red"
-      size={40}
       onClick={handleToggleLike}
       w={width}
+      h="100%"
       aria-label={isLiked ? 'Remove from favorites' : 'Add to favorites'}
       aria-pressed={isLiked}
       disabled={isLoading}
     >
-      {isLiked ? <IconHeartFilled aria-hidden="true" /> : <IconHeart aria-hidden="true" />}
+      {isLiked ? <IconHeartFilled size={24} aria-hidden="true" /> : <IconHeart size={24} aria-hidden="true" />}
     </ActionIcon>
   );
 }

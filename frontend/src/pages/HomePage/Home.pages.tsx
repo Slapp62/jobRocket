@@ -106,7 +106,7 @@ export function HomePage() {
                 rightSection={
                   searchText ? (
                     <ActionIcon
-                      variant="subtle"
+                      variant="rocketSubtle"
                       color="gray"
                       onClick={handleClearSearch}
                       aria-label="Clear search"
@@ -118,7 +118,7 @@ export function HomePage() {
               />
               <Button
                 mx="auto"
-                variant="rocketOrangeFilled"
+                variant="rocketFilled"
                 radius={isMobile ? 'md' : 0}
                 w={{ base: '100%', md: '40%' }}
                 size="lg"
@@ -137,7 +137,7 @@ export function HomePage() {
                 to="create-listing"
                 fullWidth
                 mx="auto"
-                variant="subtle"
+                variant="rocketLight"
                 size="md"
                 fz={20}
                 style={{ fontWeight: 700 }}
@@ -231,7 +231,7 @@ export function HomePage() {
                 </List.Item>
               </List>
               <Button
-                variant="filled"
+                variant="rocketFilled"
                 component={Link}
                 to="/register"
                 mx="auto"
@@ -296,7 +296,7 @@ export function HomePage() {
                 </List.Item>
               </List>
               <Button
-                variant="filled"
+                variant="rocketFilled"
                 component={Link}
                 to="/register"
                 mx="auto"
@@ -349,6 +349,7 @@ export function HomePage() {
             </Text>
             <Button
               component="a"
+              variant='rocketFilled'
               href="https://ko-fi.com/L4L01PZCY8"
               target="_blank"
               rel="noopener noreferrer"

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Badge, Box, Button, Card, Stack, Text, useComputedColorScheme } from '@mantine/core';
+import { Badge, Box, Button, Card, Group, Stack, Text, useComputedColorScheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { TListing } from '@/Types';
 import { formatDate } from '@/utils/dateUtils';
@@ -35,7 +35,7 @@ function ListingCard({
 
   // Theme-aware badge color
   const badgeColor = computedColorScheme === 'light' ? 'rocketBlack.4' : 'rocketBlack.4';
-
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -85,11 +85,14 @@ function ListingCard({
             {listing.companyName}
           </Text>
           {/* Badges */}
-          <Box>
-            <Badge variant="filled" color={badgeColor} c="white" mr="xs" size="md">
+          <Group gap="xs" wrap="wrap" >
+            <Badge variant="rocketBadge" size="sm" fz={10} fw={500}>
               {listing.workArrangement}
             </Badge>
-          </Box>
+            <Badge variant="rocketBadge" size="sm" fz={10} fw={500}>
+              {listing.requiredExperience}
+            </Badge>
+          </Group>
 
           {/* Details */}
           <Stack gap={4}>

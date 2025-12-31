@@ -22,6 +22,7 @@ export type TListing = {
     city: string;
   };
   workArrangement: string;
+  requiredExperience: string;
   likes?: string[];
   isActive?: boolean;
   createdAt?: string;

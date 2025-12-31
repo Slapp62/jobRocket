@@ -28,7 +28,7 @@ export function ApplicationMatchScore({ matchScore }: MatchScoreProps) {
       style={{ borderColor: color }}
       c={color}
       size="lg"
-      variant="outline"
+      variant="rocketOutline"
       radius="md"
       h="100%"
     >

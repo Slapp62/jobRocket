@@ -139,7 +139,7 @@ export default function RegisterCompletePage() {
           </Button>
 
           <Button
-            variant="subtle"
+            variant="rocketSubtle"
             fullWidth
             mt="md"
             onClick={() => navigate(`/register/account-type?method=${method}`)}

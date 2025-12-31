@@ -98,6 +98,7 @@ function listingToText(listing) {
     listing.jobTitle,
     listing.jobDescription,
     listing.workArrangement,
+    listing.requiredExperience,
     listing.location.region,
     listing.location.city,
     `Requirements: ${requirements}`,

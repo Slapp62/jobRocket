@@ -33,7 +33,7 @@ export default function ErrorFallback() {
           </Button>
           <Button
             w="20%"
-            variant="outline"
+            variant="rocketOutline"
             c="rocketOrange"
             onClick={() => window.location.reload()}
           >

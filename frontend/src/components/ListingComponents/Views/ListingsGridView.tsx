@@ -75,7 +75,7 @@ const DesktopDefaultView = ({
                     handleSelectListing={handleSelectListing}
                     listing={listing}
                     actions={
-                      <Group gap={10} w="100%" justify="space-between">
+                      <Stack gap={10} w="100%">
                         <Button
                           onClick={() => {
                             if (!handleSelectListing) {return null;}
@@ -84,17 +84,18 @@ const DesktopDefaultView = ({
                           }}
                           fullWidth
                           size="sm"
-                          variant="filled"
+                          variant="rocketFilled"
                           rightSection={<IconArrowRight size={20} />}
                         >
                           Details
                         </Button>
-                        {user?.profileType === 'jobseeker' && (
-                          <FavoritesButton listing={listing} width="40%" />
-                        )}
 
-                        {user?.profileType !== 'business' && <MatchScore listing={listing} />}
-                      </Group>
+                        {user?.profileType === 'jobseeker' && 
+                          <Group gap={5} w="100%" h={30} align='stretch' grow>
+                            <FavoritesButton listing={listing} width="100%" />
+                            <MatchScore listing={listing} width="100%" />
+                        </Group>}
+                      </Stack>
                     }
                     width="300px"
                   />

@@ -27,6 +27,7 @@ import { AppDispatch, persistor } from '@/store/store';
 import { setUser } from '@/store/userSlice';
 import { announceToScreenReader, autocompleteValues } from '@/utils/accessibility';
 import { trackLogin } from '@/utils/analytics';
+import { resetSessionExpiredFlag } from '@/utils/axiosConfig';
 import { loginSchema } from '@/validationRules/login.joi';
 import classes from './Login.module.css';
 
@@ -59,7 +60,7 @@ export function LoginPage() {
       email: '',
       password: '',
     },
-    mode: 'onChange',
+    mode: 'onTouched',
     criteriaMode: 'firstError',
     resolver: joiResolver(loginSchema),
   });
@@ -143,6 +144,9 @@ export function LoginPage() {
       });
       const userData = response.data; // Note: wrapped in .data.data because of backend handleSuccess format
       dispatch(setUser(userData));
+
+      // Reset session expired flag on successful login
+      resetSessionExpiredFlag();
 
       // Track successful login in Google Analytics
       trackLogin();
@@ -243,7 +247,7 @@ export function LoginPage() {
 
             <Button
               fullWidth
-              variant="filled"
+              variant="rocketFilled"
               size="md"
               fz="md"
               onClick={() => {
@@ -286,7 +290,7 @@ export function LoginPage() {
 
             <Button
               type="submit"
-              variant="filled"
+              variant="rocketFilled"
               mt="md"
               size="md"
               fullWidth

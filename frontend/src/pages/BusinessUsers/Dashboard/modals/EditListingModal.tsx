@@ -21,6 +21,7 @@ import {
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { DurationPresetSelect } from '@/components/DurationPresetSelect';
+import EXPERIENCE_LEVELS from '@/data/experienceLevels.ts';
 import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
 import WORK_ARRANGEMENTS from '@/data/workArr';
 import { cleanedListingData } from '@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData';
@@ -58,6 +59,7 @@ type ListingFormValues = {
     city: string;
   };
   workArrangement: string;
+  requiredExperience: string;
   isActive: boolean;
   expiresAt: number; // Duration in days (7, 14, 30, 60, 90)
 };
@@ -407,6 +409,24 @@ export const EditListingModal = ({
                 />
 
                 <Controller
+                  name="requiredExperience"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      label="Required Experience"
+                      required
+                      searchable
+                      data={EXPERIENCE_LEVELS.map((option: string) => ({
+                        value: option,
+                        label: option,
+                      }))}
+                      {...field}
+                      error={errors.requiredExperience?.message}
+                    />
+                  )}
+                />
+
+                <Controller
                   name="isActive"
                   control={control}
                   render={({ field }) => (
@@ -438,7 +458,7 @@ export const EditListingModal = ({
             <Group justify="space-between" mt="md">
               <Button
                 type="submit"
-                variant="filled"
+                variant="rocketFilled"
                 color="green"
                 leftSection={<IconDeviceFloppy size={16} />}
                 disabled={!isValid || !isDirty}

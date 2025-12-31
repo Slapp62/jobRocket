@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import { CITIES, REGIONS } from '../data/israelCities.ts';
 import WORK_ARRANGEMENTS from '../data/workArr.ts';
+import EXPERIENCE_LEVELS from '../data/experienceLevels.ts';
 
 export const listingSchema = Joi.object({
   companyName: Joi.string().min(2).max(256).required().messages({
@@ -116,6 +117,13 @@ export const listingSchema = Joi.object({
     .messages({
       'any.only': 'Work arrangement must be a valid option',
       'any.required': 'Work arrangement is required',
+    }),
+  requiredExperience: Joi.string()
+    .valid(...EXPERIENCE_LEVELS)
+    .required()
+    .messages({
+      'any.only': 'Required experience must be a valid option',
+      'any.required': 'Required experience is required',
     }),
   isActive: Joi.boolean().default(true),
   expiresAt: Joi.number().required().valid(7, 14, 30, 60, 90).messages({

@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
-import { Badge } from '@mantine/core';
+import { Flex, StyleProp, Text } from '@mantine/core';
 import { RootState } from '@/store/store';
 import { TListing } from '@/Types';
 
 interface MatchScoreProps {
   listing: TListing;
+  width?: StyleProp<number | string>;
 }
 
 /**
@@ -18,7 +19,7 @@ interface MatchScoreProps {
  *
  * @param listing - The full listing object with pre-calculated matchScore
  */
-export function MatchScore({ listing }: MatchScoreProps) {
+export function MatchScore({ listing, width }: MatchScoreProps) {
   const user = useSelector((state: RootState) => state.userSlice.user);
 
   // If no user or user is not a jobseeker, show N/A
@@ -32,25 +33,56 @@ export function MatchScore({ listing }: MatchScoreProps) {
   // If no match score available, show N/A
   if (score === null || score === undefined || isNaN(score)) {
     return (
-      <Badge
-        style={{ borderColor: 'gray' }}
-        c="gray"
-        size="lg"
-        variant="outline"
-        radius="md"
+      <Flex
+        w={width}
         h="100%"
+        align="center"
+        justify="center"
+        style={{
+          border: '1px solid gray',
+          borderRadius: '8px',
+          padding: '8px',
+        }}
       >
-        AI MatchScore N/A
-      </Badge>
+        <Text size="sm" c="gray" fw={600}>
+          AI Match: N/A
+        </Text>
+      </Flex>
     );
   }
 
   const percentage = Math.round(score * 100);
-  const color = percentage >= 80 ? 'green' : percentage >= 60 ? 'blue' : 'darkRed';
+
+  // Determine color and border based on percentage
+  let borderColor: string;
+  let textColor: string;
+
+  if (percentage >= 80) {
+    borderColor = 'var(--mantine-color-green-6)';
+    textColor = 'var(--mantine-color-green-6)';
+  } else if (percentage >= 60) {
+    borderColor = 'var(--mantine-color-yellow-9)';
+    textColor = 'var(--mantine-color-yellow-9)';
+  } else {
+    borderColor = 'var(--mantine-color-red-8)';
+    textColor = 'var(--mantine-color-red-8)';
+  }
 
   return (
-    <Badge style={{ borderColor: color }} c={color} size="xl" variant="outline" radius="md">
-      {percentage}% Match
-    </Badge>
+    <Flex
+      w={width}
+      h="100%"
+      align="center"
+      justify="center"
+      style={{
+        border: `1px solid ${borderColor}`,
+        borderRadius: '8px',
+        padding: '8px',
+      }}
+    >
+      <Text size="md" c={textColor} fw={500}>
+        {percentage}% Match
+      </Text>
+    </Flex>
   );
 }

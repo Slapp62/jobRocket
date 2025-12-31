@@ -1,14 +1,12 @@
 // theme.ts - Rocket Theme Configuration
 import {
+  ActionIcon,
+  Badge,
   Button,
   createTheme,
   CSSVariablesResolver,
   defaultVariantColorsResolver,
   MantineColorsTuple,
-  parseThemeColor,
-  rgba,
-  darken,
-  rem,
 } from '@mantine/core';
 
 // Custom Rocket Orange color palette
@@ -103,59 +101,8 @@ export const theme = createTheme({
   // We enhance it to provide better section differentiation
   autoContrast: true, // Automatically adjust text color for contrast
 
-  variantColorResolver: (input) => {
-    const defaultResolvedColors = defaultVariantColorsResolver(input);
-
-    // Parse the color - if no color prop, use primaryColor (rocketOrange)
-    const parsedColor = parseThemeColor({
-      color: input.color || input.theme.primaryColor,
-      theme: input.theme,
-    });
-
-    // Custom variant - rocket red filled
-    if (input.variant === 'rocketRedFilled') {
-      return {
-        background: input.theme.colors.rocketRed[8],
-        hover: input.theme.colors.rocketRed[9],
-        color: input.theme.white,
-        border: 'none',
-      };
-    }
-
-    // Override outline variant to use our custom styling
-    if (input.variant === 'outline') {
-      return {
-        ...defaultResolvedColors,
-        background: 'transparent',
-        hover: rgba(parsedColor.value, 0.1),
-        color: parsedColor.value,
-        border: `${rem(1)} solid ${parsedColor.value}`,
-      };
-    }
-
-    // Override light variant to be completely transparent with just text color
-    if (input.variant === 'light') {
-      return {
-        background: 'transparent',
-        hover: 'transparent',
-        color: parsedColor.value,
-        border: 'none',
-      };
-    }
-
-    // Override subtle variant
-    if (input.variant === 'subtle') {
-      return {
-        background: rgba(parsedColor.value, 0.1),
-        hover: parsedColor.value,
-        hoverColor: input.theme.white,
-        color: darken(parsedColor.value, 0.1),
-        border: 'none',
-      };
-    }
-
-    return defaultResolvedColors;
-  },
+  // Use default variant resolver - let each component handle its own variants
+  variantColorResolver: defaultVariantColorsResolver,
 
   // Typography - Space-inspired, modern and bold
   fontFamily: 'Poppins, Inter, Roboto, sans-serif',
@@ -171,18 +118,104 @@ export const theme = createTheme({
 
   // Component defaults
   components: {
-    Badge: {
+    ActionIcon: ActionIcon.extend({
       defaultProps: {
         radius: 'md',
-        fw: 600,
-        c: 'black',
+        color: 'rocketOrange',
       },
-    },
+      vars: (theme, props) => {
+        if (props.variant === 'rocketAction') {
+          return {
+            root: {
+              '--ai-bg': 'transparent',
+              '--ai-hover': `light-dark(${theme.colors.gray[3]}, ${theme.colors.dark[6]})`,
+              '--ai-color': `light-dark(${theme.black}, ${theme.white})`,
+            },
+          };
+        }
+        return { root: {} };
+      },
+    }),
+    Badge: Badge.extend({
+      defaultProps: {
+        radius: 'md',
+        fw: 500,
+      },
+      vars: (theme, props) => {
+        if (props.variant === 'rocketBadge') {
+          return {
+            root: {
+              '--badge-bg': `light-dark(${theme.colors.rocketGray[5]}, ${theme.colors.rocketGray[4]})`,
+              '--badge-color': theme.white,
+              '--badge-bd': 'none',
+            },
+          };
+        }
+
+        if (props.variant === 'rocketStatus') {
+          // Uses the color prop to determine styling
+          // Transparent background with colored border and text
+          const badgeColor = props.color ? theme.colors[props.color]?.[6] || props.color : theme.colors.gray[6];
+          return {
+            root: {
+              '--badge-bg': 'transparent',
+              '--badge-color': badgeColor,
+              '--badge-bd': `1px solid ${badgeColor}`,
+            },
+          };
+        }
+        return { root: {} };
+      },
+    }),
     Button: Button.extend({
       defaultProps: {
         radius: 'md',
         fw: 400,
         color: 'rocketOrange', // Default color for all buttons
+      },
+      vars: (theme, props) => {
+        if (props.variant === 'rocketFilled') {
+          return {
+            root: {
+              '--button-bg': theme.colors.rocketOrange[6], // Same in light and dark
+              '--button-hover': theme.colors.rocketOrange[8],
+              '--button-color': theme.white,
+              '--button-bd': 'none',
+            },
+          };
+        }
+
+        if (props.variant === 'rocketOutline') {
+          return {
+            root: {
+              '--button-bg': 'transparent',
+              '--button-hover': `light-dark(${theme.colors.gray[3]}, ${theme.colors.dark[6]})`,
+              '--button-color': `light-dark(${theme.black}, ${theme.white})`,
+              '--button-bd': `1px solid light-dark(${theme.colors.rocketBlack[3]}, ${theme.white})`,
+            },
+          };
+        }
+
+        if (props.variant === 'rocketSubtle') {
+          return {
+            root: {
+              '--button-bg': 'transparent',
+              '--button-hover': `light-dark(${theme.colors.gray[3]}, ${theme.colors.dark[6]})`,
+              '--button-color': `light-dark(${theme.black}, ${theme.white})`,
+            },
+          };
+        }
+
+        if (props.variant === 'rocketLight') {
+          return {
+            root: {
+              '--button-bg': `light-dark(${theme.colors.gray[3]}, ${theme.colors.dark[6]})`,
+              '--button-hover': `light-dark(${theme.colors.gray[4]}, ${theme.colors.dark[7]})`,
+              '--button-color': `light-dark(${theme.black}, ${theme.white})`,
+            },
+          };
+        }
+        return { root: {} };
       },
     }),
     Card: {
@@ -240,7 +273,7 @@ export const theme = createTheme({
 export const cssVariablesResolver: CSSVariablesResolver = () => ({
   variables: {},
   light: {
-    '--mantine-color-body': '#f7f7f7ff',
+    '--mantine-color-body': '#ffffffff',
   },
   dark: {
     '--mantine-color-body': '#222222ff', // rocketBlack.9 - darkest background

@@ -8,6 +8,15 @@ axios.defaults.withCredentials = true;
 axios.defaults.baseURL =
   import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '');
 
+// Flag to prevent duplicate session expiration notifications
+// This persists until the user logs in again (not time-based)
+let sessionExpiredNotificationShown = false;
+
+// Function to reset the flag when user logs in
+export const resetSessionExpiredFlag = () => {
+  sessionExpiredNotificationShown = false;
+};
+
 export const setupAxiosInterceptors = (
   dispatch: AppDispatch,
   navigate: (path: string, options?: any) => void
@@ -32,11 +41,18 @@ export const setupAxiosInterceptors = (
       if (error.response?.status === 410) {
         dispatch(clearUser());
         navigate('/login');
-        notifications.show({
-          title: 'Session Expired',
-          message: 'Session expired. Please login again',
-          color: 'yellow',
-        });
+
+        // Only show notification once per session expiration event
+        // Flag persists until user logs in again (via resetSessionExpiredFlag)
+        if (!sessionExpiredNotificationShown) {
+          sessionExpiredNotificationShown = true;
+          notifications.show({
+            title: 'Session Expired',
+            message: 'Session expired. Please login again',
+            color: 'yellow',
+          });
+        }
+
         // Return a rejected promise with a flag so catch blocks know this error is already handled
         return Promise.reject({ handled: true, status: 410 });
       }

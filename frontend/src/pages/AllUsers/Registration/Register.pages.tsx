@@ -58,7 +58,7 @@ export function RegisterForm() {
     setValue,
     formState: { errors, isValid, isDirty },
   } = useForm<TUsers>({
-    mode: 'all',
+    mode: 'onTouched',
     resolver: joiResolver(registrationSchema),
     shouldUnregister: false, // Keep data when switching tabs
     defaultValues: {
@@ -280,7 +280,7 @@ export function RegisterForm() {
 
             <Stack my="md" gap="md">
               <Button
-                variant="outline"
+                variant="rocketOutline"
                 type="reset"
                 fullWidth
                 disabled={!isDirty}

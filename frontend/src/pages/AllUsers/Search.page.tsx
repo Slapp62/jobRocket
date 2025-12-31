@@ -198,7 +198,7 @@ export function SearchPage() {
                 rightSection={
                   searchText ? (
                     <ActionIcon
-                      variant="subtle"
+                      variant="rocketSubtle"
                       color="gray"
                       onClick={handleClearSearch}
                       aria-label="Clear search"
@@ -211,7 +211,7 @@ export function SearchPage() {
               <Button
                 w={{ base: '100%', md: '30%' }}
                 size="md"
-                c="white"
+                variant='rocketFilled'
                 radius={isMobile ? 'md' : 0}
                 onClick={handleSearchClick}
               >

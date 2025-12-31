@@ -99,7 +99,7 @@ export function EditProfile() {
                         Account Type: <strong>{accountLabel} User</strong>
                       </Text>
 
-                      <Button onClick={() => updateBusinessStatus()} variant="outline">
+                      <Button onClick={() => updateBusinessStatus()} variant="rocketOutline">
                         Toggle Jobseeker / Business
                       </Button>
                     </Flex>
@@ -129,7 +129,7 @@ export function EditProfile() {
                       information, applications, and consent records.
                     </Text>
                     <Button
-                      variant="outline"
+                      variant="rocketOutline"
                       onClick={async () => {
                         try {
                           const response = await fetch('/api/users/export/data', {

@@ -1,6 +1,7 @@
 const joi = require('joi');
 const { WORK_ARRANGEMENTS } = require('../../data/workArr.js');
 const { CITIES, REGIONS } = require('../../data/israelCities.js');
+const EXPERIENCE_LEVELS = require('../../data/experienceLevels.js');
 
 const joiListingSchema = joi.object({
   companyName: joi.string().min(2).max(256).required().messages({
@@ -111,6 +112,14 @@ const joiListingSchema = joi.object({
     .messages({
       'any.only': 'Work arrangement must be a valid option',
       'any.required': 'Work arrangement is required',
+    }),
+  requiredExperience: joi
+    .string()
+    .valid(...EXPERIENCE_LEVELS)
+    .required()
+    .messages({
+      'any.only': 'Required experience must be a valid option',
+      'any.required': 'Required experience is required',
     }),
   isActive: joi.boolean().optional(),
   expiresAt: joi

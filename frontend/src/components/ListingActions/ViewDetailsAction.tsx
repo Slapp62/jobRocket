@@ -10,7 +10,7 @@ export function ViewDetailsAction({ listingId, width }: ViewDetailsActionProps) 
   return (
     <Button
       fullWidth
-      variant="outline"
+      variant="rocketOutline"
       size="sm"
       component={Link}
       to={`/listing-details/${listingId}`}

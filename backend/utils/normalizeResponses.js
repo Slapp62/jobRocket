@@ -65,6 +65,7 @@ const normalizeListingResponse = (listing) => {
       city: listing.location.city,
     },
     workArrangement: listing.workArrangement,
+    requiredExperience: listing.requiredExperience,
     likes: listing.likes,
     isActive: listing.isActive,
     createdAt: listing.createdAt,

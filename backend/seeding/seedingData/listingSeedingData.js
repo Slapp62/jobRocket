@@ -33,6 +33,7 @@ const dummyListings = [
       city: 'Tel Aviv',
     },
     workArrangement: 'Full-time Hybrid',
+    requiredExperience: '5-7 Years',
   },
   {
     companyName: 'Sarah Art Studio',
@@ -67,6 +68,7 @@ const dummyListings = [
       city: 'Tel Aviv',
     },
     workArrangement: 'Full-time On-site',
+    requiredExperience: '2-5 Years',
   },
   {
     companyName: 'BioTech Innovations',
@@ -102,6 +104,7 @@ const dummyListings = [
       city: 'Jerusalem',
     },
     workArrangement: 'Full-time Hybrid',
+    requiredExperience: '2-5 Years',
   },
   {
     companyName: 'Customer First',
@@ -136,6 +139,7 @@ const dummyListings = [
       city: 'Haifa',
     },
     workArrangement: 'Remote',
+    requiredExperience: '1-2 Years',
   },
   {
     companyName: 'CloudTech',
@@ -171,6 +175,7 @@ const dummyListings = [
       city: 'Petah Tikva',
     },
     workArrangement: 'Full-time Hybrid',
+    requiredExperience: '2-5 Years',
   },
   {
     companyName: 'Creative Labs',
@@ -206,6 +211,7 @@ const dummyListings = [
       city: 'Herzliya',
     },
     workArrangement: 'Full-time On-site',
+    requiredExperience: '2-5 Years',
   },
   {
     companyName: 'SecureTech',
@@ -241,6 +247,7 @@ const dummyListings = [
       city: 'Beer Sheva',
     },
     workArrangement: 'Full-time Remote',
+    requiredExperience: '1-2 Years',
   },
   {
     companyName: 'App Innovate',
@@ -276,6 +283,7 @@ const dummyListings = [
       city: 'Ramat Gan',
     },
     workArrangement: 'Hybrid',
+    requiredExperience: '2-5 Years',
   },
   {
     companyName: 'Content Creators',
@@ -311,6 +319,7 @@ const dummyListings = [
       city: 'Jerusalem',
     },
     workArrangement: 'Part-time Remote',
+    requiredExperience: '1-2 Years',
   },
   {
     companyName: 'FinTech Pro',
@@ -346,6 +355,7 @@ const dummyListings = [
       city: 'Rishon LeZion',
     },
     workArrangement: 'Full-time On-site',
+    requiredExperience: '1-2 Years',
   },
   {
     companyName: 'QualitySoft',
@@ -381,6 +391,7 @@ const dummyListings = [
       city: 'Yokneam',
     },
     workArrangement: 'Contract On-site',
+    requiredExperience: '2-5 Years',
   },
   {
     companyName: 'Green Energy Solutions',
@@ -416,6 +427,7 @@ const dummyListings = [
       city: 'Beer Sheva',
     },
     workArrangement: 'Full-time Hybrid',
+    requiredExperience: '1-2 Years',
   },
   {
     companyName: 'EduTech Academy',
@@ -451,6 +463,7 @@ const dummyListings = [
       city: "Modi'in-Maccabim-Re'ut",
     },
     workArrangement: 'Remote',
+    requiredExperience: '2-5 Years',
   },
   {
     companyName: 'MediCare Plus',
@@ -486,6 +499,7 @@ const dummyListings = [
       city: 'Jerusalem',
     },
     workArrangement: 'Full-time On-site',
+    requiredExperience: '1-2 Years',
   },
   {
     companyName: 'TravelWise Israel',
@@ -521,6 +535,7 @@ const dummyListings = [
       city: 'Jerusalem',
     },
     workArrangement: 'Seasonal',
+    requiredExperience: 'No Experience Required',
   },
   {
     companyName: 'Kosher Delight Restaurant Group',
@@ -556,6 +571,7 @@ const dummyListings = [
       city: 'Tel Aviv',
     },
     workArrangement: 'Full-time On-site',
+    requiredExperience: '8+ Years',
   },
 ];
 

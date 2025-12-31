@@ -162,7 +162,7 @@ const AdminControls = () => {
                     <Group gap="xs" mt="xs">
                       <ActionIcon
                         size={36}
-                        variant="outline"
+                        variant="rocketOutline"
                         color="yellow"
                         onClick={() => {
                           dispatch(toggleAdminView(true));
@@ -175,7 +175,7 @@ const AdminControls = () => {
                       {!user.isAdmin && (
                         <ActionIcon
                           size={36}
-                          variant="outline"
+                          variant="rocketOutline"
                           color="red"
                           onClick={() => {
                             open();
@@ -258,7 +258,7 @@ const AdminControls = () => {
                         <Table.Td>
                           <ActionIcon
                             size={30}
-                            variant="outline"
+                            variant="rocketOutline"
                             color="yellow"
                             onClick={() => {
                               dispatch(toggleAdminView(true));
@@ -273,7 +273,7 @@ const AdminControls = () => {
                           <Table.Td styles={{ td: { borderRight: '1px solid #eee' } }}>
                             <ActionIcon
                               size={30}
-                              variant="outline"
+                              variant="rocketOutline"
                               color="red"
                               onClick={() => {
                                 open();

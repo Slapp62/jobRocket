@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
 const { WORK_ARRANGEMENTS } = require('../data/workArr.js');
 const { CITIES, REGIONS } = require('../data/israelCities.js');
+const EXPERIENCE_LEVELS = require('../data/experienceLevels.js');
 const {
   generateEmbedding,
   listingToText,
@@ -69,6 +70,12 @@ const jobListingSchema = new Schema({
     required: true,
     index: true,
   },
+  requiredExperience: {
+    type: String,
+    enum: EXPERIENCE_LEVELS,
+    required: true,
+    index: true,
+  },
   likes: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
   isActive: { type: Boolean, default: true },
   viewCount: {
@@ -99,6 +106,7 @@ jobListingSchema.index(
     companyName: 'text',
     jobDescription: 'text',
     workArrangement: 'text',
+    requiredExperience: 'text',
     'location.city': 'text',
     'location.region': 'text',
   },
@@ -108,6 +116,7 @@ jobListingSchema.index(
       companyName: 8, // High priority - company name matches are very relevant
       jobDescription: 5, // Medium priority - description matches are relevant
       workArrangement: 2, // Lower priority - work arrangement is less critical for relevance
+      requiredExperience: 2, // Lower priority - experience level is filterable separately
       'location.city': 2, // Lower priority - city is filterable separately
       'location.region': 2, // Lower priority - region is filterable separately
     },

@@ -160,7 +160,7 @@ export default function RegisterPage() {
           <Button
             fullWidth
             size="md"
-            variant="filled"
+            variant="rocketFilled"
             fz="md"
             leftSection={<IconBrandGoogle size={20} aria-hidden="true" />}
             onClick={() => {
