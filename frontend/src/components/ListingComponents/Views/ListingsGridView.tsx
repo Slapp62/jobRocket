@@ -91,8 +91,8 @@ const DesktopDefaultView = ({
                         </Button>
 
                         {user?.profileType === 'jobseeker' && 
-                          <Group gap={5} w="100%" h={30} align='stretch' grow>
-                            <FavoritesButton listing={listing} width="100%" />
+                          <Group gap={5} w="100%" h={35} align='stretch' grow>
+                            <FavoritesButton listing={listing} width="100%" height='100%' />
                             <MatchScore listing={listing} width="100%" />
                         </Group>}
                       </Stack>

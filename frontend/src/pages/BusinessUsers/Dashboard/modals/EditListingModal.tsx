@@ -26,7 +26,7 @@ import { getCitiesByRegion, REGIONS } from '@/data/israelCities.ts';
 import WORK_ARRANGEMENTS from '@/data/workArr';
 import { cleanedListingData } from '@/pages/BusinessUsers/Dashboard/utils/getCleanedListingData';
 import { TListing } from '@/Types';
-import { addDays, formatDate, toLocalMidnight } from '@/utils/dateUtils';
+import { addDays, toLocalMidnight } from '@/utils/dateUtils';
 import { formatRegionForDisplay } from '@/utils/formatters';
 import { listingSchema } from '@/validationRules/listing.joi';
 
@@ -72,21 +72,6 @@ export const EditListingModal = ({
 }: EditListingModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  // Calculate current expiration info for description
-  const currentExpirationInfo = useMemo(() => {
-    if (!listing?.expiresAt) {return null;}
-
-    const expiresDate = new Date(listing.expiresAt);
-    const today = new Date();
-    const diffTime = expiresDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    return {
-      date: formatDate(listing.expiresAt), // DD/MM/YYYY format
-      daysRemaining: diffDays,
-    };
-  }, [listing?.expiresAt]);
-
   const {
     register,
     handleSubmit,
@@ -97,6 +82,7 @@ export const EditListingModal = ({
   } = useForm<ListingFormValues>({
     mode: 'all',
     resolver: joiResolver(listingSchema),
+    defaultValues: listing ? cleanedListingData(listing) : undefined,
   });
 
   useEffect(() => {

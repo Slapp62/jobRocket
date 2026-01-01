@@ -23,11 +23,11 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { PageMeta } from '@/SEO/PageMeta';
-import { AppDispatch, persistor } from '@/store/store';
+import { AppDispatch } from '@/store/store';
 import { setUser } from '@/store/userSlice';
 import { announceToScreenReader, autocompleteValues } from '@/utils/accessibility';
 import { trackLogin } from '@/utils/analytics';
-import { resetSessionExpiredFlag } from '@/utils/axiosConfig';
+import { resetSessionExpiredFlag } from '@/utils/sessionManager';
 import { loginSchema } from '@/validationRules/login.joi';
 import classes from './Login.module.css';
 
@@ -163,15 +163,7 @@ export function LoginPage() {
 
       // Navigate to appropriate page based on user type
       const redirectPath = userData.profileType === 'business' ? '/dashboard' : '/search';
-
-      // Wait for Redux Persist to flush state to localStorage before navigating
-      // This prevents race condition where old user data could briefly appear on mobile
-      await persistor.flush();
-
-      // Small additional delay for session cookie propagation on slower mobile networks
-      setTimeout(() => {
-        jumpTo(redirectPath);
-      }, 100);
+      jumpTo(redirectPath);
     } catch (error: any) {
       // ACCESSIBILITY: Announce error to screen readers
       announceToScreenReader(

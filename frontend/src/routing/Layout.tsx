@@ -1,39 +1,29 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Flex } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { MobileBottomNav } from '@/components/Navigation/MobileNav.tsx';
-import { useAuthInit } from '@/hooks/UseAuthInit.ts';
 import { useScrollToTop } from '@/hooks/useScrollToTop.ts';
-import { AppDispatch, RootState } from '@/store/store.ts';
+import { useSessionRestore } from '@/hooks/useSessionRestore.ts';
 import { trackPageView } from '@/utils/analytics';
-import { setupAxiosInterceptors } from '@/utils/axiosConfig.ts';
 import { AnnouncementBanner } from '../components/Navigation/AnnouncementBanner.tsx';
 import { Footer } from '../components/Navigation/Footer.tsx';
 import { Navbar } from '../components/Navigation/Header.tsx';
 
 export function Layout() {
   const isMobile = useMediaQuery('(max-width: 700px)');
-
-  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Setup axios interceptors once on mount
-  useEffect(() => {
-    setupAxiosInterceptors(dispatch, navigate);
-  }, [dispatch, navigate]);
+  // Restore user session from localStorage on app load (runs once)
+  useSessionRestore();
 
   // Track page views when route changes
   useEffect(() => {
     trackPageView(location.pathname + location.search);
   }, [location.pathname, location.search]);
 
-  // persist log in between sessions
-  useAuthInit();
-
-  //ensure top scrolled on page change
+  // Ensure top scrolled on page change
   useScrollToTop();
 
   return (

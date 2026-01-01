@@ -1,10 +1,5 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { Center, Loader } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { setUser } from '@/store/userSlice';
 import { RootState } from '../store/store';
 
 type RouteGuardProps = {
@@ -13,64 +8,42 @@ type RouteGuardProps = {
   isAdmin?: boolean;
 };
 
+/**
+ * RouteGuard component for protecting routes based on authentication and authorization.
+ *
+ * This component ONLY checks Redux state - it does NOT validate sessions with the backend.
+ * Session validation is handled centrally by the axios interceptor in sessionManager.ts.
+ *
+ * If a user's session expires, the interceptor will:
+ * 1. Clear Redux state (clearUser)
+ * 2. Show notification
+ * 3. Redirect to login
+ *
+ * This component will then redirect based on the cleared state.
+ */
 const RouteGuard = (props: RouteGuardProps) => {
   const { children, profileType, isAdmin } = props;
-  const dispatch = useDispatch();
-  const [isChecking, setIsChecking] = useState(true);
 
   const user = useSelector((state: RootState) => state.userSlice.user);
   const userLoggedIn = useSelector((state: RootState) => state.userSlice.isLoggedIn);
   const accessMessage = 'You do not have access to this page.';
 
-  // Check for active session if user is not in Redux store
-  useEffect(() => {
-    const checkSession = async () => {
-      if (!userLoggedIn) {
-        try {
-          const response = await axios.get('/api/users/current');
-          if (response.data) {
-            dispatch(setUser(response.data));
-
-            // Show welcome notification for OAuth login/registration
-            const userData = response.data;
-            notifications.show({
-              title: 'Welcome to JobRocket!',
-              message: `Successfully logged in as ${userData.profileType === 'business' ? 'a business' : 'a job seeker'}. Let's get started!`,
-              color: 'green',
-              autoClose: 5000,
-            });
-          }
-        } catch (error) {
-          // No active session, that's ok
-        }
-      }
-      setIsChecking(false);
-    };
-
-    checkSession();
-  }, [userLoggedIn, dispatch]);
-
-  // Show loader while checking session
-  if (isChecking) {
-    return (
-      <Center h="100vh">
-        <Loader size="lg" />
-      </Center>
-    );
-  }
-
+  // Check if user is logged in
   if (!userLoggedIn) {
     return <Navigate to="/" replace state={{ message: accessMessage }} />;
   }
 
+  // Check if user has correct profile type
   if (profileType && user?.profileType !== profileType) {
     return <Navigate to="/login" replace state={{ message: accessMessage }} />;
   }
 
+  // Check if user is admin (when admin access required)
   if (isAdmin && !user?.isAdmin) {
     return <Navigate to="/login" replace state={{ message: accessMessage }} />;
   }
 
+  // User is authorized, render the protected content
   return <>{children}</>;
 };
 

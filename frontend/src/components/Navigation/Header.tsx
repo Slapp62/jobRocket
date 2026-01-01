@@ -63,25 +63,6 @@ export function Navbar() {
 
   const [scrolled, setScrolled] = useState(false);
 
-  // Defensive check: verify user state consistency
-  // Prevents race condition where wrong user type could briefly appear
-  useEffect(() => {
-    if (loggedIn && !user) {
-      // Logged in but no user data - re-fetch from backend to fix state
-      axios
-        .get('/api/users/current')
-        .then((res) => {
-          if (res.data) {
-            dispatch(setUser(res.data));
-          }
-        })
-        .catch(() => {
-          // If fetch fails, user session is invalid - clear state
-          dispatch(clearUser());
-        });
-    }
-  }, [loggedIn, user, dispatch]);
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);

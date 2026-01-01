@@ -145,13 +145,12 @@ export const theme = createTheme({
         if (props.variant === 'rocketBadge') {
           return {
             root: {
-              '--badge-bg': `light-dark(${theme.colors.rocketGray[5]}, ${theme.colors.rocketGray[4]})`,
-              '--badge-color': theme.white,
-              '--badge-bd': 'none',
+              '--badge-bg': `light-dark(${theme.colors.rocketGray[1]}, ${theme.colors.rocketGray[6]})`,
+              '--badge-color': `light-dark(${theme.colors.rocketGray[8]}, ${theme.colors.rocketGray[1]})`,
+              '--badge-bd': `1px solid light-dark(${theme.colors.rocketGray[6]}, ${theme.colors.rocketGray[6]})`,
             },
           };
         }
-
         if (props.variant === 'rocketStatus') {
           // Uses the color prop to determine styling
           // Transparent background with colored border and text
