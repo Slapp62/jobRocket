@@ -33,7 +33,6 @@ import { TListing } from '@/Types';
 import { addDays, formatDate, toLocalMidnight } from '@/utils/dateUtils';
 import { DeleteListingModal } from '../modals/DeleteListingModal';
 import { EditListingModal } from '../modals/EditListingModal';
-import { cleanedListingData } from '../utils/getCleanedListingData';
 
 interface DashListingsProps {
   listings: TListing[];
@@ -173,11 +172,19 @@ export const DashListings = ({
       // Calculate new expiration date from duration
       const expirationDate = addDays(toLocalMidnight(new Date()), extendDuration);
 
-      // Get all listing data (cleaned for validation)
-      const { expiresAt: _unused, ...listingData } = cleanedListingData(extendListing);
-
+      // Send the full listing data with updated expiration date
+      // Don't use cleanedListingData() because it converts expiresAt to a number
       const response = await axios.put(`/api/listings/${extendListing._id}`, {
-        ...listingData,
+        companyName: extendListing.companyName,
+        jobTitle: extendListing.jobTitle,
+        jobDescription: extendListing.jobDescription,
+        requirements: extendListing.requirements,
+        advantages: extendListing.advantages,
+        apply: extendListing.apply,
+        location: extendListing.location,
+        workArrangement: extendListing.workArrangement,
+        requiredExperience: extendListing.requiredExperience,
+        isActive: extendListing.isActive ?? true,
         expiresAt: expirationDate.toISOString(),
       });
 
@@ -196,11 +203,11 @@ export const DashListings = ({
 
       setExtendPopoverOpened(false);
       setExtendListing(null);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error extending listing:', error);
       notifications.show({
         title: 'Error',
-        message: 'Failed to extend listing. Please try again.',
+        message: error.response?.data?.message || 'Failed to extend listing. Please try again.',
         color: 'red',
       });
     } finally {

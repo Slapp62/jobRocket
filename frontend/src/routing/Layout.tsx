@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Flex } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { AuthContext } from '@/context/AuthContext';
 import { MobileBottomNav } from '@/components/Navigation/MobileNav.tsx';
 import { useScrollToTop } from '@/hooks/useScrollToTop.ts';
 import { useSessionRestore } from '@/hooks/useSessionRestore.ts';
@@ -16,7 +17,8 @@ export function Layout() {
   const location = useLocation();
 
   // Restore user session from localStorage on app load (runs once)
-  useSessionRestore();
+  // Also populates Redux from valid session (e.g., after Google OAuth redirect)
+  const { isInitializing } = useSessionRestore();
 
   // Track page views when route changes
   useEffect(() => {
@@ -27,7 +29,7 @@ export function Layout() {
   useScrollToTop();
 
   return (
-    <>
+    <AuthContext.Provider value={{ isInitializing }}>
       {/* ACCESSIBILITY: Skip to main content link - allows keyboard users to bypass navigation
           This is legally required under WCAG 2.0 Level AA (Israeli Standard 5568)
           The link is hidden off-screen until focused via keyboard (Tab key) */}
@@ -85,6 +87,6 @@ export function Layout() {
 
         {isMobile && <MobileBottomNav />}
       </Flex>
-    </>
+    </AuthContext.Provider>
   );
 }

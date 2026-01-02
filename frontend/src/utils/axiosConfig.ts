@@ -1,70 +1,17 @@
 import axios from 'axios';
-import { notifications } from '@mantine/notifications';
-import { AppDispatch } from '@/store/store';
-import { clearUser } from '@/store/userSlice';
-import { trackApiError } from './analytics';
 
+/**
+ * Basic Axios Configuration
+ *
+ * This file sets up the global axios instance with default settings.
+ * Session management and error handling are configured separately in sessionManager.ts
+ */
+
+// Enable sending cookies with requests (required for session-based auth)
 axios.defaults.withCredentials = true;
+
+// Set base URL for all API requests
+// In development: http://localhost:3000
+// In production: empty string (same origin)
 axios.defaults.baseURL =
   import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '');
-
-// Flag to prevent duplicate session expiration notifications
-// This persists until the user logs in again (not time-based)
-let sessionExpiredNotificationShown = false;
-
-// Function to reset the flag when user logs in
-export const resetSessionExpiredFlag = () => {
-  sessionExpiredNotificationShown = false;
-};
-
-export const setupAxiosInterceptors = (
-  dispatch: AppDispatch,
-  navigate: (path: string, options?: any) => void
-) => {
-  axios.interceptors.response.use(
-    (response) => response, // Pass successful responses through unchanged
-    (error) => {
-      // Track API errors in Google Analytics
-      if (error.response) {
-        // Server responded with error status
-        trackApiError(
-          error.config?.url || 'unknown',
-          error.response.status,
-          error.response.data?.message || error.message
-        );
-      } else if (error.request) {
-        // Request was made but no response received (network error)
-        trackApiError(error.config?.url || 'unknown', 0, 'Network error - no response received');
-      }
-
-      // Handle session expiration (existing logic)
-      if (error.response?.status === 410) {
-        dispatch(clearUser());
-        navigate('/login');
-
-        // Only show notification once per session expiration event
-        // Flag persists until user logs in again (via resetSessionExpiredFlag)
-        if (!sessionExpiredNotificationShown) {
-          sessionExpiredNotificationShown = true;
-          notifications.show({
-            title: 'Session Expired',
-            message: 'Session expired. Please login again',
-            color: 'yellow',
-          });
-        }
-
-        // Return a rejected promise with a flag so catch blocks know this error is already handled
-        return Promise.reject({ handled: true, status: 410 });
-      }
-
-      // Mark 404 errors as handled to prevent redundant notifications
-      // Component-level catch blocks can choose to show their own error message if needed
-      if (error.response?.status === 404) {
-        return Promise.reject({ ...error, handled: true, status: 404 });
-      }
-
-      // Re-throw all other errors to component catch blocks
-      return Promise.reject(error);
-    }
-  );
-};
