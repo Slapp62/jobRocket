@@ -12,9 +12,9 @@ console.log('✓ chalk loaded');
 const { connectToDB } = require('./database/dbService');
 console.log('✓ dbService loaded');
 
-const { seedDevData } = require('./seeding/seedingDataService');
+const { seedDevData, seedProductionTestListings } = require('./seeding/seedingDataService');
 const dummyUsers = require('./seeding/seedingData/userSeedingData');
-const dummyListings = require('./seeding/seedingData/listingSeedingData');
+const { dummyListings, testListings } = require('./seeding/seedingData/listingSeedingData');
 const dummyApplications = require('./seeding/seedingData/applicationSeedingData');
 console.log('✓ seeding modules loaded');
 
@@ -40,7 +40,9 @@ const startServer = async () => {
       await seedDevData(dummyUsers, dummyListings, dummyApplications);
       console.log(chalk.green('Seeding complete!'));
     } else {
-      console.log(chalk.blue('Skipping seeding (production mode)'));
+      console.log(chalk.blue('Production mode: Seeding test listings only...'));
+      await seedProductionTestListings(testListings);
+      console.log(chalk.green('Test listings seeded!'));
     }
 
     // 4. THEN start server

@@ -1,3 +1,210 @@
+const testListings = [
+  {
+    companyName: '[TEST] Demo Tech Company',
+    jobTitle: '[TEST] Software Engineer - DO NOT APPLY',
+    jobDescription:
+      '⚠️ THIS IS A TEST LISTING - DO NOT APPLY ⚠️\n\nThis is a demonstration listing to showcase the JobRocket platform features. This is not a real job opportunity. We are seeking a software engineer to work on exciting projects using modern technologies. This listing demonstrates the apply-with-JobRocket feature.',
+    requirements: [
+      'Bachelor\'s degree in Computer Science',
+      '3+ years of development experience',
+      'Proficiency in JavaScript/TypeScript',
+      'Experience with React and Node.js',
+    ],
+    advantages: [
+      'Experience with cloud platforms',
+      'Knowledge of CI/CD pipelines',
+      'Open source contributions',
+    ],
+    apply: {
+      method: {
+        jobRocketSystem: true,
+        companySystem: false,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: '',
+      },
+    },
+    location: {
+      region: 'Center',
+      city: 'Tel Aviv',
+    },
+    workArrangement: 'Full-time Hybrid',
+    requiredExperience: '2-5 Years',
+  },
+  {
+    companyName: '[TEST] Sample Marketing Agency',
+    jobTitle: '[TEST] Digital Marketing Specialist - DEMO ONLY',
+    jobDescription:
+      '⚠️ THIS IS A TEST LISTING - DO NOT APPLY ⚠️\n\nThis is a demonstration listing for testing purposes only. Not a real job opportunity. This position would involve managing digital marketing campaigns and social media presence. This listing demonstrates the apply-with-JobRocket system.',
+    requirements: [
+      '2+ years of digital marketing experience',
+      'Social media management expertise',
+      'Strong communication skills',
+      'Fluency in Hebrew and English',
+    ],
+    advantages: [
+      'Google Analytics certification',
+      'Graphic design skills',
+      'Experience with paid advertising',
+    ],
+    apply: {
+      method: {
+        jobRocketSystem: true,
+        companySystem: false,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: '',
+      },
+    },
+    location: {
+      region: 'Center',
+      city: 'Herzliya',
+    },
+    workArrangement: 'Remote',
+    requiredExperience: '1-2 Years',
+  },
+  {
+    companyName: '[TEST] Demo Data Solutions',
+    jobTitle: '[TEST] Data Analyst - SAMPLE LISTING',
+    jobDescription:
+      '⚠️ THIS IS A TEST LISTING - DO NOT APPLY ⚠️\n\nThis is a demonstration job listing for platform testing. This is not a real employment opportunity. The role would involve analyzing business data and creating insights. This listing shows the JobRocket application system in action.',
+    requirements: [
+      'Degree in Statistics or related field',
+      '2+ years of data analysis experience',
+      'Proficiency in SQL and Python',
+      'Experience with data visualization tools',
+    ],
+    advantages: [
+      'Experience with machine learning',
+      'Knowledge of Tableau or Power BI',
+      'Business intelligence background',
+    ],
+    apply: {
+      method: {
+        jobRocketSystem: true,
+        companySystem: false,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: '',
+      },
+    },
+    location: {
+      region: 'Jerusalem_District',
+      city: 'Jerusalem',
+    },
+    workArrangement: 'Full-time On-site',
+    requiredExperience: '1-2 Years',
+  },
+  {
+    companyName: '[TEST] Example Startup Inc',
+    jobTitle: '[TEST] Product Manager - TEST ONLY',
+    jobDescription:
+      '⚠️ THIS IS A TEST LISTING - DO NOT APPLY ⚠️\n\nThis is a test listing for demonstration purposes. Not a real job posting. This position would involve leading product development and working with cross-functional teams. This listing demonstrates the JobRocket application feature.',
+    requirements: [
+      '3+ years of product management experience',
+      'Technical background preferred',
+      'Strong leadership skills',
+      'Experience with agile methodologies',
+    ],
+    advantages: [
+      'MBA or relevant degree',
+      'Experience in B2B SaaS',
+      'Data-driven decision making',
+    ],
+    apply: {
+      method: {
+        jobRocketSystem: true,
+        companySystem: false,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: '',
+      },
+    },
+    location: {
+      region: 'North',
+      city: 'Haifa',
+    },
+    workArrangement: 'Full-time Hybrid',
+    requiredExperience: '2-5 Years',
+  },
+  {
+    companyName: '[TEST] Sample Design Studio',
+    jobTitle: '[TEST] UX Designer - DEMO LISTING',
+    jobDescription:
+      '⚠️ THIS IS A TEST LISTING - DO NOT APPLY ⚠️\n\nThis is a demonstration listing only. This is not a real job opportunity. The role would involve creating user-centered designs for web and mobile applications. This listing demonstrates the apply-via-email feature of JobRocket.',
+    requirements: [
+      '3+ years of UX/UI design experience',
+      'Strong portfolio required',
+      'Proficiency in Figma and design tools',
+      'Understanding of user research methods',
+    ],
+    advantages: [
+      'Experience with design systems',
+      'Motion design skills',
+      'Front-end development knowledge',
+    ],
+    apply: {
+      method: {
+        jobRocketSystem: false,
+        companySystem: false,
+        email: true,
+      },
+      contact: {
+        email: 'test@example.com',
+        link: '',
+      },
+    },
+    location: {
+      region: 'Center',
+      city: 'Ramat Gan',
+    },
+    workArrangement: 'Full-time On-site',
+    requiredExperience: '2-5 Years',
+  },
+  {
+    companyName: '[TEST] Demo Corporation',
+    jobTitle: '[TEST] Business Analyst - SAMPLE ONLY',
+    jobDescription:
+      '⚠️ THIS IS A TEST LISTING - DO NOT APPLY ⚠️\n\nThis is a test listing for demonstration purposes. Not a real employment opportunity. This position would involve analyzing business processes and providing recommendations. This listing demonstrates the external application system (company website).',
+    requirements: [
+      'Bachelor\'s degree in Business or related field',
+      '2+ years of business analysis experience',
+      'Strong analytical skills',
+      'Excellent communication abilities',
+    ],
+    advantages: [
+      'MBA preferred',
+      'Experience with ERP systems',
+      'Project management certification',
+    ],
+    apply: {
+      method: {
+        jobRocketSystem: false,
+        companySystem: true,
+        email: false,
+      },
+      contact: {
+        email: '',
+        link: 'https://example.com/test-application',
+      },
+    },
+    location: {
+      region: 'South',
+      city: 'Beer Sheva',
+    },
+    workArrangement: 'Hybrid',
+    requiredExperience: '1-2 Years',
+  },
+];
+
 const dummyListings = [
   {
     companyName: 'LeviTech Solutions',
@@ -575,4 +782,4 @@ const dummyListings = [
   },
 ];
 
-module.exports = dummyListings;
+module.exports = { dummyListings, testListings };

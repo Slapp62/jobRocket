@@ -164,7 +164,36 @@ const seedTestData = async (users, listings, applications = []) => {
   }
 };
 
+const seedProductionTestListings = async (testListings) => {
+  const businessUser = await Users.findOne({ profileType: 'business' });
+  if (!businessUser) {
+    console.error('No business user found. Cannot seed test listings.');
+    return;
+  }
+
+  for (const listing of testListings) {
+    try {
+      // Check if test listing already exists
+      const storedListing = await Listing.findOne({
+        jobTitle: listing.jobTitle,
+      });
+      if (storedListing) {
+        console.log(`Test listing already exists: ${listing.jobTitle}`);
+        continue;
+      }
+
+      const normalizedListing = await normalizeListing(listing, businessUser._id);
+      const newListing = new Listing(normalizedListing);
+      await newListing.save();
+      console.log(`Created test listing: ${listing.jobTitle}`);
+    } catch (error) {
+      console.error('Error seeding test listing:', error);
+    }
+  }
+};
+
 module.exports = {
   seedDevData,
   seedTestData,
+  seedProductionTestListings,
 };
